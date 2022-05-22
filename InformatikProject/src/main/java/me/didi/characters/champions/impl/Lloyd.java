@@ -1,20 +1,13 @@
 package me.didi.characters.champions.impl;
 
-import java.util.concurrent.Callable;
-
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.ability.Ability;
-import me.didi.ability.OneTimeAbility;
-import me.didi.ability.RecastableAbility;
 import me.didi.characters.champions.MeleeChampion;
-import me.didi.utilities.ItemBuilder;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 
@@ -25,24 +18,24 @@ public class Lloyd extends MeleeChampion {
 
 		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon);
 		// TODO: ItemStack builder
-		Ability firstAbility = new OneTimeAbility("Shurikens",
-				new ItemBuilder(new ItemStack(Material.INK_SACK, (short) 15))
-						.setDisplayName(ChatColor.GOLD + "Shurikens")
-						.setLore(ChatColor.GRAY + "Throws out shurikens",
-								ChatColor.GRAY + "dealing " + ChatColor.RED + "60" + ChatColor.GRAY + " damage.")
-						.toItemStack());
-		Ability secondAbility = new OneTimeAbility("Disguise", null);
-
-		Ability thirdAbility = new OneTimeAbility("Blind", null);
-
-		RecastableAbility ultimateAbility = new RecastableAbility("Beyblade", null);
-		ultimateAbility.addFunction(new Callable<Player>() {
-
-			@Override
-			public Player call() throws Exception {
-				return getPlayer();
-			}
-		});
+//		Ability firstAbility = new OneTimeAbility("Shurikens",
+//				new ItemBuilder(new ItemStack(Material.INK_SACK, (short) 15))
+//						.setDisplayName(ChatColor.GOLD + "Shurikens")
+//						.setLore(ChatColor.GRAY + "Throws out shurikens",
+//								ChatColor.GRAY + "dealing " + ChatColor.RED + "60" + ChatColor.GRAY + " damage.")
+//						.toItemStack());
+//		Ability secondAbility = new OneTimeAbility("Disguise", null);
+//
+//		Ability thirdAbility = new OneTimeAbility("Blind", null);
+//
+//		RecastableAbility ultimateAbility = new RecastableAbility("Beyblade", null);
+//		ultimateAbility.addFunction(new Callable<Player>() {
+//
+//			@Override
+//			public Player call() throws Exception {
+//				return getPlayer();
+//			}
+//		});
 	}
 
 	@Override
