@@ -1,6 +1,7 @@
 package me.didi.characters;
 
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import me.didi.ability.Ability;
 
@@ -9,39 +10,69 @@ public abstract class Champion {
 	private Ability[] abilities;
 
 	private Player player;
-	
+
+	private String name;
+
+	private ItemStack icon;
+
 	private int baseHealth;
 	private int baseDefense;
 	private int baseMagicResist;
 
-	public Champion(Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist) {
+	public Champion(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist,
+			ItemStack icon) {
+		this.name = name;
 		this.abilities = abilities;
 		this.baseHealth = baseHealth;
 		this.baseDefense = baseDefense;
 		this.baseMagicResist = baseMagicResist;
+		this.icon = icon;
+	}
+
+	public ItemStack getIcon() {
+		return icon;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	/**
 	 * Sets this champion's user
-	 * */
+	 */
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	
+
 	public Player getPlayer() {
 		return player;
 	}
-	
+
 	/**
-	 * Executes the basic AutoAttack
-	 * <br> Still on TODO List
+	 * Executes the basic AutoAttack <br>
+	 * Still on TODO List
 	 */
 	public abstract void executeAutoAttack();
 
 	/**
-	 * Executes an ability
+	 * Executes the first ability
 	 */
-	public abstract void executeAbility(int index);
+	public abstract void executeFirstAbility(Player player);
+
+	/**
+	 * Executes the second ability
+	 */
+	public abstract void executeSecondAbility(Player player);
+
+	/**
+	 * Executes the third ability
+	 */
+	public abstract void executeThirdAbility(Player player);
+
+	/**
+	 * Executes the ultimate
+	 */
+	public abstract void executeUltimate(Player player);
 
 	/**
 	 * Returns this champion's base magic resistance

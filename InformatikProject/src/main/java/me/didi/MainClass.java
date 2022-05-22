@@ -28,11 +28,14 @@ public class MainClass extends JavaPlugin {
 
 	private GameStateManager gameStateManager;
 
+	private ChampionsManager championsManager;
+
 	@Override
 	public void onEnable() {
 
 		alivePlayers = new ArrayList<UUID>();
 		gameStateManager.setGameState(GameState.LOBBY_STATE);
+		championsManager = new ChampionsManager();
 
 		plugin = this;
 

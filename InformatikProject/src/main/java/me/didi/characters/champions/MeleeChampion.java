@@ -1,13 +1,16 @@
 package me.didi.characters.champions;
 
+import org.bukkit.inventory.ItemStack;
+
 import me.didi.ability.Ability;
 import me.didi.characters.Champion;
 
 public abstract class MeleeChampion extends Champion {
 
-	public MeleeChampion(Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist) {
-		super(abilities, baseHealth, baseDefense, baseMagicResist);
-		// TODO Auto-generated constructor stub
+	public MeleeChampion(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist,
+			ItemStack icon) {
+		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon);
 	}
+
 
 }
