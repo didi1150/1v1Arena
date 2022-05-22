@@ -80,4 +80,8 @@ public class MainClass extends JavaPlugin {
 		return gameStateManager;
 	}
 
+	public ChampionsManager getChampionsManager() {
+		return championsManager;
+	}
+
 }

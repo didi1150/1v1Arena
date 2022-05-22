@@ -17,11 +17,17 @@ public class ChampionsManager {
 	private Set<Champion> selectableChampions = new HashSet<Champion>();
 
 	private void registerChampions() {
-		selectableChampions.add(new Lloyd("Lloyd", Arrays.asList(new Ability), 50, 50, new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName("Lloyd").toItemStack())));
+		selectableChampions.add(new Lloyd("Lloyd",
+				new Ability[] { new Ability("First Ability", new ItemStack(Material.INK_SACK)) }, 50, 50, 0,
+				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName("Lloyd").toItemStack()));
 	}
 
 	public ChampionsManager() {
 		registerChampions();
+	}
+
+	public Set<Champion> getSelectableChampions() {
+		return selectableChampions;
 	}
 
 }
