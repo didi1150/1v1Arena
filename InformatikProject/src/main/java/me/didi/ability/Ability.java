@@ -2,7 +2,7 @@ package me.didi.ability;
 
 import org.bukkit.inventory.ItemStack;
 
-public abstract class Ability {
+public class Ability {
 
 	/**
 	 * Name of the Ability
@@ -26,15 +26,4 @@ public abstract class Ability {
 	public ItemStack getIcon() {
 		return icon;
 	}
-
-	/**
-	 * Casts the spell of a champion
-	 */
-	public abstract void cast();
-
-	/**
-	 * Stops the spell of a champion
-	 */
-	public abstract void cancel();
-
 }
