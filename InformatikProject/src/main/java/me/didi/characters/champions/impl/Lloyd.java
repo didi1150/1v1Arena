@@ -1,0 +1,94 @@
+package me.didi.characters.champions.impl;
+
+import java.util.concurrent.Callable;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import me.didi.ability.Ability;
+import me.didi.ability.OneTimeAbility;
+import me.didi.ability.RecastableAbility;
+import me.didi.characters.champions.MeleeChampion;
+import me.didi.utilities.ItemBuilder;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
+
+public class Lloyd extends MeleeChampion {
+
+	public Lloyd(Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist) {
+
+		super(abilities, baseHealth, baseDefense, baseMagicResist);
+		// TODO: ItemStack builder
+		Ability firstAbility = new OneTimeAbility("Shurikens",
+				new ItemBuilder(new ItemStack(Material.INK_SACK, (short) 15))
+						.setDisplayName(ChatColor.GOLD + "Shurikens")
+						.setLore(ChatColor.GRAY + "Throws out shurikens",
+								ChatColor.GRAY + "dealing " + ChatColor.RED + "60" + ChatColor.GRAY + " damage.")
+						.toItemStack());
+		Ability secondAbility = new OneTimeAbility("Disguise", null);
+
+		Ability thirdAbility = new OneTimeAbility("Blind", null);
+
+		RecastableAbility ultimateAbility = new RecastableAbility("Beyblade", null);
+		ultimateAbility.addFunction(new Callable<Player>() {
+
+			@Override
+			public Player call() throws Exception {
+				int taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(null, new Runnable() {
+					int t = 0;
+					float increase = 0.2f;
+					float radius = 2f;
+
+					Location loc = getPlayer().getLocation();
+					float y = (float) getPlayer().getLocation().getY();
+
+					@Override
+					public void run() {
+						if (t < 50) {
+							float x = radius * (float) Math.sin(t);
+							float z = radius * (float) Math.cos(t);
+							PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.FLAME,
+									true, ((float) loc.getX()) + x, (float) (loc.getY() + y), (float) (loc.getZ() + z),
+									0, 0, 0, 0, 1);
+							for (Player player : Bukkit.getOnlinePlayers()) {
+								((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+							}
+						} else {
+							t = 0;
+						}
+						t += 0.05f;
+						y += 0.01;
+						radius += increase;
+					}
+
+				}, 2, 2);
+				return getPlayer();
+			}
+		});
+	}
+
+	@Override
+	public void executeAutoAttack() {
+		// TODO
+	}
+
+	@Override
+	public void executeAbility(int index) {
+		getAbilities()[index].cast();
+	}
+
+	private void spinjitzu(Player p) {
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(null, new Runnable() {
+
+			@Override
+			public void run() {
+
+			}
+		}, 1, 1);
+	}
+}

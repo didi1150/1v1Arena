@@ -1,0 +1,12 @@
+
+api: 1.8.8
+api-version: 1.8.8
+name: InformatikProject
+main: me.didi.MainClass
+author: DezhongZhuang
+version: 0.0.1
+description: Arena Fight Game
+commands:
+  setspawn:
+    description: Sets a spawn of the arena
+    aliases: [ss]
