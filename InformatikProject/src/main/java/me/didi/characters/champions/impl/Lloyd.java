@@ -6,7 +6,6 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.didi.MainClass;
 import me.didi.ability.Ability;
 import me.didi.ability.AbilityExecutionPool;
 import me.didi.ability.AbilityExecutionPool.AbilitySet;
