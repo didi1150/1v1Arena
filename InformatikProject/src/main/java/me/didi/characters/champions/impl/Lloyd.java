@@ -6,6 +6,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import me.didi.MainClass;
 import me.didi.ability.Ability;
 import me.didi.ability.AbilityExecutionPool;
 import me.didi.ability.AbilityExecutionPool.AbilitySet;
@@ -59,18 +60,18 @@ public class Lloyd extends MeleeChampion {
 
 	@Override
 	public void executeThirdAbility(Player player) {
-
+		
 	}
 
 	@Override
 	public void executeUltimate(final Player player) {
 		switch (abilityCounter) {
 		case 0:
-			AbilityExecutionPool.addAbility(new AbilitySet(spinjitzu(player), "Lloyd", "ULTIMATE"));
+			AbilityExecutionPool.addAbility(new AbilitySet(airjitzu(player), "Lloyd", 4));
 			break;
 		case 1:
 			Bukkit.getScheduler().cancelTask(AbilityExecutionPool.getAbilitySetByOwner(getName()).getId());
-			AbilityExecutionPool.addAbility(new AbilitySet(airjitzu(player), "Lloyd", "ULTIMATE"));
+			AbilityExecutionPool.addAbility(new AbilitySet(spinjitzu(player), "Lloyd", 4));
 			break;
 		}
 		abilityCounter++;

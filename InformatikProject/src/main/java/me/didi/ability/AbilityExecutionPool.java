@@ -23,13 +23,13 @@ public class AbilityExecutionPool {
 		}
 		return null;
 	}
-
+	
 	public static class AbilitySet {
 		int id;
 		String owner;
-		String type;
+		int type;
 
-		public AbilitySet(int id, String name, String type) {
+		public AbilitySet(int id, String name, int type) {
 			this.id = id;
 			this.owner = name;
 			this.type = type;
@@ -39,7 +39,7 @@ public class AbilityExecutionPool {
 			return owner;
 		}
 
-		public String getType() {
+		public int getType() {
 			return type;
 		}
 
