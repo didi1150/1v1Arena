@@ -27,7 +27,7 @@ public class ChampionSelectMenu extends Menu {
 
 	@Override
 	public void handleMenu(InventoryClickEvent e) {
-
+		
 	}
 
 	@Override

@@ -5,14 +5,47 @@ import java.util.List;
 
 public class AbilityExecutionPool {
 
-	private static List<Integer> cancellableAbilities = new ArrayList<Integer>();
+	private static List<AbilitySet> cancellableAbilities = new ArrayList<AbilitySet>();
 
-	public static void addAbility(Integer integer) {
-		cancellableAbilities.add(integer);
+	public static void addAbility(AbilitySet abilitySet) {
+		cancellableAbilities.add(abilitySet);
 	}
 
-	public static void removeAbility(Integer integer) {
-		cancellableAbilities.remove(integer);
+	public static void removeAbility(AbilitySet abilitySet) {
+		cancellableAbilities.remove(abilitySet);
 	}
 
+	public static AbilitySet getAbilitySetByOwner(String owner) {
+		for (AbilitySet abilitySet : cancellableAbilities) {
+			if (abilitySet.getName().equalsIgnoreCase(owner)) {
+				return abilitySet;
+			}
+		}
+		return null;
+	}
+
+	public static class AbilitySet {
+		int id;
+		String owner;
+		String type;
+
+		public AbilitySet(int id, String name, String type) {
+			this.id = id;
+			this.owner = name;
+			this.type = type;
+		}
+
+		public String getName() {
+			return owner;
+		}
+
+		public String getType() {
+			return type;
+		}
+
+		public int getId() {
+			return id;
+		}
+
+	}
 }

@@ -9,8 +9,6 @@ public abstract class Champion {
 
 	private Ability[] abilities;
 
-	private Player player;
-
 	private String name;
 
 	private ItemStack icon;
@@ -35,17 +33,6 @@ public abstract class Champion {
 
 	public String getName() {
 		return name;
-	}
-
-	/**
-	 * Sets this champion's user
-	 */
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-
-	public Player getPlayer() {
-		return player;
 	}
 
 	/**

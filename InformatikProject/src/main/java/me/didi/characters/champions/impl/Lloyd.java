@@ -7,11 +7,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.ability.Ability;
+import me.didi.ability.AbilityExecutionPool;
+import me.didi.ability.AbilityExecutionPool.AbilitySet;
 import me.didi.characters.champions.MeleeChampion;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 
 public class Lloyd extends MeleeChampion {
+
+	private int abilityCounter = 0;
 
 	public Lloyd(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist,
 			ItemStack icon) {
@@ -45,37 +49,81 @@ public class Lloyd extends MeleeChampion {
 
 	@Override
 	public void executeFirstAbility(Player player) {
-		
+
 	}
 
 	@Override
 	public void executeSecondAbility(Player player) {
-		
+
 	}
 
 	@Override
 	public void executeThirdAbility(Player player) {
-		
+
 	}
 
 	@Override
-	public void executeUltimate(Player player) {
-		int taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(null, new Runnable() {
+	public void executeUltimate(final Player player) {
+		switch (abilityCounter) {
+		case 0:
+			AbilityExecutionPool.addAbility(new AbilitySet(spinjitzu(player), "Lloyd", "ULTIMATE"));
+			break;
+		case 1:
+			Bukkit.getScheduler().cancelTask(AbilityExecutionPool.getAbilitySetByOwner(getName()).getId());
+			AbilityExecutionPool.addAbility(new AbilitySet(airjitzu(player), "Lloyd", "ULTIMATE"));
+			break;
+		}
+		abilityCounter++;
+	}
+
+	private int spinjitzu(final Player player) {
+		return Bukkit.getScheduler().scheduleSyncRepeatingTask(null, new Runnable() {
 			int t = 0;
 			float increase = 0.2f;
 			float radius = 2f;
 
-			Location loc = getPlayer().getLocation();
-			float y = (float) getPlayer().getLocation().getY();
+			Location loc = player.getLocation();
+			float y = (float) player.getLocation().getY();
 
 			@Override
 			public void run() {
 				if (t < 50) {
 					float x = radius * (float) Math.sin(t);
 					float z = radius * (float) Math.cos(t);
-					PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.FLAME,
-							true, ((float) loc.getX()) + x, (float) (loc.getY() + y), (float) (loc.getZ() + z),
-							0, 0, 0, 0, 1);
+					PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.FLAME, true,
+							((float) loc.getX()) + x, (float) (loc.getY() + y), (float) (loc.getZ() + z), 0, 0, 0, 0,
+							1);
+					for (Player player : Bukkit.getOnlinePlayers()) {
+						((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+					}
+				} else {
+					t = 0;
+				}
+				t += 0.05f;
+				y += 0.01;
+				radius += increase;
+			}
+
+		}, 2, 2);
+	}
+
+	private int airjitzu(final Player player) {
+		return Bukkit.getScheduler().scheduleSyncRepeatingTask(null, new Runnable() {
+			int t = 0;
+			float increase = 0.2f;
+			float radius = 2f;
+
+			Location loc = player.getLocation();
+			float y = (float) player.getLocation().getY();
+
+			@Override
+			public void run() {
+				if (t < 50) {
+					float x = radius * (float) Math.sin(t);
+					float z = radius * (float) Math.cos(t);
+					PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.FLAME, true,
+							((float) loc.getX()) + x, (float) (loc.getY() + y), (float) (loc.getZ() + z), 0, 0, 0, 0,
+							1);
 					for (Player player : Bukkit.getOnlinePlayers()) {
 						((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 					}
