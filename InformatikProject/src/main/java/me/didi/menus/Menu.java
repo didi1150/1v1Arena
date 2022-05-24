@@ -1,14 +1,11 @@
 package me.didi.menus;
 
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import me.didi.utilities.ItemBuilder;
 
@@ -27,7 +24,7 @@ public abstract class Menu implements InventoryHolder {
 
 	public abstract int getSlots();
 
-	public abstract void handleMenu(InventoryClickEvent e);
+	public abstract void handleMenu(InventoryClickEvent event);
 
 	public abstract void setMenuItems();
 

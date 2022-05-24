@@ -9,12 +9,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import me.didi.ability.AbilityCooldownManager;
 import me.didi.events.listeners.InventoryListener;
 import me.didi.events.listeners.JoinListener;
 import me.didi.events.listeners.QuitListener;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.menus.PlayerMenuUtility;
+import me.didi.utilities.ItemManager;
 
 public class MainClass extends JavaPlugin {
 
@@ -30,12 +32,16 @@ public class MainClass extends JavaPlugin {
 
 	private ChampionsManager championsManager;
 
+	private AbilityCooldownManager abilityCooldownManager;
+
 	@Override
 	public void onEnable() {
 
 		alivePlayers = new ArrayList<UUID>();
 		gameStateManager.setGameState(GameState.LOBBY_STATE);
 		championsManager = new ChampionsManager();
+		abilityCooldownManager = new AbilityCooldownManager(this, new ItemManager());
+		abilityCooldownManager.startBackGroundTask();
 
 		plugin = this;
 
@@ -45,6 +51,7 @@ public class MainClass extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		abilityCooldownManager.stopBackgroundTask();
 		super.onDisable();
 	}
 

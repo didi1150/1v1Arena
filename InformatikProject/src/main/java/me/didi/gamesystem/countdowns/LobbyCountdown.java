@@ -15,6 +15,9 @@ public class LobbyCountdown extends Countdown {
 	private GameStateManager gameStateManager;
 	private boolean isIdling;
 
+	private ChatColor[] countdownColours = new ChatColor[] { ChatColor.RED, ChatColor.GOLD, ChatColor.YELLOW,
+			ChatColor.GREEN, ChatColor.AQUA };
+
 	private int seconds;
 	private boolean isRunning;
 
@@ -35,13 +38,19 @@ public class LobbyCountdown extends Countdown {
 					ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel started in " + ChatColor.GOLD + seconds
 							+ ChatColor.YELLOW + " Sekunden!");
 				}
+				if (seconds <= 5 && seconds > 0) {
+					Bukkit.getOnlinePlayers().forEach(player -> {
+						ChatUtils.sendActionBar(player, countdownColours[seconds] + "" + seconds);
+					});
+				}
+
 				if (seconds == 1) {
 
 					ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel started in " + ChatColor.GOLD + seconds
 							+ ChatColor.YELLOW + " Sekunde!");
 				}
 				if (seconds == 0) {
-					gameStateManager.setGameState(GameState.LOBBY_STATE);
+					gameStateManager.setGameState(GameState.INGAME_STATE);
 				}
 				seconds--;
 			}
@@ -77,11 +86,11 @@ public class LobbyCountdown extends Countdown {
 			this.isIdling = false;
 		}
 	}
-	
+
 	public boolean isRunning() {
 		return isRunning;
 	}
-	
+
 	public boolean isIdling() {
 		return isIdling;
 	}

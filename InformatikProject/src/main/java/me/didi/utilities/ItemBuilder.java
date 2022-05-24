@@ -2,6 +2,8 @@ package me.didi.utilities;
 
 import java.util.Arrays;
 
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -29,6 +31,12 @@ public class ItemBuilder {
 	public ItemStack toItemStack() {
 		itemStack.setItemMeta(itemMeta);
 		return itemStack;
+	}
+
+	public ItemBuilder addGlow() {
+		itemMeta.addEnchant(Enchantment.DURABILITY, 1, true);
+		itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		return this;
 	}
 
 }

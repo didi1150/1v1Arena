@@ -2,7 +2,11 @@ package me.didi.utilities;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 
 public class ChatUtils {
 
@@ -18,5 +22,12 @@ public class ChatUtils {
 
 	public static void broadCastMessage(String message) {
 		Bukkit.broadcastMessage(prefix + message);
+	}
+
+	public static void sendActionBar(Player player, String message) {
+		CraftPlayer cp = (CraftPlayer) player;
+		IChatBaseComponent cbc = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}");
+		PacketPlayOutChat ppoc = new PacketPlayOutChat(cbc, (byte) 2);
+		cp.getHandle().playerConnection.sendPacket(ppoc);
 	}
 }
