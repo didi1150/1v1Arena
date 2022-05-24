@@ -34,7 +34,7 @@ public class TestCommand implements CommandExecutor {
 
 			@Override
 			public void run() {
-				if (t < 50) {
+				for (double t = 0; t <= 50; t += 0.05f) {
 					float x = radius * (float) Math.sin(t);
 					float z = radius * (float) Math.cos(t);
 					PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.FLAME, true,
@@ -44,7 +44,6 @@ public class TestCommand implements CommandExecutor {
 						((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 					}
 				}
-				t += 0.05f;
 				y += 0.01;
 				radius += increase;
 			}
