@@ -46,7 +46,7 @@ public class Lloyd extends MeleeChampion {
 
 	@Override
 	public void executeFirstAbility(Player player) {
-
+		
 	}
 
 	@Override

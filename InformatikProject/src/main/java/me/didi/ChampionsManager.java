@@ -24,11 +24,16 @@ public class ChampionsManager {
 
 	private void registerChampions() {
 		selectableChampions.add(new Lloyd("Lloyd",
-				new Ability[] { new Ability("First Ability", new ItemStack(Material.INK_SACK)) }, 50, 50, 50,
-				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName(ChatColor.GREEN + "Lloyd").toItemStack()));
-		selectableChampions.add(new Anakin("Anakin",
-				new Ability[] { new Ability("Enlightenment", new ItemStack(Material.IRON_SWORD)) }, 75, 50, 50,
-				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName(ChatColor.BLUE + "Anakin").toItemStack()));
+				new Ability[] { new Ability("First Ability", new ItemStack(Material.INK_SACK)),
+						new Ability("First Ability", new ItemStack(Material.INK_SACK)),
+						new Ability("First Ability", new ItemStack(Material.INK_SACK)),
+						new Ability("Spinjitzu", new ItemStack(Material.WOOL)) },
+				50, 50, 50, new ItemBuilder(new ItemStack(Material.SKULL_ITEM))
+						.setDisplayName(ChatColor.GREEN + "Lloyd").toItemStack()));
+		selectableChampions.add(
+				new Anakin("Anakin", new Ability[] { new Ability("Enlightenment", new ItemStack(Material.IRON_SWORD)) },
+						75, 50, 50, new ItemBuilder(new ItemStack(Material.SKULL_ITEM))
+								.setDisplayName(ChatColor.BLUE + "Anakin").toItemStack()));
 	}
 
 	public ChampionsManager() {
