@@ -10,6 +10,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.didi.ability.AbilityCooldownManager;
+import me.didi.commands.TestCommand;
 import me.didi.events.listeners.InventoryListener;
 import me.didi.events.listeners.JoinListener;
 import me.didi.events.listeners.PlayerInteractListener;
@@ -40,14 +41,20 @@ public class MainClass extends JavaPlugin {
 		plugin = this;
 
 		alivePlayers = new ArrayList<UUID>();
+
 		gameStateManager = new GameStateManager(this);
 		gameStateManager.setGameState(GameState.LOBBY_STATE);
-		championsManager = new ChampionsManager();
+
 		abilityCooldownManager = new AbilityCooldownManager(this, new ItemManager());
 		abilityCooldownManager.startBackGroundTask();
 
+		championsManager = new ChampionsManager();
+		championsManager.registerChampions();
+		
 		registerListeners();
-		super.onEnable();
+		this.getCommand("test").setExecutor(new TestCommand());
+		
+
 	}
 
 	@Override

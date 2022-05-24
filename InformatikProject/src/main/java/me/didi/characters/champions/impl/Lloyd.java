@@ -6,6 +6,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import me.didi.MainClass;
 import me.didi.ability.Ability;
 import me.didi.characters.champions.MeleeChampion;
 import net.minecraft.server.v1_8_R3.EnumParticle;
@@ -46,7 +47,7 @@ public class Lloyd extends MeleeChampion {
 
 	@Override
 	public void executeFirstAbility(Player player) {
-		
+
 	}
 
 	@Override
@@ -71,12 +72,17 @@ public class Lloyd extends MeleeChampion {
 		case 2:
 			spinjitzu(player);
 			break;
+		case 3:
+			abilityCounter = 0;
+			break;
 		}
+
+		System.out.println("Counter: " + abilityCounter);
 		abilityCounter++;
 	}
 
-	private int spinjitzu(final Player player) {
-		return Bukkit.getScheduler().scheduleSyncRepeatingTask(null, new Runnable() {
+	private void spinjitzu(final Player player) {
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(MainClass.getPlugin(), new Runnable() {
 			int t = 0;
 			float increase = 0.2f;
 			float radius = 2f;
@@ -95,8 +101,6 @@ public class Lloyd extends MeleeChampion {
 					for (Player player : Bukkit.getOnlinePlayers()) {
 						((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 					}
-				} else {
-					t = 0;
 				}
 				t += 0.05f;
 				y += 0.01;
@@ -106,8 +110,8 @@ public class Lloyd extends MeleeChampion {
 		}, 2, 2);
 	}
 
-	private int airjitzu(final Player player) {
-		return Bukkit.getScheduler().scheduleSyncRepeatingTask(null, new Runnable() {
+	private void airjitzu(final Player player) {
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(MainClass.getPlugin(), new Runnable() {
 			int t = 0;
 			float increase = 0.2f;
 			float radius = 2f;
@@ -126,8 +130,6 @@ public class Lloyd extends MeleeChampion {
 					for (Player player : Bukkit.getOnlinePlayers()) {
 						((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 					}
-				} else {
-					t = 0;
 				}
 				t += 0.05f;
 				y += 0.01;

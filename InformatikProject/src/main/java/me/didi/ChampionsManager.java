@@ -22,7 +22,7 @@ public class ChampionsManager {
 	private Set<Champion> selectableChampions = new HashSet<Champion>();
 	private Map<UUID, Champion> selectedChampions = new HashMap<UUID, Champion>();
 
-	private void registerChampions() {
+	public void registerChampions() {
 		selectableChampions.add(new Lloyd("Lloyd",
 				new Ability[] { new Ability("First Ability", new ItemStack(Material.INK_SACK)),
 						new Ability("First Ability", new ItemStack(Material.INK_SACK)),
@@ -34,10 +34,6 @@ public class ChampionsManager {
 				new Anakin("Anakin", new Ability[] { new Ability("Enlightenment", new ItemStack(Material.IRON_SWORD)) },
 						75, 50, 50, new ItemBuilder(new ItemStack(Material.SKULL_ITEM))
 								.setDisplayName(ChatColor.BLUE + "Anakin").toItemStack()));
-	}
-
-	public ChampionsManager() {
-		registerChampions();
 	}
 
 	public Set<Champion> getSelectableChampions() {
