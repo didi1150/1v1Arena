@@ -7,8 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.ability.Ability;
-import me.didi.ability.AbilityExecutionPool;
-import me.didi.ability.AbilityExecutionPool.AbilitySet;
 import me.didi.characters.champions.MeleeChampion;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
@@ -19,7 +17,6 @@ public class Lloyd extends MeleeChampion {
 
 	public Lloyd(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist,
 			ItemStack icon) {
-
 		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon);
 		// TODO: ItemStack builder
 //		Ability firstAbility = new OneTimeAbility("Shurikens",
@@ -59,18 +56,20 @@ public class Lloyd extends MeleeChampion {
 
 	@Override
 	public void executeThirdAbility(Player player) {
-		
+
 	}
 
 	@Override
 	public void executeUltimate(final Player player) {
 		switch (abilityCounter) {
 		case 0:
-			AbilityExecutionPool.addAbility(new AbilitySet(airjitzu(player), "Lloyd", 4));
+			airjitzu(player);
 			break;
 		case 1:
-			Bukkit.getScheduler().cancelTask(AbilityExecutionPool.getAbilitySetByOwner(getName()).getId());
-			AbilityExecutionPool.addAbility(new AbilitySet(spinjitzu(player), "Lloyd", 4));
+			abilityCooldownManager.addCooldown(player, 3, 20);
+			break;
+		case 2:
+			spinjitzu(player);
 			break;
 		}
 		abilityCounter++;

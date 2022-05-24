@@ -3,6 +3,7 @@ package me.didi.gamesystem.countdowns;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
+import me.didi.ability.Ability;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.gamesystem.gameStates.LobbyState;
@@ -52,6 +53,16 @@ public class LobbyCountdown extends Countdown {
 							+ ChatColor.YELLOW + " Sekunde!");
 				}
 				if (seconds == 0) {
+
+					Bukkit.getOnlinePlayers().forEach(player -> {
+						player.getInventory().clear();
+						Ability[] abilities = gameStateManager.getPlugin().getChampionsManager()
+								.getSelectedChampion(player).getAbilities();
+						for (int i = 0; i < abilities.length; i++) {
+							player.getInventory().setItem(i, abilities[i].getIcon());
+						}
+					});
+
 					gameStateManager.setGameState(GameState.INGAME_STATE);
 					stop();
 				}

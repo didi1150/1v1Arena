@@ -3,7 +3,9 @@ package me.didi.characters;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import me.didi.MainClass;
 import me.didi.ability.Ability;
+import me.didi.ability.AbilityCooldownManager;
 
 public abstract class Champion {
 
@@ -17,6 +19,8 @@ public abstract class Champion {
 	private int baseDefense;
 	private int baseMagicResist;
 
+	protected AbilityCooldownManager abilityCooldownManager;
+
 	public Champion(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist,
 			ItemStack icon) {
 		this.name = name;
@@ -25,6 +29,7 @@ public abstract class Champion {
 		this.baseDefense = baseDefense;
 		this.baseMagicResist = baseMagicResist;
 		this.icon = icon;
+		this.abilityCooldownManager = MainClass.getPlugin().getAbilityCooldownManager();
 	}
 
 	public ItemStack getIcon() {

@@ -37,6 +37,7 @@ public class MainClass extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		plugin = this;
 
 		alivePlayers = new ArrayList<UUID>();
 		gameStateManager = new GameStateManager(this);
@@ -44,8 +45,6 @@ public class MainClass extends JavaPlugin {
 		championsManager = new ChampionsManager();
 		abilityCooldownManager = new AbilityCooldownManager(this, new ItemManager());
 		abilityCooldownManager.startBackGroundTask();
-
-		plugin = this;
 
 		registerListeners();
 		super.onEnable();
@@ -94,4 +93,7 @@ public class MainClass extends JavaPlugin {
 		return championsManager;
 	}
 
+	public AbilityCooldownManager getAbilityCooldownManager() {
+		return abilityCooldownManager;
+	}
 }

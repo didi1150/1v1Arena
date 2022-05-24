@@ -67,4 +67,15 @@ public class AbilityCooldownManager {
 				.setLore(ChatColor.GRAY + "This Ability is", ChatColor.GRAY + "on cooldown!").toItemStack();
 	}
 
+	public void addCooldown(Player player, int index, int cooldown) {
+		if (cooldowns.containsKey(player.getUniqueId())) {
+			int[] array = cooldowns.get(player.getUniqueId());
+			array[index] = cooldown;
+		} else {
+			int[] array = new int[] { 0, 0, 0, 0 };
+			array[index] = cooldown;
+			cooldowns.put(player.getUniqueId(), array);
+		}
+	}
+
 }
