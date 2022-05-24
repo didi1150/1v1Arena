@@ -1,6 +1,5 @@
 package me.didi.events.listeners;
 
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,7 +27,6 @@ public class JoinListener implements Listener {
 		if (!(plugin.getGameStateManager().getCurrentGameState() instanceof LobbyState))
 			return;
 		Player player = event.getPlayer();
-		player.setGameMode(GameMode.ADVENTURE);
 		plugin.getAlivePlayers().add(player.getUniqueId());
 		ChatUtils.broadCastMessage(ChatColor.YELLOW + player.getDisplayName() + ChatColor.GREEN
 				+ " ist dem Spiel beigetreten! " + ChatColor.GOLD + "[" + plugin.getAlivePlayers().size()

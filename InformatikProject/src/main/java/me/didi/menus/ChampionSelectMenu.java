@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.didi.MainClass;
 import me.didi.characters.Champion;
+import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 import net.md_5.bungee.api.ChatColor;
 
@@ -33,13 +34,15 @@ public class ChampionSelectMenu extends Menu {
 	public void handleMenu(InventoryClickEvent event) {
 		if (event.getCurrentItem().getType() == Material.STAINED_GLASS_PANE)
 			return;
-		
+
 		ItemStack itemStack = event.getCurrentItem();
 		Player player = (Player) event.getWhoClicked();
 		if (itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName()) {
 			Champion champion = plugin.getChampionsManager()
 					.getByName(ChatColor.stripColor(itemStack.getItemMeta().getDisplayName()));
 			plugin.getChampionsManager().setSelectedChampion(player.getUniqueId(), champion);
+			ChatUtils.sendMessageToPlayer(player, ChatColor.YELLOW + "Du hast den Champion "
+					+ event.getCurrentItem().getItemMeta().getDisplayName() + ChatColor.YELLOW + " ausgewählt.");
 			player.closeInventory();
 		}
 	}

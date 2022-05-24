@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.didi.ability.AbilityCooldownManager;
 import me.didi.events.listeners.InventoryListener;
 import me.didi.events.listeners.JoinListener;
+import me.didi.events.listeners.PlayerInteractListener;
 import me.didi.events.listeners.QuitListener;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
@@ -38,6 +39,7 @@ public class MainClass extends JavaPlugin {
 	public void onEnable() {
 
 		alivePlayers = new ArrayList<UUID>();
+		gameStateManager = new GameStateManager(this);
 		gameStateManager.setGameState(GameState.LOBBY_STATE);
 		championsManager = new ChampionsManager();
 		abilityCooldownManager = new AbilityCooldownManager(this, new ItemManager());
@@ -60,6 +62,7 @@ public class MainClass extends JavaPlugin {
 		pm.registerEvents(new InventoryListener(), this);
 		pm.registerEvents(new JoinListener(this), this);
 		pm.registerEvents(new QuitListener(this), this);
+		pm.registerEvents(new PlayerInteractListener(this), this);
 	}
 
 	public static PlayerMenuUtility getPlayerMenuUtility(Player p) {

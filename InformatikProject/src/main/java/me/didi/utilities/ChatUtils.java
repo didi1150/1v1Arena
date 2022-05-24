@@ -10,7 +10,7 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 
 public class ChatUtils {
 
-	public static final String prefix = ChatColor.GREEN + "[Bedwars] " + ChatColor.WHITE;
+	public static final String prefix = ChatColor.GREEN + "[InformatikProjekt] " + ChatColor.WHITE;
 
 	public static void sendDebugMessage(String message) {
 		Bukkit.getConsoleSender().sendMessage(prefix + ChatColor.YELLOW + "DEBUG: " + ChatColor.AQUA + message);

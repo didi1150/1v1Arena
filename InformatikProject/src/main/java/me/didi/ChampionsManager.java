@@ -15,6 +15,7 @@ import me.didi.characters.Champion;
 import me.didi.characters.champions.impl.Anakin;
 import me.didi.characters.champions.impl.Lloyd;
 import me.didi.utilities.ItemBuilder;
+import net.md_5.bungee.api.ChatColor;
 
 public class ChampionsManager {
 
@@ -24,10 +25,10 @@ public class ChampionsManager {
 	private void registerChampions() {
 		selectableChampions.add(new Lloyd("Lloyd",
 				new Ability[] { new Ability("First Ability", new ItemStack(Material.INK_SACK)) }, 50, 50, 50,
-				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName("Lloyd").toItemStack()));
+				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName(ChatColor.GREEN + "Lloyd").toItemStack()));
 		selectableChampions.add(new Anakin("Anakin",
 				new Ability[] { new Ability("Enlightenment", new ItemStack(Material.IRON_SWORD)) }, 75, 50, 50,
-				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName("Anakin").toItemStack()));
+				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName(ChatColor.BLUE + "Anakin").toItemStack()));
 	}
 
 	public ChampionsManager() {

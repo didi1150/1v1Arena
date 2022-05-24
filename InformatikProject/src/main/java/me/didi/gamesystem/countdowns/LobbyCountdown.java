@@ -10,7 +10,7 @@ import me.didi.utilities.ChatUtils;
 
 public class LobbyCountdown extends Countdown {
 
-	private static final int COUNTDOWN_TIME = 20, IDLE_TIME = 15;
+	private static final int COUNTDOWN_TIME = 20, IDLE_TIME = 20 * 15;
 	private int idleID;
 	private GameStateManager gameStateManager;
 	private boolean isIdling;
@@ -35,22 +35,25 @@ public class LobbyCountdown extends Countdown {
 			public void run() {
 
 				if (seconds % 10 == 0) {
-					ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel started in " + ChatColor.GOLD + seconds
+					ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel startet in " + ChatColor.GOLD + seconds
 							+ ChatColor.YELLOW + " Sekunden!");
 				}
 				if (seconds <= 5 && seconds > 0) {
 					Bukkit.getOnlinePlayers().forEach(player -> {
-						ChatUtils.sendActionBar(player, countdownColours[seconds] + "" + seconds);
+						ChatUtils.sendActionBar(player, countdownColours[seconds - 1] + "" + seconds);
+						ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel startet in " + ChatColor.GOLD + seconds
+								+ ChatColor.YELLOW + " Sekunden!");
 					});
 				}
 
 				if (seconds == 1) {
 
-					ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel started in " + ChatColor.GOLD + seconds
+					ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel startet in " + ChatColor.GOLD + seconds
 							+ ChatColor.YELLOW + " Sekunde!");
 				}
 				if (seconds == 0) {
 					gameStateManager.setGameState(GameState.INGAME_STATE);
+					stop();
 				}
 				seconds--;
 			}
