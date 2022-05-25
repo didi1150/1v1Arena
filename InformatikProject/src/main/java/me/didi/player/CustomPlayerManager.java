@@ -88,7 +88,7 @@ public class CustomPlayerManager {
 	private void sendHealthBar(CustomPlayer customPlayer) {
 		Player player = Bukkit.getPlayer(customPlayer.getUuid());
 		int maxHealth = (int) (customPlayer.getBaseHealth() + getBonusHealth(player));
-		ChatUtils.sendActionBar(player, ChatColor.RED + "" + customPlayer.getCurrentHealth() + "/" + maxHealth + "❤");
+		ChatUtils.sendActionBar(player, ChatColor.RED + "" + (int) customPlayer.getCurrentHealth() + "/" + maxHealth + "❤");
 	}
 
 	private int getBonusHealth(Player player) {

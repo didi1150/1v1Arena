@@ -74,7 +74,7 @@ public class Lloyd extends MeleeChampion {
 		case 1:
 			Bukkit.getScheduler().cancelTask(taskID);
 			new ItemManager().setItem(player, 3,
-					new ItemBuilder(getAbilities()[3].getIcon().clone()).removeGlow().toItemStack());
+					new ItemBuilder(getAbilities()[3].getIcon()).toItemStack());
 			abilityCooldownManager.addRecastCooldown(player, 3, 5);
 			bukkitTask = Bukkit.getScheduler().runTaskLater(MainClass.getPlugin(), new Runnable() {
 
@@ -95,8 +95,6 @@ public class Lloyd extends MeleeChampion {
 			break;
 		case 3:
 			Bukkit.getScheduler().cancelTask(taskID);
-			new ItemManager().setItem(player, 3,
-					new ItemBuilder(getAbilities()[3].getIcon().clone()).removeGlow().toItemStack());
 			abilityCooldownManager.addCooldown(player, 3, 10);
 			abilityCounter = -1;
 			break;

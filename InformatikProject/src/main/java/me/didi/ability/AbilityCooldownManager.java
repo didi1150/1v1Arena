@@ -62,9 +62,12 @@ public class AbilityCooldownManager {
 					int[] array = entry.getValue();
 					for (int i = 0; i < array.length; i++) {
 						Ability ability = plugin.getChampionsManager().getSelectedChampion(player).getAbilities()[i];
-						if (array[i] == 0)
+						if (array[i] == 0) {
+							if (player.getInventory().getItem(i).getType() == ability.getIcon().getType()
+									&& player.getInventory().getItem(i).getAmount() == ability.getIcon().getAmount())
+								continue;
 							itemManager.setItem(player, i, ability.getIcon());
-						else if (array[i] > 0) {
+						} else if (array[i] > 0) {
 							itemManager.setItem(player, i, createOnCooldownItem(array[i], ability.getName()));
 							array[i]--;
 						}
