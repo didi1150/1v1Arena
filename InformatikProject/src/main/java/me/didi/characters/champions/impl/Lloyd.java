@@ -10,6 +10,8 @@ import org.bukkit.scheduler.BukkitTask;
 import me.didi.MainClass;
 import me.didi.ability.Ability;
 import me.didi.characters.champions.MeleeChampion;
+import me.didi.utilities.ItemBuilder;
+import me.didi.utilities.ItemManager;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 
@@ -17,6 +19,7 @@ public class Lloyd extends MeleeChampion {
 
 	private int abilityCounter = 0;
 	private int taskID;
+	private BukkitTask bukkitTask;
 
 	public Lloyd(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist,
 			ItemStack icon) {
@@ -70,26 +73,31 @@ public class Lloyd extends MeleeChampion {
 			break;
 		case 1:
 			Bukkit.getScheduler().cancelTask(taskID);
-			abilityCooldownManager.addCooldown(player, 3, 8);
-
-			BukkitTask bukkitTask = Bukkit.getScheduler().runTaskLater(MainClass.getPlugin(), new Runnable() {
+			new ItemManager().setItem(player, 3,
+					new ItemBuilder(getAbilities()[3].getIcon().clone()).removeGlow().toItemStack());
+			abilityCooldownManager.addRecastCooldown(player, 3, 5);
+			bukkitTask = Bukkit.getScheduler().runTaskLater(MainClass.getPlugin(), new Runnable() {
 
 				@Override
 				public void run() {
-					abilityCooldownManager.addCooldown(player, 3, 8);
+					abilityCooldownManager.addCooldown(player, 3, 10);
 					abilityCounter = 0;
+					bukkitTask.cancel();
 				}
-			}, 20 * (8 + 5));
+			}, 20 * 6);
 			taskID = bukkitTask.getTaskId();
 
 			break;
 		case 2:
 			Bukkit.getScheduler().cancelTask(taskID);
+			abilityCooldownManager.removeRecastCooldown(player, getAbilities()[3]);
 			taskID = spinjitzu(player);
 			break;
 		case 3:
 			Bukkit.getScheduler().cancelTask(taskID);
-			abilityCooldownManager.addCooldown(player, 3, 8);
+			new ItemManager().setItem(player, 3,
+					new ItemBuilder(getAbilities()[3].getIcon().clone()).removeGlow().toItemStack());
+			abilityCooldownManager.addCooldown(player, 3, 10);
 			abilityCounter = -1;
 			break;
 		}
@@ -97,6 +105,8 @@ public class Lloyd extends MeleeChampion {
 	}
 
 	private int spinjitzu(final Player player) {
+		new ItemManager().setItem(player, 3,
+				new ItemBuilder(getAbilities()[3].getIcon().clone()).addGlow().toItemStack());
 		return Bukkit.getScheduler().scheduleSyncRepeatingTask(MainClass.getPlugin(), new Runnable() {
 			@Override
 			public void run() {
@@ -107,6 +117,8 @@ public class Lloyd extends MeleeChampion {
 	}
 
 	private int airjitzu(final Player player) {
+		new ItemManager().setItem(player, 3,
+				new ItemBuilder(getAbilities()[3].getIcon().clone()).addGlow().toItemStack());
 		return Bukkit.getScheduler().scheduleSyncRepeatingTask(MainClass.getPlugin(), new Runnable() {
 			@Override
 			public void run() {

@@ -18,9 +18,32 @@ import net.md_5.bungee.api.ChatColor;
 
 public class AbilityCooldownManager {
 
+	private class RecastCooldown {
+		int index;
+		int seconds;
+
+		public RecastCooldown(int index, int seconds) {
+			this.index = index;
+			this.seconds = seconds;
+		}
+
+		public int getIndex() {
+			return index;
+		}
+
+		public int getSeconds() {
+			return seconds;
+		}
+
+		public void setSeconds(int seconds) {
+			this.seconds = seconds;
+		}
+	}
+
 	private BukkitTask bukkitTask;
 	private MainClass plugin;
 	private Map<UUID, int[]> cooldowns = new HashMap<>();
+	private Map<UUID, RecastCooldown> recasts = new HashMap<>();
 
 	private ItemManager itemManager;
 
@@ -41,11 +64,28 @@ public class AbilityCooldownManager {
 						Ability ability = plugin.getChampionsManager().getSelectedChampion(player).getAbilities()[i];
 						if (array[i] == 0)
 							itemManager.setItem(player, i, ability.getIcon());
-						else if (array[i] - 1 > 0) {
+						else if (array[i] > 0) {
 							itemManager.setItem(player, i, createOnCooldownItem(array[i], ability.getName()));
 							array[i]--;
 						}
 					}
+				}
+
+				for (Map.Entry<UUID, RecastCooldown> entry : recasts.entrySet()) {
+					Player player = Bukkit.getPlayer(entry.getKey());
+					RecastCooldown recastCooldown = entry.getValue();
+					Ability ability = plugin.getChampionsManager().getSelectedChampion(player)
+							.getAbilities()[recastCooldown.getIndex()];
+					int seconds = recastCooldown.getSeconds();
+
+					if (seconds == 0) {
+						removeRecastCooldown(player, ability);
+					} else if (seconds > 0) {
+						itemManager.setItem(player, recastCooldown.getIndex(),
+								new ItemBuilder(ability.getIcon().clone()).setAmount(seconds).toItemStack());
+						recastCooldown.setSeconds(seconds - 1);
+					}
+
 				}
 			}
 		}.runTaskTimer(plugin, 20, 20);
@@ -71,6 +111,21 @@ public class AbilityCooldownManager {
 			int[] array = new int[] { 0, 0, 0, 0 };
 			array[index] = cooldown;
 			cooldowns.put(player.getUniqueId(), array);
+		}
+	}
+
+	public void addRecastCooldown(Player player, int index, int cooldown) {
+		if (!recasts.containsKey(player.getUniqueId())) {
+			RecastCooldown recastCooldown = new RecastCooldown(index, cooldown);
+			recasts.put(player.getUniqueId(), recastCooldown);
+		}
+	}
+
+	public void removeRecastCooldown(Player player, Ability ability) {
+		if (recasts.containsKey(player.getUniqueId())) {
+			int index = recasts.get(player.getUniqueId()).getIndex();
+			recasts.remove(player.getUniqueId());
+			itemManager.setItem(player, index, ability.getIcon());
 		}
 	}
 

@@ -39,4 +39,14 @@ public class ItemBuilder {
 		return this;
 	}
 
+	public ItemBuilder setAmount(int amount) {
+		itemStack.setAmount(amount);
+		return this;
+	}
+	
+	public ItemBuilder removeGlow() {
+		itemStack.removeEnchantment(Enchantment.DURABILITY);
+		return this;
+	}
+
 }
