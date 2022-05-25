@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import me.didi.ability.AbilityCooldownManager;
 import me.didi.commands.TestCommand;
+import me.didi.events.listeners.EntityDamageListener;
 import me.didi.events.listeners.InventoryListener;
 import me.didi.events.listeners.JoinListener;
 import me.didi.events.listeners.PlayerInteractListener;
@@ -18,6 +19,7 @@ import me.didi.events.listeners.QuitListener;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.menus.PlayerMenuUtility;
+import me.didi.player.CustomPlayerManager;
 import me.didi.utilities.ItemManager;
 
 public class MainClass extends JavaPlugin {
@@ -36,6 +38,8 @@ public class MainClass extends JavaPlugin {
 
 	private AbilityCooldownManager abilityCooldownManager;
 
+	private CustomPlayerManager customPlayerManager;
+
 	@Override
 	public void onEnable() {
 		plugin = this;
@@ -50,17 +54,18 @@ public class MainClass extends JavaPlugin {
 
 		championsManager = new ChampionsManager();
 		championsManager.registerChampions();
-		
+
+		customPlayerManager = new CustomPlayerManager();
+
 		registerListeners();
-		this.getCommand("test").setExecutor(new TestCommand());
-		
+		getCommand("test").setExecutor(new TestCommand());
 
 	}
 
 	@Override
 	public void onDisable() {
 		abilityCooldownManager.stopBackgroundTask();
-		super.onDisable();
+		customPlayerManager.stopBackgroundTask();
 	}
 
 	private void registerListeners() {
@@ -69,6 +74,7 @@ public class MainClass extends JavaPlugin {
 		pm.registerEvents(new JoinListener(this), this);
 		pm.registerEvents(new QuitListener(this), this);
 		pm.registerEvents(new PlayerInteractListener(this), this);
+		pm.registerEvents(new EntityDamageListener(this), this);
 	}
 
 	public static PlayerMenuUtility getPlayerMenuUtility(Player p) {
@@ -102,5 +108,9 @@ public class MainClass extends JavaPlugin {
 
 	public AbilityCooldownManager getAbilityCooldownManager() {
 		return abilityCooldownManager;
+	}
+	
+	public CustomPlayerManager getCustomPlayerManager() {
+		return customPlayerManager;
 	}
 }

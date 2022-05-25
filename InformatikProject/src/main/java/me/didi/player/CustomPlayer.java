@@ -4,19 +4,21 @@ import java.util.UUID;
 
 public class CustomPlayer {
 
-	private int baseHealth;
+	private float baseHealth;
 
-	private int baseDefense;
+	private float baseDefense;
 
-	private int magicResist;
+	private float magicResist;
 
-	private int armorPenetration;
+	private float armorPenetration;
 
-	private int magicPenetration;
+	private float magicPenetration;
 
 	private UUID uuid;
 
 	private String name;
+
+	private float currentHealth;
 
 	public CustomPlayer(int baseHealth, int baseDefense, int magicResist, int armorPenetration, int magicPenetration,
 			UUID uuid, String name) {
@@ -27,37 +29,71 @@ public class CustomPlayer {
 		this.magicPenetration = magicPenetration;
 		this.uuid = uuid;
 		this.name = name;
+		this.currentHealth = baseHealth;
 	}
 
-	public int getArmorPenetration() {
-		return armorPenetration;
-	}
-
-	public void setArmorPenetration(int armorPenetration) {
-		this.armorPenetration = armorPenetration;
-	}
-
-	public int getBaseHealth() {
+	public float getBaseHealth() {
 		return baseHealth;
 	}
 
-	public int getBaseDefense() {
+	public void setBaseHealth(float baseHealth) {
+		this.baseHealth = baseHealth;
+	}
+
+	public float getBaseDefense() {
 		return baseDefense;
 	}
 
-	public int getMagicResist() {
+	public void setBaseDefense(float baseDefense) {
+		this.baseDefense = baseDefense;
+	}
+
+	public float getMagicResist() {
 		return magicResist;
 	}
 
-	public int getMagicPenetration() {
+	public void setMagicResist(float magicResist) {
+		this.magicResist = magicResist;
+	}
+
+	public float getArmorPenetration() {
+		return armorPenetration;
+	}
+
+	public void setArmorPenetration(float armorPenetration) {
+		this.armorPenetration = armorPenetration;
+	}
+
+	public float getMagicPenetration() {
 		return magicPenetration;
+	}
+
+	public void setMagicPenetration(float magicPenetration) {
+		this.magicPenetration = magicPenetration;
 	}
 
 	public UUID getUuid() {
 		return uuid;
 	}
 
+	public void setUuid(UUID uuid) {
+		this.uuid = uuid;
+	}
+
 	public String getName() {
 		return name;
 	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public float getCurrentHealth() {
+		return currentHealth;
+	}
+
+	public void setCurrentHealth(float currentHealth) {
+		this.currentHealth = currentHealth;
+	}
+
 }

@@ -3,6 +3,7 @@ package me.didi.gamesystem.countdowns;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
+import me.didi.MainClass;
 import me.didi.ability.Ability;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
@@ -40,18 +41,21 @@ public class LobbyCountdown extends Countdown {
 							+ ChatColor.YELLOW + " Sekunden!");
 				}
 				if (seconds <= 5 && seconds > 0) {
-					Bukkit.getOnlinePlayers().forEach(player -> {
-						ChatUtils.sendActionBar(player, countdownColours[seconds - 1] + "" + seconds);
+					if (seconds == 1) {
+						ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel startet in " + ChatColor.GOLD + seconds
+								+ ChatColor.YELLOW + " Sekunde!");
+					} else {
+
 						ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel startet in " + ChatColor.GOLD + seconds
 								+ ChatColor.YELLOW + " Sekunden!");
+					}
+					Bukkit.getOnlinePlayers().forEach(player -> {
+						ChatUtils.sendTitle(player, countdownColours[seconds - 1] + "" + seconds, "", 0, 20, 0);
+
 					});
+
 				}
 
-				if (seconds == 1) {
-
-					ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel startet in " + ChatColor.GOLD + seconds
-							+ ChatColor.YELLOW + " Sekunde!");
-				}
 				if (seconds == 0) {
 
 					Bukkit.getOnlinePlayers().forEach(player -> {
@@ -61,8 +65,12 @@ public class LobbyCountdown extends Countdown {
 						for (int i = 0; i < abilities.length; i++) {
 							player.getInventory().setItem(i, abilities[i].getIcon());
 						}
+
+						gameStateManager.getPlugin().getCustomPlayerManager().addPlayer(player);
+
 					});
 
+					gameStateManager.getPlugin().getCustomPlayerManager().startBackgroundTask();
 					gameStateManager.setGameState(GameState.INGAME_STATE);
 					stop();
 				}
