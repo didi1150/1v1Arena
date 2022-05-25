@@ -14,6 +14,7 @@ import me.didi.commands.TestCommand;
 import me.didi.events.listeners.EntityDamageListener;
 import me.didi.events.listeners.InventoryListener;
 import me.didi.events.listeners.JoinListener;
+import me.didi.events.listeners.NaturalRegenListener;
 import me.didi.events.listeners.PlayerInteractListener;
 import me.didi.events.listeners.QuitListener;
 import me.didi.gamesystem.GameState;
@@ -75,6 +76,7 @@ public class MainClass extends JavaPlugin {
 		pm.registerEvents(new QuitListener(this), this);
 		pm.registerEvents(new PlayerInteractListener(this), this);
 		pm.registerEvents(new EntityDamageListener(this), this);
+		pm.registerEvents(new NaturalRegenListener(), this);
 	}
 
 	public static PlayerMenuUtility getPlayerMenuUtility(Player p) {

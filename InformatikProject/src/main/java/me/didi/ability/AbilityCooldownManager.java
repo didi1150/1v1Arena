@@ -40,12 +40,7 @@ public class AbilityCooldownManager {
 					for (int i = 0; i < array.length; i++) {
 						Ability ability = plugin.getChampionsManager().getSelectedChampion(player).getAbilities()[i];
 						if (array[i] == 0)
-							continue;
-
-						if (array[i] == 1) {
-							array[i]--;
 							itemManager.setItem(player, i, ability.getIcon());
-						}
 						else if (array[i] - 1 > 0) {
 							itemManager.setItem(player, i, createOnCooldownItem(array[i], ability.getName()));
 							array[i]--;
