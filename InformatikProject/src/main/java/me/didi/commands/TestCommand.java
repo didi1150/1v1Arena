@@ -7,7 +7,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import me.didi.MainClass;
 import net.minecraft.server.v1_8_R3.EnumParticle;
@@ -31,7 +30,7 @@ public class TestCommand implements CommandExecutor {
 				spin(player);
 			}
 
-		}, 2, 2);
+		}, 0, 0);
 	}
 
 	private void spin(Player player) {
@@ -53,19 +52,29 @@ public class TestCommand implements CommandExecutor {
 			radius += increase;
 		}
 	}
-//
-//	private void cyclone() {
-//		int max_height = 15;
-//		double max_radius = 10;
-//		int lines = 4;
+
+//	private void cyclone(Player player, int angle) {
+//		int max_height = 4;
+//		double max_radius = 2;
+//		int lines = 20;
 //		double height_increasement = 0.5;
 //		double radius_increasement = max_radius / max_height;
+//
+//		Location loc = player.getLocation().subtract(0, 0.5, 0);
+//
 //		for (int l = 0; l < lines; l++) {
 //			for (double y = 0; y < max_height; y += height_increasement) {
 //				double radius = y * radius_increasement;
 //				double x = Math.cos(Math.toRadians(360 / lines * l + y * 25 - angle)) * radius;
 //				double z = Math.sin(Math.toRadians(360 / lines * l + y * 25 - angle)) * radius;
-//				ParticleEffect.CLOUD.display(0, 0, 0, 1, 1, location.clone().add(x, y, z), 255);
+//
+//				Location next = loc.clone().add(x, y, z);
+//				PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.FLAME, true,
+//						(float) next.getX(), (float) next.getY(), (float) next.getZ(), 0, 0, 0, 0, 1);
+//
+//				for (Player pl : Bukkit.getOnlinePlayers()) {
+//					((CraftPlayer) pl).getHandle().playerConnection.sendPacket(packet);
+//				}
 //			}
 //		}
 //		angle++;
