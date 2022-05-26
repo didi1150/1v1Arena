@@ -1,9 +1,9 @@
 package me.didi.characters.champions.impl;
 
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.ability.Ability;
+import me.didi.characters.Champion;
 import me.didi.characters.champions.MeleeChampion;
 
 public class Anakin extends MeleeChampion{
@@ -18,23 +18,31 @@ public class Anakin extends MeleeChampion{
 	}
 
 	@Override
-	public void executeFirstAbility(Player player) {
+	public void executeFirstAbility() {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void executeSecondAbility(Player player) {
+	public void executeSecondAbility() {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void executeThirdAbility(Player player) {
+	public void executeThirdAbility() {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void executeUltimate(Player player) {
+	public void executeUltimate() {
+		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
+	public Champion clone() {
+		return new Anakin(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(), getIcon());
+	}
 }

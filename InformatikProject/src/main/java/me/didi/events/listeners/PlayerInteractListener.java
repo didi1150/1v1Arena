@@ -43,16 +43,16 @@ public class PlayerInteractListener implements Listener {
 					Champion champion = plugin.getChampionsManager().getSelectedChampion(player);
 					switch (slot) {
 					case 0:
-						champion.executeFirstAbility(player);
+						champion.executeFirstAbility();
 						break;
 					case 1:
-						champion.executeSecondAbility(player);
+						champion.executeSecondAbility();
 						break;
 					case 2:
-						champion.executeThirdAbility(player);
+						champion.executeThirdAbility();
 						break;
 					case 3:
-						champion.executeUltimate(player);
+						champion.executeUltimate();
 						break;
 					}
 				}

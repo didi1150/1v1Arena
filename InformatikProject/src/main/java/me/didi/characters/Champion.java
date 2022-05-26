@@ -18,6 +18,7 @@ public abstract class Champion {
 	private int baseHealth;
 	private int baseDefense;
 	private int baseMagicResist;
+	protected Player player;
 
 	protected AbilityCooldownManager abilityCooldownManager;
 
@@ -30,6 +31,16 @@ public abstract class Champion {
 		this.baseMagicResist = baseMagicResist;
 		this.icon = icon;
 		this.abilityCooldownManager = MainClass.getPlugin().getAbilityCooldownManager();
+	}
+
+	public abstract Champion clone();
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public Player getPlayer() {
+		return player;
 	}
 
 	public ItemStack getIcon() {
@@ -49,22 +60,22 @@ public abstract class Champion {
 	/**
 	 * Executes the first ability
 	 */
-	public abstract void executeFirstAbility(Player player);
+	public abstract void executeFirstAbility();
 
 	/**
 	 * Executes the second ability
 	 */
-	public abstract void executeSecondAbility(Player player);
+	public abstract void executeSecondAbility();
 
 	/**
 	 * Executes the third ability
 	 */
-	public abstract void executeThirdAbility(Player player);
+	public abstract void executeThirdAbility();
 
 	/**
 	 * Executes the ultimate
 	 */
-	public abstract void executeUltimate(Player player);
+	public abstract void executeUltimate();
 
 	/**
 	 * Returns this champion's base magic resistance

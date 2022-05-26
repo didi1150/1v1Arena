@@ -1,5 +1,6 @@
 package me.didi.events.listeners;
 
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -58,10 +59,12 @@ public class EntityDamageListener implements Listener {
 
 	@EventHandler
 	public void onDamage(CustomDamageEvent event) {
+
+		boolean knockback = event.isKnockback();
 		if (event.getEntity() instanceof Player) {
 
 			Player player = (Player) event.getEntity();
-			boolean knockback = event.isKnockback();
+
 			double calculatedDamage = event.getDamage();
 			CustomPlayer customPlayer = plugin.getCustomPlayerManager().getPlayer(player.getUniqueId());
 
@@ -86,10 +89,14 @@ public class EntityDamageListener implements Listener {
 			}
 
 			customPlayer.setCurrentHealth((float) (customPlayer.getCurrentHealth() - calculatedDamage));
-			if (knockback)
-				plugin.getDamageManager().knockbackEnemy(event.getAttacker(), player);
+
 			player.damage(0);
+		} else {
+			LivingEntity ent = (LivingEntity) event.getEntity();
+			ent.damage(event.getDamage());
 		}
+		if (knockback)
+			plugin.getDamageManager().knockbackEnemy(event.getAttacker(), event.getEntity());
 	}
 
 }

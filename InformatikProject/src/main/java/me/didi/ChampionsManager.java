@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -30,10 +31,13 @@ public class ChampionsManager {
 						new Ability("Spinjitzu", new ItemStack(Material.WOOL)) },
 				50, 50, 50, new ItemBuilder(new ItemStack(Material.SKULL_ITEM))
 						.setDisplayName(ChatColor.GREEN + "Lloyd").toItemStack()));
-		selectableChampions.add(
-				new Anakin("Anakin", new Ability[] { new Ability("Enlightenment", new ItemStack(Material.IRON_SWORD)) },
-						75, 50, 50, new ItemBuilder(new ItemStack(Material.SKULL_ITEM))
-								.setDisplayName(ChatColor.BLUE + "Anakin").toItemStack()));
+		selectableChampions.add(new Anakin("Anakin",
+				new Ability[] { new Ability("Enlightenment", new ItemStack(Material.IRON_SWORD)),
+						new Ability("Force", new ItemStack(Material.WOOD)),
+						new Ability("Force", new ItemStack(Material.WOOD)),
+						new Ability("CHOKE", new ItemStack(Material.WOOD)) },
+				75, 50, 50, new ItemBuilder(new ItemStack(Material.SKULL_ITEM))
+						.setDisplayName(ChatColor.BLUE + "Anakin").toItemStack()));
 	}
 
 	public Set<Champion> getSelectableChampions() {
@@ -41,6 +45,7 @@ public class ChampionsManager {
 	}
 
 	public void setSelectedChampion(UUID uuid, Champion champion) {
+		champion.setPlayer(Bukkit.getPlayer(uuid));
 		selectedChampions.put(uuid, champion);
 	}
 

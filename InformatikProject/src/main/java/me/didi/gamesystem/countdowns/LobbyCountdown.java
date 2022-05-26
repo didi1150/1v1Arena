@@ -3,7 +3,6 @@ package me.didi.gamesystem.countdowns;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import me.didi.MainClass;
 import me.didi.ability.Ability;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
@@ -76,8 +75,8 @@ public class LobbyCountdown extends Countdown {
 				}
 
 				Bukkit.getOnlinePlayers().forEach(player -> {
-					player.setTotalExperience(seconds);
-					player.setExp((float) (1.0 - ((float) seconds / 20)));
+					player.setLevel(seconds);
+					player.setExp(((float) seconds / 20));
 				});
 
 				seconds--;
