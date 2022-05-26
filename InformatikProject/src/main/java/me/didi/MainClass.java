@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import me.didi.ability.AbilityCooldownManager;
 import me.didi.commands.TestCommand;
+import me.didi.events.damageSystem.DamageManager;
 import me.didi.events.listeners.EntityDamageListener;
 import me.didi.events.listeners.InventoryListener;
 import me.didi.events.listeners.JoinListener;
@@ -41,11 +42,15 @@ public class MainClass extends JavaPlugin {
 
 	private CustomPlayerManager customPlayerManager;
 
+	private DamageManager damageManager;
+
 	@Override
 	public void onEnable() {
 		plugin = this;
 
 		alivePlayers = new ArrayList<UUID>();
+
+		damageManager = new DamageManager();
 
 		gameStateManager = new GameStateManager(this);
 		gameStateManager.setGameState(GameState.LOBBY_STATE);
@@ -111,8 +116,12 @@ public class MainClass extends JavaPlugin {
 	public AbilityCooldownManager getAbilityCooldownManager() {
 		return abilityCooldownManager;
 	}
-	
+
 	public CustomPlayerManager getCustomPlayerManager() {
 		return customPlayerManager;
+	}
+	
+	public DamageManager getDamageManager() {
+		return damageManager;
 	}
 }

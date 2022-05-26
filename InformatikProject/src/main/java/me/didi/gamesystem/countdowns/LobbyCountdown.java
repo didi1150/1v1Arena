@@ -74,6 +74,12 @@ public class LobbyCountdown extends Countdown {
 					gameStateManager.setGameState(GameState.INGAME_STATE);
 					stop();
 				}
+
+				Bukkit.getOnlinePlayers().forEach(player -> {
+					player.setTotalExperience(seconds);
+					player.setExp((float) (1.0 - ((float) seconds / 20)));
+				});
+
 				seconds--;
 			}
 		}, 0, 20);

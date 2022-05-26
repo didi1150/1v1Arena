@@ -1,6 +1,5 @@
 package me.didi.events.listeners;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,6 +8,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import me.didi.MainClass;
+import me.didi.events.damageSystem.CustomDamageEvent;
+import me.didi.events.damageSystem.DamageReason;
 import me.didi.player.CustomPlayer;
 
 public class EntityDamageListener implements Listener {
@@ -24,6 +25,8 @@ public class EntityDamageListener implements Listener {
 		if (event.getEntity() instanceof Player) {
 			if (event.getCause() == DamageCause.ENTITY_ATTACK)
 				return;
+			if (event.getCause() == DamageCause.CUSTOM)
+				return;
 			event.setCancelled(true);
 			Player player = (Player) event.getEntity();
 
@@ -38,20 +41,54 @@ public class EntityDamageListener implements Listener {
 	public void onDamaged(EntityDamageByEntityEvent event) {
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
-			event.setCancelled(true);
+			if (event.getDamager() instanceof Player) {
+
+				Player attacker = (Player) event.getDamager();
+				event.setCancelled(true);
+
+				plugin.getDamageManager().damageEntity(attacker, player, DamageReason.AUTO,
+						plugin.getCustomPlayerManager().getDamage(attacker), true);
+			} else {
+				plugin.getDamageManager().damageEntity(event.getDamager(), player, DamageReason.AUTO, event.getDamage(),
+						true);
+				event.setCancelled(true);
+			}
+		}
+	}
+
+	@EventHandler
+	public void onDamage(CustomDamageEvent event) {
+		if (event.getEntity() instanceof Player) {
+
+			Player player = (Player) event.getEntity();
+			boolean knockback = event.isKnockback();
+			double calculatedDamage = event.getDamage();
+			CustomPlayer customPlayer = plugin.getCustomPlayerManager().getPlayer(player.getUniqueId());
 
 			double damage = event.getDamage();
-			CustomPlayer customPlayer = plugin.getCustomPlayerManager().getPlayer(player.getUniqueId());
-			customPlayer.setCurrentHealth((int) (customPlayer.getCurrentHealth() - damage));
 
-			player.damage(0);
-			Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-
-				@Override
-				public void run() {
-					player.setVelocity(event.getDamager().getLocation().getDirection().normalize().multiply(0.3).setY(0.3));
+			if (event.getDamageReason() == DamageReason.PHYSICAL || event.getDamageReason() == DamageReason.AUTO) {
+				float defense = customPlayer.getBaseDefense() + plugin.getCustomPlayerManager().getBonusDefense(player);
+				if (defense >= 0) {
+					calculatedDamage = (100 / (100 + defense)) * damage;
+				} else {
+					calculatedDamage = (2 - (100 / (100 - defense)));
 				}
-			}, 1);
+			} else if (event.getDamageReason() == DamageReason.MAGIC) {
+				float magicResistance = customPlayer.getMagicResist()
+						+ plugin.getCustomPlayerManager().getBonusMagicResistance(player);
+				if (magicResistance >= 0) {
+					calculatedDamage = (100 / (100 + magicResistance)) * damage;
+				} else {
+					calculatedDamage = (2 - (100 / (100 - magicResistance)));
+				}
+
+			}
+
+			customPlayer.setCurrentHealth((float) (customPlayer.getCurrentHealth() - calculatedDamage));
+			if (knockback)
+				plugin.getDamageManager().knockbackEnemy(event.getAttacker(), player);
+			player.damage(0);
 		}
 	}
 

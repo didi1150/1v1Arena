@@ -28,7 +28,7 @@ public class CustomPlayerManager {
 		UUID uuid = player.getUniqueId();
 		String name = player.getName();
 
-		players.put(uuid, new CustomPlayer(100, 100, 0, 0, 0, uuid, name));
+		players.put(uuid, new CustomPlayer(100, 0, 0, 0, 0, uuid, name));
 
 	}
 
@@ -64,7 +64,7 @@ public class CustomPlayerManager {
 					regenHealth(getPlayer(player.getUniqueId()));
 				});
 			}
-		}.runTaskTimer(MainClass.getPlugin(), 20, 20);
+		}.runTaskTimer(MainClass.getPlugin(), 20, 20 * 2);
 	}
 
 	public void stopBackgroundTask() {
@@ -88,7 +88,8 @@ public class CustomPlayerManager {
 	private void sendHealthBar(CustomPlayer customPlayer) {
 		Player player = Bukkit.getPlayer(customPlayer.getUuid());
 		int maxHealth = (int) (customPlayer.getBaseHealth() + getBonusHealth(player));
-		ChatUtils.sendActionBar(player, ChatColor.RED + "" + (int) customPlayer.getCurrentHealth() + "/" + maxHealth + "❤");
+		ChatUtils.sendActionBar(player,
+				ChatColor.RED + "" + customPlayer.getCurrentHealth() + "/" + maxHealth + "❤");
 	}
 
 	private int getBonusHealth(Player player) {
@@ -109,6 +110,66 @@ public class CustomPlayerManager {
 			}
 		}
 		return bonusHealth;
+	}
+
+	public float getBonusDefense(Player player) {
+		float bonusDefense = 0;
+		for (ItemStack itemStack : player.getInventory().getContents()) {
+			if (itemStack == null || itemStack.getType() == Material.AIR)
+				continue;
+			if (itemStack.hasItemMeta() && itemStack.getItemMeta().getLore() != null) {
+				// ChatColor.Red + health: ChatColor.GREEN + 40
+				if (itemStack.getItemMeta().getLore().contains("defense")) {
+					for (String string : itemStack.getItemMeta().getLore()) {
+						if (string.contains("defense")) {
+							String health = ChatColor.stripColor(string.split(": ")[1]);
+							bonusDefense += Integer.parseInt(health);
+						}
+					}
+				}
+			}
+		}
+		return bonusDefense;
+	}
+
+	public float getBonusMagicResistance(Player player) {
+		float bonusMagicResistance = 0;
+		for (ItemStack itemStack : player.getInventory().getContents()) {
+			if (itemStack == null || itemStack.getType() == Material.AIR)
+				continue;
+			if (itemStack.hasItemMeta() && itemStack.getItemMeta().getLore() != null) {
+				// ChatColor.Red + health: ChatColor.GREEN + 40
+				if (itemStack.getItemMeta().getLore().contains("magic resistance")) {
+					for (String string : itemStack.getItemMeta().getLore()) {
+						if (string.contains("magic resistance")) {
+							String health = ChatColor.stripColor(string.split(": ")[1]);
+							bonusMagicResistance += Integer.parseInt(health);
+						}
+					}
+				}
+			}
+		}
+		return bonusMagicResistance;
+	}
+
+	public double getDamage(Player player) {
+		double damage = 0;
+		for (ItemStack itemStack : player.getInventory().getContents()) {
+			if (itemStack == null || itemStack.getType() == Material.AIR)
+				continue;
+			if (itemStack.hasItemMeta() && itemStack.getItemMeta().getLore() != null) {
+				// ChatColor.Red + health: ChatColor.GREEN + 40
+				if (itemStack.getItemMeta().getLore().contains("damage")) {
+					for (String string : itemStack.getItemMeta().getLore()) {
+						if (string.contains("damage")) {
+							String health = ChatColor.stripColor(string.split(": ")[1]);
+							damage += Integer.parseInt(health);
+						}
+					}
+				}
+			}
+		}
+		return damage;
 	}
 
 }
