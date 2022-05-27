@@ -37,7 +37,8 @@ public class PlayerInteractListener implements Listener {
 				if (event.getItem() != null && event.getItem().getType() != Material.AIR) {
 					if (event.getItem().getType() == Material.INK_SACK && event.getItem().getDurability() == (short) 1)
 						return;
-
+					if (event.getItem().getType() == Material.BARRIER)
+						return;
 					Player player = event.getPlayer();
 					int slot = player.getInventory().getHeldItemSlot();
 					Champion champion = plugin.getChampionsManager().getSelectedChampion(player);
