@@ -29,6 +29,8 @@ public class ItemBuilder {
 	}
 
 	public ItemStack toItemStack() {
+		itemMeta.spigot().setUnbreakable(true);
+		itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
 		itemStack.setItemMeta(itemMeta);
 		return itemStack;
 	}
@@ -43,7 +45,7 @@ public class ItemBuilder {
 		itemStack.setAmount(amount);
 		return this;
 	}
-	
+
 	public ItemBuilder removeGlow() {
 		itemStack.removeEnchantment(Enchantment.DURABILITY);
 		return this;

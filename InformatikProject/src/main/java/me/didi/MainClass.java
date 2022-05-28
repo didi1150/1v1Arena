@@ -13,6 +13,7 @@ import me.didi.ability.AbilityCooldownManager;
 import me.didi.commands.CommandManager;
 import me.didi.commands.TestCommand;
 import me.didi.events.damageSystem.DamageManager;
+import me.didi.events.listeners.BlockListener;
 import me.didi.events.listeners.EntityDamageListener;
 import me.didi.events.listeners.InventoryListener;
 import me.didi.events.listeners.JoinListener;
@@ -84,6 +85,7 @@ public class MainClass extends JavaPlugin {
 		pm.registerEvents(new PlayerInteractListener(this), this);
 		pm.registerEvents(new EntityDamageListener(this), this);
 		pm.registerEvents(new NaturalRegenListener(), this);
+		pm.registerEvents(new BlockListener(), this);
 	}
 
 	public static PlayerMenuUtility getPlayerMenuUtility(Player p) {

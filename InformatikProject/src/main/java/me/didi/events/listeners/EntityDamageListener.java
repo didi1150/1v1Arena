@@ -12,6 +12,8 @@ import me.didi.MainClass;
 import me.didi.events.damageSystem.CustomDamageEvent;
 import me.didi.events.damageSystem.DamageReason;
 import me.didi.player.CustomPlayer;
+import me.didi.utilities.ChatUtils;
+import net.md_5.bungee.api.ChatColor;
 
 public class EntityDamageListener implements Listener {
 
@@ -88,6 +90,12 @@ public class EntityDamageListener implements Listener {
 
 			}
 
+			if (customPlayer.getCurrentHealth() - calculatedDamage <= 0) {
+				// TODO: GHOST
+				customPlayer.setCurrentHealth(customPlayer.getBaseHealth());
+				ChatUtils.sendMessageToPlayer(player, ChatColor.RED + "You died D:");
+				return;
+			}
 			customPlayer.setCurrentHealth((float) (customPlayer.getCurrentHealth() - calculatedDamage));
 
 			player.damage(0);

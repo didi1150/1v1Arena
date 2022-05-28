@@ -57,14 +57,27 @@ public class CustomPlayerManager {
 
 	public void startBackgroundTask() {
 		bukkitTask = new BukkitRunnable() {
+			int counter = 0;
 
 			@Override
 			public void run() {
+
+				if (counter >= 20 * 2) {
+
+					Bukkit.getOnlinePlayers().forEach(player -> {
+						regenHealth(getPlayer(player.getUniqueId()));
+					});
+					counter = 0;
+				}
 				Bukkit.getOnlinePlayers().forEach(player -> {
-					regenHealth(getPlayer(player.getUniqueId()));
+					CustomPlayer customPlayer = getPlayer(player.getUniqueId());
+					setHealth(customPlayer);
+					sendHealthBar(customPlayer);
 				});
+
+				counter++;
 			}
-		}.runTaskTimer(MainClass.getPlugin(), 20, 20 * 2);
+		}.runTaskTimer(MainClass.getPlugin(), 1, 1);
 	}
 
 	public void stopBackgroundTask() {
@@ -81,18 +94,21 @@ public class CustomPlayerManager {
 		} else {
 			customPlayer.setCurrentHealth(customPlayer.getCurrentHealth() + regenAmount);
 		}
-		sendHealthBar(customPlayer);
+	}
+
+	private void setHealth(CustomPlayer customPlayer) {
+		Player player = Bukkit.getPlayer(customPlayer.getUuid());
+		float maxHealth = customPlayer.getBaseHealth() + getBonusHealth(player);
 		player.setHealth(customPlayer.getCurrentHealth() / maxHealth * player.getMaxHealth());
 	}
 
 	private void sendHealthBar(CustomPlayer customPlayer) {
 		Player player = Bukkit.getPlayer(customPlayer.getUuid());
 		int maxHealth = (int) (customPlayer.getBaseHealth() + getBonusHealth(player));
-		ChatUtils.sendActionBar(player,
-				ChatColor.RED + "" + customPlayer.getCurrentHealth() + "/" + maxHealth + "❤");
+		ChatUtils.sendActionBar(player, ChatColor.RED + "" + customPlayer.getCurrentHealth() + "/" + maxHealth + "❤");
 	}
 
-	private int getBonusHealth(Player player) {
+	public int getBonusHealth(Player player) {
 		int bonusHealth = 0;
 		for (ItemStack itemStack : player.getInventory().getContents()) {
 			if (itemStack == null || itemStack.getType() == Material.AIR)
@@ -119,12 +135,10 @@ public class CustomPlayerManager {
 				continue;
 			if (itemStack.hasItemMeta() && itemStack.getItemMeta().getLore() != null) {
 				// ChatColor.Red + health: ChatColor.GREEN + 40
-				if (itemStack.getItemMeta().getLore().contains("defense")) {
-					for (String string : itemStack.getItemMeta().getLore()) {
-						if (string.contains("defense")) {
-							String health = ChatColor.stripColor(string.split(": ")[1]);
-							bonusDefense += Integer.parseInt(health);
-						}
+				for (String string : itemStack.getItemMeta().getLore()) {
+					if (string.contains("defense")) {
+						String health = ChatColor.stripColor(string.split(": ")[1]);
+						bonusDefense += Integer.parseInt(health);
 					}
 				}
 			}
@@ -139,12 +153,10 @@ public class CustomPlayerManager {
 				continue;
 			if (itemStack.hasItemMeta() && itemStack.getItemMeta().getLore() != null) {
 				// ChatColor.Red + health: ChatColor.GREEN + 40
-				if (itemStack.getItemMeta().getLore().contains("magic resistance")) {
-					for (String string : itemStack.getItemMeta().getLore()) {
-						if (string.contains("magic resistance")) {
-							String health = ChatColor.stripColor(string.split(": ")[1]);
-							bonusMagicResistance += Integer.parseInt(health);
-						}
+				for (String string : itemStack.getItemMeta().getLore()) {
+					if (string.contains("magic resistance")) {
+						String health = ChatColor.stripColor(string.split(": ")[1]);
+						bonusMagicResistance += Integer.parseInt(health);
 					}
 				}
 			}
@@ -159,12 +171,10 @@ public class CustomPlayerManager {
 				continue;
 			if (itemStack.hasItemMeta() && itemStack.getItemMeta().getLore() != null) {
 				// ChatColor.Red + health: ChatColor.GREEN + 40
-				if (itemStack.getItemMeta().getLore().contains("damage")) {
-					for (String string : itemStack.getItemMeta().getLore()) {
-						if (string.contains("damage")) {
-							String health = ChatColor.stripColor(string.split(": ")[1]);
-							damage += Integer.parseInt(health);
-						}
+				for (String string : itemStack.getItemMeta().getLore()) {
+					if (string.contains("damage")) {
+						String toAdd = ChatColor.stripColor(string.split(": ")[1]);
+						damage += Integer.parseInt(toAdd);
 					}
 				}
 			}

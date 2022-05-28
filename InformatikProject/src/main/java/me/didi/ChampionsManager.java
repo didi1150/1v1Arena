@@ -32,7 +32,7 @@ public class ChampionsManager {
 				50, 50, 50,
 				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName(ChatColor.GREEN + "Lloyd")
 						.toItemStack(),
-				new ItemBuilder(new ItemStack(Material.GOLD_SWORD)).setDisplayName("Katana")
+				new ItemBuilder(new ItemStack(Material.GOLD_SWORD)).setDisplayName(ChatColor.GOLD + "Katana")
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "20").toItemStack()));
 		selectableChampions.add(new Anakin("Anakin",
 				new Ability[] { new Ability("Enlightenment", new ItemStack(Material.IRON_SWORD)),
@@ -42,7 +42,7 @@ public class ChampionsManager {
 				75, 50, 50,
 				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName(ChatColor.BLUE + "Anakin")
 						.toItemStack(),
-				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName("Lightsaber").addGlow()
+				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName(ChatColor.AQUA + "Lightsaber").addGlow()
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "20").toItemStack()));
 	}
 

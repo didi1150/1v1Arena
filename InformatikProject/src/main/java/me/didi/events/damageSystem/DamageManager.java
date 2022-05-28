@@ -10,7 +10,10 @@ public class DamageManager {
 	}
 
 	public void knockbackEnemy(Entity from, Entity target) {
-		target.setVelocity(from.getLocation().getDirection().normalize().multiply(0.3).setY(0.3));
+		if (target.isOnGround())
+			target.setVelocity(from.getLocation().getDirection().normalize().multiply(0.3).setY(0.3));
+		else
+			target.setVelocity(from.getLocation().getDirection().normalize().multiply(0.3).setY(0.05));
 	}
 
 }
