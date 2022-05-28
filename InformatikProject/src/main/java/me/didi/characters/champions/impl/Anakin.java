@@ -15,6 +15,7 @@ public class Anakin extends MeleeChampion{
 
 	@Override
 	public void executeAutoAttack() {
+		
 	}
 
 	@Override

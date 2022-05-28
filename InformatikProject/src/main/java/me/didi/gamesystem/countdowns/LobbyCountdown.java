@@ -2,6 +2,7 @@ package me.didi.gamesystem.countdowns;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.ability.Ability;
@@ -9,6 +10,7 @@ import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.gamesystem.gameStates.LobbyState;
 import me.didi.utilities.ChatUtils;
+import me.didi.utilities.ItemBuilder;
 
 public class LobbyCountdown extends Countdown {
 
@@ -69,6 +71,13 @@ public class LobbyCountdown extends Countdown {
 						ItemStack autoAttackItem = gameStateManager.getPlugin().getChampionsManager()
 								.getSelectedChampion(player).getAutoAttackItem();
 
+						player.getInventory().setItem(4, autoAttackItem);
+						for (int i = 5; i < 9; i++) {
+							player.getInventory().setItem(i,
+									new ItemBuilder(new ItemStack(Material.BARRIER))
+											.setDisplayName(ChatColor.RED + "NA")
+											.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack());
+						}
 						gameStateManager.getPlugin().getCustomPlayerManager().addPlayer(player);
 
 					});
