@@ -15,6 +15,8 @@ public abstract class Champion {
 
 	private ItemStack icon;
 
+	private ItemStack autoAttackItem;
+
 	private int baseHealth;
 	private int baseDefense;
 	private int baseMagicResist;
@@ -23,7 +25,7 @@ public abstract class Champion {
 	protected AbilityCooldownManager abilityCooldownManager;
 
 	public Champion(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist,
-			ItemStack icon) {
+			ItemStack icon, ItemStack autoAttackItem) {
 		this.name = name;
 		this.abilities = abilities;
 		this.baseHealth = baseHealth;
@@ -31,6 +33,7 @@ public abstract class Champion {
 		this.baseMagicResist = baseMagicResist;
 		this.icon = icon;
 		this.abilityCooldownManager = MainClass.getPlugin().getAbilityCooldownManager();
+		this.autoAttackItem = autoAttackItem;
 	}
 
 	public abstract Champion clone();
@@ -49,6 +52,10 @@ public abstract class Champion {
 
 	public String getName() {
 		return name;
+	}
+
+	public ItemStack getAutoAttackItem() {
+		return autoAttackItem;
 	}
 
 	/**

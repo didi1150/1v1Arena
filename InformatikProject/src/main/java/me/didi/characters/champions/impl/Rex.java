@@ -8,15 +8,16 @@ import me.didi.characters.champions.RangedChampion;
 
 public class Rex extends RangedChampion {
 
-	public Rex(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist, ItemStack icon) {
-		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon);
-		// TODO Auto-generated constructor stub
+	public Rex(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist, ItemStack icon,
+			ItemStack autoAttackItem) {
+		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon, autoAttackItem);
 	}
 
 	@Override
 	public Champion clone() {
 		// TODO Auto-generated method stub
-		return new Rex(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(), getIcon());
+		return new Rex(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(), getIcon(),
+				getAutoAttackItem());
 	}
 
 	@Override

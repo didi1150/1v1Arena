@@ -53,8 +53,8 @@ public class Lloyd extends MeleeChampion {
 	}
 
 	public Lloyd(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist,
-			ItemStack icon) {
-		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon);
+			ItemStack icon, ItemStack autoAttackItem) {
+		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon, autoAttackItem);
 		// TODO: ItemStack builder
 //		Ability firstAbility = new OneTimeAbility("Shurikens",
 //				new ItemBuilder(new ItemStack(Material.INK_SACK, (short) 15))
@@ -188,6 +188,6 @@ public class Lloyd extends MeleeChampion {
 
 	@Override
 	public Champion clone() {
-		return new Lloyd(getName(), getAbilities(), abilityCounter, abilityCounter, abilityCounter, getIcon());
+		return new Lloyd(getName(), getAbilities(), abilityCounter, abilityCounter, abilityCounter, getIcon(), getAutoAttackItem());
 	}
 }

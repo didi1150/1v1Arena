@@ -7,15 +7,15 @@ import me.didi.characters.Champion;
 import me.didi.characters.champions.MeleeChampion;
 
 public class Perry extends MeleeChampion {
-
-	public Perry(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist,
-			ItemStack icon) {
-		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon);
+	public Perry(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist, ItemStack icon,
+			ItemStack autoAttackItem) {
+		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon, autoAttackItem);
 	}
 
 	@Override
 	public Champion clone() {
-		return new Perry(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(), getIcon());
+		return new Perry(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(), getIcon(),
+				getAutoAttackItem());
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package me.didi.gamesystem.countdowns;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.inventory.ItemStack;
 
 import me.didi.ability.Ability;
 import me.didi.gamesystem.GameState;
@@ -64,6 +65,9 @@ public class LobbyCountdown extends Countdown {
 						for (int i = 0; i < abilities.length; i++) {
 							player.getInventory().setItem(i, abilities[i].getIcon());
 						}
+
+						ItemStack autoAttackItem = gameStateManager.getPlugin().getChampionsManager()
+								.getSelectedChampion(player).getAutoAttackItem();
 
 						gameStateManager.getPlugin().getCustomPlayerManager().addPlayer(player);
 

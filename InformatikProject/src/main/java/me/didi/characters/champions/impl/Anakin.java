@@ -9,8 +9,8 @@ import me.didi.characters.champions.MeleeChampion;
 public class Anakin extends MeleeChampion{
 
 	public Anakin(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist,
-			ItemStack icon) {
-		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon);
+			ItemStack icon, ItemStack autoAttackItem) {
+		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon, autoAttackItem);
 	}
 
 	@Override
@@ -43,6 +43,6 @@ public class Anakin extends MeleeChampion{
 
 	@Override
 	public Champion clone() {
-		return new Anakin(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(), getIcon());
+		return new Anakin(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(), getIcon(), getAutoAttackItem());
 	}
 }
