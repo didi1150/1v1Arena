@@ -1,6 +1,7 @@
 package me.didi.gamesystem;
 
 import me.didi.MainClass;
+import me.didi.gamesystem.countdowns.EndingCountdown;
 import me.didi.gamesystem.countdowns.LobbyCountdown;
 import me.didi.gamesystem.gameStates.EndingState;
 import me.didi.gamesystem.gameStates.IngameState;
@@ -20,7 +21,7 @@ public class GameStateManager {
 
 		gameStates[GameState.LOBBY_STATE] = new LobbyState(new LobbyCountdown(this));
 		gameStates[GameState.INGAME_STATE] = new IngameState();
-		gameStates[GameState.ENDING_STATE] = new EndingState();
+		gameStates[GameState.ENDING_STATE] = new EndingState(new EndingCountdown(this));
 	}
 
 	public void setGameState(int gameStateID) {
