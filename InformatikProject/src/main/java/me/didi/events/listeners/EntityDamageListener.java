@@ -37,6 +37,13 @@ public class EntityDamageListener implements Listener {
 
 			double damage = event.getDamage();
 			CustomPlayer customPlayer = plugin.getCustomPlayerManager().getPlayer(player.getUniqueId());
+
+			if (customPlayer.getCurrentHealth() - damage <= 0) {
+				customPlayer.setCurrentHealth(customPlayer.getBaseHealth());
+				Bukkit.getPluginManager().callEvent(new CustomPlayerDeathEvent(null, player));
+				return;
+			}
+
 			customPlayer.setCurrentHealth((int) (customPlayer.getCurrentHealth() - damage));
 			player.damage(0);
 		}
