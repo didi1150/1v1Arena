@@ -14,6 +14,7 @@ import me.didi.commands.CommandManager;
 import me.didi.commands.TestCommand;
 import me.didi.events.damageSystem.DamageManager;
 import me.didi.events.listeners.BlockListener;
+import me.didi.events.listeners.DeathListener;
 import me.didi.events.listeners.EntityDamageListener;
 import me.didi.events.listeners.InventoryListener;
 import me.didi.events.listeners.JoinListener;
@@ -63,7 +64,7 @@ public class MainClass extends JavaPlugin {
 		championsManager = new ChampionsManager();
 		championsManager.registerChampions();
 
-		customPlayerManager = new CustomPlayerManager();
+		customPlayerManager = new CustomPlayerManager(this);
 
 		registerListeners();
 		getCommand("test").setExecutor(new TestCommand());
@@ -86,6 +87,7 @@ public class MainClass extends JavaPlugin {
 		pm.registerEvents(new EntityDamageListener(this), this);
 		pm.registerEvents(new NaturalRegenListener(), this);
 		pm.registerEvents(new BlockListener(), this);
+		pm.registerEvents(new DeathListener(plugin), this);
 	}
 
 	public static PlayerMenuUtility getPlayerMenuUtility(Player p) {

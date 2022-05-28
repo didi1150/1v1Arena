@@ -89,7 +89,7 @@ public class LobbyCountdown extends Countdown {
 
 				Bukkit.getOnlinePlayers().forEach(player -> {
 					player.setLevel(seconds);
-					player.setExp(((float) seconds / 20));
+					player.setExp(((float) seconds / COUNTDOWN_TIME));
 				});
 
 				seconds--;
@@ -134,18 +134,17 @@ public class LobbyCountdown extends Countdown {
 	public boolean isIdling() {
 		return isIdling;
 	}
-	
-	
+
 	/**
 	 * Returns the remaining seconds of this countdown
-	 * */
+	 */
 	public int getSeconds() {
 		return seconds;
 	}
-	
+
 	/**
 	 * Sets the remaining countdown time
-	 * */
+	 */
 	public void setSeconds(int seconds) {
 		this.seconds = seconds;
 	}

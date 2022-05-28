@@ -1,5 +1,6 @@
 package me.didi.events.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import me.didi.MainClass;
 import me.didi.events.damageSystem.CustomDamageEvent;
+import me.didi.events.damageSystem.CustomPlayerDeathEvent;
 import me.didi.events.damageSystem.DamageReason;
 import me.didi.player.CustomPlayer;
 import me.didi.utilities.ChatUtils;
@@ -91,9 +93,8 @@ public class EntityDamageListener implements Listener {
 			}
 
 			if (customPlayer.getCurrentHealth() - calculatedDamage <= 0) {
-				// TODO: GHOST
 				customPlayer.setCurrentHealth(customPlayer.getBaseHealth());
-				ChatUtils.sendMessageToPlayer(player, ChatColor.RED + "You died D:");
+				Bukkit.getPluginManager().callEvent(new CustomPlayerDeathEvent(event.getAttacker(), player));
 				return;
 			}
 			customPlayer.setCurrentHealth((float) (customPlayer.getCurrentHealth() - calculatedDamage));

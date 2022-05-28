@@ -9,12 +9,16 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.MainClass;
 import me.didi.player.effects.SpecialEffect;
 import me.didi.utilities.ChatUtils;
+import me.didi.utilities.ItemBuilder;
+import me.didi.utilities.SkullFactory;
 
 public class CustomPlayerManager {
 
@@ -22,6 +26,11 @@ public class CustomPlayerManager {
 	private Map<CustomPlayer, SpecialEffect> nextOnHitEffect = new HashMap<>();
 
 	private BukkitTask bukkitTask;
+	private MainClass plugin;
+
+	public CustomPlayerManager(MainClass plugin) {
+		this.plugin = plugin;
+	}
 
 	public void addPlayer(Player player) {
 
@@ -77,7 +86,7 @@ public class CustomPlayerManager {
 
 				counter++;
 			}
-		}.runTaskTimer(MainClass.getPlugin(), 1, 1);
+		}.runTaskTimer(plugin, 1, 1);
 	}
 
 	public void stopBackgroundTask() {
@@ -180,6 +189,21 @@ public class CustomPlayerManager {
 			}
 		}
 		return damage;
+	}
+
+	public void setGhost(Player player) {
+		if (players.containsKey(player.getUniqueId()))
+			removePlayer(player.getUniqueId());
+		if (plugin.getAlivePlayers().contains(player.getUniqueId()))
+			plugin.getAlivePlayers().remove(player.getUniqueId());
+
+		player.setAllowFlight(true);
+		player.setFlying(true);
+
+		player.getInventory().clear();
+		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, false, false));
+		player.getInventory().setHelmet(ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_GHOST.getTitle(),
+				SkullFactory.HEAD_GHOST.getName()));
 	}
 
 }
