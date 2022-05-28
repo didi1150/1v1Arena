@@ -134,5 +134,19 @@ public class LobbyCountdown extends Countdown {
 	public boolean isIdling() {
 		return isIdling;
 	}
-
+	
+	
+	/**
+	 * Returns the remaining seconds of this countdown
+	 * */
+	public int getSeconds() {
+		return seconds;
+	}
+	
+	/**
+	 * Sets the remaining countdown time
+	 * */
+	public void setSeconds(int seconds) {
+		this.seconds = seconds;
+	}
 }

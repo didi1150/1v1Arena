@@ -13,3 +13,6 @@ commands:
   test:
     desc: test
     usage: /<test>
+  project:
+    desc: project main command
+    usage: /project <subcommand>

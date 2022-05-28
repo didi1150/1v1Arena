@@ -10,6 +10,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.didi.ability.AbilityCooldownManager;
+import me.didi.commands.CommandManager;
 import me.didi.commands.TestCommand;
 import me.didi.events.damageSystem.DamageManager;
 import me.didi.events.listeners.EntityDamageListener;
@@ -65,6 +66,7 @@ public class MainClass extends JavaPlugin {
 
 		registerListeners();
 		getCommand("test").setExecutor(new TestCommand());
+		getCommand("project").setExecutor(new CommandManager());
 
 	}
 
@@ -120,7 +122,7 @@ public class MainClass extends JavaPlugin {
 	public CustomPlayerManager getCustomPlayerManager() {
 		return customPlayerManager;
 	}
-	
+
 	public DamageManager getDamageManager() {
 		return damageManager;
 	}
