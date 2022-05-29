@@ -43,7 +43,7 @@ public class ChampionSelectMenu extends Menu {
 			Champion newChamp = champion.clone();
 			plugin.getChampionsManager().setSelectedChampion(player.getUniqueId(), newChamp);
 			ChatUtils.sendMessageToPlayer(player, ChatColor.YELLOW + "Du hast den Champion "
-					+ event.getCurrentItem().getItemMeta().getDisplayName() + ChatColor.YELLOW + " ausgew‰hlt.");
+					+ event.getCurrentItem().getItemMeta().getDisplayName() + ChatColor.YELLOW + " ausgew√§hlt.");
 			player.closeInventory();
 		}
 	}
