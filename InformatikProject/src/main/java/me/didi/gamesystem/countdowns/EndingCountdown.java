@@ -23,7 +23,8 @@ public class EndingCountdown extends Countdown {
 
 			@Override
 			public void run() {
-
+				if (seconds == 0)
+					stop();
 				if (seconds > 0) {
 					Bukkit.getOnlinePlayers().forEach(player -> {
 						player.setLevel(seconds);
@@ -40,8 +41,7 @@ public class EndingCountdown extends Countdown {
 									+ seconds + ChatColor.YELLOW + " Sekunden!");
 						}
 					}
-					if (seconds == 0)
-						stop();
+
 				}
 
 				seconds--;
