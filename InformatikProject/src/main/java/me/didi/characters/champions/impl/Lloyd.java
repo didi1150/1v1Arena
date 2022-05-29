@@ -188,6 +188,6 @@ public class Lloyd extends MeleeChampion {
 
 	@Override
 	public Champion clone() {
-		return new Lloyd(getName(), getAbilities(), abilityCounter, abilityCounter, abilityCounter, getIcon(), getAutoAttackItem());
+		return new Lloyd(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(), getIcon(), getAutoAttackItem());
 	}
 }

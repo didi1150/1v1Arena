@@ -27,7 +27,6 @@ public class Rex extends RangedChampion {
 
 	@Override
 	public Champion clone() {
-		// TODO Auto-generated method stub
 		return new Rex(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(), getIcon(),
 				getAutoAttackItem());
 	}

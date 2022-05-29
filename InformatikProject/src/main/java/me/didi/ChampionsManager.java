@@ -15,6 +15,7 @@ import me.didi.ability.Ability;
 import me.didi.characters.Champion;
 import me.didi.characters.champions.impl.Anakin;
 import me.didi.characters.champions.impl.Lloyd;
+import me.didi.characters.champions.impl.Rex;
 import me.didi.utilities.ItemBuilder;
 import net.md_5.bungee.api.ChatColor;
 
@@ -44,7 +45,7 @@ public class ChampionsManager {
 						.toItemStack(),
 				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName(ChatColor.AQUA + "Lightsaber").addGlow()
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "20").toItemStack()));
-		selectableChampions.add(new Anakin("Anakin",
+		selectableChampions.add(new Rex("Rex",
 				new Ability[] { new Ability("Enlightenment", new ItemStack(Material.IRON_SWORD)),
 						new Ability("Force", new ItemStack(Material.WOOD)),
 						new Ability("Force", new ItemStack(Material.WOOD)),
