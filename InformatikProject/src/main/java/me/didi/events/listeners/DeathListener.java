@@ -1,6 +1,5 @@
 package me.didi.events.listeners;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,18 +26,8 @@ public class DeathListener implements Listener {
 		ChatUtils.sendTitle(victim, ChatColor.RED + "YOU DIED!", "", 5, 20 * 3, 5);
 		ChatUtils.broadCastMessage(ChatColor.AQUA + victim.getName() + ChatColor.GOLD + " has died!");
 
-		if (plugin.getAlivePlayers().size() == 1) {
-			Player player = Bukkit.getPlayer(plugin.getAlivePlayers().get(0));
-			sendVictory(player);
-		}
-
 		plugin.getCustomPlayerManager().setGhost(victim);
 		plugin.getGameStateManager().setGameState(GameState.ENDING_STATE);
 
 	}
-
-	private void sendVictory(Player player) {
-		ChatUtils.broadCastMessage(ChatColor.AQUA + player.getName() + ChatColor.YELLOW + " has won the game!");
-	}
-
 }

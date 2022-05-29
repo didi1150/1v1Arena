@@ -21,7 +21,7 @@ public class GameStateManager {
 
 		gameStates[GameState.LOBBY_STATE] = new LobbyState(new LobbyCountdown(this));
 		gameStates[GameState.INGAME_STATE] = new IngameState();
-		gameStates[GameState.ENDING_STATE] = new EndingState(new EndingCountdown(this));
+		gameStates[GameState.ENDING_STATE] = new EndingState(new EndingCountdown(this), plugin);
 	}
 
 	public void setGameState(int gameStateID) {
@@ -40,7 +40,7 @@ public class GameStateManager {
 	public GameState getCurrentGameState() {
 		return currentGameState;
 	}
-	
+
 	public MainClass getPlugin() {
 		return plugin;
 	}
