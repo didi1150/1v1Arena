@@ -40,11 +40,13 @@ public class EndingCountdown extends Countdown {
 									+ seconds + ChatColor.YELLOW + " Sekunden!");
 						}
 					}
+					if (seconds == 0)
+						stop();
 				}
 
 				seconds--;
 			}
-		}, 20, 20 * COUNTDOWN_TIME);
+		}, 20, 20);
 	}
 
 	@Override

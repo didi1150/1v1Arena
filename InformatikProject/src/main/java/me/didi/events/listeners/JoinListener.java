@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 
 import me.didi.MainClass;
 import me.didi.gamesystem.countdowns.LobbyCountdown;
@@ -25,11 +26,15 @@ public class JoinListener implements Listener {
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
+		event.setJoinMessage(null);
 		if (plugin.getGameStateManager().getCurrentGameState() instanceof LobbyState) {
 			Player player = event.getPlayer();
 
 			player.getInventory().clear();
+			player.getInventory().setArmorContents(new ItemStack[] { new ItemStack(Material.AIR),
+					new ItemStack(Material.AIR), new ItemStack(Material.AIR), new ItemStack(Material.AIR) });
 			player.getActivePotionEffects().clear();
+			player.removePotionEffect(PotionEffectType.INVISIBILITY);
 			player.setHealth(player.getMaxHealth());
 			player.setFoodLevel(20);
 			player.setTotalExperience(0);

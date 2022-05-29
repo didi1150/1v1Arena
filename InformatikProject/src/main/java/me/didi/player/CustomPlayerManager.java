@@ -72,14 +72,14 @@ public class CustomPlayerManager {
 			public void run() {
 
 				if (counter >= 20 * 2) {
-
-					Bukkit.getOnlinePlayers().forEach(player -> {
-						regenHealth(getPlayer(player.getUniqueId()));
+					plugin.getAlivePlayers().forEach(uuid -> {
+						regenHealth(getPlayer(uuid));
 					});
+
 					counter = 0;
 				}
-				Bukkit.getOnlinePlayers().forEach(player -> {
-					CustomPlayer customPlayer = getPlayer(player.getUniqueId());
+				plugin.getAlivePlayers().forEach(uuid -> {
+					CustomPlayer customPlayer = getPlayer(uuid);
 					setHealth(customPlayer);
 					sendHealthBar(customPlayer);
 				});

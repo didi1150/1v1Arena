@@ -87,7 +87,7 @@ public class MainClass extends JavaPlugin {
 		pm.registerEvents(new EntityDamageListener(this), this);
 		pm.registerEvents(new NaturalRegenListener(), this);
 		pm.registerEvents(new BlockListener(), this);
-		pm.registerEvents(new DeathListener(plugin), this);
+		pm.registerEvents(new DeathListener(this), this);
 	}
 
 	public static PlayerMenuUtility getPlayerMenuUtility(Player p) {

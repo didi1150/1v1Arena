@@ -23,7 +23,7 @@ public class QuitListener implements Listener {
 
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
-
+		event.setQuitMessage(null);
 		Player player = event.getPlayer();
 		if (plugin.getGameStateManager().getCurrentGameState() instanceof LobbyState) {
 
