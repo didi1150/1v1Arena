@@ -120,6 +120,8 @@ public class CustomPlayerManager {
 	}
 
 	public int getBonusHealth(Player player) {
+		if (player == null)
+			return 0;
 		int bonusHealth = 0;
 		for (ItemStack itemStack : player.getInventory().getContents()) {
 			if (itemStack == null || itemStack.getType() == Material.AIR)
@@ -140,6 +142,8 @@ public class CustomPlayerManager {
 	}
 
 	public float getBonusDefense(Player player) {
+		if (player == null)
+			return 0;
 		float bonusDefense = 0;
 		for (ItemStack itemStack : player.getInventory().getContents()) {
 			if (itemStack == null || itemStack.getType() == Material.AIR)
@@ -158,6 +162,8 @@ public class CustomPlayerManager {
 	}
 
 	public float getBonusMagicResistance(Player player) {
+		if (player == null)
+			return 0;
 		float bonusMagicResistance = 0;
 		for (ItemStack itemStack : player.getInventory().getContents()) {
 			if (itemStack == null || itemStack.getType() == Material.AIR)
@@ -176,6 +182,8 @@ public class CustomPlayerManager {
 	}
 
 	public double getDamage(Player player) {
+		if (player == null)
+			return 0;
 		double damage = 0;
 		for (ItemStack itemStack : player.getInventory().getContents()) {
 			if (itemStack == null || itemStack.getType() == Material.AIR)
