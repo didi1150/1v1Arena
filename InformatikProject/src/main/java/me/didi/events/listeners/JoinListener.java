@@ -9,10 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import me.didi.MainClass;
-import me.didi.gamesystem.countdowns.EndingCountdown;
 import me.didi.gamesystem.countdowns.LobbyCountdown;
-import me.didi.gamesystem.gameStates.EndingState;
-import me.didi.gamesystem.gameStates.IngameState;
 import me.didi.gamesystem.gameStates.LobbyState;
 import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
@@ -32,6 +29,10 @@ public class JoinListener implements Listener {
 		if (plugin.getGameStateManager().getCurrentGameState() instanceof LobbyState) {
 			Player player = event.getPlayer();
 
+			if (plugin.getAlivePlayers().size() >= LobbyState.MAX_PLAYERS) {
+				player.kickPlayer("Sorry, we're full");
+			}
+			
 			player.getInventory().clear();
 			player.getInventory().setArmorContents(new ItemStack[] { new ItemStack(Material.AIR),
 					new ItemStack(Material.AIR), new ItemStack(Material.AIR), new ItemStack(Material.AIR) });
