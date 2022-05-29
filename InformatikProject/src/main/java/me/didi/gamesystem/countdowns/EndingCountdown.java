@@ -51,6 +51,9 @@ public class EndingCountdown extends Countdown {
 
 	@Override
 	public void stop() {
+		Bukkit.getOnlinePlayers().forEach(player -> {
+			player.kickPlayer("Server stop");
+		});
 		Bukkit.getScheduler().cancelTask(taskID);
 		Bukkit.getServer().shutdown();
 	}
