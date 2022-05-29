@@ -90,6 +90,8 @@ public class CustomPlayerManager {
 	}
 
 	public void stopBackgroundTask() {
+		if (bukkitTask == null)
+			return;
 		bukkitTask.cancel();
 	}
 
