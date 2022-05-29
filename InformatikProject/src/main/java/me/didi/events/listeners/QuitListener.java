@@ -42,6 +42,7 @@ public class QuitListener implements Listener {
 			}
 		} else if (plugin.getGameStateManager().getCurrentGameState() instanceof IngameState) {
 			plugin.getAlivePlayers().remove(player.getUniqueId());
+
 			if (plugin.getAlivePlayers().size() <= 1) {
 				plugin.getGameStateManager().setGameState(GameState.ENDING_STATE);
 			}

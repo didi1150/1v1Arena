@@ -34,7 +34,7 @@ public class ChampionsManager {
 				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName(ChatColor.GREEN + "Lloyd")
 						.toItemStack(),
 				new ItemBuilder(new ItemStack(Material.GOLD_SWORD)).setDisplayName(ChatColor.GOLD + "Katana")
-						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "20").toItemStack()));
+						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "6").toItemStack()));
 		selectableChampions.add(new Anakin("Anakin",
 				new Ability[] { new Ability("Enlightenment", new ItemStack(Material.IRON_SWORD)),
 						new Ability("Force", new ItemStack(Material.WOOD)),
@@ -44,7 +44,7 @@ public class ChampionsManager {
 				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName(ChatColor.BLUE + "Anakin")
 						.toItemStack(),
 				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName(ChatColor.AQUA + "Lightsaber").addGlow()
-						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "20").toItemStack()));
+						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "7").toItemStack()));
 		selectableChampions.add(new Rex("Rex",
 				new Ability[] { new Ability("Enlightenment", new ItemStack(Material.IRON_SWORD)),
 						new Ability("Force", new ItemStack(Material.WOOD)),
@@ -54,7 +54,7 @@ public class ChampionsManager {
 				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName(ChatColor.BLUE + "Rex")
 						.toItemStack(),
 				new ItemBuilder(new ItemStack(Material.IRON_BARDING)).setDisplayName(ChatColor.AQUA + "Blaster")
-						.addGlow().setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "20").toItemStack()));
+						.addGlow().setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "5").toItemStack()));
 	}
 
 	public Set<Champion> getSelectableChampions() {

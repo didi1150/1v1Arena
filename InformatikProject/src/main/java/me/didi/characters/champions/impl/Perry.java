@@ -48,4 +48,9 @@ public class Perry extends MeleeChampion {
 
 	}
 
+	@Override
+	public void stopAllTasks() {
+		
+	}
+
 }

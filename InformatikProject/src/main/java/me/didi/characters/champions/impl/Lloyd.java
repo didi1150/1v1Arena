@@ -190,4 +190,9 @@ public class Lloyd extends MeleeChampion {
 	public Champion clone() {
 		return new Lloyd(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(), getIcon(), getAutoAttackItem());
 	}
+
+	@Override
+	public void stopAllTasks() {
+		bukkitTask.cancel();
+	}
 }

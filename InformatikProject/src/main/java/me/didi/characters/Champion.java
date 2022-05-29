@@ -1,5 +1,8 @@
 package me.didi.characters;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -35,6 +38,8 @@ public abstract class Champion {
 		this.abilityCooldownManager = MainClass.getPlugin().getAbilityCooldownManager();
 		this.autoAttackItem = autoAttackItem;
 	}
+
+	public abstract void stopAllTasks();
 
 	public abstract Champion clone();
 

@@ -33,11 +33,11 @@ public class EndingCountdown extends Countdown {
 
 					if (seconds <= 5 && seconds > 0) {
 						if (seconds == 1) {
-							ChatUtils.broadCastMessage(ChatColor.YELLOW + "Der Server stoppt neu in " + ChatColor.GOLD
+							ChatUtils.broadCastMessage(ChatColor.YELLOW + "Der Server stoppt in " + ChatColor.GOLD
 									+ seconds + ChatColor.YELLOW + " Sekunde!");
 						} else {
 
-							ChatUtils.broadCastMessage(ChatColor.YELLOW + "Der Server stoppt neu in " + ChatColor.GOLD
+							ChatUtils.broadCastMessage(ChatColor.YELLOW + "Der Server stoppt in " + ChatColor.GOLD
 									+ seconds + ChatColor.YELLOW + " Sekunden!");
 						}
 					}
