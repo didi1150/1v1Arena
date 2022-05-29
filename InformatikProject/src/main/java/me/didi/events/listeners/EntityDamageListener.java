@@ -13,9 +13,8 @@ import me.didi.MainClass;
 import me.didi.events.damageSystem.CustomDamageEvent;
 import me.didi.events.damageSystem.CustomPlayerDeathEvent;
 import me.didi.events.damageSystem.DamageReason;
+import me.didi.gamesystem.gameStates.IngameState;
 import me.didi.player.CustomPlayer;
-import me.didi.utilities.ChatUtils;
-import net.md_5.bungee.api.ChatColor;
 
 public class EntityDamageListener implements Listener {
 
@@ -27,6 +26,10 @@ public class EntityDamageListener implements Listener {
 
 	@EventHandler
 	public void onTakeDamage(EntityDamageEvent event) {
+		if (!(plugin.getGameStateManager().getCurrentGameState() instanceof IngameState)) {
+			event.setCancelled(true);
+			return;
+		}
 		if (event.getEntity() instanceof Player) {
 			if (event.getCause() == DamageCause.ENTITY_ATTACK)
 				return;
@@ -51,6 +54,10 @@ public class EntityDamageListener implements Listener {
 
 	@EventHandler
 	public void onDamaged(EntityDamageByEntityEvent event) {
+		if (!(plugin.getGameStateManager().getCurrentGameState() instanceof IngameState)) {
+			event.setCancelled(true);
+			return;
+		}
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
 			if (event.getDamager() instanceof Player) {
@@ -78,6 +85,9 @@ public class EntityDamageListener implements Listener {
 
 			double calculatedDamage = event.getDamage();
 			CustomPlayer customPlayer = plugin.getCustomPlayerManager().getPlayer(player.getUniqueId());
+
+			if (customPlayer == null)
+				return;
 
 			double damage = event.getDamage();
 
