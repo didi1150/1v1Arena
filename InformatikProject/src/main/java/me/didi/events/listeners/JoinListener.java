@@ -9,7 +9,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import me.didi.MainClass;
+import me.didi.gamesystem.countdowns.EndingCountdown;
 import me.didi.gamesystem.countdowns.LobbyCountdown;
+import me.didi.gamesystem.gameStates.EndingState;
 import me.didi.gamesystem.gameStates.IngameState;
 import me.didi.gamesystem.gameStates.LobbyState;
 import me.didi.utilities.ChatUtils;
@@ -57,7 +59,7 @@ public class JoinListener implements Listener {
 			player.getInventory().setItem(8,
 					new ItemBuilder(new ItemStack(Material.CHEST)).setDisplayName(ChatColor.GOLD + "Champion Select")
 							.setLore(ChatColor.GRAY + "Select your favourite Champion!").toItemStack());
-		} else if (plugin.getGameStateManager().getCurrentGameState() instanceof IngameState) {
+		} else {
 			Player player = event.getPlayer();
 			plugin.getCustomPlayerManager().setGhost(player);
 		}
