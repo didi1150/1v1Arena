@@ -37,8 +37,8 @@ public class TestCommand implements CommandExecutor {
 		float increase = 0.002f;
 		float radius = 0f;
 
-		Location loc = player.getLocation();
-		float y = (float) player.getLocation().getY() - 0.5f;
+		Location loc = player.getLocation().clone();
+		float y = (float) loc.getY() - 0.5f;
 
 		for (double t = 0; t <= 50; t += 0.05f) {
 			float x = radius * (float) Math.sin(t);

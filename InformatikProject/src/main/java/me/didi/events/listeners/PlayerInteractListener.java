@@ -57,6 +57,19 @@ public class PlayerInteractListener implements Listener {
 						break;
 					}
 				}
+			} else if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+				if (event.getItem() != null && event.getItem().getType() != Material.AIR) {
+					if (event.getItem().getType() == Material.INK_SACK && event.getItem().getDurability() == (short) 1)
+						return;
+					if (event.getItem().getType() == Material.BARRIER)
+						return;
+					Player player = event.getPlayer();
+					int slot = player.getInventory().getHeldItemSlot();
+					Champion champion = plugin.getChampionsManager().getSelectedChampion(player);
+					if (slot == 4) {
+						champion.executeAutoAttack();
+					}
+				}
 			}
 		}
 

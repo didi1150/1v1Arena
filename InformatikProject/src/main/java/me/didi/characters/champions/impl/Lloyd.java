@@ -164,15 +164,15 @@ public class Lloyd extends MeleeChampion {
 
 	private void spin(Player player) {
 
-		Location loc = player.getLocation();
-		float y = (float) player.getLocation().getY() - 0.25f;
+		Location loc = player.getLocation().clone();
+		float y = (float) loc.getY() - 0.25f;
 		int index = 0;
 		for (double t = 0; t < 2 * Math.PI * (turns + 1); t += stepSize) {
 			float x = xArray[index];
 			float z = zArray[index];
 			// amount, red, green, blue, speed
 
-			player.getLocation().getWorld().spigot().playEffect(
+			loc.getWorld().spigot().playEffect(
 					new Location(player.getWorld(), loc.getX() + x, y, loc.getZ() + z), Effect.COLOURED_DUST, 0, 1, red,
 					green, blue, 10, 0, 64);
 //			PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.REDSTONE, true,
