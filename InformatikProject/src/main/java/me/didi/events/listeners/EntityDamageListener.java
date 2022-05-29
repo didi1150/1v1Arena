@@ -64,6 +64,8 @@ public class EntityDamageListener implements Listener {
 
 				Player attacker = (Player) event.getDamager();
 				event.setCancelled(true);
+				if (attacker.getInventory().getHeldItemSlot() != 4)
+					return;
 
 				plugin.getDamageManager().damageEntity(attacker, player, DamageReason.AUTO,
 						plugin.getCustomPlayerManager().getDamage(attacker), true);
