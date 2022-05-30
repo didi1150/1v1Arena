@@ -1,8 +1,6 @@
 package me.didi.characters.champions.impl;
 
-import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 
 import me.didi.ability.Ability;
 import me.didi.characters.Champion;
@@ -28,10 +26,12 @@ public class Anakin extends MeleeChampion {
 
 	@Override
 	public void executeSecondAbility() {
-		Location dest = player.getLocation().add(player.getLocation().getDirection().multiply(12));
-		Vector toVec = dest.subtract(player.getLocation()).toVector().normalize();
-		player.setVelocity(toVec);
-		abilityCooldownManager.addCooldown(player, 1, 1);
+//		ChatUtils.broadCastMessage("(" + toVec.getX() + " | " + toVec.getY() + " | " + toVec.getZ() + ")");
+//		ChatUtils.broadCastMessage("(" + toVec.getX() * 2 + " | " + toVec.getY() + " | " + toVec.getZ() * 2 + ")");
+
+		player.setVelocity(player.getLocation().getDirection().multiply(2).setY(0.1));
+
+		abilityCooldownManager.addCooldown(player, 1, 2);
 	}
 
 	@Override
@@ -55,6 +55,6 @@ public class Anakin extends MeleeChampion {
 	@Override
 	public void stopAllTasks() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
