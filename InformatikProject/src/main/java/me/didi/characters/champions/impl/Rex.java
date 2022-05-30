@@ -105,7 +105,7 @@ public class Rex extends RangedChampion {
 			public void run() {
 				shootBeam(player.getLocation().add(0, 0.5, 0), 13);
 			}
-		}, 5);
+		}, 2);
 	}
 
 	private void shootBeam(Location fromOrigin, double maxRange) {
@@ -117,7 +117,11 @@ public class Rex extends RangedChampion {
 		Vector direction = toLocation.toVector().subtract(fromOrigin.toVector()).normalize();
 		double range = Math.min(fromOrigin.distanceSquared(toLocation), maxRange * maxRange);
 		while (fromOrigin.distanceSquared(fromNew) <= range && !enemyHit) {
-			ParticleEffect.WATER_BUBBLE.display(fromNew);
+			new ParticleBuilder(ParticleEffect.REDSTONE, fromNew).setColor(Color.BLUE).display();
+			new ParticleBuilder(ParticleEffect.REDSTONE, fromNew).setColor(Color.BLUE).display();
+			new ParticleBuilder(ParticleEffect.REDSTONE, fromNew).setColor(Color.BLUE).display();
+			new ParticleBuilder(ParticleEffect.REDSTONE, fromNew).setColor(Color.BLUE).display();
+			new ParticleBuilder(ParticleEffect.REDSTONE, fromNew).setColor(Color.BLUE).display();
 
 			for (Entity entity : fromNew.getChunk().getEntities()) {
 				if (entity instanceof LivingEntity && !(entity instanceof ArmorStand) && entity != player)
