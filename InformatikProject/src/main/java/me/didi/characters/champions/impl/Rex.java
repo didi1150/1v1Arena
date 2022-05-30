@@ -117,7 +117,7 @@ public class Rex extends RangedChampion {
 		Vector direction = toLocation.toVector().subtract(fromOrigin.toVector()).normalize();
 		double range = Math.min(fromOrigin.distanceSquared(toLocation), maxRange * maxRange);
 		while (fromOrigin.distanceSquared(fromNew) <= range && !enemyHit) {
-			new ParticleBuilder(ParticleEffect.VILLAGER_HAPPY, fromNew).setColor(Color.BLUE).display();
+			ParticleEffect.WATER_BUBBLE.display(fromNew);
 
 			for (Entity entity : fromNew.getChunk().getEntities()) {
 				if (entity instanceof LivingEntity && !(entity instanceof ArmorStand) && entity != player)
