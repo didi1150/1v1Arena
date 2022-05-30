@@ -1,7 +1,8 @@
 package me.didi.characters.champions.impl;
 
+import java.awt.Color;
+
 import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
@@ -18,6 +19,9 @@ import me.didi.characters.Champion;
 import me.didi.characters.champions.RangedChampion;
 import me.didi.events.damageSystem.CustomDamageEvent;
 import me.didi.events.damageSystem.DamageReason;
+import me.didi.utilities.ChatUtils;
+import xyz.xenondevs.particle.ParticleBuilder;
+import xyz.xenondevs.particle.ParticleEffect;
 
 public class Rex extends RangedChampion {
 
@@ -94,37 +98,39 @@ public class Rex extends RangedChampion {
 	public void executeFirstAbility() {
 		// Double shot
 
-		shootBeam(player.getLocation(), 13);
+		shootBeam(player.getLocation().add(0, 0.5, 0), 13);
 		Bukkit.getScheduler().runTaskLater(MainClass.getPlugin(), new Runnable() {
 
 			@Override
 			public void run() {
-				shootBeam(player.getLocation(), 13);
+				shootBeam(player.getLocation().add(0, 0.5, 0), 13);
 			}
 		}, 5);
 	}
 
 	private void shootBeam(Location fromOrigin, double maxRange) {
 		boolean enemyHit = false;
-		Location toLocation = player.getLocation().add(player.getLocation().getDirection().multiply(maxRange));
-		if (fromOrigin.getX() != toLocation.getX() || fromOrigin.getY() != toLocation.getY()
-				|| fromOrigin.getZ() != toLocation.getZ()) {
-			Location fromNew = fromOrigin.clone();
-			Vector direction = toLocation.toVector().subtract(fromOrigin.toVector()).normalize();
-			double range = Math.min(fromOrigin.distanceSquared(toLocation), maxRange * maxRange);
-			while (fromOrigin.distanceSquared(fromNew) <= range || !enemyHit) {
 
-				player.getWorld().playEffect(fromNew, Effect.SPLASH, 0);
+		Location toLocation = fromOrigin.clone()
+				.add(player.getLocation().add(0, 0.5, 0).getDirection().normalize().multiply(maxRange));
+		Location fromNew = fromOrigin.clone();
+		Vector direction = toLocation.toVector().subtract(fromOrigin.toVector()).normalize();
+		double range = Math.min(fromOrigin.distanceSquared(toLocation), maxRange * maxRange);
+		while (fromOrigin.distanceSquared(fromNew) <= range && !enemyHit) {
+			new ParticleBuilder(ParticleEffect.VILLAGER_HAPPY, fromNew).setColor(Color.BLUE).display();
 
-				for (Entity entity : fromNew.getChunk().getEntities()) {
+			for (Entity entity : fromNew.getChunk().getEntities()) {
+				if (entity instanceof LivingEntity && !(entity instanceof ArmorStand) && entity != player)
 					if (entity.getLocation().distanceSquared(fromNew) <= 2) {
 						enemyHit = true;
+						MainClass.getPlugin().getDamageManager().damageEntity(player, entity, DamageReason.PHYSICAL, 10,
+								false);
 						break;
 					}
-				}
-				fromNew.add(direction);
 			}
+			fromNew.add(direction);
 		}
+
 		// Do something to 'player' here, e.g. player.setHealth(player.getHealth() -
 		// 2D);
 	}

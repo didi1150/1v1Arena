@@ -26,6 +26,12 @@
 			<version>R</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>xyz.xenondevs</groupId>
+			<artifactId>particle</artifactId>
+			<version>1.7.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<properties>
@@ -51,6 +57,19 @@
 						</configuration>
 						<goals>
 							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.4.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
 						</goals>
 					</execution>
 				</executions>
