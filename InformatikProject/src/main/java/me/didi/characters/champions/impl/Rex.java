@@ -1,6 +1,7 @@
 package me.didi.characters.champions.impl;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
@@ -54,6 +55,7 @@ public class Rex extends RangedChampion {
 			armorStand.setBasePlate(false);
 			armorStand.setVisible(false);
 			armorStand.setItemInHand(new ItemStack(Material.PRISMARINE_CRYSTALS));
+			armorStand.setMarker(true);
 			Location destination = player.getLocation().add(player.getLocation().getDirection().multiply(10));
 			Vector vec = destination.subtract(player.getLocation()).toVector();
 
@@ -90,13 +92,45 @@ public class Rex extends RangedChampion {
 
 	@Override
 	public void executeFirstAbility() {
-		// TODO Auto-generated method stub
+		// Double shot
 
+		shootBeam(player.getLocation(), 13);
+		Bukkit.getScheduler().runTaskLater(MainClass.getPlugin(), new Runnable() {
+
+			@Override
+			public void run() {
+				shootBeam(player.getLocation(), 13);
+			}
+		}, 5);
+	}
+
+	private void shootBeam(Location fromOrigin, double maxRange) {
+		boolean enemyHit = false;
+		Location toLocation = player.getLocation().add(player.getLocation().getDirection().multiply(maxRange));
+		if (fromOrigin.getX() != toLocation.getX() || fromOrigin.getY() != toLocation.getY()
+				|| fromOrigin.getZ() != toLocation.getZ()) {
+			Location fromNew = fromOrigin.clone();
+			Vector direction = toLocation.toVector().subtract(fromOrigin.toVector()).normalize();
+			double range = Math.min(fromOrigin.distanceSquared(toLocation), maxRange * maxRange);
+			while (fromOrigin.distanceSquared(fromNew) <= range || !enemyHit) {
+
+				player.getWorld().playEffect(fromNew, Effect.SPLASH, 0);
+
+				for (Entity entity : fromNew.getChunk().getEntities()) {
+					if (entity.getLocation().distanceSquared(fromNew) <= 2) {
+						enemyHit = true;
+						break;
+					}
+				}
+				fromNew.add(direction);
+			}
+		}
+		// Do something to 'player' here, e.g. player.setHealth(player.getHealth() -
+		// 2D);
 	}
 
 	@Override
 	public void executeSecondAbility() {
-		// TODO Auto-generated method stub
 
 	}
 
