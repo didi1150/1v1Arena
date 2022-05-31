@@ -1,8 +1,5 @@
 package me.didi.characters;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

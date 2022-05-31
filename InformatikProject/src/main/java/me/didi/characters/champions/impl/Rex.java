@@ -19,6 +19,7 @@ import me.didi.characters.Champion;
 import me.didi.characters.champions.RangedChampion;
 import me.didi.events.damageSystem.CustomDamageEvent;
 import me.didi.events.damageSystem.DamageReason;
+import me.didi.utilities.ChatUtils;
 import me.didi.utilities.VectorUtils;
 import xyz.xenondevs.particle.ParticleBuilder;
 import xyz.xenondevs.particle.ParticleEffect;
@@ -106,6 +107,7 @@ public class Rex extends RangedChampion {
 				shootBeam(player.getLocation().add(0, 0.5, 0), 13, true);
 			}
 		}, 3);
+		ChatUtils.sendDebugMessage("Adding cooldown: " + getAbilities()[0].getCooldown());
 		abilityCooldownManager.addCooldown(player, 0, getAbilities()[0].getCooldown());
 	}
 
