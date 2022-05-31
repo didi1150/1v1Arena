@@ -28,7 +28,6 @@ public class Lloyd extends MeleeChampion {
 	static int green = 255;
 	static int blue = 25;
 
-	private int cooldown = 10;
 	private int recastCooldown = 5;
 
 	private int abilityCounter = 0;
@@ -52,8 +51,8 @@ public class Lloyd extends MeleeChampion {
 		}
 	}
 
-	public Lloyd(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist,
-			ItemStack icon, ItemStack autoAttackItem) {
+	public Lloyd(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist, ItemStack icon,
+			ItemStack autoAttackItem) {
 		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon, autoAttackItem);
 		// TODO: ItemStack builder
 //		Ability firstAbility = new OneTimeAbility("Shurikens",
@@ -109,7 +108,7 @@ public class Lloyd extends MeleeChampion {
 
 				@Override
 				public void run() {
-					abilityCooldownManager.addCooldown(player, 3, cooldown);
+					abilityCooldownManager.addCooldown(player, 3, getAbilities()[3].getCooldown());
 					abilityCounter = 0;
 					bukkitTask.cancel();
 				}
@@ -124,7 +123,7 @@ public class Lloyd extends MeleeChampion {
 			break;
 		case 3:
 			bukkitTask.cancel();
-			abilityCooldownManager.addCooldown(player, 3, cooldown);
+			abilityCooldownManager.addCooldown(player, 3, getAbilities()[3].getCooldown());
 			abilityCounter = -1;
 			break;
 		}
@@ -172,9 +171,8 @@ public class Lloyd extends MeleeChampion {
 			float z = zArray[index];
 			// amount, red, green, blue, speed
 
-			loc.getWorld().spigot().playEffect(
-					new Location(player.getWorld(), loc.getX() + x, y, loc.getZ() + z), Effect.COLOURED_DUST, 0, 1, red,
-					green, blue, 10, 0, 64);
+			loc.getWorld().spigot().playEffect(new Location(player.getWorld(), loc.getX() + x, y, loc.getZ() + z),
+					Effect.COLOURED_DUST, 0, 1, red, green, blue, 10, 0, 64);
 //			PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.REDSTONE, true,
 //					((float) loc.getX()) + x, y, (float) (loc.getZ() + z), red, green, blue, (float) 1, 0);
 //			for (Player pl : Bukkit.getOnlinePlayers()) {
@@ -188,7 +186,8 @@ public class Lloyd extends MeleeChampion {
 
 	@Override
 	public Champion clone() {
-		return new Lloyd(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(), getIcon(), getAutoAttackItem());
+		return new Lloyd(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(), getIcon(),
+				getAutoAttackItem());
 	}
 
 	@Override

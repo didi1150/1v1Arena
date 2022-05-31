@@ -11,15 +11,18 @@ public class Ability {
 	 * Name of the Ability
 	 */
 	private String name;
-	
+
 	private List<String> description;
 
+	private AbilityType abilityType;
 	/**
 	 * Icon used as representation
 	 */
 	private ItemStack icon;
 
-	public Ability(String name, ItemStack icon, String...description) {
+	private int cooldown;
+
+	public Ability(AbilityType abilityType, String name, ItemStack icon, int cooldown, String... description) {
 		this.name = name;
 		this.icon = icon;
 		this.description = Arrays.asList(description);
@@ -32,8 +35,16 @@ public class Ability {
 	public ItemStack getIcon() {
 		return icon;
 	}
-	
+
 	public List<String> getDescription() {
 		return description;
+	}
+
+	public AbilityType getAbilityType() {
+		return abilityType;
+	}
+
+	public int getCooldown() {
+		return cooldown;
 	}
 }
