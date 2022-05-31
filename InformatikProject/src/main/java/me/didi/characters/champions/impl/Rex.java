@@ -106,6 +106,7 @@ public class Rex extends RangedChampion {
 				shootBeam(player.getLocation().add(0, 0.5, 0), 13, true);
 			}
 		}, 3);
+		abilityCooldownManager.addCooldown(player, 0, 5);
 	}
 
 	private void shootBeam(Location fromOrigin, double maxRange, boolean left) {
