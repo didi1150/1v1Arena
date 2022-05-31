@@ -19,7 +19,7 @@ import me.didi.characters.Champion;
 import me.didi.characters.champions.RangedChampion;
 import me.didi.events.damageSystem.CustomDamageEvent;
 import me.didi.events.damageSystem.DamageReason;
-import me.didi.utilities.ChatUtils;
+import me.didi.utilities.VectorUtils;
 import xyz.xenondevs.particle.ParticleBuilder;
 import xyz.xenondevs.particle.ParticleEffect;
 
@@ -98,30 +98,31 @@ public class Rex extends RangedChampion {
 	public void executeFirstAbility() {
 		// Double shot
 
-		shootBeam(player.getLocation().add(0, 0.5, 0), 13);
+		shootBeam(player.getLocation().add(0, 0.5, 0), 13, false);
 		Bukkit.getScheduler().runTaskLater(MainClass.getPlugin(), new Runnable() {
 
 			@Override
 			public void run() {
-				shootBeam(player.getLocation().add(0, 0.5, 0), 13);
+				shootBeam(player.getLocation().add(0, 0.5, 0), 13, true);
 			}
-		}, 2);
+		}, 3);
 	}
 
-	private void shootBeam(Location fromOrigin, double maxRange) {
+	private void shootBeam(Location fromOrigin, double maxRange, boolean left) {
 		boolean enemyHit = false;
 
-		Location toLocation = fromOrigin.clone()
-				.add(player.getLocation().add(0, 0.5, 0).getDirection().normalize().multiply(maxRange));
-		Location fromNew = fromOrigin.clone();
-		Vector direction = toLocation.toVector().subtract(fromOrigin.toVector()).normalize();
+		Location toLocation = fromOrigin.clone().add(fromOrigin.clone().getDirection().normalize().multiply(maxRange))
+				.add(0, 1, 0);
+		Location fromNew = VectorUtils.getLocationToRight(fromOrigin.clone(), 0.3);
+		if (left)
+			fromNew = VectorUtils.getLocationToLeft(fromOrigin.clone(), 0.3);
+
+		Vector direction = toLocation.toVector().subtract(fromNew.toVector()).normalize();
 		double range = Math.min(fromOrigin.distanceSquared(toLocation), maxRange * maxRange);
 		while (fromOrigin.distanceSquared(fromNew) <= range && !enemyHit) {
-			new ParticleBuilder(ParticleEffect.REDSTONE, fromNew).setColor(Color.BLUE).display();
-			new ParticleBuilder(ParticleEffect.REDSTONE, fromNew).setColor(Color.BLUE).display();
-			new ParticleBuilder(ParticleEffect.REDSTONE, fromNew).setColor(Color.BLUE).display();
-			new ParticleBuilder(ParticleEffect.REDSTONE, fromNew).setColor(Color.BLUE).display();
-			new ParticleBuilder(ParticleEffect.REDSTONE, fromNew).setColor(Color.BLUE).display();
+			new ParticleBuilder(ParticleEffect.REDSTONE, fromNew).setColor(new Color(0, 128, 255)).display();
+			new ParticleBuilder(ParticleEffect.REDSTONE, fromNew).setColor(new Color(0, 128, 255)).display();
+			new ParticleBuilder(ParticleEffect.REDSTONE, fromNew).setColor(new Color(0, 128, 255)).display();
 
 			for (Entity entity : fromNew.getChunk().getEntities()) {
 				if (entity instanceof LivingEntity && !(entity instanceof ArmorStand) && entity != player)
