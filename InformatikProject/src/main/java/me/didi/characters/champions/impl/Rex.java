@@ -189,12 +189,11 @@ public class Rex extends RangedChampion {
 					if (counter % 2 == 0) {
 						drawParticleCircle(radius, dest);
 						drawCyl(radius, dest);
-						for (Entity entity : world.getChunkAt(dest).getEntities()) {
+						for (Entity entity : world.getNearbyEntities(dest, radius, radius , radius)) {
 							if (entity instanceof LivingEntity && !(entity instanceof ArmorStand)) {
 								if (entity != player) {
-									if (entity.getLocation().distanceSquared(dest) <= Math.sqrt(radius + 1))
-										MainClass.getPlugin().getDamageManager().damageEntity(player, entity,
-												DamageReason.PHYSICAL, 20, false);
+									MainClass.getPlugin().getDamageManager().damageEntity(player, entity,
+											DamageReason.PHYSICAL, 20, false);
 								}
 							}
 						}
