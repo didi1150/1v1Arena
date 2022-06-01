@@ -221,6 +221,7 @@ public class Rex extends RangedChampion {
 				}
 			}
 		}, 1, 1);
+		abilityCooldownManager.addCooldown(player, 3, 20);
 	}
 
 	@Override
