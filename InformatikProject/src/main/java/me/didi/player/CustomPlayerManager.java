@@ -212,7 +212,7 @@ public class CustomPlayerManager {
 
 		player.getInventory().clear();
 		player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, false, false));
-		player.getInventory().setHelmet(ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_GHOST.getTitle(),
+		player.getInventory().setHelmet(ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_GHOST.getValue(),
 				SkullFactory.HEAD_GHOST.getName()));
 	}
 

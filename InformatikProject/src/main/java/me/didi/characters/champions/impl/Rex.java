@@ -5,12 +5,16 @@ import java.awt.Color;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import me.didi.MainClass;
@@ -19,14 +23,18 @@ import me.didi.characters.Champion;
 import me.didi.characters.champions.RangedChampion;
 import me.didi.events.damageSystem.CustomDamageEvent;
 import me.didi.events.damageSystem.DamageReason;
-import me.didi.utilities.ChatUtils;
+import me.didi.utilities.ItemBuilder;
+import me.didi.utilities.SkullFactory;
 import me.didi.utilities.VectorUtils;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutAnimation;
 import xyz.xenondevs.particle.ParticleBuilder;
 import xyz.xenondevs.particle.ParticleEffect;
 
 public class Rex extends RangedChampion {
 
 	private boolean isOnCooldown;
+	private BukkitTask bukkitTask;
 
 	public Rex(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist, ItemStack icon,
 			ItemStack autoAttackItem) {
@@ -107,8 +115,7 @@ public class Rex extends RangedChampion {
 				shootBeam(player.getLocation().add(0, 0.5, 0), 13, true);
 			}
 		}, 3);
-		ChatUtils.sendDebugMessage("Adding cooldown: " + getAbilities()[0].getCooldown());
-		abilityCooldownManager.addCooldown(player, 0, getAbilities()[0].getCooldown());
+		abilityCooldownManager.addCooldown(player, 0, 10);
 	}
 
 	private void shootBeam(Location fromOrigin, double maxRange, boolean left) {
@@ -145,7 +152,7 @@ public class Rex extends RangedChampion {
 
 	@Override
 	public void executeSecondAbility() {
-
+		throwBomb();
 	}
 
 	@Override
@@ -156,13 +163,144 @@ public class Rex extends RangedChampion {
 
 	@Override
 	public void executeUltimate() {
-		// TODO Auto-generated method stub
+		Location dest = player.getLocation().add(player.getLocation().getDirection().multiply(30));
+		dest.setY(player.getWorld().getHighestBlockYAt(dest));
 
+		World world = player.getWorld();
+		bukkitTask = Bukkit.getScheduler().runTaskTimer(MainClass.getPlugin(), new Runnable() {
+			int counter = 0;
+
+			@Override
+			public void run() {
+				if (counter >= 10 * 5) {
+					bukkitTask.cancel();
+				}
+
+				if (counter <= 10 * 2) {
+					drawParticleCircle(10, dest);
+				}
+
+				if (counter % 2 == 0) {
+					for (Entity entity : world.getChunkAt(dest).getEntities()) {
+						if (entity instanceof LivingEntity && !(entity instanceof ArmorStand)) {
+							if (entity != player) {
+								MainClass.getPlugin().getDamageManager().damageEntity(player, entity,
+										DamageReason.PHYSICAL, 20, false);
+							}
+						}
+					}
+				}
+
+				drawCyl(10, dest);
+				counter++;
+			}
+
+			private void drawCyl(int radius, Location location) {
+				for (double t = 0; t <= 2 * Math.PI * radius; t += 0.05) {
+					for (double y = location.getY(); y < world.getMaxHeight(); y += 0.5) {
+						double x = (radius * Math.cos(t)) + location.getX();
+						double z = (location.getZ() + radius * Math.sin(t));
+						Location particle = new Location(world, x, location.getY() + 1, z);
+						ParticleEffect.REDSTONE.display(particle);
+					}
+				}
+			}
+
+			private void drawParticleCircle(int radius, Location location) {
+				for (double t = 0; t <= 2 * Math.PI * radius; t += 0.05) {
+					double x = (radius * Math.cos(t)) + location.getX();
+					double z = (location.getZ() + radius * Math.sin(t));
+					Location particle = new Location(world, x, location.getY() + 1, z);
+					ParticleEffect.REDSTONE.display(particle);
+				}
+			}
+		}, 2, 2);
 	}
 
 	@Override
 	public void stopAllTasks() {
-
+		bukkitTask.cancel();
 	}
 
+	public Vector calculateVelocity(Vector from, Vector to, int heightGain) {
+		// Gravity of a potion
+		double gravity = 0.115;
+		// Block locations
+		int endGain = to.getBlockY() - from.getBlockY();
+		double horizDist = Math.sqrt(distanceSquared(from, to));
+		// Height gain
+		int gain = heightGain;
+		double maxGain = gain > (endGain + gain) ? gain : (endGain + gain);
+		// Solve quadratic equation for velocity
+		double a = -horizDist * horizDist / (4 * maxGain);
+		double b = horizDist;
+		double c = -endGain;
+		double slope = -b / (2 * a) - Math.sqrt(b * b - 4 * a * c) / (2 * a);
+		// Vertical velocity
+		double vy = Math.sqrt(maxGain * gravity);
+		// Horizontal velocity
+		double vh = vy / slope;
+		// Calculate horizontal direction
+		int dx = to.getBlockX() - from.getBlockX();
+		int dz = to.getBlockZ() - from.getBlockZ();
+		double mag = Math.sqrt(dx * dx + dz * dz);
+		double dirx = dx / mag;
+		double dirz = dz / mag;
+		// Horizontal velocity components
+		double vx = vh * dirx;
+		double vz = vh * dirz;
+		return new Vector(vx, vy, vz);
+	}
+
+	private double distanceSquared(Vector from, Vector to) {
+		double dx = to.getBlockX() - from.getBlockX();
+		double dz = to.getBlockZ() - from.getBlockZ();
+		return dx * dx + dz * dz;
+	}
+
+	public Entity spawnInvisibleArmorStand(Location l) {
+		// You can remove the net.minecraft.server.v1_8_R3 and just import the classes
+		// You need to change v1_8_R3 for your version.
+		net.minecraft.server.v1_8_R3.World w = ((CraftWorld) l.getWorld()).getHandle();
+		net.minecraft.server.v1_8_R3.EntityArmorStand nmsEntity = new net.minecraft.server.v1_8_R3.EntityArmorStand(w);
+		// Yes, yaw goes first here ->
+		nmsEntity.setLocation(l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch());
+		nmsEntity.setInvisible(true);
+		nmsEntity.setArms(false);
+		nmsEntity.setBasePlate(false);
+		/*
+		 * You can make other changes like: nmsEntity.setGravity(false);
+		 * nmsEntity.setArms(true); nmsEntity.setBasePlate(false); The methods are very
+		 * similiar to the ArmorStand ones in the API
+		 */
+		w.addEntity(nmsEntity);
+		return nmsEntity.getBukkitEntity();
+	}
+
+	private void throwBomb() {
+		EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+		PacketPlayOutAnimation packet = new PacketPlayOutAnimation(entityPlayer, 0);
+		entityPlayer.playerConnection.sendPacket(packet);
+		ArmorStand as = (ArmorStand) spawnInvisibleArmorStand(
+				VectorUtils.getLocationToRight(player.getLocation().add(0, 1, 0), 0.3));
+		as.setItemInHand(
+				ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_BOMB.getValue(), SkullFactory.HEAD_BOMB.getName()));
+		Location dest = player.getLocation().clone().add(player.getLocation().getDirection().multiply(25));
+		as.setVelocity(calculateVelocity(as.getLocation().toVector(), dest.toVector(), 2));
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				if (as.getWorld().getBlockAt(as.getLocation().add(0, -0.5, 0)).getType() != Material.AIR) {
+
+					as.remove();
+
+					ParticleEffect.EXPLOSION_NORMAL.display(as.getLocation());
+					ParticleEffect.EXPLOSION_HUGE.display(as.getLocation());
+
+					this.cancel();
+				}
+			}
+		}.runTaskTimer(MainClass.getPlugin(), 1, 1);
+	}
 }

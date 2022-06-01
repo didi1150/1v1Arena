@@ -46,19 +46,23 @@ public class ChampionsManager {
 						.toItemStack(),
 				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName(ChatColor.AQUA + "Lightsaber").addGlow()
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "7").toItemStack()));
-		selectableChampions
-				.add(new Rex("Rex",
-						new Ability[] {
-								new Ability(AbilityType.RANGED, "Enlightenment", new ItemStack(Material.IRON_SWORD),
-										10),
-								new Ability(AbilityType.MELEE, "Force", new ItemStack(Material.WOOD), 10),
-								new Ability(AbilityType.MELEE, "Force", new ItemStack(Material.WOOD), 10),
-								new Ability(AbilityType.MELEE, "CHOKE", new ItemStack(Material.WOOD), 10) },
-						75, 50, 50,
-						new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName(ChatColor.BLUE + "Rex")
-								.toItemStack(),
-						new ItemBuilder(new ItemStack(Material.IRON_BARDING)).setDisplayName(ChatColor.AQUA + "Blaster")
-								.addGlow().setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "5").toItemStack()));
+		selectableChampions.add(new Rex("Rex",
+				new Ability[] {
+						new Ability(AbilityType.RANGED, "Blast'em",
+								new ItemBuilder(new ItemStack(Material.ARROW))
+										.setDisplayName(ChatColor.AQUA + "Blast'em").toItemStack(),
+								10),
+						new Ability(AbilityType.MELEE, "Force", new ItemStack(Material.WOOD), 10),
+						new Ability(AbilityType.MELEE, "Force", new ItemStack(Material.WOOD), 10),
+						new Ability(AbilityType.MELEE, "Airstrike",
+								new ItemBuilder(new ItemStack(Material.BEACON))
+										.setDisplayName(org.bukkit.ChatColor.GOLD + "Airstrike").toItemStack(),
+								10) },
+				75, 50, 50,
+				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName(ChatColor.BLUE + "Rex")
+						.toItemStack(),
+				new ItemBuilder(new ItemStack(Material.IRON_BARDING)).setDisplayName(ChatColor.AQUA + "Blaster")
+						.addGlow().setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "5").toItemStack()));
 	}
 
 	public Set<Champion> getSelectableChampions() {

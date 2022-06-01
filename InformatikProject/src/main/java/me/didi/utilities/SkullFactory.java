@@ -6,7 +6,10 @@ public enum SkullFactory {
 
 	HEAD_GHOST(
 			"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBkNWFiMjFkNjdlZWFkMTYzMzE3YzlhNWRjNTFkNDA5ZDg1ZGYyNTI3NjY3YTQyNGEyYWZmNjczOGI2ZmM5NyJ9fX0=",
-			"Ghost", ChatColor.GOLD);
+			"Ghost", ChatColor.GOLD),
+	HEAD_BOMB(
+			"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2U1NWM1YWJjZTdhNzkyNjRhNDg5MmQ2ODgwNmVhYWZlMzcwYTBlNGRkMjZmNTYxOTFmN2MxODhmMDFlZDcyNiJ9fX0=",
+			"Bomb", ChatColor.GOLD);
 
 	String value, name;
 	ChatColor color;
@@ -16,7 +19,7 @@ public enum SkullFactory {
 		this.name = name;
 	}
 
-	public String getTitle() {
+	public String getValue() {
 		return value;
 	}
 
