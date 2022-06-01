@@ -1,6 +1,8 @@
 package me.didi.characters.champions.impl;
 
 import java.awt.Color;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -163,50 +165,55 @@ public class Rex extends RangedChampion {
 
 	@Override
 	public void executeUltimate() {
-		Location dest = player.getLocation().add(player.getLocation().getDirection().multiply(30));
+		Set<Material> transparent = new HashSet<>();
+		transparent.add(Material.AIR);
+		Location dest = player.getTargetBlock(transparent, 30).getLocation();
 		dest.setY(player.getWorld().getHighestBlockYAt(dest));
 
 		World world = player.getWorld();
 		bukkitTask = Bukkit.getScheduler().runTaskTimer(MainClass.getPlugin(), new Runnable() {
 			int counter = 0;
+			double radius = 0;
 
 			@Override
 			public void run() {
-				if (counter >= 10 * 5) {
+				if (counter >= 20 * 5) {
 					bukkitTask.cancel();
 				}
 
-				if (counter <= 10 * 2) {
-					drawParticleCircle(10, dest);
-				}
+				if (radius <= 5) {
+					drawParticleCircle(radius, dest);
+					radius += 0.25;
+				} else {
 
-				if (counter % 2 == 0) {
-					for (Entity entity : world.getChunkAt(dest).getEntities()) {
-						if (entity instanceof LivingEntity && !(entity instanceof ArmorStand)) {
-							if (entity != player) {
-								MainClass.getPlugin().getDamageManager().damageEntity(player, entity,
-										DamageReason.PHYSICAL, 20, false);
+					if (counter % 2 == 0) {
+						drawParticleCircle(radius, dest);
+						drawCyl(radius, dest);
+						for (Entity entity : world.getChunkAt(dest).getEntities()) {
+							if (entity instanceof LivingEntity && !(entity instanceof ArmorStand)) {
+								if (entity != player) {
+									if (entity.getLocation().distanceSquared(dest) <= Math.sqrt(radius + 1))
+										MainClass.getPlugin().getDamageManager().damageEntity(player, entity,
+												DamageReason.PHYSICAL, 20, false);
+								}
 							}
 						}
 					}
-				}
 
-				drawCyl(10, dest);
+				}
 				counter++;
 			}
 
-			private void drawCyl(int radius, Location location) {
-				for (double t = 0; t <= 2 * Math.PI * radius; t += 0.05) {
-					for (double y = location.getY(); y < world.getMaxHeight(); y += 0.5) {
-						double x = (radius * Math.cos(t)) + location.getX();
-						double z = (location.getZ() + radius * Math.sin(t));
-						Location particle = new Location(world, x, location.getY() + 1, z);
-						ParticleEffect.REDSTONE.display(particle);
-					}
+			private void drawCyl(double radius, Location location) {
+				for (double t = 0; t <= 2 * Math.PI * radius; t += 1) {
+					double x = (radius * Math.cos(t)) + location.getX();
+					double z = (location.getZ() + radius * Math.sin(t));
+					Location particle = new Location(world, x, location.getY() + 1, z);
+					world.strikeLightningEffect(particle);
 				}
 			}
 
-			private void drawParticleCircle(int radius, Location location) {
+			private void drawParticleCircle(double radius, Location location) {
 				for (double t = 0; t <= 2 * Math.PI * radius; t += 0.05) {
 					double x = (radius * Math.cos(t)) + location.getX();
 					double z = (location.getZ() + radius * Math.sin(t));
@@ -214,7 +221,7 @@ public class Rex extends RangedChampion {
 					ParticleEffect.REDSTONE.display(particle);
 				}
 			}
-		}, 2, 2);
+		}, 1, 1);
 	}
 
 	@Override
