@@ -139,4 +139,9 @@ public class AbilityCooldownManager {
 		}
 	}
 
+	public void removeCooldown(Player player) {
+		if (cooldowns.containsKey(player.getUniqueId()))
+			cooldowns.remove(player.getUniqueId());
+	}
+
 }

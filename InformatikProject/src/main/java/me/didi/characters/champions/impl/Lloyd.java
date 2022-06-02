@@ -42,6 +42,7 @@ public class Lloyd extends MeleeChampion {
 
 	private int abilityCounter = 0;
 	private BukkitTask bukkitTask;
+
 	static float[] xArray = new float[particleCount];
 	static float[] zArray = new float[particleCount];
 	static {
@@ -67,17 +68,18 @@ public class Lloyd extends MeleeChampion {
 		double radius_increasement = max_radius / max_height;
 
 		int counter = 0;
-		for (int l = 0; l < lines; l++) {
-			for (double y = 0; y < max_height; y += height_increasement) {
-				double radius2 = y * radius_increasement;
-				double angle = 360;
-				double x = Math.cos(Math.toRadians(360 / lines * l + y * 25 - angle)) * radius2;
-				double z = Math.sin(Math.toRadians(360 / lines * l + y * 25 - angle)) * radius2;
+		for (int angle = 0; angle < 360; angle++) {
+			for (int l = 0; l < lines; l++) {
+				for (double y = 0; y < max_height; y += height_increasement) {
+					double radius2 = y * radius_increasement;
+					double x = Math.cos(Math.toRadians(360 / lines * l + y * 25 - angle)) * radius2;
+					double z = Math.sin(Math.toRadians(360 / lines * l + y * 25 - angle)) * radius2;
 
-				x2Array[counter] = x;
-				z2Array[counter] = z;
-				y2Array[counter] = y;
-				counter++;
+					x2Array[counter] = x;
+					z2Array[counter] = z;
+					y2Array[counter] = y;
+					counter++;
+				}
 			}
 		}
 
@@ -88,11 +90,9 @@ public class Lloyd extends MeleeChampion {
 			for (double a = 0; a < Math.PI * 2; a += Math.PI / 10) {
 				double x = Math.cos(a) * radius3;
 				double z = Math.sin(a) * radius3;
-
 				x3Array[counter] = x;
 				z3Array[counter] = z;
 				y3Array[counter] = y;
-
 				counter++;
 			}
 		}
@@ -149,7 +149,11 @@ public class Lloyd extends MeleeChampion {
 			bukkitTask = airjitzu(player);
 			break;
 		case 1:
+//			secondTask.cancel();
 			bukkitTask.cancel();
+			player.setFallDistance(0);
+			player.setAllowFlight(false);
+			player.setFlying(false);
 			new ItemManager().setItem(player, 3, new ItemBuilder(getAbilities()[3].getIcon()).toItemStack());
 			bukkitTask = Bukkit.getScheduler().runTaskLater(MainClass.getPlugin(), new Runnable() {
 
@@ -183,8 +187,8 @@ public class Lloyd extends MeleeChampion {
 		return Bukkit.getScheduler().runTaskTimer(MainClass.getPlugin(), new Runnable() {
 			@Override
 			public void run() {
-				spin(player, false, 0);
-				for (Entity entity : player.getWorld().getNearbyEntities(player.getEyeLocation(), 1, 0.4, 1)) {
+				spin(player);
+				for (Entity entity : player.getWorld().getNearbyEntities(player.getLocation().add(0, 1, 0), 1.5, 0.5, 1.5)) {
 					if (entity == player)
 						continue;
 					if (entity instanceof LivingEntity && !(entity instanceof ArmorStand))
@@ -199,35 +203,40 @@ public class Lloyd extends MeleeChampion {
 	private BukkitTask airjitzu(final Player player) {
 		new ItemManager().setItem(player, 3,
 				new ItemBuilder(getAbilities()[3].getIcon().clone()).addGlow().toItemStack());
+		player.setAllowFlight(true);
+		player.setFlying(true);
 		return Bukkit.getScheduler().runTaskTimer(MainClass.getPlugin(), new Runnable() {
 
 			int angle = 0;
 
+			int max_height = 2;
+			double max_radius = 2;
+			int lines = 7;
+			double height_increasement = 0.2;
+			double radius_increasement = max_radius / max_height;
+			Location loc = null;
+
 			@Override
 			public void run() {
-				createSphere(player);
+				loc = player.getLocation().subtract(0, 1, 0);
 				if (angle >= 360)
 					angle = 0;
-				spin(player, true, angle);
+
+				for (int l = 0; l < lines; l++) {
+					for (double y = 0; y < max_height; y += height_increasement) {
+						double radius = y * radius_increasement;
+						double x = Math.cos(Math.toRadians(360 / lines * l + y * 25 - angle)) * radius;
+						double z = Math.sin(Math.toRadians(360 / lines * l + y * 25 - angle)) * radius;
+
+						Location next = loc.clone().add(x, y, z);
+						ParticleEffect.REDSTONE.display(next, Color.GREEN);
+					}
+				}
+
 				createSphere(player);
-
-				angle++;
+				angle += 8;
 			}
-
 		}, 0, 1);
-	}
-
-	private void cyclone(Player player, int angle) {
-		Location loc = player.getLocation().subtract(0, 1.5, 0);
-
-		for (int i = 0; i < x2Array.length; i++) {
-			double x = x2Array[i];
-			double z = z2Array[i];
-			double y = y2Array[i];
-			Location next = loc.clone().add(x, y, z);
-			ParticleEffect.REDSTONE.display(next, Color.GREEN);
-
-		}
 	}
 
 	public void createSphere(Player player) {
@@ -242,25 +251,20 @@ public class Lloyd extends MeleeChampion {
 		}
 	}
 
-	private void spin(Player player, boolean airjitzu, int angle) {
+	private void spin(Player player) {
 
-		if (airjitzu) {
-			createSphere(player);
-			cyclone(player, angle);
-		} else {
-			Location loc = player.getLocation().clone();
-			float y = (float) loc.getY() - 0.25f;
-			int index = 0;
-			for (double t = 0; t < 2 * Math.PI * (turns + 1); t += stepSize) {
-				float x = xArray[index];
-				float z = zArray[index];
+		Location loc = player.getLocation().clone();
+		float y = (float) loc.getY() - 0.25f;
+		int index = 0;
+		for (double t = 0; t < 2 * Math.PI * (turns + 1); t += stepSize) {
+			float x = xArray[index];
+			float z = zArray[index];
 
-				Location newLoc = new Location(player.getWorld(), loc.getX() + x, y, loc.getZ() + z);
-				ParticleEffect.REDSTONE.display(newLoc, Color.GREEN);
-				if (t < 2 * Math.PI * turns)
-					y += 2.5 / particleCount;
-				index++;
-			}
+			Location newLoc = new Location(player.getWorld(), loc.getX() + x, y, loc.getZ() + z);
+			ParticleEffect.REDSTONE.display(newLoc, Color.GREEN);
+			if (t < 2 * Math.PI * turns)
+				y += 2.5 / particleCount;
+			index++;
 		}
 	}
 

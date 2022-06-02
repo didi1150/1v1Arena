@@ -15,6 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.MainClass;
+import me.didi.ability.Ability;
 import me.didi.player.effects.SpecialEffect;
 import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
@@ -206,6 +207,11 @@ public class CustomPlayerManager {
 			removePlayer(player.getUniqueId());
 		if (plugin.getAlivePlayers().contains(player.getUniqueId()))
 			plugin.getAlivePlayers().remove(player.getUniqueId());
+
+		for (Ability ability : plugin.getChampionsManager().getSelectedChampion(player).getAbilities()) {
+			plugin.getAbilityCooldownManager().removeRecastCooldown(player, ability);
+			plugin.getAbilityCooldownManager().removeCooldown(player);
+		}
 
 		player.setAllowFlight(true);
 		player.setFlying(true);

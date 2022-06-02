@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import me.didi.MainClass;
+import me.didi.ability.Ability;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.countdowns.LobbyCountdown;
 import me.didi.gamesystem.gameStates.IngameState;
@@ -43,6 +44,11 @@ public class QuitListener implements Listener {
 		} else {
 			if (plugin.getAlivePlayers().contains(player.getUniqueId()))
 				plugin.getAlivePlayers().remove(player.getUniqueId());
+
+			for (Ability ability : plugin.getChampionsManager().getSelectedChampion(player).getAbilities()) {
+				plugin.getAbilityCooldownManager().removeRecastCooldown(player, ability);
+				plugin.getAbilityCooldownManager().removeCooldown(player);
+			}
 
 			if (plugin.getAlivePlayers().size() <= 1
 					&& plugin.getGameStateManager().getCurrentGameState() instanceof IngameState) {

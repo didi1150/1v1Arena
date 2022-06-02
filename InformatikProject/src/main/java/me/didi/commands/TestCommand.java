@@ -70,7 +70,6 @@ public class TestCommand implements CommandExecutor {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 //			airjitzu(player);
-			cyclone(player);
 			createSphere(player);
 		}
 		return true;
