@@ -3,7 +3,6 @@ package me.didi.characters.champions.impl;
 import java.awt.Color;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -31,6 +30,14 @@ public class Lloyd extends MeleeChampion {
 	static int green = 255;
 	static int blue = 25;
 
+	static double[] x2Array = new double[27720];
+	static double[] z2Array = new double[27720];
+	static double[] y2Array = new double[27720];
+
+	static double[] x3Array = new double[220];
+	static double[] z3Array = new double[220];
+	static double[] y3Array = new double[220];
+
 	private int recastCooldown = 5;
 
 	private int abilityCounter = 0;
@@ -51,6 +58,43 @@ public class Lloyd extends MeleeChampion {
 			if (t < 2 * Math.PI * turns)
 				radius += increase;
 			index++;
+		}
+
+		int max_height = 2;
+		double max_radius = 2;
+		int lines = 7;
+		double height_increasement = 0.2;
+		double radius_increasement = max_radius / max_height;
+
+		int counter = 0;
+		for (int l = 0; l < lines; l++) {
+			for (double y = 0; y < max_height; y += height_increasement) {
+				double radius2 = y * radius_increasement;
+				double angle = 360;
+				double x = Math.cos(Math.toRadians(360 / lines * l + y * 25 - angle)) * radius2;
+				double z = Math.sin(Math.toRadians(360 / lines * l + y * 25 - angle)) * radius2;
+
+				x2Array[counter] = x;
+				z2Array[counter] = z;
+				y2Array[counter] = y;
+				counter++;
+			}
+		}
+
+		counter = 0;
+		for (double i = 0; i <= Math.PI; i += Math.PI / 10) {
+			double radius3 = Math.sin(i);
+			double y = Math.cos(i);
+			for (double a = 0; a < Math.PI * 2; a += Math.PI / 10) {
+				double x = Math.cos(a) * radius3;
+				double z = Math.sin(a) * radius3;
+
+				x3Array[counter] = x;
+				z3Array[counter] = z;
+				y3Array[counter] = y;
+
+				counter++;
+			}
 		}
 	}
 
@@ -139,7 +183,7 @@ public class Lloyd extends MeleeChampion {
 		return Bukkit.getScheduler().runTaskTimer(MainClass.getPlugin(), new Runnable() {
 			@Override
 			public void run() {
-				spin(player);
+				spin(player, false, 0);
 				for (Entity entity : player.getWorld().getNearbyEntities(player.getEyeLocation(), 1, 0.4, 1)) {
 					if (entity == player)
 						continue;
@@ -156,34 +200,67 @@ public class Lloyd extends MeleeChampion {
 		new ItemManager().setItem(player, 3,
 				new ItemBuilder(getAbilities()[3].getIcon().clone()).addGlow().toItemStack());
 		return Bukkit.getScheduler().runTaskTimer(MainClass.getPlugin(), new Runnable() {
+
+			int angle = 0;
+
 			@Override
 			public void run() {
-				spin(player);
+				createSphere(player);
+				if (angle >= 360)
+					angle = 0;
+				spin(player, true, angle);
+				createSphere(player);
+
+				angle++;
 			}
 
-		}, 0, 2);
+		}, 0, 1);
 	}
 
-	private void spin(Player player) {
+	private void cyclone(Player player, int angle) {
+		Location loc = player.getLocation().subtract(0, 1.5, 0);
 
-		Location loc = player.getLocation().clone();
-		float y = (float) loc.getY() - 0.25f;
-		int index = 0;
-		for (double t = 0; t < 2 * Math.PI * (turns + 1); t += stepSize) {
-			float x = xArray[index];
-			float z = zArray[index];
-			// amount, red, green, blue, speed
+		for (int i = 0; i < x2Array.length; i++) {
+			double x = x2Array[i];
+			double z = z2Array[i];
+			double y = y2Array[i];
+			Location next = loc.clone().add(x, y, z);
+			ParticleEffect.REDSTONE.display(next, Color.GREEN);
 
-			Location newLoc = new Location(player.getWorld(), loc.getX() + x, y, loc.getZ() + z);
-			ParticleEffect.REDSTONE.display(newLoc, Color.GREEN);
-//			PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.REDSTONE, true,
-//					((float) loc.getX()) + x, y, (float) (loc.getZ() + z), red, green, blue, (float) 1, 0);
-//			for (Player pl : Bukkit.getOnlinePlayers()) {
-//				((CraftPlayer) pl).getHandle().playerConnection.sendPacket(packet);
-//			}
-			if (t < 2 * Math.PI * turns)
-				y += 2.5 / particleCount;
-			index++;
+		}
+	}
+
+	public void createSphere(Player player) {
+		Location location = player.getLocation().add(0, 1, 0);
+		for (int i = 0; i < x3Array.length; i++) {
+			double x = x3Array[i];
+			double z = z3Array[i];
+			double y = y3Array[i];
+			Location next = location.clone().add(x, y, z);
+			ParticleEffect.REDSTONE.display(next, Color.GREEN);
+
+		}
+	}
+
+	private void spin(Player player, boolean airjitzu, int angle) {
+
+		if (airjitzu) {
+			createSphere(player);
+			cyclone(player, angle);
+		} else {
+			Location loc = player.getLocation().clone();
+			float y = (float) loc.getY() - 0.25f;
+			int index = 0;
+			for (double t = 0; t < 2 * Math.PI * (turns + 1); t += stepSize) {
+				float x = xArray[index];
+				float z = zArray[index];
+
+				Location newLoc = new Location(player.getWorld(), loc.getX() + x, y, loc.getZ() + z);
+				ParticleEffect.REDSTONE.display(newLoc, Color.GREEN);
+				if (t < 2 * Math.PI * turns)
+					y += 2.5 / particleCount;
+				index++;
+			}
 		}
 	}
 
