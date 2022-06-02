@@ -15,10 +15,12 @@ import me.didi.commands.TestCommand;
 import me.didi.events.damageSystem.DamageManager;
 import me.didi.events.listeners.BlockListener;
 import me.didi.events.listeners.DeathListener;
+import me.didi.events.listeners.DropItemListener;
 import me.didi.events.listeners.EntityDamageListener;
 import me.didi.events.listeners.InventoryListener;
 import me.didi.events.listeners.JoinListener;
 import me.didi.events.listeners.NaturalRegenListener;
+import me.didi.events.listeners.PickupListener;
 import me.didi.events.listeners.PlayerInteractListener;
 import me.didi.events.listeners.QuitListener;
 import me.didi.gamesystem.GameState;
@@ -88,6 +90,8 @@ public class MainClass extends JavaPlugin {
 		pm.registerEvents(new NaturalRegenListener(), this);
 		pm.registerEvents(new BlockListener(), this);
 		pm.registerEvents(new DeathListener(this), this);
+		pm.registerEvents(new DropItemListener(), this);
+		pm.registerEvents(new PickupListener(), this);
 	}
 
 	public static PlayerMenuUtility getPlayerMenuUtility(Player p) {
