@@ -168,6 +168,10 @@ public class Rex extends RangedChampion {
 	public void executeUltimate() {
 		Set<Material> transparent = new HashSet<>();
 		transparent.add(Material.AIR);
+		transparent.add(Material.WATER);
+		transparent.add(Material.LAVA);
+		transparent.add(Material.STATIONARY_LAVA);
+		transparent.add(Material.STATIONARY_WATER);
 		Location dest = player.getTargetBlock(transparent, 30).getLocation();
 		dest.setY(player.getWorld().getHighestBlockYAt(dest));
 
