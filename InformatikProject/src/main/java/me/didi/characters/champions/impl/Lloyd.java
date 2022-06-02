@@ -123,7 +123,7 @@ public class Lloyd extends MeleeChampion {
 			break;
 		case 3:
 			bukkitTask.cancel();
-			abilityCooldownManager.addCooldown(player, 3, 10);
+			abilityCooldownManager.addCooldown(player, 3, getAbilities()[3].getCooldown());
 			abilityCounter = -1;
 			break;
 		}
