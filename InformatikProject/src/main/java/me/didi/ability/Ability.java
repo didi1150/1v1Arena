@@ -26,6 +26,7 @@ public class Ability {
 		this.name = name;
 		this.icon = icon;
 		this.description = Arrays.asList(description);
+		this.cooldown = cooldown;
 	}
 
 	public String getName() {
