@@ -231,7 +231,8 @@ public class Rex extends RangedChampion {
 
 	@Override
 	public void stopAllTasks() {
-		bukkitTask.cancel();
+		if (bukkitTask != null)
+			bukkitTask.cancel();
 	}
 
 	public Vector calculateVelocity(Vector from, Vector to, int heightGain) {

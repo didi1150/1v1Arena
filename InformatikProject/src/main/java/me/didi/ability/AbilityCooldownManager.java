@@ -57,23 +57,6 @@ public class AbilityCooldownManager {
 
 			@Override
 			public void run() {
-				for (Map.Entry<UUID, int[]> entry : cooldowns.entrySet()) {
-					Player player = Bukkit.getPlayer(entry.getKey());
-					int[] array = entry.getValue();
-					for (int i = 0; i < array.length; i++) {
-						Ability ability = plugin.getChampionsManager().getSelectedChampion(player).getAbilities()[i];
-						if (array[i] == 0) {
-							if (player.getInventory().getItem(i).getType() == ability.getIcon().getType()
-									&& player.getInventory().getItem(i).getAmount() == ability.getIcon().getAmount())
-								continue;
-							itemManager.setItem(player, i, ability.getIcon());
-						} else if (array[i] > 0) {
-							itemManager.setItem(player, i, createOnCooldownItem(array[i], ability.getName()));
-							array[i]--;
-						}
-					}
-				}
-
 				for (Map.Entry<UUID, RecastCooldown> entry : recasts.entrySet()) {
 					Player player = Bukkit.getPlayer(entry.getKey());
 					RecastCooldown recastCooldown = entry.getValue();
@@ -89,6 +72,23 @@ public class AbilityCooldownManager {
 						recastCooldown.setSeconds(seconds - 1);
 					}
 
+				}
+
+				for (Map.Entry<UUID, int[]> entry : cooldowns.entrySet()) {
+					Player player = Bukkit.getPlayer(entry.getKey());
+					int[] array = entry.getValue();
+					for (int i = 0; i < array.length; i++) {
+						Ability ability = plugin.getChampionsManager().getSelectedChampion(player).getAbilities()[i];
+						if (array[i] == 0) {
+							if (player.getInventory().getItem(i).getType() == ability.getIcon().getType()
+									&& player.getInventory().getItem(i).getAmount() == ability.getIcon().getAmount())
+								continue;
+							itemManager.setItem(player, i, ability.getIcon());
+						} else if (array[i] > 0) {
+							itemManager.setItem(player, i, createOnCooldownItem(array[i], ability.getName()));
+							array[i]--;
+						}
+					}
 				}
 			}
 		}.runTaskTimer(plugin, 20, 20);

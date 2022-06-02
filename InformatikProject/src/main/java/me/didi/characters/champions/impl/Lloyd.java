@@ -112,7 +112,7 @@ public class Lloyd extends MeleeChampion {
 					abilityCounter = 0;
 					bukkitTask.cancel();
 				}
-			}, 20 * (recastCooldown + 1));
+			}, 20 * (recastCooldown));
 			abilityCooldownManager.addRecastCooldown(player, 3, recastCooldown);
 
 			break;
@@ -192,6 +192,7 @@ public class Lloyd extends MeleeChampion {
 
 	@Override
 	public void stopAllTasks() {
+		if(bukkitTask != null)
 		bukkitTask.cancel();
 	}
 }
