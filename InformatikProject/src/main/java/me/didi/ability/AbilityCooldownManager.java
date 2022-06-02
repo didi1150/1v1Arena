@@ -118,6 +118,9 @@ public class AbilityCooldownManager {
 	}
 
 	public void addRecastCooldown(Player player, int index, int cooldown) {
+		if (cooldowns.containsKey(player.getUniqueId()))
+			cooldowns.remove(player.getUniqueId());
+
 		if (!recasts.containsKey(player.getUniqueId())) {
 			RecastCooldown recastCooldown = new RecastCooldown(index, cooldown);
 			recasts.put(player.getUniqueId(), recastCooldown);
@@ -129,6 +132,10 @@ public class AbilityCooldownManager {
 			int index = recasts.get(player.getUniqueId()).getIndex();
 			recasts.remove(player.getUniqueId());
 			itemManager.setItem(player, index, ability.getIcon());
+		}
+		if (!cooldowns.containsKey(player.getUniqueId())) {
+			int[] array = new int[] { 0, 0, 0, 0 };
+			cooldowns.put(player.getUniqueId(), array);
 		}
 	}
 
