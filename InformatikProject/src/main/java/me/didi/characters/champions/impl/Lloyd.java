@@ -1,5 +1,7 @@
 package me.didi.characters.champions.impl;
 
+import java.awt.Color;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -17,6 +19,7 @@ import me.didi.characters.champions.MeleeChampion;
 import me.didi.events.damageSystem.DamageReason;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.ItemManager;
+import xyz.xenondevs.particle.ParticleEffect;
 
 public class Lloyd extends MeleeChampion {
 
@@ -171,8 +174,8 @@ public class Lloyd extends MeleeChampion {
 			float z = zArray[index];
 			// amount, red, green, blue, speed
 
-			loc.getWorld().spigot().playEffect(new Location(player.getWorld(), loc.getX() + x, y, loc.getZ() + z),
-					Effect.COLOURED_DUST, 0, 1, red, green, blue, 10, 0, 64);
+			Location newLoc = new Location(player.getWorld(), loc.getX() + x, y, loc.getZ() + z);
+			ParticleEffect.REDSTONE.display(newLoc, Color.GREEN);
 //			PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.REDSTONE, true,
 //					((float) loc.getX()) + x, y, (float) (loc.getZ() + z), red, green, blue, (float) 1, 0);
 //			for (Player pl : Bukkit.getOnlinePlayers()) {
@@ -192,7 +195,7 @@ public class Lloyd extends MeleeChampion {
 
 	@Override
 	public void stopAllTasks() {
-		if(bukkitTask != null)
-		bukkitTask.cancel();
+		if (bukkitTask != null)
+			bukkitTask.cancel();
 	}
 }

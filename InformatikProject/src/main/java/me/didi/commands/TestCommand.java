@@ -1,5 +1,7 @@
 package me.didi.commands;
 
+import java.awt.Color;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -12,6 +14,7 @@ import org.bukkit.entity.Player;
 import me.didi.MainClass;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
+import xyz.xenondevs.particle.ParticleEffect;
 
 public class TestCommand implements CommandExecutor {
 
@@ -94,7 +97,7 @@ public class TestCommand implements CommandExecutor {
 				double z = Math.sin(a) * radius;
 				location.add(x, y, z);
 				// display particle at 'location'.
-				player.playEffect(location, Effect.HAPPY_VILLAGER, 0);
+				ParticleEffect.REDSTONE.display(location, Color.GREEN);
 				location.subtract(x, y, z);
 			}
 		}
