@@ -2,12 +2,14 @@ package me.didi.characters.champions.impl;
 
 import java.awt.Color;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.ArmorStand;
@@ -25,6 +27,7 @@ import me.didi.characters.Champion;
 import me.didi.characters.champions.RangedChampion;
 import me.didi.events.damageSystem.CustomDamageEvent;
 import me.didi.events.damageSystem.DamageReason;
+import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.SkullFactory;
 import me.didi.utilities.VectorUtils;
@@ -80,8 +83,9 @@ public class Rex extends RangedChampion {
 
 				@Override
 				public void run() {
-					if (counter >= 20 * 3
-							|| armorStand.getWorld().getBlockAt(armorStand.getEyeLocation()).getType().isSolid()) {
+					Block blockAt = armorStand.getWorld()
+							.getBlockAt(VectorUtils.getLocationToRight(armorStand.getLocation().add(0, 0.5, 0), 0.3));
+					if (counter >= 20 * 3 || blockAt.getType().isSolid()) {
 						armorStand.remove();
 						cancel();
 					} else {
@@ -192,8 +196,8 @@ public class Rex extends RangedChampion {
 				} else {
 
 					if (counter % 2 == 0) {
-						drawParticleCircle(radius, dest);
-						drawCyl(radius, dest);
+						Random random = new Random();
+						drawCyl(radius * random.nextDouble(), dest);
 						for (Entity entity : world.getNearbyEntities(dest, radius, radius, radius)) {
 							if (entity instanceof LivingEntity && !(entity instanceof ArmorStand)) {
 								if (entity != player) {
@@ -212,18 +216,33 @@ public class Rex extends RangedChampion {
 				for (double t = 0; t <= 2 * Math.PI * radius; t += 1) {
 					double x = (radius * Math.cos(t)) + location.getX();
 					double z = (location.getZ() + radius * Math.sin(t));
-					Location particle = new Location(world, x, location.getY() + 1, z);
-					world.strikeLightningEffect(particle);
+					Location lightning = new Location(world, x, location.getY(), z);
+					world.strikeLightningEffect(lightning);
 				}
 			}
 
 			private void drawParticleCircle(double radius, Location location) {
-				for (double t = 0; t <= 2 * Math.PI * radius; t += 0.05) {
-					double x = (radius * Math.cos(t)) + location.getX();
-					double z = (location.getZ() + radius * Math.sin(t));
-					Location particle = new Location(world, x, location.getY() + 1, z);
-					ParticleEffect.REDSTONE.display(particle);
+				for (double y = 1; y < world.getMaxHeight(); y *= 1.25) {
+					for (double s = 0; s <= 2 * Math.PI * radius; s += 2 * Math.PI / 9) {
+						double t = s + Math.toRadians(radius * 24);
+						double x = (radius * Math.cos(t)) + location.getX();
+						double z = (location.getZ() + radius * Math.sin(t));
+						Location particle = new Location(world, x, location.getY(), z);
+						ParticleEffect.REDSTONE.display(particle);
+
+						particle = new Location(world, x, location.getY() + y, z);
+						ParticleEffect.REDSTONE.display(particle);
+					}
 				}
+				for (int y = 0; y <= 24; y += 6) {
+					for (double t = 0; t <= 2 * Math.PI * radius; t += 2 * Math.PI / 50) {
+						double x = (radius * Math.cos(t)) + location.getX();
+						double z = (location.getZ() + radius * Math.sin(t));
+						Location particle = new Location(world, x, location.getY() + y, z);
+						ParticleEffect.REDSTONE.display(particle);
+					}
+				}
+
 			}
 		}, 1, 1);
 		abilityCooldownManager.addCooldown(player, 3, getAbilities()[3].getCooldown());
