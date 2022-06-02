@@ -188,7 +188,7 @@ public class Lloyd extends MeleeChampion {
 			@Override
 			public void run() {
 				spin(player);
-				for (Entity entity : player.getWorld().getNearbyEntities(player.getLocation().add(0, 1, 0), 1.5, 0.5, 1.5)) {
+				for (Entity entity : player.getWorld().getNearbyEntities(player.getLocation().add(0, 1, 0), 1.75, 0.5, 1.75)) {
 					if (entity == player)
 						continue;
 					if (entity instanceof LivingEntity && !(entity instanceof ArmorStand))
