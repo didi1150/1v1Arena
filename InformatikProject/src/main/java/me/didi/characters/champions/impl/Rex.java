@@ -117,7 +117,7 @@ public class Rex extends RangedChampion {
 				shootBeam(player.getLocation().add(0, 0.5, 0), 13, true);
 			}
 		}, 3);
-		abilityCooldownManager.addCooldown(player, 0, 10);
+		abilityCooldownManager.addCooldown(player, 0, getAbilities()[0].getCooldown());
 	}
 
 	private void shootBeam(Location fromOrigin, double maxRange, boolean left) {
@@ -155,6 +155,7 @@ public class Rex extends RangedChampion {
 	@Override
 	public void executeSecondAbility() {
 		throwBomb();
+		abilityCooldownManager.addCooldown(player, 1, getAbilities()[1].getCooldown());
 	}
 
 	@Override
@@ -189,7 +190,7 @@ public class Rex extends RangedChampion {
 					if (counter % 2 == 0) {
 						drawParticleCircle(radius, dest);
 						drawCyl(radius, dest);
-						for (Entity entity : world.getNearbyEntities(dest, radius, radius , radius)) {
+						for (Entity entity : world.getNearbyEntities(dest, radius, radius, radius)) {
 							if (entity instanceof LivingEntity && !(entity instanceof ArmorStand)) {
 								if (entity != player) {
 									MainClass.getPlugin().getDamageManager().damageEntity(player, entity,
@@ -221,7 +222,7 @@ public class Rex extends RangedChampion {
 				}
 			}
 		}, 1, 1);
-		abilityCooldownManager.addCooldown(player, 3, 20);
+		abilityCooldownManager.addCooldown(player, 3, getAbilities()[3].getCooldown());
 	}
 
 	@Override
