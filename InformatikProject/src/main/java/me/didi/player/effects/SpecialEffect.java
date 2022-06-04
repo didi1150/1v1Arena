@@ -1,25 +1,27 @@
 package me.didi.player.effects;
 
-import java.util.function.Consumer;
-
 import org.bukkit.entity.Entity;
+import org.bukkit.event.Event;
 
 public abstract class SpecialEffect {
 
-	private Entity from;
-	private Entity to;
-	private Consumer<Entity> callback;
-	private String eventName;
+	protected Entity from;
+	protected Entity to;
+	private SpecialEffectsManager specialEffectsManager;
+	protected double duration;
 
-	public SpecialEffect(Entity from, Entity to, Consumer<Entity> callback, String eventName) {
+	public SpecialEffect(Entity from, Entity to, double duration) {
 		this.from = from;
 		this.to = to;
-		this.callback = callback;
-		this.eventName = eventName;
+		this.duration = duration;
 	}
 
-	public void run() {
-		callback.accept(to);
+	public void setSpecialEffectsManager(SpecialEffectsManager specialEffectsManager) {
+		this.specialEffectsManager = specialEffectsManager;
+	}
+
+	public SpecialEffectsManager getSpecialEffectsManager() {
+		return specialEffectsManager;
 	}
 
 	public Entity getFrom() {
@@ -30,8 +32,13 @@ public abstract class SpecialEffect {
 		return to;
 	}
 
-	public String getEventName() {
-		return eventName;
+	public double getDuration() {
+		return duration;
 	}
 
+	public abstract void handleEvent(Event event);
+
+	public void endEffect() {
+		specialEffectsManager.removeSpecialEffect(this);
+	}
 }

@@ -190,9 +190,7 @@ public class Rex extends RangedChampion {
 							MainClass.getPlugin().getDamageManager().damageEntity(player, ent, DamageReason.MAGIC, 15,
 									false);
 							MainClass.getPlugin().getSpecialEffectsManager()
-									.effectPlayer(new RootEffect(player, ent, p -> {
-										RootEffect.rootEnemy(ent, 2);
-									}, ""));
+									.addSpecialEffect(new RootEffect(player, ent, 1.5));
 							cancel();
 							return;
 						}

@@ -1,13 +1,12 @@
 package me.didi.player.effects;
 
 import java.awt.Color;
-import java.util.function.Consumer;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import org.bukkit.event.Event;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.didi.MainClass;
@@ -16,15 +15,15 @@ import xyz.xenondevs.particle.ParticleEffect;
 
 public class RootEffect extends SpecialEffect {
 
-	public RootEffect(Entity from, Entity to, Consumer<Entity> callback, String eventName) {
-		super(from, to, callback, eventName);
+	public RootEffect(Entity from, Entity to, double duration) {
+		super(from, to, duration);
+		rootEnemy(to);
 	}
 
-	public static void rootEnemy(Entity to, int duration) {
+	private void rootEnemy(Entity to) {
 		LivingEntity ent = (LivingEntity) to;
 
 		Location location = ent.getLocation();
-		ent.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 255, false, false), true);
 		new BukkitRunnable() {
 
 			int counter = 0;
@@ -33,8 +32,8 @@ public class RootEffect extends SpecialEffect {
 			@Override
 			public void run() {
 				if (counter >= duration * 20) {
+					endEffect();
 					this.cancel();
-					ent.removePotionEffect(PotionEffectType.SLOW);
 				}
 				ParticleUtils.drawCircle(ParticleEffect.REDSTONE, Color.WHITE, ent.getEyeLocation().add(0, 0.3, 0),
 						radius);
@@ -50,6 +49,16 @@ public class RootEffect extends SpecialEffect {
 				counter++;
 			}
 		}.runTaskTimer(MainClass.getPlugin(), 1, 1);
+	}
+
+	@Override
+	public void handleEvent(Event event) {
+		if (event instanceof PlayerMoveEvent) {
+			PlayerMoveEvent moveEvent = (PlayerMoveEvent) event;
+			if (moveEvent.getPlayer() == to) {
+				moveEvent.setCancelled(true);
+			}
+		}
 	}
 
 }

@@ -1,9 +1,8 @@
 package me.didi.player.effects;
 
-import java.util.function.Consumer;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
+import org.bukkit.event.Event;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.didi.MainClass;
@@ -13,12 +12,12 @@ import xyz.xenondevs.particle.ParticleEffect;
 
 public class BurnEffect extends SpecialEffect {
 
-
-	public BurnEffect(Entity from, Entity to, Consumer<Entity> callback, String eventName) {
-		super(from, to, callback, eventName);
+	public BurnEffect(Entity from, Entity to, double duration, double damagePerSec) {
+		super(from, to, duration);
+		burnEnemy(from, to, damagePerSec);
 	}
 
-	public static void burnEnemy(Entity from, Entity to, int duration, int damagePerSec) {
+	public void burnEnemy(Entity from, Entity to, double damagePerSec) {
 		new BukkitRunnable() {
 			int counter = 0;
 
@@ -26,17 +25,23 @@ public class BurnEffect extends SpecialEffect {
 			public void run() {
 
 				if (counter >= duration) {
+					endEffect();
 					this.cancel();
 				}
 
 				Bukkit.getPluginManager()
 						.callEvent(new CustomDamageEvent(to, from, DamageReason.MAGIC, damagePerSec, false));
-				
+
 				ParticleEffect.FLAME.display(to.getLocation());
 
 				counter++;
 			}
 		}.runTaskTimer(MainClass.getPlugin(), 0, 20);
+	}
+
+	@Override
+	public void handleEvent(Event event) {
+
 	}
 
 }
