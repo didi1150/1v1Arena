@@ -213,7 +213,7 @@ public class Rex extends RangedChampion {
 			}
 
 			private void drawCyl(double radius, Location location) {
-				for (double t = 0; t <= 2 * Math.PI * radius; t += 1) {
+				for (double t = 0; t <= 2 * Math.PI * radius; t += 5) {
 					double x = (radius * Math.cos(t)) + location.getX();
 					double z = (location.getZ() + radius * Math.sin(t));
 					Location lightning = new Location(world, x, location.getY(), z);
