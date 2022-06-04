@@ -9,9 +9,9 @@ import xyz.xenondevs.particle.ParticleEffect;
 public class ParticleUtils {
 
 	public static void drawCircle(ParticleEffect particleEffect, Color color, Location centre, double radius) {
-		for (double t = 0; t <= 2 * Math.PI * radius; t += 0.05) {
-			double x = radius * Math.cos(t) + centre.getX();
-			double z = centre.getZ() + radius * Math.sin(t);
+		for (double t = 0; t <= 2 * Math.PI; t += 0.05) {
+			double x = radius * Math.cos(t);
+			double z = radius * Math.sin(t);
 			if (color == null) {
 				particleEffect.display(centre.clone().add(x, 0, z));
 			} else
@@ -39,11 +39,12 @@ public class ParticleUtils {
 
 	public static void drawVerticalLines(ParticleEffect particleEffect, Color color, Location start, double maxHeight,
 			double summand) {
-		for (double y = 1; y <= maxHeight; y += summand) {
+		for (double y = 0; y <= maxHeight; y += summand) {
+			Location add = start.clone().add(0, y, 0);
 			if (color == null) {
-				particleEffect.display(start.clone().add(0, y, 0));
+				particleEffect.display(add);
 			} else
-				particleEffect.display(start.clone().add(0, y, 0), color);
+				particleEffect.display(add, color);
 		}
 	}
 

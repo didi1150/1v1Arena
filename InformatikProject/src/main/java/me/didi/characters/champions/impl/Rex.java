@@ -1,7 +1,9 @@
 package me.didi.characters.champions.impl;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -27,7 +29,7 @@ import me.didi.characters.Champion;
 import me.didi.characters.champions.RangedChampion;
 import me.didi.events.damageSystem.CustomDamageEvent;
 import me.didi.events.damageSystem.DamageReason;
-import me.didi.utilities.ChatUtils;
+import me.didi.player.effects.RootEffect;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.SkullFactory;
 import me.didi.utilities.VectorUtils;
@@ -40,6 +42,7 @@ public class Rex extends RangedChampion {
 
 	private boolean isOnCooldown;
 	private BukkitTask bukkitTask;
+	private List<ArmorStand> proj = new ArrayList<ArmorStand>();
 
 	public Rex(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist, ItemStack icon,
 			ItemStack autoAttackItem) {
@@ -76,7 +79,7 @@ public class Rex extends RangedChampion {
 			armorStand.setMarker(true);
 			Location destination = player.getLocation().add(player.getLocation().getDirection().multiply(10));
 			Vector vec = destination.subtract(player.getLocation()).toVector();
-
+			proj.add(armorStand);
 			new BukkitRunnable() {
 
 				int counter = 0;
@@ -86,6 +89,7 @@ public class Rex extends RangedChampion {
 					Block blockAt = armorStand.getWorld()
 							.getBlockAt(VectorUtils.getLocationToRight(armorStand.getLocation().add(0, 0.5, 0), 0.3));
 					if (counter >= 20 * 3 || blockAt.getType().isSolid()) {
+						proj.remove(armorStand);
 						armorStand.remove();
 						cancel();
 					} else {
@@ -99,6 +103,7 @@ public class Rex extends RangedChampion {
 								continue;
 							Bukkit.getPluginManager().callEvent(new CustomDamageEvent(entity, player, DamageReason.AUTO,
 									MainClass.getPlugin().getCustomPlayerManager().getDamage(player), true));
+							proj.remove(armorStand);
 							armorStand.remove();
 							cancel();
 						}
@@ -140,14 +145,13 @@ public class Rex extends RangedChampion {
 			new ParticleBuilder(ParticleEffect.REDSTONE, fromNew).setColor(new Color(0, 128, 255)).display();
 			new ParticleBuilder(ParticleEffect.REDSTONE, fromNew).setColor(new Color(0, 128, 255)).display();
 
-			for (Entity entity : fromNew.getChunk().getEntities()) {
-				if (entity instanceof LivingEntity && !(entity instanceof ArmorStand) && entity != player)
-					if (entity.getLocation().distanceSquared(fromNew) <= 2) {
-						enemyHit = true;
-						MainClass.getPlugin().getDamageManager().damageEntity(player, entity, DamageReason.PHYSICAL, 10,
-								false);
-						break;
-					}
+			for (Entity entity : player.getWorld().getNearbyEntities(fromNew, 0.5, 0.5, 0.5)) {
+				if (entity instanceof LivingEntity && !(entity instanceof ArmorStand) && entity != player) {
+					enemyHit = true;
+					MainClass.getPlugin().getDamageManager().damageEntity(player, entity, DamageReason.PHYSICAL, 10,
+							false);
+					break;
+				}
 			}
 			fromNew.add(direction);
 		}
@@ -164,8 +168,40 @@ public class Rex extends RangedChampion {
 
 	@Override
 	public void executeThirdAbility() {
-		// TODO Auto-generated method stub
+		new BukkitRunnable() {
+			Location dest = player.getLocation().add(player.getLocation().getDirection().normalize().multiply(13))
+					.add(0, 1, 0);
+			Location newLoc = VectorUtils.getLocationToRight(player.getLocation().add(0, 0.5, 0), 0.3);
+			Vector toVec = dest.toVector().subtract(newLoc.toVector()).normalize().multiply(0.5);
 
+			@Override
+			public void run() {
+
+				if (newLoc.distanceSquared(dest) <= 2) {
+					cancel();
+					return;
+				} else {
+					ParticleEffect.REDSTONE.display(newLoc, Color.CYAN);
+					ParticleEffect.REDSTONE.display(newLoc, Color.CYAN);
+					ParticleEffect.REDSTONE.display(newLoc, Color.CYAN);
+
+					player.getWorld().getNearbyEntities(newLoc, 0.4, 0.4, 0.4).forEach(ent -> {
+						if (ent instanceof LivingEntity && !(ent instanceof ArmorStand) && ent != player) {
+							MainClass.getPlugin().getDamageManager().damageEntity(player, ent, DamageReason.MAGIC, 15,
+									false);
+							MainClass.getPlugin().getSpecialEffectsManager()
+									.effectPlayer(new RootEffect(player, ent, p -> {
+										RootEffect.rootEnemy(ent, 2);
+									}, ""));
+							cancel();
+							return;
+						}
+					});
+					newLoc.add(toVec);
+				}
+			}
+		}.runTaskTimer(MainClass.getPlugin(), 1, 1);
+		abilityCooldownManager.addCooldown(player, 2, getAbilities()[2].getCooldown());
 	}
 
 	@Override
@@ -250,6 +286,12 @@ public class Rex extends RangedChampion {
 
 	@Override
 	public void stopAllTasks() {
+
+		proj.forEach(ar -> {
+			ar.remove();
+		});
+
+		proj.clear();
 		if (bukkitTask != null)
 			bukkitTask.cancel();
 	}
@@ -329,6 +371,11 @@ public class Rex extends RangedChampion {
 
 					ParticleEffect.EXPLOSION_NORMAL.display(as.getLocation());
 					ParticleEffect.EXPLOSION_HUGE.display(as.getLocation());
+					as.getNearbyEntities(3, 3, 3).forEach(ent -> {
+						if (ent instanceof LivingEntity && !(ent instanceof ArmorStand) && ent != player)
+							MainClass.getPlugin().getDamageManager().damageEntity(player, ent, DamageReason.PHYSICAL,
+									20, true);
+					});
 
 					this.cancel();
 				}

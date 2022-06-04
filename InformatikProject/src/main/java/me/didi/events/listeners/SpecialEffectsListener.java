@@ -9,7 +9,7 @@ public class SpecialEffectsListener implements Listener {
 
 	@EventHandler
 	public void onSpell(CustomEffectEvent event) {
-		
+		event.getSpecialEffect().run();
 	}
 
 }

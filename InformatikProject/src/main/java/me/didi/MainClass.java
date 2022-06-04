@@ -23,10 +23,12 @@ import me.didi.events.listeners.NaturalRegenListener;
 import me.didi.events.listeners.PickupListener;
 import me.didi.events.listeners.PlayerInteractListener;
 import me.didi.events.listeners.QuitListener;
+import me.didi.events.listeners.SpecialEffectsListener;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.menus.PlayerMenuUtility;
 import me.didi.player.CustomPlayerManager;
+import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemManager;
 
 public class MainClass extends JavaPlugin {
@@ -49,6 +51,8 @@ public class MainClass extends JavaPlugin {
 
 	private DamageManager damageManager;
 
+	private SpecialEffectsManager specialEffectsManager;
+
 	@Override
 	public void onEnable() {
 		plugin = this;
@@ -56,6 +60,8 @@ public class MainClass extends JavaPlugin {
 		alivePlayers = new ArrayList<UUID>();
 
 		damageManager = new DamageManager();
+
+		specialEffectsManager = new SpecialEffectsManager();
 
 		gameStateManager = new GameStateManager(this);
 		gameStateManager.setGameState(GameState.LOBBY_STATE);
@@ -92,6 +98,7 @@ public class MainClass extends JavaPlugin {
 		pm.registerEvents(new DeathListener(this), this);
 		pm.registerEvents(new DropItemListener(), this);
 		pm.registerEvents(new PickupListener(), this);
+		pm.registerEvents(new SpecialEffectsListener(), this);
 	}
 
 	public static PlayerMenuUtility getPlayerMenuUtility(Player p) {
@@ -133,5 +140,9 @@ public class MainClass extends JavaPlugin {
 
 	public DamageManager getDamageManager() {
 		return damageManager;
+	}
+
+	public SpecialEffectsManager getSpecialEffectsManager() {
+		return specialEffectsManager;
 	}
 }
