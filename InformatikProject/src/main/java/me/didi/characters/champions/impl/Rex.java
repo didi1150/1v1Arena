@@ -96,15 +96,17 @@ public class Rex extends RangedChampion {
 
 					for (Entity entity : armorStand.getEyeLocation().getWorld()
 							.getNearbyEntities(armorStand.getLocation(), 0.5, 0.75, 0.5)) {
-						if (entity instanceof LivingEntity && !(entity instanceof ArmorStand)) {
-							if (entity == player)
-								continue;
-							Bukkit.getPluginManager().callEvent(new CustomDamageEvent(entity, player, DamageReason.AUTO,
-									MainClass.getPlugin().getCustomPlayerManager().getDamage(player), true));
-							proj.remove(armorStand);
-							armorStand.remove();
-							cancel();
-						}
+						if (!(entity instanceof LivingEntity))
+							continue;
+						if (entity instanceof ArmorStand)
+							continue;
+						if (entity == player)
+							continue;
+						Bukkit.getPluginManager().callEvent(new CustomDamageEvent(entity, player, DamageReason.AUTO,
+								MainClass.getPlugin().getCustomPlayerManager().getDamage(player), true));
+						proj.remove(armorStand);
+						armorStand.remove();
+						cancel();
 					}
 					counter++;
 				}
@@ -144,7 +146,7 @@ public class Rex extends RangedChampion {
 			new ParticleBuilder(ParticleEffect.REDSTONE, fromNew).setColor(new Color(0, 128, 255)).display();
 
 			for (Entity entity : player.getWorld().getNearbyEntities(fromNew, 0.5, 0.5, 0.5)) {
-				if (entity instanceof LivingEntity && !(entity instanceof ArmorStand) && entity != player) {
+				if (isEnemy(entity)) {
 					enemyHit = true;
 					MainClass.getPlugin().getDamageManager().damageEntity(player, entity, DamageReason.PHYSICAL, 10,
 							false);
@@ -184,7 +186,7 @@ public class Rex extends RangedChampion {
 					ParticleEffect.REDSTONE.display(newLoc, Color.CYAN);
 
 					player.getWorld().getNearbyEntities(newLoc, 0.4, 0.4, 0.4).forEach(ent -> {
-						if (ent instanceof LivingEntity && !(ent instanceof ArmorStand) && ent != player) {
+						if (isEnemy(ent)) {
 							MainClass.getPlugin().getDamageManager().damageEntity(player, ent, DamageReason.MAGIC, 15,
 									false);
 							MainClass.getPlugin().getSpecialEffectsManager()
@@ -197,7 +199,9 @@ public class Rex extends RangedChampion {
 				}
 			}
 		}.runTaskTimer(MainClass.getPlugin(), 1, 1);
-		abilityCooldownManager.addCooldown(player, 2, getAbilities()[2].getCooldown());
+		abilityCooldownManager.addCooldown(player, 2,
+
+				getAbilities()[2].getCooldown());
 	}
 
 	@Override
@@ -231,11 +235,10 @@ public class Rex extends RangedChampion {
 						Random random = new Random();
 						drawCyl(radius * random.nextDouble(), dest);
 						for (Entity entity : world.getNearbyEntities(dest, radius - 1, radius - 1, radius - 1)) {
-							if (entity instanceof LivingEntity && !(entity instanceof ArmorStand)) {
-								if (entity != player) {
-									MainClass.getPlugin().getDamageManager().damageEntity(player, entity,
-											DamageReason.PHYSICAL, 20, false);
-								}
+
+							if (isEnemy(entity)) {
+								MainClass.getPlugin().getDamageManager().damageEntity(player, entity,
+										DamageReason.PHYSICAL, 20, false);
 							}
 						}
 					}
@@ -312,7 +315,7 @@ public class Rex extends RangedChampion {
 					ParticleEffect.EXPLOSION_NORMAL.display(as.getLocation());
 					ParticleEffect.EXPLOSION_HUGE.display(as.getLocation());
 					as.getNearbyEntities(3, 3, 3).forEach(ent -> {
-						if (ent instanceof LivingEntity && !(ent instanceof ArmorStand) && ent != player)
+						if (isEnemy(ent))
 							MainClass.getPlugin().getDamageManager().damageEntity(player, ent, DamageReason.PHYSICAL,
 									20, true);
 					});

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -116,5 +118,13 @@ public abstract class Champion {
 
 	public Ability[] getAbilities() {
 		return abilities;
+	}
+
+	protected boolean isEnemy(Entity hit) {
+		if (hit == player)
+			return false;
+		if (hit instanceof LivingEntity && !(hit instanceof ArmorStand))
+			return true;
+		return false;
 	}
 }
