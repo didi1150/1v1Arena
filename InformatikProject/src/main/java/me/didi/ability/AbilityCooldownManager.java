@@ -44,6 +44,8 @@ public class AbilityCooldownManager {
 	private MainClass plugin;
 	private Map<UUID, int[]> cooldowns = new HashMap<>();
 	private Map<UUID, RecastCooldown> recasts = new HashMap<>();
+	private Map<UUID, Integer> disabled = new HashMap<UUID, Integer>();
+	private Map<UUID, ItemStack[]> cachedIcons = new HashMap<UUID, ItemStack[]>();
 
 	private ItemManager itemManager;
 
@@ -88,6 +90,20 @@ public class AbilityCooldownManager {
 							itemManager.setItem(player, i, createOnCooldownItem(array[i], ability.getName()));
 							array[i]--;
 						}
+					}
+				}
+
+				for (Map.Entry<UUID, Integer> entry : disabled.entrySet()) {
+					Player player = Bukkit.getPlayer(entry.getKey());
+					if (entry.getValue() <= 1) {
+						disabled.remove(player.getUniqueId());
+						ItemStack[] cache = cachedIcons.get(player.getUniqueId());
+						for (int i = 0; i < cache.length; i++)
+							itemManager.setItem(player, i, cache[i]);
+						cachedIcons.remove(player.getUniqueId());
+					} else {
+						int remaining = entry.getValue() - 1;
+						disabled.put(player.getUniqueId(), remaining);
 					}
 				}
 			}
@@ -142,6 +158,31 @@ public class AbilityCooldownManager {
 	public void removeCooldown(Player player) {
 		if (cooldowns.containsKey(player.getUniqueId()))
 			cooldowns.remove(player.getUniqueId());
+	}
+
+	public void disableAbilities(Player player, int duration) {
+		int remaining = duration;
+		ItemStack[] cachedItems = new ItemStack[4];
+		if (disabled.containsKey(player.getUniqueId())) {
+			remaining += disabled.get(player.getUniqueId());
+
+			Ability[] abilities = plugin.getChampionsManager().getSelectedChampion(player).getAbilities();
+			for (int i = 0; i < abilities.length; i++) {
+				cachedItems[i] = abilities[i].getIcon();
+			}
+		} else {
+			for (int i = 0; i < 4; i++) {
+				cachedItems[i] = player.getInventory().getItem(i);
+			}
+		}
+		this.cachedIcons.put(player.getUniqueId(), cachedItems);
+		this.disabled.put(player.getUniqueId(), remaining);
+
+		for (int i = 0; i < 4; i++) {
+			itemManager.setItem(player, i,
+					new ItemBuilder(new ItemStack(Material.BARRIER)).setDisplayName(ChatColor.RED + "X")
+							.setLore(ChatColor.GRAY + "This ability is not useable").toItemStack());
+		}
 	}
 
 }
