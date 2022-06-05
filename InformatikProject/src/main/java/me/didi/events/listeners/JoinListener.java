@@ -32,7 +32,7 @@ public class JoinListener implements Listener {
 			if (plugin.getAlivePlayers().size() >= LobbyState.MAX_PLAYERS) {
 				player.kickPlayer("Sorry, we're full");
 			}
-			
+
 			player.getInventory().clear();
 			player.getInventory().setArmorContents(new ItemStack[] { new ItemStack(Material.AIR),
 					new ItemStack(Material.AIR), new ItemStack(Material.AIR), new ItemStack(Material.AIR) });
@@ -40,7 +40,8 @@ public class JoinListener implements Listener {
 			player.removePotionEffect(PotionEffectType.INVISIBILITY);
 			player.setHealth(player.getMaxHealth());
 			player.setFoodLevel(20);
-			player.setTotalExperience(0);
+			player.setLevel(0);
+			player.setExp(0);
 
 			plugin.getAlivePlayers().add(player.getUniqueId());
 			ChatUtils.broadCastMessage(ChatColor.YELLOW + player.getDisplayName() + ChatColor.GREEN
