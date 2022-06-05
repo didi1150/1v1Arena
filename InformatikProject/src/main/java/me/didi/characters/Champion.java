@@ -1,5 +1,9 @@
 package me.didi.characters;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -22,6 +26,8 @@ public abstract class Champion {
 	private int baseMagicResist;
 	protected Player player;
 
+	protected List<ArmorStand> proj;
+
 	protected AbilityCooldownManager abilityCooldownManager;
 
 	public Champion(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist,
@@ -34,6 +40,7 @@ public abstract class Champion {
 		this.icon = icon;
 		this.abilityCooldownManager = MainClass.getPlugin().getAbilityCooldownManager();
 		this.autoAttackItem = autoAttackItem;
+		this.proj = new ArrayList<ArmorStand>();
 	}
 
 	public abstract void stopAllTasks();

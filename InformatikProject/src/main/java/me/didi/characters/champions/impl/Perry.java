@@ -7,6 +7,7 @@ import me.didi.characters.Champion;
 import me.didi.characters.champions.MeleeChampion;
 
 public class Perry extends MeleeChampion {
+
 	public Perry(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist, ItemStack icon,
 			ItemStack autoAttackItem) {
 		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon, autoAttackItem);
@@ -22,6 +23,10 @@ public class Perry extends MeleeChampion {
 	public void executeAutoAttack() {
 		// TODO Auto-generated method stub
 
+	}
+
+	private void shootBoomerang() {
+		
 	}
 
 	@Override
@@ -50,7 +55,7 @@ public class Perry extends MeleeChampion {
 
 	@Override
 	public void stopAllTasks() {
-		
+
 	}
 
 }

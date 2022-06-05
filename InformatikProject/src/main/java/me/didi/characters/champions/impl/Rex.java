@@ -1,9 +1,7 @@
 package me.didi.characters.champions.impl;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -30,6 +28,7 @@ import me.didi.characters.champions.RangedChampion;
 import me.didi.events.damageSystem.CustomDamageEvent;
 import me.didi.events.damageSystem.DamageReason;
 import me.didi.player.effects.RootEffect;
+import me.didi.utilities.ArmorStandFactory;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.SkullFactory;
 import me.didi.utilities.VectorUtils;
@@ -42,7 +41,6 @@ public class Rex extends RangedChampion {
 
 	private boolean isOnCooldown;
 	private BukkitTask bukkitTask;
-	private List<ArmorStand> proj = new ArrayList<ArmorStand>();
 
 	public Rex(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist, ItemStack icon,
 			ItemStack autoAttackItem) {
@@ -293,71 +291,16 @@ public class Rex extends RangedChampion {
 			bukkitTask.cancel();
 	}
 
-	public Vector calculateVelocity(Vector from, Vector to, int heightGain) {
-		// Gravity of a potion
-		double gravity = 0.115;
-		// Block locations
-		int endGain = to.getBlockY() - from.getBlockY();
-		double horizDist = Math.sqrt(distanceSquared(from, to));
-		// Height gain
-		int gain = heightGain;
-		double maxGain = gain > (endGain + gain) ? gain : (endGain + gain);
-		// Solve quadratic equation for velocity
-		double a = -horizDist * horizDist / (4 * maxGain);
-		double b = horizDist;
-		double c = -endGain;
-		double slope = -b / (2 * a) - Math.sqrt(b * b - 4 * a * c) / (2 * a);
-		// Vertical velocity
-		double vy = Math.sqrt(maxGain * gravity);
-		// Horizontal velocity
-		double vh = vy / slope;
-		// Calculate horizontal direction
-		int dx = to.getBlockX() - from.getBlockX();
-		int dz = to.getBlockZ() - from.getBlockZ();
-		double mag = Math.sqrt(dx * dx + dz * dz);
-		double dirx = dx / mag;
-		double dirz = dz / mag;
-		// Horizontal velocity components
-		double vx = vh * dirx;
-		double vz = vh * dirz;
-		return new Vector(vx, vy, vz);
-	}
-
-	private double distanceSquared(Vector from, Vector to) {
-		double dx = to.getBlockX() - from.getBlockX();
-		double dz = to.getBlockZ() - from.getBlockZ();
-		return dx * dx + dz * dz;
-	}
-
-	public Entity spawnInvisibleArmorStand(Location l) {
-		// You can remove the net.minecraft.server.v1_8_R3 and just import the classes
-		// You need to change v1_8_R3 for your version.
-		net.minecraft.server.v1_8_R3.World w = ((CraftWorld) l.getWorld()).getHandle();
-		net.minecraft.server.v1_8_R3.EntityArmorStand nmsEntity = new net.minecraft.server.v1_8_R3.EntityArmorStand(w);
-		// Yes, yaw goes first here ->
-		nmsEntity.setLocation(l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch());
-		nmsEntity.setInvisible(true);
-		nmsEntity.setArms(false);
-		nmsEntity.setBasePlate(false);
-		/*
-		 * You can make other changes like: nmsEntity.setGravity(false);
-		 * nmsEntity.setArms(true); nmsEntity.setBasePlate(false); The methods are very
-		 * similiar to the ArmorStand ones in the API
-		 */
-		w.addEntity(nmsEntity);
-		return nmsEntity.getBukkitEntity();
-	}
-
 	private void throwBomb() {
 		EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
 		PacketPlayOutAnimation packet = new PacketPlayOutAnimation(entityPlayer, 0);
 		entityPlayer.playerConnection.sendPacket(packet);
-		ArmorStand as = (ArmorStand) spawnInvisibleArmorStand(
-				VectorUtils.getLocationToRight(player.getLocation().add(0, 1, 0), 0.3));
+		ArmorStand as = (ArmorStand) ArmorStandFactory
+				.spawnInvisibleArmorStand(VectorUtils.getLocationToRight(player.getLocation().add(0, 1, 0), 0.3));
 		as.setItemInHand(
 				ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_BOMB.getValue(), SkullFactory.HEAD_BOMB.getName()));
 		Location dest = player.getLocation().clone().add(player.getLocation().getDirection().multiply(25));
-		as.setVelocity(calculateVelocity(as.getLocation().toVector(), dest.toVector(), 2));
+		as.setVelocity(VectorUtils.calculateVelocity(as.getLocation().toVector(), dest.toVector(), 2));
 		new BukkitRunnable() {
 
 			@Override
