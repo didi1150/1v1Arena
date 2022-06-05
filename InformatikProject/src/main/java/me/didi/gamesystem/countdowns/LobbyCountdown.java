@@ -79,6 +79,8 @@ public class LobbyCountdown extends Countdown {
 											.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack());
 						}
 						gameStateManager.getPlugin().getCustomPlayerManager().addPlayer(player);
+						player.getInventory().setHelmet(gameStateManager.getPlugin().getChampionsManager()
+								.getSelectedChampion(player).getIcon());
 
 					});
 
