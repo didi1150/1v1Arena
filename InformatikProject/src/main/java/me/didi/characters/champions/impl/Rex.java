@@ -232,7 +232,7 @@ public class Rex extends RangedChampion {
 					if (counter % 2 == 0) {
 						Random random = new Random();
 						drawCyl(radius * random.nextDouble(), dest);
-						for (Entity entity : world.getNearbyEntities(dest, radius, radius, radius)) {
+						for (Entity entity : world.getNearbyEntities(dest, radius - 1, radius - 1, radius - 1)) {
 							if (entity instanceof LivingEntity && !(entity instanceof ArmorStand)) {
 								if (entity != player) {
 									MainClass.getPlugin().getDamageManager().damageEntity(player, entity,
@@ -241,7 +241,6 @@ public class Rex extends RangedChampion {
 							}
 						}
 					}
-
 				}
 				counter++;
 			}
