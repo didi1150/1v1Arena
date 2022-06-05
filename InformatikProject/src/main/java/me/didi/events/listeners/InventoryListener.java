@@ -11,9 +11,9 @@ public class InventoryListener implements Listener {
 
 	@EventHandler
 	public void onClick(InventoryClickEvent event) {
+		event.setCancelled(true);
 		InventoryHolder holder = event.getInventory().getHolder();
 		if (holder instanceof Menu) {
-			event.setCancelled(true);
 			if (event.getCurrentItem() == null) {
 				return;
 			}

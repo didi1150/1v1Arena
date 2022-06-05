@@ -16,6 +16,7 @@ import me.didi.ability.AbilityType;
 import me.didi.characters.Champion;
 import me.didi.characters.champions.impl.Anakin;
 import me.didi.characters.champions.impl.Lloyd;
+import me.didi.characters.champions.impl.Perry;
 import me.didi.characters.champions.impl.Rex;
 import me.didi.utilities.ItemBuilder;
 import net.md_5.bungee.api.ChatColor;
@@ -63,6 +64,30 @@ public class ChampionsManager {
 						.toItemStack(),
 				new ItemBuilder(new ItemStack(Material.IRON_BARDING)).setDisplayName(ChatColor.AQUA + "Blaster")
 						.addGlow().setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "5").toItemStack()));
+		selectableChampions.add(new Perry("Perry", new Ability[] {
+
+				new Ability(AbilityType.OTHER, "Fist",
+						new ItemBuilder(new ItemStack(Material.LEATHER_HELMET))
+								.setDisplayName(ChatColor.GOLD + "Boomerang").toItemStack(),
+						20),
+
+				new Ability(AbilityType.OTHER, "Car",
+						new ItemBuilder(new ItemStack(Material.LEATHER_HELMET))
+								.setDisplayName(ChatColor.GOLD + "Boomerang").toItemStack(),
+						20),
+
+				new Ability(AbilityType.OTHER, "Fist",
+						new ItemBuilder(new ItemStack(Material.LEATHER_HELMET))
+								.setDisplayName(ChatColor.GOLD + "Boomerang").toItemStack(),
+						20),
+
+				new Ability(AbilityType.OTHER, "Enchant", new ItemBuilder(new ItemStack(Material.LEATHER_HELMET))
+						.setDisplayName(ChatColor.GOLD + "Boomerang").toItemStack(), 20)
+
+		}, 100, 0, 0,
+				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName(ChatColor.DARK_GREEN + "Perry")
+						.toItemStack(),
+				new ItemBuilder(new ItemStack(Material.ANVIL)).setDisplayName(ChatColor.GREEN + "Fist").toItemStack()));
 	}
 
 	public Set<Champion> getSelectableChampions() {
