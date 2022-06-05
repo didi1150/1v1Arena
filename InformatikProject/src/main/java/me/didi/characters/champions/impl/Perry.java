@@ -4,7 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
@@ -16,7 +15,6 @@ import me.didi.characters.Champion;
 import me.didi.characters.champions.MeleeChampion;
 import me.didi.events.damageSystem.DamageReason;
 import me.didi.utilities.ArmorStandFactory;
-import me.didi.utilities.ChatUtils;
 
 public class Perry extends MeleeChampion {
 
