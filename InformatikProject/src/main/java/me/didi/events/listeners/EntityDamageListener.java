@@ -58,22 +58,16 @@ public class EntityDamageListener implements Listener {
 			event.setCancelled(true);
 			return;
 		}
-		if (event.getEntity() instanceof Player) {
-			Player player = (Player) event.getEntity();
-			if (event.getDamager() instanceof Player) {
-
-				Player attacker = (Player) event.getDamager();
-				event.setCancelled(true);
-				if (attacker.getInventory().getHeldItemSlot() != 4)
-					return;
-
-				plugin.getDamageManager().damageEntity(attacker, player, DamageReason.AUTO,
+		if (event.getDamager() instanceof Player) {
+			Player attacker = (Player) event.getDamager();
+			event.setCancelled(true);
+			if (attacker.getInventory().getHeldItemSlot() == 4)
+				plugin.getDamageManager().damageEntity(attacker, event.getEntity(), DamageReason.AUTO,
 						plugin.getCustomPlayerManager().getDamage(attacker), true);
-			} else {
-				plugin.getDamageManager().damageEntity(event.getDamager(), player, DamageReason.AUTO, event.getDamage(),
-						true);
-				event.setCancelled(true);
-			}
+		} else {
+			plugin.getDamageManager().damageEntity(event.getDamager(), event.getEntity(), DamageReason.AUTO,
+					event.getDamage(), true);
+			event.setCancelled(true);
 		}
 	}
 
