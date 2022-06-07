@@ -19,6 +19,7 @@ import me.didi.characters.champions.impl.Lloyd;
 import me.didi.characters.champions.impl.Perry;
 import me.didi.characters.champions.impl.Rex;
 import me.didi.utilities.ItemBuilder;
+import me.didi.utilities.SkullFactory;
 import net.md_5.bungee.api.ChatColor;
 
 public class ChampionsManager {
@@ -32,9 +33,7 @@ public class ChampionsManager {
 						new Ability(AbilityType.MELEE, "First Ability", new ItemStack(Material.INK_SACK), 10),
 						new Ability(AbilityType.MELEE, "First Ability", new ItemStack(Material.INK_SACK), 10),
 						new Ability(AbilityType.MELEE, "Spinjitzu", new ItemStack(Material.STRING), 10) },
-				50, 50, 50,
-				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName(ChatColor.GREEN + "Lloyd")
-						.toItemStack(),
+				50, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_LLOYD),
 				new ItemBuilder(new ItemStack(Material.GOLD_SWORD)).setDisplayName(ChatColor.GOLD + "Katana")
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "6").toItemStack()));
 		selectableChampions.add(new Anakin("Anakin",
@@ -42,9 +41,7 @@ public class ChampionsManager {
 						new Ability(AbilityType.MELEE, "Force", new ItemStack(Material.WOOD), 10),
 						new Ability(AbilityType.MELEE, "Force", new ItemStack(Material.WOOD), 10),
 						new Ability(AbilityType.MELEE, "CHOKE", new ItemStack(Material.WOOD), 10) },
-				75, 50, 50,
-				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName(ChatColor.BLUE + "Anakin")
-						.toItemStack(),
+				75, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_ANAKIN),
 				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName(ChatColor.AQUA + "Lightsaber").addGlow()
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "7").toItemStack()));
 		selectableChampions.add(new Rex("Rex",
@@ -59,9 +56,7 @@ public class ChampionsManager {
 								new ItemBuilder(new ItemStack(Material.BEACON))
 										.setDisplayName(org.bukkit.ChatColor.GOLD + "Airstrike").toItemStack(),
 								10) },
-				75, 50, 50,
-				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName(ChatColor.BLUE + "Rex")
-						.toItemStack(),
+				75, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_REX),
 				new ItemBuilder(new ItemStack(Material.IRON_BARDING)).setDisplayName(ChatColor.AQUA + "Blaster")
 						.addGlow().setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "5").toItemStack()));
 		selectableChampions.add(new Perry("Perry", new Ability[] {
@@ -84,9 +79,7 @@ public class ChampionsManager {
 				new Ability(AbilityType.OTHER, "Enchant", new ItemBuilder(new ItemStack(Material.LEATHER_HELMET))
 						.setDisplayName(ChatColor.GOLD + "Boomerang").toItemStack(), 20)
 
-		}, 100, 0, 0,
-				new ItemBuilder(new ItemStack(Material.SKULL_ITEM)).setDisplayName(ChatColor.DARK_GREEN + "Perry")
-						.toItemStack(),
+		}, 100, 0, 0, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_PERRY),
 				new ItemBuilder(new ItemStack(Material.ANVIL)).setDisplayName(ChatColor.GREEN + "Fist").toItemStack()));
 	}
 

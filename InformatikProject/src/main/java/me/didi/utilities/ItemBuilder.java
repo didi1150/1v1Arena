@@ -75,4 +75,8 @@ public class ItemBuilder {
 		return head;
 	}
 
+	public static ItemStack getCustomTextureHead(SkullFactory skullfactory) {
+		return getCustomTextureHead(skullfactory.getValue(), skullfactory.getColor() + skullfactory.getName());
+	}
+
 }

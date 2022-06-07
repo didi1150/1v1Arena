@@ -301,7 +301,7 @@ public class Rex extends RangedChampion {
 		ArmorStand as = (ArmorStand) ArmorStandFactory
 				.spawnInvisibleArmorStand(VectorUtils.getLocationToRight(player.getLocation().add(0, 1, 0), 0.3));
 		as.setItemInHand(
-				ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_BOMB.getValue(), SkullFactory.HEAD_BOMB.getName()));
+				ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_BOMB));
 		Location dest = player.getLocation().clone().add(player.getLocation().getDirection().multiply(25));
 		as.setVelocity(VectorUtils.calculateVelocity(as.getLocation().toVector(), dest.toVector(), 2));
 		new BukkitRunnable() {
