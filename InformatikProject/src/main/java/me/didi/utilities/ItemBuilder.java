@@ -71,6 +71,7 @@ public class ItemBuilder {
 		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
 			e.printStackTrace();
 		}
+		meta.setDisplayName(displayName);
 		head.setItemMeta(meta);
 		return head;
 	}
