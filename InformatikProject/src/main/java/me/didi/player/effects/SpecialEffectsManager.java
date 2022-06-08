@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import me.didi.MainClass;
-import me.didi.events.damageSystem.CustomDamageEvent;
+import me.didi.events.customEvents.CustomDamageEvent;
 
 public class SpecialEffectsManager {
 

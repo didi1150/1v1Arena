@@ -13,7 +13,7 @@ import me.didi.MainClass;
 import me.didi.ability.Ability;
 import me.didi.characters.Champion;
 import me.didi.characters.champions.MeleeChampion;
-import me.didi.events.damageSystem.DamageReason;
+import me.didi.events.customEvents.DamageReason;
 import me.didi.utilities.ArmorStandFactory;
 
 public class Perry extends MeleeChampion {
@@ -96,7 +96,7 @@ public class Perry extends MeleeChampion {
 
 	@Override
 	public void executeSecondAbility() {
-
+		
 	}
 
 	@Override

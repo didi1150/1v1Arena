@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.didi.ability.AbilityCooldownManager;
 import me.didi.commands.CommandManager;
 import me.didi.commands.TestCommand;
-import me.didi.events.damageSystem.DamageManager;
+import me.didi.events.customEvents.DamageManager;
 import me.didi.events.listeners.BlockListener;
 import me.didi.events.listeners.DeathListener;
 import me.didi.events.listeners.DropItemListener;

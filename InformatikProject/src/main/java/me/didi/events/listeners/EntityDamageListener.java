@@ -10,9 +10,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import me.didi.MainClass;
-import me.didi.events.damageSystem.CustomDamageEvent;
-import me.didi.events.damageSystem.CustomPlayerDeathEvent;
-import me.didi.events.damageSystem.DamageReason;
+import me.didi.events.customEvents.CustomDamageEvent;
+import me.didi.events.customEvents.CustomPlayerDeathEvent;
+import me.didi.events.customEvents.DamageReason;
 import me.didi.gamesystem.gameStates.IngameState;
 import me.didi.player.CustomPlayer;
 

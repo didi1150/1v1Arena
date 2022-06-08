@@ -8,8 +8,8 @@ import org.bukkit.event.Event;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.didi.MainClass;
-import me.didi.events.damageSystem.CustomDamageEvent;
-import me.didi.events.damageSystem.DamageReason;
+import me.didi.events.customEvents.CustomDamageEvent;
+import me.didi.events.customEvents.DamageReason;
 import me.didi.utilities.ParticleUtils;
 import net.minecraft.server.v1_8_R3.AxisAlignedBB;
 import xyz.xenondevs.particle.ParticleEffect;

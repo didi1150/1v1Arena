@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import me.didi.MainClass;
-import me.didi.events.damageSystem.CustomPlayerDeathEvent;
+import me.didi.events.customEvents.CustomPlayerDeathEvent;
 import me.didi.gamesystem.GameState;
 import me.didi.utilities.ChatUtils;
 

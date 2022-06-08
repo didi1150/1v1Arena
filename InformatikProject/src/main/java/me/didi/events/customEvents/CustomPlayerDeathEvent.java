@@ -1,4 +1,4 @@
-package me.didi.events.damageSystem;
+package me.didi.events.customEvents;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

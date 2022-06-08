@@ -15,7 +15,7 @@ import me.didi.MainClass;
 import me.didi.ability.Ability;
 import me.didi.characters.Champion;
 import me.didi.characters.champions.MeleeChampion;
-import me.didi.events.damageSystem.DamageReason;
+import me.didi.events.customEvents.DamageReason;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.ItemManager;
 import xyz.xenondevs.particle.ParticleEffect;
