@@ -6,15 +6,15 @@ import org.bukkit.event.HandlerList;
 
 import me.didi.player.CustomPlayer;
 
-public class CustomHealEvent extends Event implements Cancellable {
+public class CustomPlayerHealEvent extends Event implements Cancellable {
 	private static final HandlerList HANDLERS_LIST = new HandlerList();
 	private boolean isCancelled;
 
 	private CustomPlayer customPlayer;
 	private HealReason healReason;
-	private double healAmount;
+	private float healAmount;
 
-	public CustomHealEvent(CustomPlayer customPlayer, HealReason healReason, double healAmount) {
+	public CustomPlayerHealEvent(CustomPlayer customPlayer, HealReason healReason, float healAmount) {
 		this.customPlayer = customPlayer;
 		this.healReason = healReason;
 		this.healAmount = healAmount;
@@ -47,7 +47,7 @@ public class CustomHealEvent extends Event implements Cancellable {
 		return customPlayer;
 	}
 
-	public double getHealAmount() {
+	public float getHealAmount() {
 		return healAmount;
 	}
 }
