@@ -9,8 +9,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import me.didi.MainClass;
+import me.didi.gamesystem.GameStateManager;
 import me.didi.gamesystem.countdowns.LobbyCountdown;
 import me.didi.gamesystem.gameStates.LobbyState;
+import me.didi.player.CustomPlayerManager;
 import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 import net.md_5.bungee.api.ChatColor;
@@ -19,14 +21,19 @@ public class JoinListener implements Listener {
 
 	private MainClass plugin;
 
-	public JoinListener(MainClass plugin) {
+	private GameStateManager gameStateManager;
+	private CustomPlayerManager customPlayerManager;
+
+	public JoinListener(MainClass plugin, GameStateManager gameStateManager, CustomPlayerManager customPlayerManager) {
 		this.plugin = plugin;
+		this.gameStateManager = gameStateManager;
+		this.customPlayerManager = customPlayerManager;
 	}
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		event.setJoinMessage(null);
-		if (plugin.getGameStateManager().getCurrentGameState() instanceof LobbyState) {
+		if (gameStateManager.getCurrentGameState() instanceof LobbyState) {
 			Player player = event.getPlayer();
 
 			if (plugin.getAlivePlayers().size() >= LobbyState.MAX_PLAYERS) {
@@ -48,7 +55,7 @@ public class JoinListener implements Listener {
 					+ " ist dem Spiel beigetreten! " + ChatColor.GOLD + "[" + plugin.getAlivePlayers().size()
 					+ ChatColor.GRAY + "/" + LobbyState.MAX_PLAYERS + ChatColor.GOLD + "]");
 
-			LobbyState lobbyState = (LobbyState) plugin.getGameStateManager().getCurrentGameState();
+			LobbyState lobbyState = (LobbyState) gameStateManager.getCurrentGameState();
 			LobbyCountdown countdown = lobbyState.getCountdown();
 
 			if (plugin.getAlivePlayers().size() >= LobbyState.MIN_PLAYERS) {
@@ -63,7 +70,7 @@ public class JoinListener implements Listener {
 							.setLore(ChatColor.GRAY + "Select your favourite Champion!").toItemStack());
 		} else {
 			Player player = event.getPlayer();
-			plugin.getCustomPlayerManager().setGhost(player);
+			customPlayerManager.setGhost(player);
 		}
 	}
 

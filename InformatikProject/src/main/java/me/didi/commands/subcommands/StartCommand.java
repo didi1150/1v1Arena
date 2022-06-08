@@ -5,10 +5,17 @@ import org.bukkit.entity.Player;
 
 import me.didi.MainClass;
 import me.didi.commands.SubCommand;
+import me.didi.gamesystem.GameStateManager;
 import me.didi.gamesystem.gameStates.LobbyState;
 import me.didi.utilities.ChatUtils;
 
 public class StartCommand extends SubCommand {
+
+	private GameStateManager gameStateManager;
+
+	public StartCommand(GameStateManager gameStateManager) {
+		this.gameStateManager = gameStateManager;
+	}
 
 	@Override
 	public String getName() {
@@ -28,8 +35,8 @@ public class StartCommand extends SubCommand {
 
 	@Override
 	public void runCommand(Player player, String[] args) {
-		if (MainClass.getPlugin().getGameStateManager().getCurrentGameState() instanceof LobbyState) {
-			LobbyState lobbyState = (LobbyState) MainClass.getPlugin().getGameStateManager().getCurrentGameState();
+		if (gameStateManager.getCurrentGameState() instanceof LobbyState) {
+			LobbyState lobbyState = (LobbyState) gameStateManager.getCurrentGameState();
 			if (lobbyState.getCountdown().isRunning() && lobbyState.getCountdown().getSeconds() > 1) {
 				lobbyState.getCountdown().setSeconds(1);
 				ChatUtils.sendMessageToPlayer(player,

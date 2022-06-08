@@ -9,7 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.didi.ability.AbilityCooldownManager;
+import me.didi.ability.AbilityStateManager;
+import me.didi.champion.ChampionsManager;
 import me.didi.commands.CommandManager;
 import me.didi.commands.TestCommand;
 import me.didi.events.customEvents.DamageManager;
@@ -44,7 +45,7 @@ public class MainClass extends JavaPlugin {
 
 	private ChampionsManager championsManager;
 
-	private AbilityCooldownManager abilityCooldownManager;
+	private AbilityStateManager abilityCooldownManager;
 
 	private CustomPlayerManager customPlayerManager;
 
@@ -57,25 +58,26 @@ public class MainClass extends JavaPlugin {
 		plugin = this;
 
 		alivePlayers = new ArrayList<UUID>();
-
+		
+		championsManager = new ChampionsManager(this);
+		
 		damageManager = new DamageManager();
 
 		specialEffectsManager = new SpecialEffectsManager(this);
 
-		gameStateManager = new GameStateManager(this);
-		gameStateManager.setGameState(GameState.LOBBY_STATE);
-
-		abilityCooldownManager = new AbilityCooldownManager(this, new ItemManager());
+		abilityCooldownManager = new AbilityStateManager(this, championsManager, new ItemManager());
 		abilityCooldownManager.startBackGroundTask();
 
-		championsManager = new ChampionsManager();
-		championsManager.registerChampions();
+		customPlayerManager = new CustomPlayerManager(this, championsManager, abilityCooldownManager);
 
-		customPlayerManager = new CustomPlayerManager(this);
+		championsManager.registerChampions(abilityCooldownManager, specialEffectsManager, customPlayerManager);
+
+		gameStateManager = new GameStateManager(this, customPlayerManager, championsManager);
+		gameStateManager.setGameState(GameState.LOBBY_STATE);
 
 		registerListeners();
 		getCommand("test").setExecutor(new TestCommand());
-		getCommand("project").setExecutor(new CommandManager());
+		getCommand("project").setExecutor(new CommandManager(gameStateManager));
 
 	}
 
@@ -88,13 +90,13 @@ public class MainClass extends JavaPlugin {
 	private void registerListeners() {
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(new InventoryListener(), this);
-		pm.registerEvents(new JoinListener(this), this);
-		pm.registerEvents(new QuitListener(this), this);
-		pm.registerEvents(new PlayerInteractListener(this), this);
-		pm.registerEvents(new EntityDamageListener(this), this);
+		pm.registerEvents(new JoinListener(this, gameStateManager, customPlayerManager), this);
+		pm.registerEvents(new QuitListener(this, gameStateManager, abilityCooldownManager, championsManager), this);
+		pm.registerEvents(new PlayerInteractListener(this, championsManager, gameStateManager), this);
+		pm.registerEvents(new EntityDamageListener(customPlayerManager, damageManager, gameStateManager), this);
 		pm.registerEvents(new HealListener(), this);
 		pm.registerEvents(new BlockListener(), this);
-		pm.registerEvents(new DeathListener(this), this);
+		pm.registerEvents(new DeathListener(this, customPlayerManager, gameStateManager), this);
 		pm.registerEvents(new DropItemListener(), this);
 		pm.registerEvents(new PickupListener(), this);
 		pm.registerEvents(new HealListener(), this);
@@ -119,29 +121,5 @@ public class MainClass extends JavaPlugin {
 
 	public ArrayList<UUID> getAlivePlayers() {
 		return alivePlayers;
-	}
-
-	public GameStateManager getGameStateManager() {
-		return gameStateManager;
-	}
-
-	public ChampionsManager getChampionsManager() {
-		return championsManager;
-	}
-
-	public AbilityCooldownManager getAbilityCooldownManager() {
-		return abilityCooldownManager;
-	}
-
-	public CustomPlayerManager getCustomPlayerManager() {
-		return customPlayerManager;
-	}
-
-	public DamageManager getDamageManager() {
-		return damageManager;
-	}
-
-	public SpecialEffectsManager getSpecialEffectsManager() {
-		return specialEffectsManager;
 	}
 }

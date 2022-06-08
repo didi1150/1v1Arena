@@ -5,7 +5,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import me.didi.MainClass;
-import me.didi.characters.Champion;
+import me.didi.champion.Champion;
+import me.didi.champion.ChampionsManager;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.countdowns.EndingCountdown;
 import me.didi.utilities.ChatUtils;
@@ -14,10 +15,12 @@ public class EndingState extends GameState {
 
 	private EndingCountdown endingCountdown;
 	private MainClass plugin;
+	private ChampionsManager championsManager;
 
-	public EndingState(EndingCountdown endingCountdown, MainClass plugin) {
+	public EndingState(EndingCountdown endingCountdown, MainClass plugin, ChampionsManager championsManager) {
 		this.endingCountdown = endingCountdown;
 		this.plugin = plugin;
+		this.championsManager = championsManager;
 	}
 
 	@Override
@@ -28,7 +31,7 @@ public class EndingState extends GameState {
 		}
 
 		Bukkit.getOnlinePlayers().forEach(player -> {
-			Champion selectedChampion = plugin.getChampionsManager().getSelectedChampion(player);
+			Champion selectedChampion = championsManager.getSelectedChampion(player);
 			if (selectedChampion != null)
 				selectedChampion.stopAllTasks();
 		});

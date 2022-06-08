@@ -16,9 +16,9 @@ import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.MainClass;
 import me.didi.ability.Ability;
-import me.didi.characters.Champion;
-import me.didi.events.customEvents.CustomPlayerHealEvent;
-import me.didi.events.customEvents.HealReason;
+import me.didi.ability.AbilityStateManager;
+import me.didi.champion.Champion;
+import me.didi.champion.ChampionsManager;
 import me.didi.player.effects.SpecialEffect;
 import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
@@ -32,8 +32,14 @@ public class CustomPlayerManager {
 	private BukkitTask bukkitTask;
 	private MainClass plugin;
 
-	public CustomPlayerManager(MainClass plugin) {
+	private ChampionsManager championsManager;
+	private AbilityStateManager abilityCooldownManager;
+
+	public CustomPlayerManager(MainClass plugin, ChampionsManager championsManager,
+			AbilityStateManager abilityCooldownManager) {
 		this.plugin = plugin;
+		this.championsManager = championsManager;
+		this.abilityCooldownManager = abilityCooldownManager;
 	}
 
 	public void addPlayer(Player player) {
@@ -104,17 +110,16 @@ public class CustomPlayerManager {
 		Player player = Bukkit.getPlayer(customPlayer.getUuid());
 		float maxHealth = customPlayer.getBaseHealth() + getBonusHealth(player);
 
-		if (customPlayer.getCurrentHealth() + regenAmount > maxHealth) {
+		if (customPlayer.getCurrentHealth() + regenAmount > maxHealth)
 			regenAmount = maxHealth - customPlayer.getCurrentHealth();
-		}
 
-		CustomPlayerHealEvent event = new CustomPlayerHealEvent(customPlayer, HealReason.REGENERATION, regenAmount);
-		Bukkit.getPluginManager().callEvent(event);
+		customPlayer.setCurrentHealth(customPlayer.getCurrentHealth() + regenAmount);
 	}
 
 	public void setHealth(CustomPlayer customPlayer) {
 		Player player = Bukkit.getPlayer(customPlayer.getUuid());
 		float maxHealth = customPlayer.getBaseHealth() + getBonusHealth(player);
+
 		player.setHealth(customPlayer.getCurrentHealth() / maxHealth * player.getMaxHealth());
 	}
 
@@ -212,11 +217,11 @@ public class CustomPlayerManager {
 		if (plugin.getAlivePlayers().contains(player.getUniqueId()))
 			plugin.getAlivePlayers().remove(player.getUniqueId());
 
-		Champion selectedChampion = plugin.getChampionsManager().getSelectedChampion(player);
+		Champion selectedChampion = championsManager.getSelectedChampion(player);
 		if (selectedChampion != null) {
 			for (Ability ability : selectedChampion.getAbilities()) {
-				plugin.getAbilityCooldownManager().removeRecastCooldown(player, ability);
-				plugin.getAbilityCooldownManager().removeCooldown(player);
+				abilityCooldownManager.removeRecastCooldown(player, ability);
+				abilityCooldownManager.removeCooldown(player);
 			}
 		}
 

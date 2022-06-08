@@ -6,9 +6,12 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.ability.Ability;
+import me.didi.ability.AbilityImpl;
+import me.didi.champion.ChampionsManager;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.gamesystem.gameStates.LobbyState;
+import me.didi.player.CustomPlayerManager;
 import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 
@@ -19,15 +22,21 @@ public class LobbyCountdown extends Countdown {
 	private GameStateManager gameStateManager;
 	private boolean isIdling;
 
+	private CustomPlayerManager customPlayerManager;
+	private ChampionsManager championsManager;
+
 	private ChatColor[] countdownColours = new ChatColor[] { ChatColor.RED, ChatColor.GOLD, ChatColor.YELLOW,
 			ChatColor.GREEN, ChatColor.AQUA };
 
 	private int seconds;
 	private boolean isRunning;
 
-	public LobbyCountdown(GameStateManager gameStateManager) {
+	public LobbyCountdown(GameStateManager gameStateManager, CustomPlayerManager customPlayerManager,
+			ChampionsManager championsManager) {
 		this.gameStateManager = gameStateManager;
 		this.seconds = COUNTDOWN_TIME;
+		this.customPlayerManager = customPlayerManager;
+		this.championsManager = championsManager;
 	}
 
 	@Override
@@ -62,14 +71,12 @@ public class LobbyCountdown extends Countdown {
 
 					Bukkit.getOnlinePlayers().forEach(player -> {
 						player.getInventory().clear();
-						Ability[] abilities = gameStateManager.getPlugin().getChampionsManager()
-								.getSelectedChampion(player).getAbilities();
+						Ability[] abilities = championsManager.getSelectedChampion(player).getAbilities();
 						for (int i = 0; i < abilities.length; i++) {
 							player.getInventory().setItem(i, abilities[i].getIcon());
 						}
 
-						ItemStack autoAttackItem = gameStateManager.getPlugin().getChampionsManager()
-								.getSelectedChampion(player).getAutoAttackItem();
+						ItemStack autoAttackItem = championsManager.getSelectedChampion(player).getAutoAttackItem();
 
 						player.getInventory().setItem(4, autoAttackItem);
 						for (int i = 5; i < 9; i++) {
@@ -78,13 +85,12 @@ public class LobbyCountdown extends Countdown {
 											.setDisplayName(ChatColor.RED + "NA")
 											.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack());
 						}
-						gameStateManager.getPlugin().getCustomPlayerManager().addPlayer(player);
-						player.getInventory().setHelmet(gameStateManager.getPlugin().getChampionsManager()
-								.getSelectedChampion(player).getIcon());
+						customPlayerManager.addPlayer(player);
+						player.getInventory().setHelmet(championsManager.getSelectedChampion(player).getIcon());
 
 					});
 
-					gameStateManager.getPlugin().getCustomPlayerManager().startBackgroundTask();
+					customPlayerManager.startBackgroundTask();
 					gameStateManager.setGameState(GameState.INGAME_STATE);
 					stop();
 				}

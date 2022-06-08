@@ -3,7 +3,9 @@ package me.didi.gamesystem.countdowns;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
+import me.didi.champion.ChampionsManager;
 import me.didi.gamesystem.GameStateManager;
+import me.didi.player.CustomPlayerManager;
 import me.didi.utilities.ChatUtils;
 
 public class EndingCountdown extends Countdown {
@@ -12,9 +14,12 @@ public class EndingCountdown extends Countdown {
 	private static int COUNTDOWN_TIME = 15;
 	private int seconds;
 
-	public EndingCountdown(GameStateManager gameStateManager) {
+	private CustomPlayerManager customPlayerManager;
+
+	public EndingCountdown(GameStateManager gameStateManager, CustomPlayerManager customPlayerManager) {
 		this.gameStateManager = gameStateManager;
 		this.seconds = COUNTDOWN_TIME;
+		this.customPlayerManager = customPlayerManager;
 	}
 
 	@Override
@@ -52,7 +57,7 @@ public class EndingCountdown extends Countdown {
 	@Override
 	public void stop() {
 		gameStateManager.getPlugin().getAlivePlayers().forEach(uuid -> {
-			gameStateManager.getPlugin().getCustomPlayerManager().removePlayer(uuid);
+			customPlayerManager.removePlayer(uuid);
 		});
 		Bukkit.getOnlinePlayers().forEach(player -> {
 			player.kickPlayer("Server stop");

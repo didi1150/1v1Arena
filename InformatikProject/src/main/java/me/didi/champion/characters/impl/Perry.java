@@ -1,4 +1,4 @@
-package me.didi.characters.champions.impl;
+package me.didi.champion.characters.impl;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,8 +11,9 @@ import org.bukkit.util.Vector;
 
 import me.didi.MainClass;
 import me.didi.ability.Ability;
-import me.didi.characters.Champion;
-import me.didi.characters.champions.MeleeChampion;
+import me.didi.ability.AbilityImpl;
+import me.didi.champion.Champion;
+import me.didi.champion.characters.MeleeChampion;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.utilities.ArmorStandFactory;
 
@@ -77,8 +78,7 @@ public class Perry extends MeleeChampion {
 					for (Entity entity : armorStand.getWorld().getNearbyEntities(armorStand.getLocation().add(0, 1, 0),
 							1, 1, 1)) {
 						if (isEnemy(entity)) {
-							MainClass.getPlugin().getDamageManager().damageEntity(player, entity, DamageReason.PHYSICAL,
-									20, false);
+							damageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 20, false);
 						}
 					}
 				}
@@ -96,7 +96,7 @@ public class Perry extends MeleeChampion {
 
 	@Override
 	public void executeSecondAbility() {
-		
+
 	}
 
 	@Override

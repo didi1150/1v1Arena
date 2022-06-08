@@ -6,7 +6,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.MainClass;
-import me.didi.characters.Champion;
+import me.didi.champion.Champion;
+import me.didi.champion.ChampionsManager;
 import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 import net.md_5.bungee.api.ChatColor;
@@ -14,10 +15,13 @@ import net.md_5.bungee.api.ChatColor;
 public class ChampionSelectMenu extends Menu {
 
 	private MainClass plugin;
+	private ChampionsManager championsManager;
 
-	public ChampionSelectMenu(PlayerMenuUtility playerMenuUtility, MainClass plugin) {
+	public ChampionSelectMenu(PlayerMenuUtility playerMenuUtility, MainClass plugin,
+			ChampionsManager championsManager) {
 		super(playerMenuUtility);
 		this.plugin = plugin;
+		this.championsManager = championsManager;
 	}
 
 	@Override
@@ -38,10 +42,10 @@ public class ChampionSelectMenu extends Menu {
 		ItemStack itemStack = event.getCurrentItem();
 		Player player = (Player) event.getWhoClicked();
 		if (itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName()) {
-			Champion champion = plugin.getChampionsManager()
+			Champion champion = championsManager
 					.getByName(ChatColor.stripColor(itemStack.getItemMeta().getDisplayName()));
 			Champion newChamp = champion.clone();
-			plugin.getChampionsManager().setSelectedChampion(player.getUniqueId(), newChamp);
+			championsManager.setSelectedChampion(player.getUniqueId(), newChamp);
 			ChatUtils.sendMessageToPlayer(player, ChatColor.YELLOW + "Du hast den Champion "
 					+ event.getCurrentItem().getItemMeta().getDisplayName() + ChatColor.YELLOW + " ausgewählt.");
 			player.closeInventory();
@@ -50,10 +54,10 @@ public class ChampionSelectMenu extends Menu {
 
 	@Override
 	public void setMenuItems() {
-		for (Champion champion : plugin.getChampionsManager().getSelectableChampions()) {
+		for (Champion champion : championsManager.getSelectableChampions()) {
 
 			ItemStack icon = champion.getIcon();
-			if (champion.equals(plugin.getChampionsManager().getSelectedChampion(this.playerMenuUtility.getOwner()))) {
+			if (champion.equals(championsManager.getSelectedChampion(this.playerMenuUtility.getOwner()))) {
 				icon = new ItemBuilder(icon).addGlow().toItemStack();
 			}
 

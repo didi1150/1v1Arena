@@ -1,20 +1,19 @@
-package me.didi.characters.champions.impl;
+package me.didi.champion.characters.impl;
 
 import java.awt.Color;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.MainClass;
 import me.didi.ability.Ability;
-import me.didi.characters.Champion;
-import me.didi.characters.champions.MeleeChampion;
+import me.didi.champion.Champion;
+import me.didi.champion.characters.MeleeChampion;
+import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.ItemManager;
@@ -170,7 +169,7 @@ public class Lloyd extends MeleeChampion {
 		case 2:
 			bukkitTask.cancel();
 			abilityCooldownManager.removeRecastCooldown(player, getAbilities()[3]);
-			bukkitTask = spinjitzu(player);
+			bukkitTask = spinjitzu(damageManager, player, getAbilities()[3].getIcon().clone());
 			break;
 		case 3:
 			bukkitTask.cancel();
@@ -181,9 +180,10 @@ public class Lloyd extends MeleeChampion {
 		abilityCounter++;
 	}
 
-	private BukkitTask spinjitzu(final Player player) {
+	private BukkitTask spinjitzu(DamageManager damageManager, Player player, ItemStack itemStack) {
 		new ItemManager().setItem(player, 3,
 				new ItemBuilder(getAbilities()[3].getIcon().clone()).addGlow().toItemStack());
+		
 		return Bukkit.getScheduler().runTaskTimer(MainClass.getPlugin(), new Runnable() {
 			@Override
 			public void run() {
@@ -191,15 +191,14 @@ public class Lloyd extends MeleeChampion {
 				for (Entity entity : player.getWorld().getNearbyEntities(player.getLocation().add(0, 1, 0), 1.75, 0.5,
 						1.75)) {
 					if (isEnemy(entity))
-						MainClass.getPlugin().getDamageManager().damageEntity(player, entity, DamageReason.PHYSICAL, 2,
-								true);
+						damageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 2, true);
 				}
 			}
 
 		}, 0, 2);
 	}
 
-	private BukkitTask airjitzu(final Player player) {
+	private BukkitTask airjitzu(Player player) {
 		new ItemManager().setItem(player, 3,
 				new ItemBuilder(getAbilities()[3].getIcon().clone()).addGlow().toItemStack());
 		player.setAllowFlight(true);
@@ -269,8 +268,13 @@ public class Lloyd extends MeleeChampion {
 
 	@Override
 	public Champion clone() {
-		return new Lloyd(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(), getIcon(),
-				getAutoAttackItem());
+		Lloyd lloyd = new Lloyd(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(),
+				getIcon(), getAutoAttackItem());
+		lloyd.setAbilityCooldownManager(abilityCooldownManager);
+		lloyd.setCustomPlayerManager(customPlayerManager);
+		lloyd.setPlugin(plugin);
+		lloyd.setSpecialEffectsManager(specialEffectsManager);
+		return lloyd;
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package me.didi.characters.champions.impl;
+package me.didi.champion.characters.impl;
 
 import java.awt.Color;
 import java.util.HashSet;
@@ -23,8 +23,9 @@ import org.bukkit.util.Vector;
 
 import me.didi.MainClass;
 import me.didi.ability.Ability;
-import me.didi.characters.Champion;
-import me.didi.characters.champions.RangedChampion;
+import me.didi.ability.AbilityImpl;
+import me.didi.champion.Champion;
+import me.didi.champion.characters.RangedChampion;
 import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.RootEffect;
@@ -103,7 +104,7 @@ public class Rex extends RangedChampion {
 						if (entity == player)
 							continue;
 						Bukkit.getPluginManager().callEvent(new CustomDamageEvent(entity, player, DamageReason.AUTO,
-								MainClass.getPlugin().getCustomPlayerManager().getDamage(player), true));
+								customPlayerManager.getDamage(player), true));
 						proj.remove(armorStand);
 						armorStand.remove();
 						cancel();
@@ -148,8 +149,7 @@ public class Rex extends RangedChampion {
 			for (Entity entity : player.getWorld().getNearbyEntities(fromNew, 0.5, 0.5, 0.5)) {
 				if (isEnemy(entity)) {
 					enemyHit = true;
-					MainClass.getPlugin().getDamageManager().damageEntity(player, entity, DamageReason.PHYSICAL, 10,
-							false);
+					damageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 10, false);
 					break;
 				}
 			}
@@ -187,10 +187,8 @@ public class Rex extends RangedChampion {
 
 					player.getWorld().getNearbyEntities(newLoc, 0.4, 0.4, 0.4).forEach(ent -> {
 						if (isEnemy(ent)) {
-							MainClass.getPlugin().getDamageManager().damageEntity(player, ent, DamageReason.MAGIC, 15,
-									false);
-							MainClass.getPlugin().getSpecialEffectsManager()
-									.addSpecialEffect(new RootEffect(player, ent, 1.5));
+							damageManager.damageEntity(player, ent, DamageReason.MAGIC, 15, false);
+							specialEffectsManager.addSpecialEffect(new RootEffect(player, ent, 1.5));
 							cancel();
 							return;
 						}
@@ -237,8 +235,7 @@ public class Rex extends RangedChampion {
 						for (Entity entity : world.getNearbyEntities(dest, radius - 1, radius - 1, radius - 1)) {
 
 							if (isEnemy(entity)) {
-								MainClass.getPlugin().getDamageManager().damageEntity(player, entity,
-										DamageReason.PHYSICAL, 20, false);
+								damageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 20, false);
 							}
 						}
 					}
@@ -300,8 +297,7 @@ public class Rex extends RangedChampion {
 		entityPlayer.playerConnection.sendPacket(packet);
 		ArmorStand as = (ArmorStand) ArmorStandFactory
 				.spawnInvisibleArmorStand(VectorUtils.getLocationToRight(player.getLocation().add(0, 1, 0), 0.3));
-		as.setItemInHand(
-				ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_BOMB));
+		as.setItemInHand(ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_BOMB));
 		Location dest = player.getLocation().clone().add(player.getLocation().getDirection().multiply(25));
 		as.setVelocity(VectorUtils.calculateVelocity(as.getLocation().toVector(), dest.toVector(), 2));
 		new BukkitRunnable() {
@@ -316,8 +312,7 @@ public class Rex extends RangedChampion {
 					ParticleEffect.EXPLOSION_HUGE.display(as.getLocation());
 					as.getNearbyEntities(3, 3, 3).forEach(ent -> {
 						if (isEnemy(ent))
-							MainClass.getPlugin().getDamageManager().damageEntity(player, ent, DamageReason.PHYSICAL,
-									20, true);
+							damageManager.damageEntity(player, ent, DamageReason.PHYSICAL, 20, true);
 					});
 
 					this.cancel();

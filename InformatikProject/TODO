@@ -1,0 +1,2 @@
+- Player als Parameter in den Champion ability Methoden statt als Feld
+- Für jede Ability eine Klasse, get() und eine executeMethode()

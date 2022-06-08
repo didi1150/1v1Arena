@@ -1,10 +1,11 @@
-package me.didi.characters.champions.impl;
+package me.didi.champion.characters.impl;
 
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.ability.Ability;
-import me.didi.characters.Champion;
-import me.didi.characters.champions.MeleeChampion;
+import me.didi.ability.AbilityImpl;
+import me.didi.champion.Champion;
+import me.didi.champion.characters.MeleeChampion;
 
 public class Anakin extends MeleeChampion {
 

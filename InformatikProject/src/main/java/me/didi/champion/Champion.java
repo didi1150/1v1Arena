@@ -1,4 +1,4 @@
-package me.didi.characters;
+package me.didi.champion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.MainClass;
+import me.didi.ability.AbilityImpl;
 import me.didi.ability.Ability;
-import me.didi.ability.AbilityCooldownManager;
+import me.didi.ability.AbilityStateManager;
+import me.didi.events.customEvents.DamageManager;
+import me.didi.player.CustomPlayerManager;
+import me.didi.player.effects.SpecialEffectsManager;
 
 public abstract class Champion {
 
@@ -28,9 +32,17 @@ public abstract class Champion {
 	private int baseMagicResist;
 	protected Player player;
 
+	protected MainClass plugin;
+
 	protected List<ArmorStand> proj;
 
-	protected AbilityCooldownManager abilityCooldownManager;
+	protected AbilityStateManager abilityCooldownManager;
+
+	protected DamageManager damageManager;
+
+	protected SpecialEffectsManager specialEffectsManager;
+
+	protected CustomPlayerManager customPlayerManager;
 
 	public Champion(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist,
 			ItemStack icon, ItemStack autoAttackItem) {
@@ -40,14 +52,30 @@ public abstract class Champion {
 		this.baseDefense = baseDefense;
 		this.baseMagicResist = baseMagicResist;
 		this.icon = icon;
-		this.abilityCooldownManager = MainClass.getPlugin().getAbilityCooldownManager();
 		this.autoAttackItem = autoAttackItem;
+		this.damageManager = new DamageManager();
 		this.proj = new ArrayList<ArmorStand>();
 	}
 
 	public abstract void stopAllTasks();
 
 	public abstract Champion clone();
+
+	public void setCustomPlayerManager(CustomPlayerManager customPlayerManager) {
+		this.customPlayerManager = customPlayerManager;
+	}
+
+	public void setPlugin(MainClass plugin) {
+		this.plugin = plugin;
+	}
+
+	public void setSpecialEffectsManager(SpecialEffectsManager specialEffectsManager) {
+		this.specialEffectsManager = specialEffectsManager;
+	}
+
+	public void setAbilityCooldownManager(AbilityStateManager abilityCooldownManager) {
+		this.abilityCooldownManager = abilityCooldownManager;
+	}
 
 	public void setPlayer(Player player) {
 		this.player = player;

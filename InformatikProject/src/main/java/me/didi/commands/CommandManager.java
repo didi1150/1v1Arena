@@ -9,13 +9,16 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import me.didi.commands.subcommands.StartCommand;
+import me.didi.gamesystem.GameStateManager;
 
 public class CommandManager implements TabExecutor {
 
 	private ArrayList<SubCommand> subcommands = new ArrayList<>();
+	private GameStateManager gameStateManager;
 
-	public CommandManager() {
-		subcommands.add(new StartCommand());
+	public CommandManager(GameStateManager gameStateManager) {
+		this.gameStateManager = gameStateManager;
+		subcommands.add(new StartCommand(gameStateManager));
 	}
 
 	@Override

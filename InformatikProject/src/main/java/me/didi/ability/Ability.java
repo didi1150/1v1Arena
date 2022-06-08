@@ -1,51 +1,19 @@
 package me.didi.ability;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
 
-public class Ability {
+public interface Ability {
 
-	/**
-	 * Name of the Ability
-	 */
-	private String name;
+	String getName();
 
-	private List<String> description;
+	ItemStack getIcon();
 
-	private AbilityType abilityType;
-	/**
-	 * Icon used as representation
-	 */
-	private ItemStack icon;
+	List<String> getDescription();
 
-	private int cooldown;
+	AbilityType getAbilityType();
 
-	public Ability(AbilityType abilityType, String name, ItemStack icon, int cooldown, String... description) {
-		this.name = name;
-		this.icon = icon;
-		this.description = Arrays.asList(description);
-		this.cooldown = cooldown;
-	}
+	int getCooldown();
 
-	public String getName() {
-		return name;
-	}
-
-	public ItemStack getIcon() {
-		return icon;
-	}
-
-	public List<String> getDescription() {
-		return description;
-	}
-
-	public AbilityType getAbilityType() {
-		return abilityType;
-	}
-
-	public int getCooldown() {
-		return cooldown;
-	}
 }
