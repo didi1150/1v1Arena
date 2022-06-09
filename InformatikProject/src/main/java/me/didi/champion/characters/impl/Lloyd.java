@@ -168,7 +168,7 @@ public class Lloyd extends MeleeChampion {
 			break;
 		case 2:
 			bukkitTask.cancel();
-			abilityCooldownManager.removeRecastCooldown(player, getAbilities()[3]);
+			abilityCooldownManager.removeRecastCooldown(player, getAbilities()[3], 3);
 			bukkitTask = spinjitzu(damageManager, player, getAbilities()[3].getIcon().clone());
 			break;
 		case 3:
@@ -183,7 +183,7 @@ public class Lloyd extends MeleeChampion {
 	private BukkitTask spinjitzu(DamageManager damageManager, Player player, ItemStack itemStack) {
 		new ItemManager().setItem(player, 3,
 				new ItemBuilder(getAbilities()[3].getIcon().clone()).addGlow().toItemStack());
-		
+
 		return Bukkit.getScheduler().runTaskTimer(MainClass.getPlugin(), new Runnable() {
 			@Override
 			public void run() {

@@ -25,8 +25,8 @@ public class QuitListener implements Listener {
 	private AbilityStateManager abilityCooldownManager;
 	private ChampionsManager championsManager;
 
-	public QuitListener(MainClass plugin, GameStateManager gameStateManager,
-			AbilityStateManager abilityCooldownManager, ChampionsManager championsManager) {
+	public QuitListener(MainClass plugin, GameStateManager gameStateManager, AbilityStateManager abilityCooldownManager,
+			ChampionsManager championsManager) {
 		this.plugin = plugin;
 		this.gameStateManager = gameStateManager;
 		this.abilityCooldownManager = abilityCooldownManager;
@@ -56,8 +56,9 @@ public class QuitListener implements Listener {
 			if (plugin.getAlivePlayers().contains(player.getUniqueId()))
 				plugin.getAlivePlayers().remove(player.getUniqueId());
 
-			for (Ability ability : championsManager.getSelectedChampion(player).getAbilities()) {
-				abilityCooldownManager.removeRecastCooldown(player, ability);
+			for (int i = 0; i < championsManager.getSelectedChampion(player).getAbilities().length; i++) {
+				Ability ability = championsManager.getSelectedChampion(player).getAbilities()[i];
+				abilityCooldownManager.removeRecastCooldown(player, ability, i);
 				abilityCooldownManager.removeCooldown(player);
 			}
 

@@ -41,18 +41,19 @@ public class AbilityStateManager {
 					Player player = Bukkit.getPlayer(entry.getKey());
 					AbilityState value = entry.getValue();
 
-					if (value.getRecastIndex() != null) {
+					for (Map.Entry<Integer, Integer> recastEntry : value.getRecasts().entrySet()) {
 
-						Ability ability = championsManager.getSelectedChampion(player).getAbilities()[value
-								.getRecastIndex()];
-						Integer seconds = value.getRecastSeconds();
+						int recastIndex = recastEntry.getKey();
+						int recastSeconds = recastEntry.getValue();
 
-						if (seconds == 0) {
-							removeRecastCooldown(player, ability);
-						} else if (seconds > 0) {
-							itemManager.setItem(player, value.getRecastIndex(),
-									new ItemBuilder(ability.getIcon().clone()).setAmount(seconds).toItemStack());
-							value.setRecastSeconds(seconds - 1);
+						Ability ability = championsManager.getSelectedChampion(player).getAbilities()[recastIndex];
+
+						if (recastSeconds == 0) {
+							removeRecastCooldown(player, ability, recastIndex);
+						} else if (recastSeconds > 0) {
+							itemManager.setItem(player, recastIndex,
+									new ItemBuilder(ability.getIcon().clone()).setAmount(recastSeconds).toItemStack());
+							value.setRecastSeconds(recastIndex, recastSeconds - 1);
 						}
 					}
 
@@ -129,17 +130,15 @@ public class AbilityStateManager {
 		if (getAbilityState(player).getCooldowns() != null)
 			getAbilityState(player).setCooldowns(null);
 
-		if (getAbilityState(player).getRecastIndex() == null) {
-			getAbilityState(player).setRecastSeconds(cooldown);
-			getAbilityState(player).setRecastIndex(index);
+		if (!getAbilityState(player).getRecasts().containsKey(index)) {
+			getAbilityState(player).setRecastSeconds(index, cooldown);
+
 		}
 	}
 
-	public void removeRecastCooldown(Player player, Ability ability) {
-		if (getAbilityState(player).getRecastIndex() != null) {
-			int index = getAbilityState(player).getRecastIndex();
-			getAbilityState(player).setRecastIndex(null);
-			getAbilityState(player).setRecastSeconds(null);
+	public void removeRecastCooldown(Player player, Ability ability, int index) {
+		if (getAbilityState(player).getRecasts().containsKey(index)) {
+			getAbilityState(player).removeRecast(index);
 
 			itemManager.setItem(player, index, ability.getIcon());
 		}

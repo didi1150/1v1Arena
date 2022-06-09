@@ -1,26 +1,20 @@
 package me.didi.ability;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.inventory.ItemStack;
 
 public class AbilityState {
 
 	private int[] cooldowns;
-	private Integer recastIndex;
-	private Integer recastSeconds;
+	private Map<Integer, Integer> recasts = new HashMap<Integer, Integer>();
 
 	private Integer disabled;
 	private ItemStack[] cachedIcons;
 
 	public void setCooldowns(int[] cooldowns) {
 		this.cooldowns = cooldowns;
-	}
-
-	public void setRecastIndex(Integer recastIndex) {
-		this.recastIndex = recastIndex;
-	}
-
-	public void setRecastSeconds(Integer recastSeconds) {
-		this.recastSeconds = recastSeconds;
 	}
 
 	public void setDisabled(Integer disabled) {
@@ -35,14 +29,6 @@ public class AbilityState {
 		return cooldowns;
 	}
 
-	public Integer getRecastIndex() {
-		return recastIndex;
-	}
-
-	public Integer getRecastSeconds() {
-		return recastSeconds;
-	}
-
 	public Integer getDisabled() {
 		return disabled;
 	}
@@ -51,6 +37,16 @@ public class AbilityState {
 		return cachedIcons;
 	}
 
-	
-	
+	public Map<Integer, Integer> getRecasts() {
+		return recasts;
+	}
+
+	public void setRecastSeconds(int index, int seconds) {
+		recasts.put(index, seconds);
+	}
+
+	public void removeRecast(int index) {
+		recasts.remove(index);
+	}
+
 }

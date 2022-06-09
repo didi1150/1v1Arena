@@ -219,8 +219,9 @@ public class CustomPlayerManager {
 
 		Champion selectedChampion = championsManager.getSelectedChampion(player);
 		if (selectedChampion != null) {
-			for (Ability ability : selectedChampion.getAbilities()) {
-				abilityCooldownManager.removeRecastCooldown(player, ability);
+			for (int i = 0; i < selectedChampion.getAbilities().length; i++) {
+				Ability ability = selectedChampion.getAbilities()[i];
+				abilityCooldownManager.removeRecastCooldown(player, ability, i);
 				abilityCooldownManager.removeCooldown(player);
 			}
 		}
