@@ -1,8 +1,6 @@
 package me.didi.ability;
 
-import java.util.Arrays;
-import java.util.List;
-
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class AbilityImpl implements Ability {
@@ -12,7 +10,7 @@ public class AbilityImpl implements Ability {
 	 */
 	private String name;
 
-	private List<String> description;
+	private String[] description;
 
 	private AbilityType abilityType;
 	/**
@@ -25,7 +23,7 @@ public class AbilityImpl implements Ability {
 	public AbilityImpl(AbilityType abilityType, String name, ItemStack icon, int cooldown, String... description) {
 		this.name = name;
 		this.icon = icon;
-		this.description = Arrays.asList(description);
+		this.description = description;
 		this.cooldown = cooldown;
 	}
 
@@ -40,7 +38,7 @@ public class AbilityImpl implements Ability {
 	}
 
 	@Override
-	public List<String> getDescription() {
+	public String[] getDescription() {
 		return description;
 	}
 
@@ -52,5 +50,11 @@ public class AbilityImpl implements Ability {
 	@Override
 	public int getCooldown() {
 		return cooldown;
+	}
+
+	@Override
+	public void execute(AbilityStateManager abilityStateManager, Player player) {
+		// TODO Auto-generated method stub
+
 	}
 }

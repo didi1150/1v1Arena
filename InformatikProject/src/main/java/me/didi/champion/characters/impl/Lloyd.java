@@ -143,41 +143,41 @@ public class Lloyd extends MeleeChampion {
 
 	@Override
 	public void executeUltimate() {
-		switch (abilityCounter) {
-		case 0:
-			bukkitTask = airjitzu(player);
-			break;
-		case 1:
-//			secondTask.cancel();
-			bukkitTask.cancel();
-			player.setFallDistance(0);
-			player.setAllowFlight(false);
-			player.setFlying(false);
-			new ItemManager().setItem(player, 3, new ItemBuilder(getAbilities()[3].getIcon()).toItemStack());
-			bukkitTask = Bukkit.getScheduler().runTaskLater(MainClass.getPlugin(), new Runnable() {
-
-				@Override
-				public void run() {
-					abilityCooldownManager.addCooldown(player, 3, getAbilities()[3].getCooldown());
-					abilityCounter = 0;
-					bukkitTask.cancel();
-				}
-			}, 20 * (recastCooldown));
-			abilityCooldownManager.addRecastCooldown(player, 3, recastCooldown);
-
-			break;
-		case 2:
-			bukkitTask.cancel();
-			abilityCooldownManager.removeRecastCooldown(player, getAbilities()[3], 3);
-			bukkitTask = spinjitzu(damageManager, player, getAbilities()[3].getIcon().clone());
-			break;
-		case 3:
-			bukkitTask.cancel();
-			abilityCooldownManager.addCooldown(player, 3, getAbilities()[3].getCooldown());
-			abilityCounter = -1;
-			break;
-		}
-		abilityCounter++;
+//		switch (abilityCounter) {
+//		case 0:
+//			bukkitTask = airjitzu(player);
+//			break;
+//		case 1:
+//			bukkitTask.cancel();
+//			player.setFallDistance(0);
+//			player.setAllowFlight(false);
+//			player.setFlying(false);
+//			new ItemManager().setItem(player, 3, new ItemBuilder(getAbilities()[3].getIcon()).toItemStack());
+//			bukkitTask = Bukkit.getScheduler().runTaskLater(MainClass.getPlugin(), new Runnable() {
+//
+//				@Override
+//				public void run() {
+//					abilityCooldownManager.addCooldown(player, 3, getAbilities()[3].getCooldown());
+//					abilityCounter = 0;
+//					bukkitTask.cancel();
+//				}
+//			}, 20 * (recastCooldown));
+//			abilityCooldownManager.addRecastCooldown(player, 3, recastCooldown);
+//
+//			break;
+//		case 2:
+//			bukkitTask.cancel();
+//			abilityCooldownManager.removeRecastCooldown(player, getAbilities()[3], 3);
+//			bukkitTask = spinjitzu(damageManager, player, getAbilities()[3].getIcon().clone());
+//			break;
+//		case 3:
+//			bukkitTask.cancel();
+//			abilityCooldownManager.addCooldown(player, 3, getAbilities()[3].getCooldown());
+//			abilityCounter = -1;
+//			break;
+//		}
+//		abilityCounter++;
+		getAbilities()[3].execute(abilityCooldownManager, player);
 	}
 
 	private BukkitTask spinjitzu(DamageManager damageManager, Player player, ItemStack itemStack) {
@@ -191,7 +191,7 @@ public class Lloyd extends MeleeChampion {
 				for (Entity entity : player.getWorld().getNearbyEntities(player.getLocation().add(0, 1, 0), 1.75, 0.5,
 						1.75)) {
 					if (isEnemy(entity))
-						damageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 2, true);
+						DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 2, true);
 				}
 			}
 

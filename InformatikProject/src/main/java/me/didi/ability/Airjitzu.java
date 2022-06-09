@@ -1,7 +1,6 @@
 package me.didi.ability;
 
-import java.util.List;
-
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class Airjitzu implements Ability {
@@ -19,7 +18,7 @@ public class Airjitzu implements Ability {
 	}
 
 	@Override
-	public List<String> getDescription() {
+	public String[] getDescription() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -34,6 +33,12 @@ public class Airjitzu implements Ability {
 	public int getCooldown() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void execute(AbilityStateManager abilityStateManager, Player player) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

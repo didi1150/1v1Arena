@@ -1,14 +1,11 @@
 package me.didi.ability;
 
-import java.util.List;
-
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class Spinjitzu implements Ability {
 
-	
-	
 	public static AbilityImpl get() {
 		return new AbilityImpl(AbilityType.MELEE, "Spinjitzu", new ItemStack(Material.STRING), 10);
 	}
@@ -26,7 +23,7 @@ public class Spinjitzu implements Ability {
 	}
 
 	@Override
-	public List<String> getDescription() {
+	public String[] getDescription() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -41,6 +38,11 @@ public class Spinjitzu implements Ability {
 	public int getCooldown() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void execute(AbilityStateManager abilityStateManager, Player player) {
+		
 	}
 
 }

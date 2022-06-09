@@ -12,17 +12,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.MainClass;
+import me.didi.ability.Ability;
 import me.didi.ability.AbilityImpl;
 import me.didi.ability.AbilityStateManager;
 import me.didi.ability.AbilityType;
-import me.didi.ability.Spinjitzu;
+import me.didi.ability.impl.LloydUltimate;
 import me.didi.champion.characters.impl.Anakin;
 import me.didi.champion.characters.impl.Lloyd;
 import me.didi.champion.characters.impl.Perry;
 import me.didi.champion.characters.impl.Rex;
 import me.didi.player.CustomPlayerManager;
 import me.didi.player.effects.SpecialEffectsManager;
-import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.SkullFactory;
 import net.md_5.bungee.api.ChatColor;
@@ -41,18 +41,20 @@ public class ChampionsManager {
 	public void registerChampions(AbilityStateManager abilityCooldownManager,
 			SpecialEffectsManager specialEffectsManager, CustomPlayerManager customPlayerManager) {
 		selectableChampions.add(new Lloyd("Lloyd",
-				new AbilityImpl[] { new AbilityImpl(AbilityType.MELEE, "First Ability", new ItemStack(Material.INK_SACK), 10),
-
+				new Ability[] {
 						new AbilityImpl(AbilityType.MELEE, "First Ability", new ItemStack(Material.INK_SACK), 10),
 
 						new AbilityImpl(AbilityType.MELEE, "First Ability", new ItemStack(Material.INK_SACK), 10),
 
-						Spinjitzu.get() },
+						new AbilityImpl(AbilityType.MELEE, "First Ability", new ItemStack(Material.INK_SACK), 10),
+
+						new LloydUltimate() },
 				50, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_LLOYD),
 				new ItemBuilder(new ItemStack(Material.GOLD_SWORD)).setDisplayName(ChatColor.GOLD + "Katana")
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "6").toItemStack()));
 		selectableChampions.add(new Anakin("Anakin",
-				new AbilityImpl[] { new AbilityImpl(AbilityType.MELEE, "Enlightenment", new ItemStack(Material.IRON_SWORD), 10),
+				new AbilityImpl[] {
+						new AbilityImpl(AbilityType.MELEE, "Enlightenment", new ItemStack(Material.IRON_SWORD), 10),
 
 						new AbilityImpl(AbilityType.MELEE, "Force", new ItemStack(Material.WOOD), 10),
 
