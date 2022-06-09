@@ -3,8 +3,10 @@ package me.didi.champion.ability;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import me.didi.player.effects.SpecialEffectsManager;
+
 public interface Ability {
-	
+
 	String getName();
 
 	ItemStack getIcon();
@@ -15,6 +17,6 @@ public interface Ability {
 
 	int getCooldown();
 
-	void execute(AbilityStateManager abilityStateManager, Player player);
-	
+	void execute(AbilityStateManager abilityStateManager, Player player, SpecialEffectsManager specialEffectsManager);
+
 }

@@ -1,4 +1,4 @@
-package me.didi.champion.ability.impl;
+package me.didi.champion.ability.impl.lloyd;
 
 import java.awt.Color;
 import java.util.HashMap;
@@ -21,6 +21,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.champion.ability.Recastable;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.ItemManager;
 import xyz.xenondevs.particle.ParticleEffect;
@@ -296,7 +297,8 @@ public class LloydUltimate extends Recastable implements Ability {
 	}
 
 	@Override
-	public void execute(AbilityStateManager abilityStateManager, Player player) {
+	public void execute(AbilityStateManager abilityStateManager, Player player,
+			SpecialEffectsManager specialEffectsManager) {
 		int index = recastCounters.getOrDefault(player, 0);
 		getRecasts()[index].accept(player, abilityStateManager);
 	}

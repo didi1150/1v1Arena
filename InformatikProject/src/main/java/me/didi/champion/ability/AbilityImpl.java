@@ -3,6 +3,8 @@ package me.didi.champion.ability;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import me.didi.player.effects.SpecialEffectsManager;
+
 public class AbilityImpl implements Ability {
 
 	/**
@@ -53,8 +55,10 @@ public class AbilityImpl implements Ability {
 	}
 
 	@Override
-	public void execute(AbilityStateManager abilityStateManager, Player player) {
+	public void execute(AbilityStateManager abilityStateManager, Player player,
+			SpecialEffectsManager specialEffectsManager) {
 		// TODO Auto-generated method stub
 
 	}
+
 }

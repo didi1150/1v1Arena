@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -58,9 +59,9 @@ public class MainClass extends JavaPlugin {
 		plugin = this;
 
 		alivePlayers = new ArrayList<UUID>();
-		
+
 		championsManager = new ChampionsManager(this);
-		
+
 		damageManager = new DamageManager();
 
 		specialEffectsManager = new SpecialEffectsManager(this);
@@ -85,6 +86,14 @@ public class MainClass extends JavaPlugin {
 	public void onDisable() {
 		abilityCooldownManager.stopBackgroundTask();
 		customPlayerManager.stopBackgroundTask();
+
+		Bukkit.getWorlds().forEach(world -> {
+			world.getEntities().forEach(entity -> {
+				if (entity instanceof ArmorStand) {
+					entity.remove();
+				}
+			});
+		});
 	}
 
 	private void registerListeners() {

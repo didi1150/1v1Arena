@@ -16,7 +16,11 @@ import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityImpl;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
-import me.didi.champion.ability.impl.LloydUltimate;
+import me.didi.champion.ability.impl.lloyd.LloydUltimate;
+import me.didi.champion.ability.impl.rex.RexFirstAbility;
+import me.didi.champion.ability.impl.rex.RexSecondAbility;
+import me.didi.champion.ability.impl.rex.RexThirdAbility;
+import me.didi.champion.ability.impl.rex.RexUltimate;
 import me.didi.champion.characters.impl.Anakin;
 import me.didi.champion.characters.impl.Lloyd;
 import me.didi.champion.characters.impl.Perry;
@@ -64,22 +68,15 @@ public class ChampionsManager {
 				75, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_ANAKIN),
 				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName(ChatColor.AQUA + "Lightsaber").addGlow()
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "7").toItemStack()));
-		selectableChampions.add(new Rex("Rex", new AbilityImpl[] {
+		selectableChampions.add(new Rex("Rex", new Ability[] {
 
-				new AbilityImpl(AbilityType.RANGED, "Blast'em",
-						new ItemBuilder(new ItemStack(Material.ARROW)).setDisplayName(ChatColor.AQUA + "Blast'em")
-								.toItemStack(),
-						10),
+				new RexFirstAbility(),
 
-				new AbilityImpl(AbilityType.MELEE, "Force", new ItemStack(Material.WOOD), 10),
+				new RexSecondAbility(),
 
-				new AbilityImpl(AbilityType.MELEE, "Force", new ItemStack(Material.WOOD), 10),
+				new RexThirdAbility(),
 
-				new AbilityImpl(AbilityType.MELEE, "Airstrike",
-						new ItemBuilder(new ItemStack(Material.BEACON))
-								.setDisplayName(org.bukkit.ChatColor.GOLD + "Airstrike").toItemStack(),
-						10) },
-				75, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_REX),
+				new RexUltimate() }, 75, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_REX),
 				new ItemBuilder(new ItemStack(Material.IRON_BARDING)).setDisplayName(ChatColor.AQUA + "Blaster")
 						.addGlow().setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "5").toItemStack()));
 		selectableChampions.add(new Perry("Perry", new AbilityImpl[] {

@@ -177,7 +177,7 @@ public class Lloyd extends MeleeChampion {
 //			break;
 //		}
 //		abilityCounter++;
-		getAbilities()[3].execute(abilityCooldownManager, player);
+		getAbilities()[3].execute(abilityCooldownManager, player, specialEffectsManager);
 	}
 
 	private BukkitTask spinjitzu(DamageManager damageManager, Player player, ItemStack itemStack) {
