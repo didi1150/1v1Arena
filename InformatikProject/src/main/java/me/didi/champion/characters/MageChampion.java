@@ -2,9 +2,9 @@ package me.didi.champion.characters;
 
 import org.bukkit.inventory.ItemStack;
 
-import me.didi.ability.Ability;
-import me.didi.ability.AbilityImpl;
 import me.didi.champion.Champion;
+import me.didi.champion.ability.Ability;
+import me.didi.champion.ability.AbilityImpl;
 
 public abstract class MageChampion extends Champion {
 

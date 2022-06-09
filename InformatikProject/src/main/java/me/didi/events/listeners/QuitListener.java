@@ -6,9 +6,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import me.didi.MainClass;
-import me.didi.ability.Ability;
-import me.didi.ability.AbilityStateManager;
 import me.didi.champion.ChampionsManager;
+import me.didi.champion.ability.Ability;
+import me.didi.champion.ability.AbilityStateManager;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.gamesystem.countdowns.LobbyCountdown;

@@ -15,10 +15,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.MainClass;
-import me.didi.ability.Ability;
-import me.didi.ability.AbilityStateManager;
 import me.didi.champion.Champion;
 import me.didi.champion.ChampionsManager;
+import me.didi.champion.ability.Ability;
+import me.didi.champion.ability.AbilityStateManager;
 import me.didi.player.effects.SpecialEffect;
 import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;

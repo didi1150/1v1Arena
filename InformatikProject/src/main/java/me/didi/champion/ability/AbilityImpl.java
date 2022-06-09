@@ -1,4 +1,4 @@
-package me.didi.ability;
+package me.didi.champion.ability;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

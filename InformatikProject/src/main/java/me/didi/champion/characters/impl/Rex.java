@@ -22,9 +22,9 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import me.didi.MainClass;
-import me.didi.ability.Ability;
-import me.didi.ability.AbilityImpl;
 import me.didi.champion.Champion;
+import me.didi.champion.ability.Ability;
+import me.didi.champion.ability.AbilityImpl;
 import me.didi.champion.characters.RangedChampion;
 import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.events.customEvents.DamageReason;

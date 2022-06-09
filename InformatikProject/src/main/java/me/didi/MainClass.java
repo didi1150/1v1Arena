@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.didi.ability.AbilityStateManager;
 import me.didi.champion.ChampionsManager;
+import me.didi.champion.ability.AbilityStateManager;
 import me.didi.commands.CommandManager;
 import me.didi.commands.TestCommand;
 import me.didi.events.customEvents.DamageManager;

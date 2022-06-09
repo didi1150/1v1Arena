@@ -12,11 +12,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.MainClass;
-import me.didi.ability.Ability;
-import me.didi.ability.AbilityImpl;
-import me.didi.ability.AbilityStateManager;
-import me.didi.ability.AbilityType;
-import me.didi.ability.impl.LloydUltimate;
+import me.didi.champion.ability.Ability;
+import me.didi.champion.ability.AbilityImpl;
+import me.didi.champion.ability.AbilityStateManager;
+import me.didi.champion.ability.AbilityType;
+import me.didi.champion.ability.impl.LloydUltimate;
 import me.didi.champion.characters.impl.Anakin;
 import me.didi.champion.characters.impl.Lloyd;
 import me.didi.champion.characters.impl.Perry;

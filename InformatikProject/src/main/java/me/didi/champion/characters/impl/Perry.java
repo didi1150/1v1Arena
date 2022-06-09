@@ -10,9 +10,9 @@ import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
 import me.didi.MainClass;
-import me.didi.ability.Ability;
-import me.didi.ability.AbilityImpl;
 import me.didi.champion.Champion;
+import me.didi.champion.ability.Ability;
+import me.didi.champion.ability.AbilityImpl;
 import me.didi.champion.characters.MeleeChampion;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.utilities.ArmorStandFactory;

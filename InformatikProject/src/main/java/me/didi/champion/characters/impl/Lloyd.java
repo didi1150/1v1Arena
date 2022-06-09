@@ -10,8 +10,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.MainClass;
-import me.didi.ability.Ability;
 import me.didi.champion.Champion;
+import me.didi.champion.ability.Ability;
 import me.didi.champion.characters.MeleeChampion;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;

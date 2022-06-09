@@ -1,4 +1,4 @@
-package me.didi.ability;
+package me.didi.champion.ability;
 
 public enum AbilityType {
 

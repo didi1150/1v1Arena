@@ -1,4 +1,4 @@
-package me.didi.ability.impl;
+package me.didi.champion.ability.impl;
 
 import java.awt.Color;
 import java.util.HashMap;
@@ -15,10 +15,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.MainClass;
-import me.didi.ability.Ability;
-import me.didi.ability.AbilityStateManager;
-import me.didi.ability.AbilityType;
-import me.didi.ability.Recastable;
+import me.didi.champion.ability.Ability;
+import me.didi.champion.ability.AbilityStateManager;
+import me.didi.champion.ability.AbilityType;
+import me.didi.champion.ability.Recastable;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.utilities.ItemBuilder;

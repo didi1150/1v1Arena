@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.MainClass;
-import me.didi.ability.AbilityImpl;
-import me.didi.ability.Ability;
-import me.didi.ability.AbilityStateManager;
+import me.didi.champion.ability.Ability;
+import me.didi.champion.ability.AbilityImpl;
+import me.didi.champion.ability.AbilityStateManager;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.player.CustomPlayerManager;
 import me.didi.player.effects.SpecialEffectsManager;

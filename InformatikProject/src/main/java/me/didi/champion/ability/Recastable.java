@@ -1,4 +1,4 @@
-package me.didi.ability;
+package me.didi.champion.ability;
 
 import java.util.HashMap;
 import java.util.Map;

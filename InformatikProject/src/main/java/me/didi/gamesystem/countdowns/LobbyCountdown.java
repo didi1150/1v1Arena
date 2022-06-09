@@ -5,9 +5,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import me.didi.ability.Ability;
-import me.didi.ability.AbilityImpl;
 import me.didi.champion.ChampionsManager;
+import me.didi.champion.ability.Ability;
+import me.didi.champion.ability.AbilityImpl;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.gamesystem.gameStates.LobbyState;

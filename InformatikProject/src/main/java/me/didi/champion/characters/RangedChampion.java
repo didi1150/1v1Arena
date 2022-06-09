@@ -2,8 +2,8 @@ package me.didi.champion.characters;
 
 import org.bukkit.inventory.ItemStack;
 
-import me.didi.ability.Ability;
 import me.didi.champion.Champion;
+import me.didi.champion.ability.Ability;
 
 public abstract class RangedChampion extends Champion {
 
