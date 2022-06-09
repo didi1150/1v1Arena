@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 
 import me.didi.MainClass;
 import me.didi.champion.ability.Ability;
-import me.didi.champion.ability.AbilityImpl;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.player.CustomPlayerManager;
@@ -58,8 +57,6 @@ public abstract class Champion {
 	}
 
 	public abstract void stopAllTasks();
-
-	public abstract Champion clone();
 
 	public void setCustomPlayerManager(CustomPlayerManager customPlayerManager) {
 		this.customPlayerManager = customPlayerManager;

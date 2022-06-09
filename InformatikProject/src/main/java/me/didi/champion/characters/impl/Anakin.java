@@ -48,12 +48,6 @@ public class Anakin extends MeleeChampion {
 	}
 
 	@Override
-	public Champion clone() {
-		return new Anakin(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(), getIcon(),
-				getAutoAttackItem());
-	}
-
-	@Override
 	public void stopAllTasks() {
 		// TODO Auto-generated method stub
 

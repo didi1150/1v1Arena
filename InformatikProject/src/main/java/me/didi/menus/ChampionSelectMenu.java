@@ -44,8 +44,7 @@ public class ChampionSelectMenu extends Menu {
 		if (itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName()) {
 			Champion champion = championsManager
 					.getByName(ChatColor.stripColor(itemStack.getItemMeta().getDisplayName()));
-			Champion newChamp = champion.clone();
-			championsManager.setSelectedChampion(player.getUniqueId(), newChamp);
+			championsManager.setSelectedChampion(player.getUniqueId(), champion);
 			ChatUtils.sendMessageToPlayer(player, ChatColor.YELLOW + "Du hast den Champion "
 					+ event.getCurrentItem().getItemMeta().getDisplayName() + ChatColor.YELLOW + " ausgewählt.");
 			player.closeInventory();

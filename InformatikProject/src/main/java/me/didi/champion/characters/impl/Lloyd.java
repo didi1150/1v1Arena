@@ -267,17 +267,6 @@ public class Lloyd extends MeleeChampion {
 	}
 
 	@Override
-	public Champion clone() {
-		Lloyd lloyd = new Lloyd(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(),
-				getIcon(), getAutoAttackItem());
-		lloyd.setAbilityCooldownManager(abilityCooldownManager);
-		lloyd.setCustomPlayerManager(customPlayerManager);
-		lloyd.setPlugin(plugin);
-		lloyd.setSpecialEffectsManager(specialEffectsManager);
-		return lloyd;
-	}
-
-	@Override
 	public void stopAllTasks() {
 		if (bukkitTask != null)
 			bukkitTask.cancel();

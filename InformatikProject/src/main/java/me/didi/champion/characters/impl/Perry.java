@@ -10,9 +10,7 @@ import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
 import me.didi.MainClass;
-import me.didi.champion.Champion;
 import me.didi.champion.ability.Ability;
-import me.didi.champion.ability.AbilityImpl;
 import me.didi.champion.characters.MeleeChampion;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.utilities.ArmorStandFactory;
@@ -22,12 +20,6 @@ public class Perry extends MeleeChampion {
 	public Perry(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist, ItemStack icon,
 			ItemStack autoAttackItem) {
 		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon, autoAttackItem);
-	}
-
-	@Override
-	public Champion clone() {
-		return new Perry(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(), getIcon(),
-				getAutoAttackItem());
 	}
 
 	@Override

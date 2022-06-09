@@ -57,10 +57,11 @@ public class RexThirdAbility implements Ability {
 	@Override
 	public void execute(AbilityStateManager abilityStateManager, Player player,
 			SpecialEffectsManager specialEffectsManager) {
+		abilityStateManager.addCooldown(player, 2, getCooldown());
 		new BukkitRunnable() {
 			Location dest = player.getLocation().add(player.getLocation().getDirection().normalize().multiply(13))
 					.add(0, 1, 0);
-			Location newLoc = VectorUtils.getLocationToRight(player.getLocation().add(0, 0.5, 0), 0.3);
+			Location newLoc = VectorUtils.getLocationToRight(player.getLocation().add(0, 0.6, 0), 0.3);
 			Vector toVec = dest.toVector().subtract(newLoc.toVector()).normalize().multiply(0.5);
 
 			@Override
@@ -86,7 +87,6 @@ public class RexThirdAbility implements Ability {
 				}
 			}
 		}.runTaskTimer(MainClass.getPlugin(), 1, 1);
-		abilityStateManager.addCooldown(player, 2, getCooldown());
 	}
 
 }

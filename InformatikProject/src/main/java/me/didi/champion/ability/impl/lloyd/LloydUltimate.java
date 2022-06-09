@@ -237,6 +237,7 @@ public class LloydUltimate extends Recastable implements Ability {
 		player.setAllowFlight(false);
 		player.setFlying(false);
 
+		abilityStateManager.addRecastCooldown(player, 3, getRecastCountdown());
 		tasks.put(player, Bukkit.getScheduler().runTaskLater(MainClass.getPlugin(), new Runnable() {
 
 			@Override
@@ -246,7 +247,6 @@ public class LloydUltimate extends Recastable implements Ability {
 				tasks.get(player).cancel();
 			}
 		}, 20 * getRecastCountdown()));
-		abilityStateManager.addRecastCooldown(player, 3, getRecastCountdown());
 
 		recastCounters.put(player, recastCounters.get(player) + 1);
 	}
@@ -290,8 +290,8 @@ public class LloydUltimate extends Recastable implements Ability {
 
 	private void cancelSpinjitzu(Player player, AbilityStateManager abilityStateManager) {
 
-		tasks.get(player).cancel();
 		abilityStateManager.addCooldown(player, 3, getCooldown());
+		tasks.get(player).cancel();
 
 		recastCounters.put(player, 0);
 	}

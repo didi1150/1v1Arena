@@ -1,16 +1,11 @@
 package me.didi.champion.characters.impl;
 
 import java.awt.Color;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -24,11 +19,9 @@ import org.bukkit.util.Vector;
 import me.didi.MainClass;
 import me.didi.champion.Champion;
 import me.didi.champion.ability.Ability;
-import me.didi.champion.ability.AbilityImpl;
 import me.didi.champion.characters.RangedChampion;
 import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.events.customEvents.DamageReason;
-import me.didi.player.effects.RootEffect;
 import me.didi.utilities.ArmorStandFactory;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.SkullFactory;
@@ -47,12 +40,6 @@ public class Rex extends RangedChampion {
 			ItemStack autoAttackItem) {
 		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon, autoAttackItem);
 		isOnCooldown = false;
-	}
-
-	@Override
-	public Champion clone() {
-		return new Rex(getName(), getAbilities(), getBaseHealth(), getBaseDefense(), getBaseMagicResist(), getIcon(),
-				getAutoAttackItem());
 	}
 
 	@Override
@@ -118,16 +105,17 @@ public class Rex extends RangedChampion {
 	@Override
 	public void executeFirstAbility() {
 		// Double shot
-
-		shootBeam(player.getLocation().add(0, 0.5, 0), 13, false);
-		Bukkit.getScheduler().runTaskLater(MainClass.getPlugin(), new Runnable() {
-
-			@Override
-			public void run() {
-				shootBeam(player.getLocation().add(0, 0.5, 0), 13, true);
-			}
-		}, 3);
-		abilityCooldownManager.addCooldown(player, 0, getAbilities()[0].getCooldown());
+//
+//		shootBeam(player.getLocation().add(0, 0.5, 0), 13, false);
+//		Bukkit.getScheduler().runTaskLater(MainClass.getPlugin(), new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				shootBeam(player.getLocation().add(0, 0.5, 0), 13, true);
+//			}
+//		}, 3);
+//		abilityCooldownManager.addCooldown(player, 0, getAbilities()[0].getCooldown());
+		getAbilities()[0].execute(abilityCooldownManager, player, specialEffectsManager);
 	}
 
 	private void shootBeam(Location fromOrigin, double maxRange, boolean left) {
@@ -162,121 +150,125 @@ public class Rex extends RangedChampion {
 
 	@Override
 	public void executeSecondAbility() {
-		throwBomb();
-		abilityCooldownManager.addCooldown(player, 1, getAbilities()[1].getCooldown());
+//		throwBomb();
+//		abilityCooldownManager.addCooldown(player, 1, getAbilities()[1].getCooldown());
+
+		getAbilities()[1].execute(abilityCooldownManager, player, specialEffectsManager);
 	}
 
 	@Override
 	public void executeThirdAbility() {
-		new BukkitRunnable() {
-			Location dest = player.getLocation().add(player.getLocation().getDirection().normalize().multiply(13))
-					.add(0, 1, 0);
-			Location newLoc = VectorUtils.getLocationToRight(player.getLocation().add(0, 0.5, 0), 0.3);
-			Vector toVec = dest.toVector().subtract(newLoc.toVector()).normalize().multiply(0.5);
-
-			@Override
-			public void run() {
-
-				if (newLoc.distanceSquared(dest) <= 2) {
-					cancel();
-					return;
-				} else {
-					ParticleEffect.REDSTONE.display(newLoc, Color.CYAN);
-					ParticleEffect.REDSTONE.display(newLoc, Color.CYAN);
-					ParticleEffect.REDSTONE.display(newLoc, Color.CYAN);
-
-					player.getWorld().getNearbyEntities(newLoc, 0.4, 0.4, 0.4).forEach(ent -> {
-						if (isEnemy(ent)) {
-							damageManager.damageEntity(player, ent, DamageReason.MAGIC, 15, false);
-							specialEffectsManager.addSpecialEffect(new RootEffect(player, ent, 1.5));
-							cancel();
-							return;
-						}
-					});
-					newLoc.add(toVec);
-				}
-			}
-		}.runTaskTimer(MainClass.getPlugin(), 1, 1);
-		abilityCooldownManager.addCooldown(player, 2,
-
-				getAbilities()[2].getCooldown());
+//		new BukkitRunnable() {
+//			Location dest = player.getLocation().add(player.getLocation().getDirection().normalize().multiply(13))
+//					.add(0, 1, 0);
+//			Location newLoc = VectorUtils.getLocationToRight(player.getLocation().add(0, 0.5, 0), 0.3);
+//			Vector toVec = dest.toVector().subtract(newLoc.toVector()).normalize().multiply(0.5);
+//
+//			@Override
+//			public void run() {
+//
+//				if (newLoc.distanceSquared(dest) <= 2) {
+//					cancel();
+//					return;
+//				} else {
+//					ParticleEffect.REDSTONE.display(newLoc, Color.CYAN);
+//					ParticleEffect.REDSTONE.display(newLoc, Color.CYAN);
+//					ParticleEffect.REDSTONE.display(newLoc, Color.CYAN);
+//
+//					player.getWorld().getNearbyEntities(newLoc, 0.4, 0.4, 0.4).forEach(ent -> {
+//						if (isEnemy(ent)) {
+//							damageManager.damageEntity(player, ent, DamageReason.MAGIC, 15, false);
+//							specialEffectsManager.addSpecialEffect(new RootEffect(player, ent, 1.5));
+//							cancel();
+//							return;
+//						}
+//					});
+//					newLoc.add(toVec);
+//				}
+//			}
+//		}.runTaskTimer(MainClass.getPlugin(), 1, 1);
+//		abilityCooldownManager.addCooldown(player, 2,
+//
+//				getAbilities()[2].getCooldown());
+		getAbilities()[2].execute(abilityCooldownManager, player, specialEffectsManager);
 	}
 
 	@Override
 	public void executeUltimate() {
-		Set<Material> transparent = new HashSet<>();
-		transparent.add(Material.AIR);
-		transparent.add(Material.WATER);
-		transparent.add(Material.LAVA);
-		transparent.add(Material.STATIONARY_LAVA);
-		transparent.add(Material.STATIONARY_WATER);
-		Location dest = player.getTargetBlock(transparent, 30).getLocation();
-		dest.setY(player.getWorld().getHighestBlockYAt(dest));
-
-		World world = player.getWorld();
-		bukkitTask = Bukkit.getScheduler().runTaskTimer(MainClass.getPlugin(), new Runnable() {
-			int counter = 0;
-			double radius = 0;
-
-			@Override
-			public void run() {
-				if (counter >= 20 * 5) {
-					bukkitTask.cancel();
-				}
-
-				if (radius <= 5) {
-					drawParticleCircle(radius, dest);
-					radius += 0.25;
-				} else {
-
-					if (counter % 2 == 0) {
-						Random random = new Random();
-						drawCyl(radius * random.nextDouble(), dest);
-						for (Entity entity : world.getNearbyEntities(dest, radius - 1, radius - 1, radius - 1)) {
-
-							if (isEnemy(entity)) {
-								damageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 20, false);
-							}
-						}
-					}
-				}
-				counter++;
-			}
-
-			private void drawCyl(double radius, Location location) {
-				for (double t = 0; t <= 2 * Math.PI * radius; t += 5) {
-					double x = (radius * Math.cos(t)) + location.getX();
-					double z = (location.getZ() + radius * Math.sin(t));
-					Location lightning = new Location(world, x, location.getY(), z);
-					world.strikeLightningEffect(lightning);
-				}
-			}
-
-			private void drawParticleCircle(double radius, Location location) {
-				for (double y = 1; y < world.getMaxHeight(); y *= 1.25) {
-					for (double s = 0; s <= 2 * Math.PI * radius; s += 2 * Math.PI / 9) {
-						double t = s + Math.toRadians(radius * 24);
-						double x = (radius * Math.cos(t)) + location.getX();
-						double z = (location.getZ() + radius * Math.sin(t));
-						Location particle = new Location(world, x, location.getY(), z);
-						ParticleEffect.REDSTONE.display(particle);
-
-						particle = new Location(world, x, location.getY() + y, z);
-						ParticleEffect.REDSTONE.display(particle);
-					}
-				}
-				for (int y = 0; y <= 24; y += 6) {
-					for (double t = 0; t <= 2 * Math.PI * radius; t += 2 * Math.PI / 50) {
-						double x = (radius * Math.cos(t)) + location.getX();
-						double z = (location.getZ() + radius * Math.sin(t));
-						Location particle = new Location(world, x, location.getY() + y, z);
-						ParticleEffect.REDSTONE.display(particle);
-					}
-				}
-
-			}
-		}, 1, 1);
-		abilityCooldownManager.addCooldown(player, 3, getAbilities()[3].getCooldown());
+//		Set<Material> transparent = new HashSet<>();
+//		transparent.add(Material.AIR);
+//		transparent.add(Material.WATER);
+//		transparent.add(Material.LAVA);
+//		transparent.add(Material.STATIONARY_LAVA);
+//		transparent.add(Material.STATIONARY_WATER);
+//		Location dest = player.getTargetBlock(transparent, 30).getLocation();
+//		dest.setY(player.getWorld().getHighestBlockYAt(dest));
+//
+//		World world = player.getWorld();
+//		bukkitTask = Bukkit.getScheduler().runTaskTimer(MainClass.getPlugin(), new Runnable() {
+//			int counter = 0;
+//			double radius = 0;
+//
+//			@Override
+//			public void run() {
+//				if (counter >= 20 * 5) {
+//					bukkitTask.cancel();
+//				}
+//
+//				if (radius <= 5) {
+//					drawParticleCircle(radius, dest);
+//					radius += 0.25;
+//				} else {
+//
+//					if (counter % 2 == 0) {
+//						Random random = new Random();
+//						drawCyl(radius * random.nextDouble(), dest);
+//						for (Entity entity : world.getNearbyEntities(dest, radius - 1, radius - 1, radius - 1)) {
+//
+//							if (isEnemy(entity)) {
+//								damageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 20, false);
+//							}
+//						}
+//					}
+//				}
+//				counter++;
+//			}
+//
+//			private void drawCyl(double radius, Location location) {
+//				for (double t = 0; t <= 2 * Math.PI * radius; t += 5) {
+//					double x = (radius * Math.cos(t)) + location.getX();
+//					double z = (location.getZ() + radius * Math.sin(t));
+//					Location lightning = new Location(world, x, location.getY(), z);
+//					world.strikeLightningEffect(lightning);
+//				}
+//			}
+//
+//			private void drawParticleCircle(double radius, Location location) {
+//				for (double y = 1; y < world.getMaxHeight(); y *= 1.25) {
+//					for (double s = 0; s <= 2 * Math.PI * radius; s += 2 * Math.PI / 9) {
+//						double t = s + Math.toRadians(radius * 24);
+//						double x = (radius * Math.cos(t)) + location.getX();
+//						double z = (location.getZ() + radius * Math.sin(t));
+//						Location particle = new Location(world, x, location.getY(), z);
+//						ParticleEffect.REDSTONE.display(particle);
+//
+//						particle = new Location(world, x, location.getY() + y, z);
+//						ParticleEffect.REDSTONE.display(particle);
+//					}
+//				}
+//				for (int y = 0; y <= 24; y += 6) {
+//					for (double t = 0; t <= 2 * Math.PI * radius; t += 2 * Math.PI / 50) {
+//						double x = (radius * Math.cos(t)) + location.getX();
+//						double z = (location.getZ() + radius * Math.sin(t));
+//						Location particle = new Location(world, x, location.getY() + y, z);
+//						ParticleEffect.REDSTONE.display(particle);
+//					}
+//				}
+//
+//			}
+//		}, 1, 1);
+//		abilityCooldownManager.addCooldown(player, 3, getAbilities()[3].getCooldown());
+		getAbilities()[3].execute(abilityCooldownManager, player, specialEffectsManager);
 	}
 
 	@Override

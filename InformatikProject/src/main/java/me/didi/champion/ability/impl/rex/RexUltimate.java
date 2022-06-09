@@ -62,6 +62,7 @@ public class RexUltimate implements Ability {
 	@Override
 	public void execute(AbilityStateManager abilityStateManager, Player player,
 			SpecialEffectsManager specialEffectsManager) {
+		abilityStateManager.addCooldown(player, 3, getCooldown());
 		Set<Material> transparent = new HashSet<>();
 		transparent.add(Material.AIR);
 		transparent.add(Material.WATER);
@@ -134,7 +135,6 @@ public class RexUltimate implements Ability {
 
 			}
 		}, 1, 1));
-		abilityStateManager.addCooldown(player, 3, getCooldown());
 	}
 
 }

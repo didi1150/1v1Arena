@@ -57,6 +57,8 @@ public class RexFirstAbility implements Ability {
 	@Override
 	public void execute(AbilityStateManager abilityStateManager, Player player,
 			SpecialEffectsManager specialEffectsManager) {
+
+		abilityStateManager.addCooldown(player, 0, getCooldown());
 		shootBeam(player.getLocation().add(0, 0.5, 0), 13, false, player);
 		Bukkit.getScheduler().runTaskLater(MainClass.getPlugin(), new Runnable() {
 
@@ -65,7 +67,6 @@ public class RexFirstAbility implements Ability {
 				shootBeam(player.getLocation().add(0, 0.5, 0), 13, true, player);
 			}
 		}, 3);
-		abilityStateManager.addCooldown(player, 0, getCooldown());
 
 	}
 
