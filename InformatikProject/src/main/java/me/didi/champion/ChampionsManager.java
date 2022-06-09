@@ -107,8 +107,6 @@ public class ChampionsManager {
 
 		selectableChampions.forEach(champion -> {
 
-			new Exception().printStackTrace();
-
 			champion.setPlugin(plugin);
 			champion.setAbilityCooldownManager(abilityCooldownManager);
 			champion.setSpecialEffectsManager(specialEffectsManager);
@@ -126,7 +124,6 @@ public class ChampionsManager {
 	}
 
 	public Champion getSelectedChampion(Player player) {
-		new Exception().printStackTrace();
 		return selectedChampions.get(player.getUniqueId());
 	}
 
