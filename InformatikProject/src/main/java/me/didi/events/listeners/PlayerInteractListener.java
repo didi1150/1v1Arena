@@ -1,11 +1,15 @@
 package me.didi.events.listeners;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import me.didi.MainClass;
 import me.didi.champion.Champion;
@@ -22,11 +26,14 @@ public class PlayerInteractListener implements Listener {
 	private ChampionsManager championsManager;
 	private GameStateManager gameStateManager;
 
+	private List<Player> cooldowns;
+
 	public PlayerInteractListener(MainClass plugin, ChampionsManager championsManager,
 			GameStateManager gameStateManager) {
 		this.plugin = plugin;
 		this.championsManager = championsManager;
 		this.gameStateManager = gameStateManager;
+		this.cooldowns = new ArrayList<Player>();
 	}
 
 	@EventHandler
@@ -62,6 +69,17 @@ public class PlayerInteractListener implements Listener {
 					return;
 
 				Player player = event.getPlayer();
+				if (cooldowns.contains(player))
+					return;
+				cooldowns.add(player);
+				new BukkitRunnable() {
+
+					@Override
+					public void run() {
+						cooldowns.remove(player);
+					}
+				}.runTaskLater(plugin, 10);
+
 				int slot = player.getInventory().getHeldItemSlot();
 				Champion champion = championsManager.getSelectedChampion(player);
 				switch (slot) {
