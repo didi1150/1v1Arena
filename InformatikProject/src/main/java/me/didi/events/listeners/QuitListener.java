@@ -6,8 +6,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import me.didi.MainClass;
-import me.didi.champion.ChampionsManager;
-import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
@@ -22,15 +20,12 @@ public class QuitListener implements Listener {
 	private MainClass plugin;
 
 	private GameStateManager gameStateManager;
-	private AbilityStateManager abilityCooldownManager;
-	private ChampionsManager championsManager;
+	private AbilityStateManager abilityStateManager;
 
-	public QuitListener(MainClass plugin, GameStateManager gameStateManager, AbilityStateManager abilityCooldownManager,
-			ChampionsManager championsManager) {
+	public QuitListener(MainClass plugin, GameStateManager gameStateManager, AbilityStateManager abilityStateManager) {
 		this.plugin = plugin;
 		this.gameStateManager = gameStateManager;
-		this.abilityCooldownManager = abilityCooldownManager;
-		this.championsManager = championsManager;
+		this.abilityStateManager = abilityStateManager;
 	}
 
 	@EventHandler
@@ -56,11 +51,7 @@ public class QuitListener implements Listener {
 			if (plugin.getAlivePlayers().contains(player.getUniqueId()))
 				plugin.getAlivePlayers().remove(player.getUniqueId());
 
-			for (int i = 0; i < championsManager.getSelectedChampion(player).getAbilities().length; i++) {
-				Ability ability = championsManager.getSelectedChampion(player).getAbilities()[i];
-				abilityCooldownManager.removeRecastCooldown(player, ability, i);
-				abilityCooldownManager.removeCooldown(player);
-			}
+			abilityStateManager.removeCooldowns(player);
 
 			if (plugin.getAlivePlayers().size() <= 1 && gameStateManager.getCurrentGameState() instanceof IngameState) {
 				gameStateManager.setGameState(GameState.ENDING_STATE);

@@ -19,6 +19,7 @@ import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.RootEffect;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
+import me.didi.utilities.TaskManager;
 import me.didi.utilities.VectorUtils;
 import xyz.xenondevs.particle.ParticleEffect;
 
@@ -87,6 +88,9 @@ public class RexThirdAbility implements Ability {
 				}
 			}
 		}.runTaskTimer(MainClass.getPlugin(), 1, 1);
+		
+		TaskManager.getInstance().repeatUntil(0, 0, 0, (task, count) -> {
+		});
 	}
 
 }

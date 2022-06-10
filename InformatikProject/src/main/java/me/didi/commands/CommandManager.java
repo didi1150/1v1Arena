@@ -14,10 +14,8 @@ import me.didi.gamesystem.GameStateManager;
 public class CommandManager implements TabExecutor {
 
 	private ArrayList<SubCommand> subcommands = new ArrayList<>();
-	private GameStateManager gameStateManager;
 
 	public CommandManager(GameStateManager gameStateManager) {
-		this.gameStateManager = gameStateManager;
 		subcommands.add(new StartCommand(gameStateManager));
 	}
 

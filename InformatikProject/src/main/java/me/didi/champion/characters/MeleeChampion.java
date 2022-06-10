@@ -4,7 +4,6 @@ import org.bukkit.inventory.ItemStack;
 
 import me.didi.champion.Champion;
 import me.didi.champion.ability.Ability;
-import me.didi.champion.ability.AbilityImpl;
 
 public abstract class MeleeChampion extends Champion {
 

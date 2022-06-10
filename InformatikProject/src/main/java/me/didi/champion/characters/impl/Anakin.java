@@ -2,9 +2,7 @@ package me.didi.champion.characters.impl;
 
 import org.bukkit.inventory.ItemStack;
 
-import me.didi.champion.Champion;
 import me.didi.champion.ability.Ability;
-import me.didi.champion.ability.AbilityImpl;
 import me.didi.champion.characters.MeleeChampion;
 
 public class Anakin extends MeleeChampion {
@@ -32,7 +30,7 @@ public class Anakin extends MeleeChampion {
 
 		player.setVelocity(player.getLocation().getDirection().multiply(2).setY(0.1));
 
-		abilityCooldownManager.addCooldown(player, 1, 2);
+		abilityStateManager.addCooldown(player, 1, 2);
 	}
 
 	@Override
@@ -43,12 +41,6 @@ public class Anakin extends MeleeChampion {
 
 	@Override
 	public void executeUltimate() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void stopAllTasks() {
 		// TODO Auto-generated method stub
 
 	}

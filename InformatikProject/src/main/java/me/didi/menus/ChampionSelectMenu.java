@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import me.didi.MainClass;
 import me.didi.champion.Champion;
 import me.didi.champion.ChampionsManager;
 import me.didi.utilities.ChatUtils;
@@ -14,13 +13,10 @@ import net.md_5.bungee.api.ChatColor;
 
 public class ChampionSelectMenu extends Menu {
 
-	private MainClass plugin;
 	private ChampionsManager championsManager;
 
-	public ChampionSelectMenu(PlayerMenuUtility playerMenuUtility, MainClass plugin,
-			ChampionsManager championsManager) {
+	public ChampionSelectMenu(PlayerMenuUtility playerMenuUtility, ChampionsManager championsManager) {
 		super(playerMenuUtility);
-		this.plugin = plugin;
 		this.championsManager = championsManager;
 	}
 

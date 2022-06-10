@@ -11,18 +11,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.MainClass;
-import me.didi.champion.Champion;
-import me.didi.champion.ChampionsManager;
-import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.player.effects.SpecialEffect;
 import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.SkullFactory;
+import me.didi.utilities.TaskManager;
 
 public class CustomPlayerManager {
 
@@ -32,14 +29,12 @@ public class CustomPlayerManager {
 	private BukkitTask bukkitTask;
 	private MainClass plugin;
 
-	private ChampionsManager championsManager;
-	private AbilityStateManager abilityCooldownManager;
+	private AbilityStateManager abilityStateManager;
+	private int counter = 0;
 
-	public CustomPlayerManager(MainClass plugin, ChampionsManager championsManager,
-			AbilityStateManager abilityCooldownManager) {
+	public CustomPlayerManager(MainClass plugin, AbilityStateManager abilityCooldownManager) {
 		this.plugin = plugin;
-		this.championsManager = championsManager;
-		this.abilityCooldownManager = abilityCooldownManager;
+		this.abilityStateManager = abilityCooldownManager;
 	}
 
 	public void addPlayer(Player player) {
@@ -75,28 +70,22 @@ public class CustomPlayerManager {
 	}
 
 	public void startBackgroundTask() {
-		bukkitTask = new BukkitRunnable() {
-			int counter = 0;
-
-			@Override
-			public void run() {
-
-				if (counter >= 20 * 2) {
-					plugin.getAlivePlayers().forEach(uuid -> {
-						regenHealth(getPlayer(uuid));
-					});
-
-					counter = 0;
-				}
+		bukkitTask = TaskManager.getInstance().repeat(1, 1, task -> {
+			if (counter >= 20 * 2) {
 				plugin.getAlivePlayers().forEach(uuid -> {
-					CustomPlayer customPlayer = getPlayer(uuid);
-					setHealth(customPlayer);
-					sendHealthBar(customPlayer);
+					regenHealth(getPlayer(uuid));
 				});
 
-				counter++;
+				counter = 0;
 			}
-		}.runTaskTimer(plugin, 1, 1);
+			plugin.getAlivePlayers().forEach(uuid -> {
+				CustomPlayer customPlayer = getPlayer(uuid);
+				setHealth(customPlayer);
+				sendHealthBar(customPlayer);
+			});
+
+			counter++;
+		});
 	}
 
 	public void stopBackgroundTask() {
@@ -161,7 +150,7 @@ public class CustomPlayerManager {
 			if (itemStack.hasItemMeta() && itemStack.getItemMeta().getLore() != null) {
 				// ChatColor.Red + health: ChatColor.GREEN + 40
 				for (String string : itemStack.getItemMeta().getLore()) {
-					if (string.contains("defense")) {
+					if (string.contains("defense:")) {
 						String health = ChatColor.stripColor(string.split(": ")[1]);
 						bonusDefense += Integer.parseInt(health);
 					}
@@ -181,7 +170,7 @@ public class CustomPlayerManager {
 			if (itemStack.hasItemMeta() && itemStack.getItemMeta().getLore() != null) {
 				// ChatColor.Red + health: ChatColor.GREEN + 40
 				for (String string : itemStack.getItemMeta().getLore()) {
-					if (string.contains("magic resistance")) {
+					if (string.contains("magic resistance:")) {
 						String health = ChatColor.stripColor(string.split(": ")[1]);
 						bonusMagicResistance += Integer.parseInt(health);
 					}
@@ -201,7 +190,7 @@ public class CustomPlayerManager {
 			if (itemStack.hasItemMeta() && itemStack.getItemMeta().getLore() != null) {
 				// ChatColor.Red + health: ChatColor.GREEN + 40
 				for (String string : itemStack.getItemMeta().getLore()) {
-					if (string.contains("damage")) {
+					if (string.contains("damage:")) {
 						String toAdd = ChatColor.stripColor(string.split(": ")[1]);
 						damage += Integer.parseInt(toAdd);
 					}
@@ -217,14 +206,7 @@ public class CustomPlayerManager {
 		if (plugin.getAlivePlayers().contains(player.getUniqueId()))
 			plugin.getAlivePlayers().remove(player.getUniqueId());
 
-		Champion selectedChampion = championsManager.getSelectedChampion(player);
-		if (selectedChampion != null) {
-			for (int i = 0; i < selectedChampion.getAbilities().length; i++) {
-				Ability ability = selectedChampion.getAbilities()[i];
-				abilityCooldownManager.removeRecastCooldown(player, ability, i);
-				abilityCooldownManager.removeCooldown(player);
-			}
-		}
+		abilityStateManager.removeCooldowns(player);
 
 		player.setAllowFlight(true);
 		player.setFlying(true);

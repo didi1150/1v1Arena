@@ -13,15 +13,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.didi.champion.ChampionsManager;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.commands.CommandManager;
-import me.didi.commands.TestCommand;
-import me.didi.events.customEvents.DamageManager;
 import me.didi.events.listeners.BlockListener;
 import me.didi.events.listeners.DeathListener;
 import me.didi.events.listeners.DropItemListener;
 import me.didi.events.listeners.EntityDamageListener;
+import me.didi.events.listeners.HealListener;
 import me.didi.events.listeners.InventoryListener;
 import me.didi.events.listeners.JoinListener;
-import me.didi.events.listeners.HealListener;
 import me.didi.events.listeners.PickupListener;
 import me.didi.events.listeners.PlayerInteractListener;
 import me.didi.events.listeners.QuitListener;
@@ -32,6 +30,7 @@ import me.didi.menus.PlayerMenuUtility;
 import me.didi.player.CustomPlayerManager;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemManager;
+import me.didi.utilities.TaskManager;
 
 public class MainClass extends JavaPlugin {
 
@@ -47,11 +46,9 @@ public class MainClass extends JavaPlugin {
 
 	private ChampionsManager championsManager;
 
-	private AbilityStateManager abilityCooldownManager;
+	private AbilityStateManager abilityStateManager;
 
 	private CustomPlayerManager customPlayerManager;
-
-	private DamageManager damageManager;
 
 	private SpecialEffectsManager specialEffectsManager;
 
@@ -59,33 +56,32 @@ public class MainClass extends JavaPlugin {
 	public void onEnable() {
 		plugin = this;
 
+		TaskManager.init(this);
+
 		alivePlayers = new ArrayList<UUID>();
 
 		championsManager = new ChampionsManager(this);
 
-		damageManager = new DamageManager();
-
 		specialEffectsManager = new SpecialEffectsManager(this);
 
-		abilityCooldownManager = new AbilityStateManager(this, championsManager, new ItemManager());
-		abilityCooldownManager.startBackGroundTask();
+		abilityStateManager = new AbilityStateManager(championsManager, new ItemManager());
+		abilityStateManager.startBackGroundTask();
 
-		customPlayerManager = new CustomPlayerManager(this, championsManager, abilityCooldownManager);
+		customPlayerManager = new CustomPlayerManager(this, abilityStateManager);
 
-		championsManager.registerChampions(abilityCooldownManager, specialEffectsManager, customPlayerManager);
+		championsManager.registerChampions(abilityStateManager, specialEffectsManager, customPlayerManager);
 
 		gameStateManager = new GameStateManager(this, customPlayerManager, championsManager);
 		gameStateManager.setGameState(GameState.LOBBY_STATE);
 
 		registerListeners();
-		getCommand("test").setExecutor(new TestCommand());
 		getCommand("project").setExecutor(new CommandManager(gameStateManager));
 
 	}
 
 	@Override
 	public void onDisable() {
-		abilityCooldownManager.stopBackgroundTask();
+		abilityStateManager.stopBackgroundTask();
 		customPlayerManager.stopBackgroundTask();
 
 		Bukkit.getWorlds().forEach(world -> {
@@ -101,9 +97,9 @@ public class MainClass extends JavaPlugin {
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(new InventoryListener(), this);
 		pm.registerEvents(new JoinListener(this, gameStateManager, customPlayerManager), this);
-		pm.registerEvents(new QuitListener(this, gameStateManager, abilityCooldownManager, championsManager), this);
-		pm.registerEvents(new PlayerInteractListener(this, championsManager, gameStateManager), this);
-		pm.registerEvents(new EntityDamageListener(customPlayerManager, damageManager, gameStateManager), this);
+		pm.registerEvents(new QuitListener(this, gameStateManager, abilityStateManager), this);
+		pm.registerEvents(new PlayerInteractListener(championsManager, gameStateManager), this);
+		pm.registerEvents(new EntityDamageListener(customPlayerManager, gameStateManager), this);
 		pm.registerEvents(new HealListener(), this);
 		pm.registerEvents(new BlockListener(), this);
 		pm.registerEvents(new DeathListener(this, customPlayerManager, gameStateManager), this);

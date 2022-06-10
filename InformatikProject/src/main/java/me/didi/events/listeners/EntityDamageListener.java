@@ -9,7 +9,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
-import me.didi.MainClass;
 import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.events.customEvents.CustomPlayerDeathEvent;
 import me.didi.events.customEvents.DamageManager;
@@ -22,13 +21,10 @@ import me.didi.player.CustomPlayerManager;
 public class EntityDamageListener implements Listener {
 
 	private CustomPlayerManager customPlayerManager;
-	private DamageManager damageManager;
 	private GameStateManager gameStateManager;
 
-	public EntityDamageListener(CustomPlayerManager customPlayerManager, DamageManager damageManager,
-			GameStateManager gameStateManager) {
+	public EntityDamageListener(CustomPlayerManager customPlayerManager, GameStateManager gameStateManager) {
 		this.customPlayerManager = customPlayerManager;
-		this.damageManager = damageManager;
 		this.gameStateManager = gameStateManager;
 	}
 
@@ -70,10 +66,10 @@ public class EntityDamageListener implements Listener {
 			Player attacker = (Player) event.getDamager();
 			event.setCancelled(true);
 			if (attacker.getInventory().getHeldItemSlot() == 4)
-				damageManager.damageEntity(attacker, event.getEntity(), DamageReason.AUTO,
+				DamageManager.damageEntity(attacker, event.getEntity(), DamageReason.AUTO,
 						customPlayerManager.getDamage(attacker), true);
 		} else {
-			damageManager.damageEntity(event.getDamager(), event.getEntity(), DamageReason.AUTO, event.getDamage(),
+			DamageManager.damageEntity(event.getDamager(), event.getEntity(), DamageReason.AUTO, event.getDamage(),
 					true);
 			event.setCancelled(true);
 		}
@@ -126,7 +122,7 @@ public class EntityDamageListener implements Listener {
 			ent.damage(event.getDamage());
 		}
 		if (knockback)
-			damageManager.knockbackEnemy(event.getAttacker(), event.getEntity());
+			DamageManager.knockbackEnemy(event.getAttacker(), event.getEntity());
 	}
 
 }

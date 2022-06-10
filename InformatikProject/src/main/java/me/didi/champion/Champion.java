@@ -35,7 +35,7 @@ public abstract class Champion {
 
 	protected List<ArmorStand> proj;
 
-	protected AbilityStateManager abilityCooldownManager;
+	protected AbilityStateManager abilityStateManager;
 
 	protected DamageManager damageManager;
 
@@ -56,8 +56,6 @@ public abstract class Champion {
 		this.proj = new ArrayList<ArmorStand>();
 	}
 
-	public abstract void stopAllTasks();
-
 	public void setCustomPlayerManager(CustomPlayerManager customPlayerManager) {
 		this.customPlayerManager = customPlayerManager;
 	}
@@ -71,7 +69,7 @@ public abstract class Champion {
 	}
 
 	public void setAbilityCooldownManager(AbilityStateManager abilityCooldownManager) {
-		this.abilityCooldownManager = abilityCooldownManager;
+		this.abilityStateManager = abilityCooldownManager;
 	}
 
 	public void setPlayer(Player player) {

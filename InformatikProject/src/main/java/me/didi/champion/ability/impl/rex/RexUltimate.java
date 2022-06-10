@@ -32,12 +32,12 @@ public class RexUltimate implements Ability {
 
 	@Override
 	public String getName() {
-		return "Airstrike";
+		return ChatColor.GOLD + "Airstrike";
 	}
 
 	@Override
 	public ItemStack getIcon() {
-		ItemStack icon = new ItemBuilder(new ItemStack(Material.BEACON)).setDisplayName(ChatColor.GOLD + getName())
+		ItemStack icon = new ItemBuilder(new ItemStack(Material.BEACON)).setDisplayName(getName())
 				.setLore(getDescription()).toItemStack();
 		return icon;
 	}

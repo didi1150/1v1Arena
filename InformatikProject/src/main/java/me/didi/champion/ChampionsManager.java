@@ -16,6 +16,7 @@ import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityImpl;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
+import me.didi.champion.ability.impl.lloyd.LloydFirstAbility;
 import me.didi.champion.ability.impl.lloyd.LloydUltimate;
 import me.didi.champion.ability.impl.rex.RexFirstAbility;
 import me.didi.champion.ability.impl.rex.RexSecondAbility;
@@ -44,16 +45,13 @@ public class ChampionsManager {
 
 	public void registerChampions(AbilityStateManager abilityCooldownManager,
 			SpecialEffectsManager specialEffectsManager, CustomPlayerManager customPlayerManager) {
-		selectableChampions.add(new Lloyd("Lloyd",
-				new Ability[] {
-						new AbilityImpl(AbilityType.MELEE, "First Ability", new ItemStack(Material.INK_SACK), 10),
+		selectableChampions.add(new Lloyd("Lloyd", new Ability[] { new LloydFirstAbility(),
 
-						new AbilityImpl(AbilityType.MELEE, "First Ability", new ItemStack(Material.INK_SACK), 10),
+				new AbilityImpl(AbilityType.MELEE, "First Ability", new ItemStack(Material.INK_SACK), 10),
 
-						new AbilityImpl(AbilityType.MELEE, "First Ability", new ItemStack(Material.INK_SACK), 10),
+				new AbilityImpl(AbilityType.MELEE, "First Ability", new ItemStack(Material.INK_SACK), 10),
 
-						new LloydUltimate() },
-				50, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_LLOYD),
+				new LloydUltimate() }, 50, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_LLOYD),
 				new ItemBuilder(new ItemStack(Material.GOLD_SWORD)).setDisplayName(ChatColor.GOLD + "Katana")
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "6").toItemStack()));
 		selectableChampions.add(new Anakin("Anakin",

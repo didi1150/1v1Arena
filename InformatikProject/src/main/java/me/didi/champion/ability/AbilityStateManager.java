@@ -8,89 +8,83 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import me.didi.MainClass;
+import me.didi.champion.Champion;
 import me.didi.champion.ChampionsManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.ItemManager;
+import me.didi.utilities.TaskManager;
 import net.md_5.bungee.api.ChatColor;
 
 public class AbilityStateManager {
 
 	private BukkitTask bukkitTask;
-	private MainClass plugin;
 	private Map<UUID, AbilityState> abilityStates = new HashMap<UUID, AbilityState>();
 
 	private ChampionsManager championsManager;
 	private ItemManager itemManager;
 
-	public AbilityStateManager(MainClass plugin, ChampionsManager championsManager, ItemManager itemManager) {
+	public AbilityStateManager(ChampionsManager championsManager, ItemManager itemManager) {
 		this.championsManager = championsManager;
-		this.plugin = plugin;
 		this.itemManager = itemManager;
 	}
 
 	public void startBackGroundTask() {
-		bukkitTask = new BukkitRunnable() {
+		bukkitTask = TaskManager.getInstance().repeat(20, 20, task -> {
+			for (Map.Entry<UUID, AbilityState> entry : abilityStates.entrySet()) {
+				Player player = Bukkit.getPlayer(entry.getKey());
+				AbilityState value = entry.getValue();
 
-			@Override
-			public void run() {
-				for (Map.Entry<UUID, AbilityState> entry : abilityStates.entrySet()) {
-					Player player = Bukkit.getPlayer(entry.getKey());
-					AbilityState value = entry.getValue();
+				for (Map.Entry<Integer, Integer> recastEntry : value.getRecasts().entrySet()) {
 
-					for (Map.Entry<Integer, Integer> recastEntry : value.getRecasts().entrySet()) {
+					int recastIndex = recastEntry.getKey();
+					int recastSeconds = recastEntry.getValue();
 
-						int recastIndex = recastEntry.getKey();
-						int recastSeconds = recastEntry.getValue();
+					Ability ability = championsManager.getSelectedChampion(player).getAbilities()[recastIndex];
 
-						Ability ability = championsManager.getSelectedChampion(player).getAbilities()[recastIndex];
-
-						if (recastSeconds == 0) {
-							removeRecastCooldown(player, ability, recastIndex);
-						} else if (recastSeconds > 0) {
-							itemManager.setItem(player, recastIndex,
-									new ItemBuilder(ability.getIcon().clone()).setAmount(recastSeconds).toItemStack());
-							value.setRecastSeconds(recastIndex, recastSeconds - 1);
-						}
+					if (recastSeconds == 0) {
+						removeRecastCooldown(player, ability, recastIndex);
+					} else if (recastSeconds > 0) {
+						itemManager.setItem(player, recastIndex,
+								new ItemBuilder(ability.getIcon().clone()).setAmount(recastSeconds).toItemStack());
+						value.setRecastSeconds(recastIndex, recastSeconds - 1);
 					}
+				}
 
-					if (value.getCooldowns() != null) {
+				if (value.getCooldowns() != null) {
 
-						int[] array = value.getCooldowns();
-						for (int i = 0; i < array.length; i++) {
-							Ability ability = championsManager.getSelectedChampion(player).getAbilities()[i];
-							if (array[i] == 0) {
-								if (player.getInventory().getItem(i).getType() == ability.getIcon().getType() && player
-										.getInventory().getItem(i).getAmount() == ability.getIcon().getAmount())
-									continue;
-								itemManager.setItem(player, i, ability.getIcon());
-							} else if (array[i] > 0) {
-								itemManager.setItem(player, i, createOnCooldownItem(array[i], ability.getName()));
-								array[i]--;
-							}
-						}
-
-					}
-
-					if (value.getDisabled() != null) {
-						if (value.getDisabled() <= 1) {
-							value.setDisabled(null);
-							ItemStack[] cache = getAbilityState(player).getCachedIcons();
-							for (int i = 0; i < cache.length; i++)
-								itemManager.setItem(player, i, cache[i]);
-							getAbilityState(player).setCachedIcons(null);
-						} else {
-							int remaining = value.getDisabled() - 1;
-							value.setDisabled(remaining);
+					int[] array = value.getCooldowns();
+					for (int i = 0; i < array.length; i++) {
+						Ability ability = championsManager.getSelectedChampion(player).getAbilities()[i];
+						if (array[i] == 0) {
+							if (player.getInventory().getItem(i).getType() == ability.getIcon().getType()
+									&& player.getInventory().getItem(i).getAmount() == ability.getIcon().getAmount())
+								continue;
+							itemManager.setItem(player, i, ability.getIcon());
+						} else if (array[i] > 0) {
+							itemManager.setItem(player, i, createOnCooldownItem(array[i], ability.getName()));
+							array[i]--;
 						}
 					}
 
 				}
+
+				if (value.getDisabled() != null) {
+					if (value.getDisabled() <= 1) {
+						value.setDisabled(null);
+						ItemStack[] cache = getAbilityState(player).getCachedIcons();
+						for (int i = 0; i < cache.length; i++)
+							itemManager.setItem(player, i, cache[i]);
+						getAbilityState(player).setCachedIcons(null);
+					} else {
+						int remaining = value.getDisabled() - 1;
+						value.setDisabled(remaining);
+					}
+				}
+
 			}
-		}.runTaskTimer(plugin, 20, 20);
+		});
 	}
 
 	public void stopBackgroundTask() {
@@ -176,6 +170,25 @@ public class AbilityStateManager {
 			itemManager.setItem(player, i,
 					new ItemBuilder(new ItemStack(Material.BARRIER)).setDisplayName(ChatColor.RED + "X")
 							.setLore(ChatColor.GRAY + "This ability is not useable").toItemStack());
+		}
+	}
+
+	public void enableAbilities(Player player) {
+		if (getAbilityState(player).getDisabled() != null) {
+			getAbilityState(player).setCachedIcons(null);
+			getAbilityState(player).setDisabled(null);
+		}
+	}
+
+	public void removeCooldowns(Player player) {
+		Champion selectedChampion = championsManager.getSelectedChampion(player);
+		if (selectedChampion != null) {
+			for (int i = 0; i < selectedChampion.getAbilities().length; i++) {
+				Ability ability = selectedChampion.getAbilities()[i];
+				removeRecastCooldown(player, ability, i);
+				removeCooldown(player);
+				enableAbilities(player);
+			}
 		}
 	}
 

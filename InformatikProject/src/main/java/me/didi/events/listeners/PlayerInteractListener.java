@@ -9,7 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import me.didi.MainClass;
 import me.didi.champion.Champion;
@@ -18,19 +17,16 @@ import me.didi.gamesystem.GameStateManager;
 import me.didi.gamesystem.gameStates.IngameState;
 import me.didi.gamesystem.gameStates.LobbyState;
 import me.didi.menus.ChampionSelectMenu;
+import me.didi.utilities.TaskManager;
 
 public class PlayerInteractListener implements Listener {
-
-	private MainClass plugin;
 
 	private ChampionsManager championsManager;
 	private GameStateManager gameStateManager;
 
 	private List<Player> cooldowns;
 
-	public PlayerInteractListener(MainClass plugin, ChampionsManager championsManager,
-			GameStateManager gameStateManager) {
-		this.plugin = plugin;
+	public PlayerInteractListener(ChampionsManager championsManager, GameStateManager gameStateManager) {
 		this.championsManager = championsManager;
 		this.gameStateManager = gameStateManager;
 		this.cooldowns = new ArrayList<Player>();
@@ -53,7 +49,7 @@ public class PlayerInteractListener implements Listener {
 					return;
 
 				ChampionSelectMenu championSelectMenu = new ChampionSelectMenu(
-						MainClass.getPlayerMenuUtility(event.getPlayer()), plugin, championsManager);
+						MainClass.getPlayerMenuUtility(event.getPlayer()), championsManager);
 				championSelectMenu.open();
 			}
 		} else if (gameStateManager.getCurrentGameState() instanceof IngameState) {
@@ -72,13 +68,9 @@ public class PlayerInteractListener implements Listener {
 				if (cooldowns.contains(player))
 					return;
 				cooldowns.add(player);
-				new BukkitRunnable() {
-
-					@Override
-					public void run() {
-						cooldowns.remove(player);
-					}
-				}.runTaskLater(plugin, 10);
+				TaskManager.getInstance().runTaskLater(10, task -> {
+					cooldowns.remove(player);
+				});
 
 				int slot = player.getInventory().getHeldItemSlot();
 				Champion champion = championsManager.getSelectedChampion(player);

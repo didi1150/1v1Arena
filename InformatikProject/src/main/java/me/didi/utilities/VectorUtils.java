@@ -13,7 +13,7 @@ public class VectorUtils {
 		final float newX = (float) (location.getX()
 				+ (-distance * Math.cos(Math.toRadians(location.getYaw() + 90 * 0))));
 
-		return new Location(location.getWorld(), newX, location.getY(), newZ);
+		return new Location(location.getWorld(), newX, location.getY(), newZ, location.getYaw(), location.getPitch());
 	}
 
 	public static Location getLocationToLeft(Location location, double distance) {
@@ -25,7 +25,7 @@ public class VectorUtils {
 		final float newX = (float) (location.getX()
 				+ (distance * Math.cos(Math.toRadians(location.getYaw() + 90 * 0))));
 
-		return new Location(location.getWorld(), newX, location.getY(), newZ);
+		return new Location(location.getWorld(), newX, location.getY(), newZ, location.getYaw(), location.getPitch());
 	}
 
 	public static Vector calculateVelocity(Vector from, Vector to, int heightGain) {

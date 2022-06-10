@@ -10,9 +10,6 @@ commands:
   setspawn:
     description: Sets a spawn of the arena
     aliases: [ss]
-  test:
-    desc: test
-    usage: /<test>
   project:
     desc: project main command
     usage: /project <subcommand>

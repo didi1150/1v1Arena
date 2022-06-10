@@ -17,21 +17,16 @@ public class GameStateManager {
 
 	private GameState currentGameState;
 
-	private CustomPlayerManager customPlayerManager;
-	private ChampionsManager championsManager;
 
 	public GameStateManager(MainClass plugin, CustomPlayerManager customPlayerManager,
 			ChampionsManager championsManager) {
 		this.plugin = plugin;
-		this.championsManager = championsManager;
-		this.customPlayerManager = customPlayerManager;
 		this.gameStates = new GameState[3];
 
 		gameStates[GameState.LOBBY_STATE] = new LobbyState(
 				new LobbyCountdown(this, customPlayerManager, championsManager));
 		gameStates[GameState.INGAME_STATE] = new IngameState();
-		gameStates[GameState.ENDING_STATE] = new EndingState(new EndingCountdown(this, customPlayerManager), plugin,
-				championsManager);
+		gameStates[GameState.ENDING_STATE] = new EndingState(new EndingCountdown(this, customPlayerManager), plugin);
 
 	}
 

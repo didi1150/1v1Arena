@@ -3,7 +3,6 @@ package me.didi.commands.subcommands;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import me.didi.MainClass;
 import me.didi.commands.SubCommand;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.gamesystem.gameStates.LobbyState;
