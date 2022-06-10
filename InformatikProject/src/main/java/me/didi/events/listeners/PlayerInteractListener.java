@@ -13,23 +13,30 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import me.didi.MainClass;
 import me.didi.champion.Champion;
 import me.didi.champion.ChampionsManager;
+import me.didi.champion.ability.AbilityStateManager;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.gamesystem.gameStates.IngameState;
 import me.didi.gamesystem.gameStates.LobbyState;
 import me.didi.menus.ChampionSelectMenu;
+import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.TaskManager;
 
 public class PlayerInteractListener implements Listener {
 
 	private ChampionsManager championsManager;
 	private GameStateManager gameStateManager;
+	private AbilityStateManager abilityStateManager;
+	private SpecialEffectsManager specialEffectsManager;
 
 	private List<Player> cooldowns;
 
-	public PlayerInteractListener(ChampionsManager championsManager, GameStateManager gameStateManager) {
+	public PlayerInteractListener(ChampionsManager championsManager, GameStateManager gameStateManager,
+			AbilityStateManager abilityStateManager, SpecialEffectsManager specialEffectsManager) {
 		this.championsManager = championsManager;
 		this.gameStateManager = gameStateManager;
 		this.cooldowns = new ArrayList<Player>();
+		this.abilityStateManager = abilityStateManager;
+		this.specialEffectsManager = specialEffectsManager;
 	}
 
 	@EventHandler
@@ -74,20 +81,7 @@ public class PlayerInteractListener implements Listener {
 
 				int slot = player.getInventory().getHeldItemSlot();
 				Champion champion = championsManager.getSelectedChampion(player);
-				switch (slot) {
-				case 0:
-					champion.executeFirstAbility();
-					break;
-				case 1:
-					champion.executeSecondAbility();
-					break;
-				case 2:
-					champion.executeThirdAbility();
-					break;
-				case 3:
-					champion.executeUltimate();
-					break;
-				}
+				champion.getAbilities()[slot].execute(abilityStateManager, player, specialEffectsManager);
 			} else if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
 
 				if (event.getItem() == null)
