@@ -1,6 +1,8 @@
 package me.didi.utilities;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 public class VectorUtils {
@@ -62,6 +64,21 @@ public class VectorUtils {
 		double dx = to.getBlockX() - from.getBlockX();
 		double dz = to.getBlockZ() - from.getBlockZ();
 		return dx * dx + dz * dz;
+	}
+
+	/**
+	 * Gets the highest location below the player where the block is not air
+	 */
+	public static Location getHighestLocation(Player player) {
+		Location start = player.getLocation();
+
+		for (int y = start.getBlockY(); y > 0; y--) {
+			start.setY(y);
+			if (player.getWorld().getBlockAt(start).getType() != Material.AIR) {
+				return start;
+			}
+		}
+		return start;
 	}
 
 }
