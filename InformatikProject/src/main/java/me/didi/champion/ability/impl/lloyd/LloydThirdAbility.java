@@ -71,8 +71,6 @@ public class LloydThirdAbility extends Recastable implements Ability {
 	@Override
 	public void execute(AbilityStateManager abilityStateManager, Player player,
 			SpecialEffectsManager specialEffectsManager) {
-		ChatUtils.sendDebugMessage("cast");
-		ChatUtils.sendDebugMessage("index : " + recastCounters.getOrDefault(player, 0));
 		getRecasts()[recastCounters.getOrDefault(player, 0)].accept(player, abilityStateManager);
 	}
 
@@ -89,7 +87,6 @@ public class LloydThirdAbility extends Recastable implements Ability {
 			}
 
 			private void flip(Player player, AbilityStateManager abilityStateManager, boolean isEnemyHit) {
-				ChatUtils.sendDebugMessage("flip");
 				abilityStateManager.addCooldown(player, 2, getCooldown());
 				ArmorStand armorStand = (ArmorStand) ArmorStandFactory.spawnInvisibleArmorStand(player.getLocation());
 				armorStand.setMarker(true);
