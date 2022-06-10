@@ -109,6 +109,13 @@ public class AbilityStateManager {
 	}
 
 	public void addCooldown(Player player, int index, int cooldown) {
+		if (getAbilityState(player).getRecasts().containsKey(index)) {
+			getAbilityState(player).removeRecast(index);
+
+			itemManager.setItem(player, index, createOnCooldownItem(1,
+					championsManager.getSelectedChampion(player).getAbilities()[index].getName()));
+		}
+
 		if (getAbilityState(player).getCooldowns() != null) {
 			int[] array = getAbilityState(player).getCooldowns();
 			array[index] = cooldown;

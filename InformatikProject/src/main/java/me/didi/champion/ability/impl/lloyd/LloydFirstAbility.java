@@ -23,7 +23,6 @@ import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ArmorStandFactory;
-import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.TaskManager;
 import me.didi.utilities.VectorUtils;
@@ -117,7 +116,6 @@ public class LloydFirstAbility implements Ability {
 
 				for (Entity entity : armorStand.getNearbyEntities(1.5, 3, 1.5)) {
 					if (DamageManager.isEnemy(player, entity) && !hitEntities.get(i).contains(entity)) {
-						ChatUtils.broadCastMessage("Enemy hit");
 						hitEntities.get(i).add(entity);
 						DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 10, false);
 					}

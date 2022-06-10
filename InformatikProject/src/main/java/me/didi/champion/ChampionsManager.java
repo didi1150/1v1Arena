@@ -17,6 +17,8 @@ import me.didi.champion.ability.AbilityImpl;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
 import me.didi.champion.ability.impl.lloyd.LloydFirstAbility;
+import me.didi.champion.ability.impl.lloyd.LloydSecondAbility;
+import me.didi.champion.ability.impl.lloyd.LloydThirdAbility;
 import me.didi.champion.ability.impl.lloyd.LloydUltimate;
 import me.didi.champion.ability.impl.perry.PerryFirstAbility;
 import me.didi.champion.ability.impl.rex.RexFirstAbility;
@@ -48,9 +50,9 @@ public class ChampionsManager {
 			SpecialEffectsManager specialEffectsManager, CustomPlayerManager customPlayerManager) {
 		selectableChampions.add(new Lloyd("Lloyd", new Ability[] { new LloydFirstAbility(),
 
-				new AbilityImpl(AbilityType.MELEE, "First Ability", new ItemStack(Material.INK_SACK), 10),
+				new LloydSecondAbility(),
 
-				new AbilityImpl(AbilityType.MELEE, "First Ability", new ItemStack(Material.INK_SACK), 10),
+				new LloydThirdAbility(),
 
 				new LloydUltimate() }, 50, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_LLOYD),
 				new ItemBuilder(new ItemStack(Material.GOLD_SWORD)).setDisplayName(ChatColor.GOLD + "Katana")
