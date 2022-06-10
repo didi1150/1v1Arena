@@ -18,6 +18,7 @@ import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
 import me.didi.champion.ability.impl.lloyd.LloydFirstAbility;
 import me.didi.champion.ability.impl.lloyd.LloydUltimate;
+import me.didi.champion.ability.impl.perry.PerryFirstAbility;
 import me.didi.champion.ability.impl.rex.RexFirstAbility;
 import me.didi.champion.ability.impl.rex.RexSecondAbility;
 import me.didi.champion.ability.impl.rex.RexThirdAbility;
@@ -55,7 +56,7 @@ public class ChampionsManager {
 				new ItemBuilder(new ItemStack(Material.GOLD_SWORD)).setDisplayName(ChatColor.GOLD + "Katana")
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "6").toItemStack()));
 		selectableChampions.add(new Anakin("Anakin",
-				new AbilityImpl[] {
+				new Ability[] {
 						new AbilityImpl(AbilityType.MELEE, "Enlightenment", new ItemStack(Material.IRON_SWORD), 10),
 
 						new AbilityImpl(AbilityType.MELEE, "Force", new ItemStack(Material.WOOD), 10),
@@ -77,12 +78,9 @@ public class ChampionsManager {
 				new RexUltimate() }, 75, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_REX),
 				new ItemBuilder(new ItemStack(Material.IRON_BARDING)).setDisplayName(ChatColor.AQUA + "Blaster")
 						.addGlow().setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "5").toItemStack()));
-		selectableChampions.add(new Perry("Perry", new AbilityImpl[] {
+		selectableChampions.add(new Perry("Perry", new Ability[] {
 
-				new AbilityImpl(AbilityType.OTHER, "Swift Throw",
-						new ItemBuilder(new ItemStack(Material.LEATHER_HELMET))
-								.setDisplayName(ChatColor.GOLD + "Boomerang").toItemStack(),
-						20),
+				new PerryFirstAbility(),
 
 				new AbilityImpl(AbilityType.OTHER, "Get Away",
 						new ItemBuilder(new ItemStack(Material.LEATHER_HELMET))

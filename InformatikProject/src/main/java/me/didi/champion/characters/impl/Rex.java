@@ -22,6 +22,7 @@ import me.didi.utilities.VectorUtils;
 public class Rex extends RangedChampion {
 
 	private boolean isOnCooldown;
+
 	public Rex(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist, ItemStack icon,
 			ItemStack autoAttackItem) {
 		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon, autoAttackItem);
@@ -51,7 +52,6 @@ public class Rex extends RangedChampion {
 			armorStand.setMarker(true);
 			Location destination = player.getLocation().add(player.getLocation().getDirection().multiply(10));
 			Vector vec = destination.subtract(player.getLocation()).toVector();
-			proj.add(armorStand);
 			new BukkitRunnable() {
 
 				int counter = 0;
@@ -61,7 +61,6 @@ public class Rex extends RangedChampion {
 					Block blockAt = armorStand.getWorld()
 							.getBlockAt(VectorUtils.getLocationToRight(armorStand.getLocation().add(0, 0.5, 0), 0.3));
 					if (counter >= 20 * 3 || blockAt.getType().isSolid()) {
-						proj.remove(armorStand);
 						armorStand.remove();
 						cancel();
 					} else {
@@ -78,7 +77,6 @@ public class Rex extends RangedChampion {
 							continue;
 						Bukkit.getPluginManager().callEvent(new CustomDamageEvent(entity, player, DamageReason.AUTO,
 								customPlayerManager.getDamage(player), true));
-						proj.remove(armorStand);
 						armorStand.remove();
 						cancel();
 					}

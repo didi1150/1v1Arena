@@ -1,8 +1,5 @@
 package me.didi.champion;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -33,8 +30,6 @@ public abstract class Champion {
 
 	protected MainClass plugin;
 
-	protected List<ArmorStand> proj;
-
 	protected AbilityStateManager abilityStateManager;
 
 	protected DamageManager damageManager;
@@ -53,7 +48,6 @@ public abstract class Champion {
 		this.icon = icon;
 		this.autoAttackItem = autoAttackItem;
 		this.damageManager = new DamageManager();
-		this.proj = new ArrayList<ArmorStand>();
 	}
 
 	public void setCustomPlayerManager(CustomPlayerManager customPlayerManager) {
