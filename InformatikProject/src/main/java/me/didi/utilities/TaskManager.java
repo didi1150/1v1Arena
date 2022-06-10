@@ -59,6 +59,13 @@ public class TaskManager {
 	}
 
 	public BukkitTask repeat(long delay, long period, Consumer<BukkitTask> callback) {
+		BukkitTask bukkitTask = getBukkitTask(delay, period, callback);
+
+		return bukkitTask;
+
+	}
+
+	private BukkitTask getBukkitTask(long delay, long period, Consumer<BukkitTask> callback) {
 		TaskHolder taskHolder = new TaskHolder();
 
 		BukkitTask bukkitTask = new BukkitRunnable() {
@@ -73,9 +80,7 @@ public class TaskManager {
 		}.runTaskTimer(plugin, delay, period);
 
 		taskHolder.bukkitTask = bukkitTask;
-
 		return bukkitTask;
-
 	}
 
 	public BukkitTask runTaskLater(long delay, Consumer<BukkitTask> callback) {
