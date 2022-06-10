@@ -93,7 +93,7 @@ public class LloydFirstAbility implements Ability {
 			armorStand.setItemInHand(new ItemStack(Material.IRON_SWORD));
 			armorStands.add(armorStand);
 
-			vectors[i] = locations[i].clone().subtract(spawnLocation).toVector();
+			vectors[i] = locations[i].clone().subtract(spawnLocation).toVector().normalize();
 			hitEntities.put(i, new ArrayList<Entity>());
 		}
 

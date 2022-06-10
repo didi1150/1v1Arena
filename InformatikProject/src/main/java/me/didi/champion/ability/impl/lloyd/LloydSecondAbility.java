@@ -81,11 +81,12 @@ public class LloydSecondAbility implements Ability {
 		Location location = player.getLocation();
 		TaskManager.getInstance().repeatUntil(0, 1, 20 * 15, (task, counter) -> {
 
-			if (counter.get() == 20 * 15) {
+			if (counter.get() >= 20 * 15) {
 				Bukkit.getOnlinePlayers().forEach(pl -> {
 					if (!pl.canSee(player))
 						pl.showPlayer(player);
 				});
+				return;
 			}
 
 			if (player.getLocation().distanceSquared(location) <= 25) {
