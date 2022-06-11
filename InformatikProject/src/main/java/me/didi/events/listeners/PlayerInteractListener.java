@@ -75,7 +75,7 @@ public class PlayerInteractListener implements Listener {
 				if (cooldowns.contains(player))
 					return;
 				cooldowns.add(player);
-				TaskManager.getInstance().runTaskLater(10, task -> {
+				TaskManager.getInstance().runTaskLater(15, task -> {
 					cooldowns.remove(player);
 				});
 

@@ -22,6 +22,7 @@ import me.didi.events.listeners.InventoryListener;
 import me.didi.events.listeners.JoinListener;
 import me.didi.events.listeners.PickupListener;
 import me.didi.events.listeners.PlayerInteractListener;
+import me.didi.events.listeners.PlayerMoveListener;
 import me.didi.events.listeners.QuitListener;
 import me.didi.events.listeners.WeatherTimeChangeListener;
 import me.didi.gamesystem.GameState;
@@ -108,6 +109,7 @@ public class MainClass extends JavaPlugin {
 		pm.registerEvents(new PickupListener(), this);
 		pm.registerEvents(new HealListener(), this);
 		pm.registerEvents(new WeatherTimeChangeListener(), this);
+		pm.registerEvents(new PlayerMoveListener(), this);
 	}
 
 	public static PlayerMenuUtility getPlayerMenuUtility(Player p) {

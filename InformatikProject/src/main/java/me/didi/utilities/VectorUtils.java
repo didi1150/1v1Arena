@@ -1,5 +1,8 @@
 package me.didi.utilities;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -67,18 +70,37 @@ public class VectorUtils {
 	}
 
 	/**
-	 * Gets the highest location below the player where the block is not air
+	 * Gets the highest location below the location where the block is not air
 	 */
-	public static Location getHighestLocation(Player player) {
-		Location start = player.getLocation();
+	public static Location getHighestLocation(Location location) {
+		Location start = location;
 
 		for (int y = start.getBlockY(); y > 0; y--) {
 			start.setY(y);
-			if (player.getWorld().getBlockAt(start).getType() != Material.AIR) {
+			if (location.getWorld().getBlockAt(start).getType() != Material.AIR) {
 				return start;
 			}
 		}
 		return start;
+	}
+
+	public static Player getTargetPlayer(Player player, int max) {
+		List<Player> possible = player.getNearbyEntities(max, max, max).stream()
+				.filter(entity -> entity instanceof Player).map(entity -> (Player) entity)
+				.filter(player::hasLineOfSight).collect(Collectors.toList());
+		Ray ray = Ray.from(player);
+		double d = -1;
+		Player closest = null;
+		for (Player player1 : possible) {
+			double dis = AABB.from(player1).collidesD(ray, 0, max);
+			if (dis != -1) {
+				if (dis < d || d == -1) {
+					d = dis;
+					closest = player1;
+				}
+			}
+		}
+		return closest;
 	}
 
 }

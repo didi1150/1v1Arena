@@ -16,6 +16,8 @@ import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityImpl;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
+import me.didi.champion.ability.impl.anakin.AnakinSecondAbility;
+import me.didi.champion.ability.impl.anakin.AnakinUltimate;
 import me.didi.champion.ability.impl.lloyd.LloydFirstAbility;
 import me.didi.champion.ability.impl.lloyd.LloydSecondAbility;
 import me.didi.champion.ability.impl.lloyd.LloydThirdAbility;
@@ -61,11 +63,11 @@ public class ChampionsManager {
 				new Ability[] {
 						new AbilityImpl(AbilityType.MELEE, "Enlightenment", new ItemStack(Material.IRON_SWORD), 10),
 
-						new AbilityImpl(AbilityType.MELEE, "Force", new ItemStack(Material.WOOD), 10),
+						new AnakinSecondAbility(),
 
 						new AbilityImpl(AbilityType.MELEE, "Force", new ItemStack(Material.WOOD), 10),
 
-						new AbilityImpl(AbilityType.MELEE, "CHOKE", new ItemStack(Material.WOOD), 10) },
+						new AnakinUltimate() },
 				75, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_ANAKIN),
 				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName(ChatColor.AQUA + "Lightsaber").addGlow()
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "7").toItemStack()));

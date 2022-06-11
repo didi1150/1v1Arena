@@ -79,7 +79,7 @@ public class LloydSecondAbility implements Ability {
 	}
 
 	private void createSmoke(Player player) {
-		Location location = VectorUtils.getHighestLocation(player).add(0, 1, 0);
+		Location location = VectorUtils.getHighestLocation(player.getLocation()).add(0, 1, 0);
 		TaskManager.getInstance().repeatUntil(0, 1, 20 * 15, (task, counter) -> {
 
 			if (counter.get() >= 20 * 15) {
