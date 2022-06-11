@@ -79,7 +79,7 @@ public class PerryFirstAbility implements Ability {
 
 		TaskManager.getInstance().repeatUntil(1, 1, 20, (task, counter) -> {
 
-			Vector vector = destination.subtract(location).toVector().multiply(0.25).normalize();
+			Vector vector = destination.clone().subtract(location).toVector().multiply(0.25).normalize();
 			EulerAngle rotation = armorStand.getRightArmPose();
 			EulerAngle addRotation = rotation.add(0, 20, 0);
 
