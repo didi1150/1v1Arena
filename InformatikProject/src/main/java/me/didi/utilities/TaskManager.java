@@ -102,6 +102,28 @@ public class TaskManager {
 		return bukkitTask;
 	}
 
+	/**
+	 * PLEASE KEEP THINGS THREAD SAFE
+	 * */
+	public BukkitTask runTaskAsync(Consumer<BukkitTask> callback) {
+		TaskHolder taskHolder = new TaskHolder();
+
+		BukkitTask bukkitTask = new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				if (taskHolder.bukkitTask == null)
+					return;
+				callback.accept(taskHolder.bukkitTask);
+
+			}
+		}.runTaskAsynchronously(plugin);
+
+		taskHolder.bukkitTask = bukkitTask;
+
+		return bukkitTask;
+	}
+
 	public static TaskManager getInstance() {
 		if (instance == null)
 			return null;
@@ -111,6 +133,5 @@ public class TaskManager {
 	private class TaskHolder {
 		public BukkitTask bukkitTask;
 	}
-	
-	
+
 }

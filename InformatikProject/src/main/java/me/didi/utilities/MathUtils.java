@@ -8,7 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-public class VectorUtils {
+public class MathUtils {
 
 	public static Location getLocationToRight(Location location, double distance) {
 
@@ -101,6 +101,10 @@ public class VectorUtils {
 			}
 		}
 		return closest;
+	}
+
+	public static double getRandomBetween(double min, double max) {
+		return Math.random() * (max - min) + min;
 	}
 
 }

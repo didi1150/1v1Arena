@@ -19,7 +19,7 @@ import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ArmorStandFactory;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.SkullFactory;
-import me.didi.utilities.VectorUtils;
+import me.didi.utilities.MathUtils;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutAnimation;
 import xyz.xenondevs.particle.ParticleEffect;
@@ -68,10 +68,10 @@ public class RexSecondAbility implements Ability {
 		PacketPlayOutAnimation packet = new PacketPlayOutAnimation(entityPlayer, 0);
 		entityPlayer.playerConnection.sendPacket(packet);
 		ArmorStand as = (ArmorStand) ArmorStandFactory
-				.spawnInvisibleArmorStand(VectorUtils.getLocationToRight(player.getLocation().add(0, 1, 0), 0.3));
+				.spawnInvisibleArmorStand(MathUtils.getLocationToRight(player.getLocation().add(0, 1, 0), 0.3));
 		as.setItemInHand(ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_BOMB));
 		Location dest = player.getLocation().clone().add(player.getLocation().getDirection().multiply(25));
-		as.setVelocity(VectorUtils.calculateVelocity(as.getLocation().toVector(), dest.toVector(), 2));
+		as.setVelocity(MathUtils.calculateVelocity(as.getLocation().toVector(), dest.toVector(), 2));
 		new BukkitRunnable() {
 
 			@Override

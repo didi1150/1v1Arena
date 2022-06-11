@@ -20,7 +20,7 @@ import me.didi.player.effects.RootEffect;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.TaskManager;
-import me.didi.utilities.VectorUtils;
+import me.didi.utilities.MathUtils;
 import xyz.xenondevs.particle.ParticleEffect;
 
 public class RexThirdAbility implements Ability {
@@ -62,7 +62,7 @@ public class RexThirdAbility implements Ability {
 		new BukkitRunnable() {
 			Location dest = player.getLocation().add(player.getLocation().getDirection().normalize().multiply(13))
 					.add(0, 1, 0);
-			Location newLoc = VectorUtils.getLocationToRight(player.getLocation().add(0, 0.6, 0), 0.3);
+			Location newLoc = MathUtils.getLocationToRight(player.getLocation().add(0, 0.6, 0), 0.3);
 			Vector toVec = dest.toVector().subtract(newLoc.toVector()).normalize().multiply(0.5);
 
 			@Override

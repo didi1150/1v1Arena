@@ -13,7 +13,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.TaskManager;
-import me.didi.utilities.VectorUtils;
+import me.didi.utilities.MathUtils;
 import xyz.xenondevs.particle.ParticleEffect;
 
 public class LloydSecondAbility implements Ability {
@@ -79,7 +79,7 @@ public class LloydSecondAbility implements Ability {
 	}
 
 	private void createSmoke(Player player) {
-		Location location = VectorUtils.getHighestLocation(player.getLocation()).add(0, 1, 0);
+		Location location = MathUtils.getHighestLocation(player.getLocation()).add(0, 1, 0);
 		TaskManager.getInstance().repeatUntil(0, 1, 20 * 15, (task, counter) -> {
 
 			if (counter.get() >= 20 * 15) {

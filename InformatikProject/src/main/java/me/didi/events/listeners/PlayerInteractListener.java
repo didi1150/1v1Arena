@@ -81,7 +81,8 @@ public class PlayerInteractListener implements Listener {
 
 				int slot = player.getInventory().getHeldItemSlot();
 				Champion champion = championsManager.getSelectedChampion(player);
-				champion.getAbilities()[slot].execute(abilityStateManager, player, specialEffectsManager);
+				if (slot < 4)
+					champion.getAbilities()[slot].execute(abilityStateManager, player, specialEffectsManager);
 			} else if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
 
 				if (event.getItem() == null)

@@ -25,7 +25,7 @@ import me.didi.utilities.ArmorStandFactory;
 import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.TaskManager;
-import me.didi.utilities.VectorUtils;
+import me.didi.utilities.MathUtils;
 
 public class LloydThirdAbility extends Recastable implements Ability {
 
@@ -114,7 +114,7 @@ public class LloydThirdAbility extends Recastable implements Ability {
 							armorStand.remove();
 							task.cancel();
 							markerStands.put(player, (ArmorStand) ArmorStandFactory.spawnInvisibleArmorStand(
-									VectorUtils.getLocationToRight(entity.getLocation().add(0, 2.5, 0), 0.1)));
+									MathUtils.getLocationToRight(entity.getLocation().add(0, 2.5, 0), 0.1)));
 							markedEntities.put(player, entity);
 							ArmorStand markerStand = markerStands.get(player);
 							markerStand.setRightArmPose(
@@ -125,7 +125,7 @@ public class LloydThirdAbility extends Recastable implements Ability {
 
 							TaskManager.getInstance().repeatUntil(0, 1, 20 * 3, (bukkitTask, counter) -> {
 								markerStand.teleport(
-										VectorUtils.getLocationToRight(entity.getLocation().add(0, 2.5, 0), 0.1));
+										MathUtils.getLocationToRight(entity.getLocation().add(0, 2.5, 0), 0.1));
 
 								if (counter.get() >= 20 * 3) {
 									abilityStateManager.removeRecastCooldown(player, instance, 2);

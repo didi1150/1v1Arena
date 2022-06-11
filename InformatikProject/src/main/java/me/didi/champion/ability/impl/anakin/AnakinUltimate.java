@@ -20,7 +20,7 @@ import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.TaskManager;
-import me.didi.utilities.VectorUtils;
+import me.didi.utilities.MathUtils;
 import xyz.xenondevs.particle.ParticleEffect;
 
 public class AnakinUltimate implements Ability {
@@ -66,13 +66,13 @@ public class AnakinUltimate implements Ability {
 			SpecialEffectsManager specialEffectsManager) {
 		abilityStateManager.addCooldown(player, 3, getCooldown());
 
-		Player target = VectorUtils.getTargetPlayer(player, 20);
+		Player target = MathUtils.getTargetPlayer(player, 20);
 		if (target == null)
 			return;
 
 		Location top = target.getLocation().add(0, 30, 0);
 
-		Location bot = VectorUtils.getHighestLocation(target.getLocation());
+		Location bot = MathUtils.getHighestLocation(target.getLocation());
 		TaskManager.getInstance().repeatUntil(0, 1, 20 * 5, (task, counter) -> {
 
 			Vector topVec = top.clone().subtract(bot.clone()).toVector();

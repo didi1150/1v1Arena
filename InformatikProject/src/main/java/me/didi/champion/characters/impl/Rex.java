@@ -17,7 +17,7 @@ import me.didi.champion.ability.Ability;
 import me.didi.champion.characters.RangedChampion;
 import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.events.customEvents.DamageReason;
-import me.didi.utilities.VectorUtils;
+import me.didi.utilities.MathUtils;
 
 public class Rex extends RangedChampion {
 
@@ -59,7 +59,7 @@ public class Rex extends RangedChampion {
 				@Override
 				public void run() {
 					Block blockAt = armorStand.getWorld()
-							.getBlockAt(VectorUtils.getLocationToRight(armorStand.getLocation().add(0, 0.5, 0), 0.3));
+							.getBlockAt(MathUtils.getLocationToRight(armorStand.getLocation().add(0, 0.5, 0), 0.3));
 					if (counter >= 20 * 3 || blockAt.getType().isSolid()) {
 						armorStand.remove();
 						cancel();
