@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -20,6 +21,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ColorTransition;
+import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.TaskManager;
 import xyz.xenondevs.particle.ParticleEffect;
 
@@ -33,7 +35,8 @@ public class AnakinFirstAbility implements Ability {
 
 	@Override
 	public ItemStack getIcon() {
-		return null;
+		return new ItemBuilder(new ItemStack(Material.DAYLIGHT_DETECTOR)).setDisplayName(getName())
+				.setLore(getDescription()).toItemStack();
 	}
 
 	@Override
