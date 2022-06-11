@@ -16,7 +16,9 @@ import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityImpl;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
+import me.didi.champion.ability.impl.anakin.AnakinFirstAbility;
 import me.didi.champion.ability.impl.anakin.AnakinSecondAbility;
+import me.didi.champion.ability.impl.anakin.AnakinThirdAbility;
 import me.didi.champion.ability.impl.anakin.AnakinUltimate;
 import me.didi.champion.ability.impl.lloyd.LloydFirstAbility;
 import me.didi.champion.ability.impl.lloyd.LloydSecondAbility;
@@ -59,16 +61,13 @@ public class ChampionsManager {
 				new LloydUltimate() }, 50, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_LLOYD),
 				new ItemBuilder(new ItemStack(Material.GOLD_SWORD)).setDisplayName(ChatColor.GOLD + "Katana")
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "6").toItemStack()));
-		selectableChampions.add(new Anakin("Anakin",
-				new Ability[] {
-						new AbilityImpl(AbilityType.MELEE, "Enlightenment", new ItemStack(Material.IRON_SWORD), 10),
+		selectableChampions.add(new Anakin("Anakin", new Ability[] { new AnakinFirstAbility(),
 
-						new AnakinSecondAbility(),
+				new AnakinSecondAbility(),
 
-						new AbilityImpl(AbilityType.MELEE, "Force", new ItemStack(Material.WOOD), 10),
+				new AnakinThirdAbility(),
 
-						new AnakinUltimate() },
-				75, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_ANAKIN),
+				new AnakinUltimate() }, 75, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_ANAKIN),
 				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName(ChatColor.AQUA + "Lightsaber").addGlow()
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "7").toItemStack()));
 		selectableChampions.add(new Rex("Rex", new Ability[] {
