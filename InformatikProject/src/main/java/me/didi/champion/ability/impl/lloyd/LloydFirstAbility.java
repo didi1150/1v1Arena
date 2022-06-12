@@ -63,7 +63,7 @@ public class LloydFirstAbility implements Ability {
 
 		World world = player.getWorld();
 
-		Location mid = player.getLocation().add(player.getLocation().getDirection().multiply(5));
+		Location mid = player.getLocation().add(player.getLocation().getDirection().multiply(7));
 		mid.setY(player.getLocation().getY() - 1);
 
 		Location location1 = MathUtils.getLocationToLeft(mid.clone(), 2);
@@ -84,7 +84,7 @@ public class LloydFirstAbility implements Ability {
 
 		for (int i = 0; i < locations.length; i++) {
 			Location spawnLocation = MathUtils.getLocationToRight(
-					player.getEyeLocation().subtract(player.getEyeLocation().getDirection().normalize()), 0.1);
+					player.getEyeLocation().subtract(player.getEyeLocation().getDirection().normalize().setY(1)), 0.1);
 			ArmorStand armorStand = (ArmorStand) ArmorStandFactory.spawnInvisibleArmorStand(spawnLocation);
 			armorStand.setSmall(true);
 			armorStand.setGravity(false);
