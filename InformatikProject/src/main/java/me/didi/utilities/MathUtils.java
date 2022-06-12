@@ -155,7 +155,7 @@ public class MathUtils {
 	}
 
 	public static void shootProjectile(Player player, double range, ItemStack heldItem, double damage,
-			boolean knockback, double speed, ParticleBuilder trail, Consumer<Entity> onHit) {
+			boolean knockback, double speed, ParticleBuilder trail, DamageReason damageReason, Consumer<Entity> onHit) {
 		ArmorStand armorStand = (ArmorStand) ArmorStandFactory
 				.spawnInvisibleArmorStand(getLocationToRight(player.getLocation().add(0, 0.4, 0), 0.3));
 		armorStand.setMarker(true);
@@ -184,6 +184,7 @@ public class MathUtils {
 			armorStand.getNearbyEntities(0.5, 1, 0.5).stream().filter(entity -> entity instanceof LivingEntity)
 					.filter(entity -> !(entity instanceof ArmorStand)).filter(entity -> entity != player)
 					.collect(Collectors.toList()).forEach(entity -> {
+						DamageManager.damageEntity(player, entity, damageReason, damage, knockback);
 						onHit.accept(entity);
 
 						armorStand.remove();

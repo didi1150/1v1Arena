@@ -99,11 +99,14 @@ public class PerryFirstAbility implements Ability {
 				armorStand.teleport(armorStand.getLocation().add(vector));
 			}
 
-			for (Entity entity : armorStand.getWorld().getNearbyEntities(armorStand.getLocation().add(0, 1, 0), 1, 1,
-					1)) {
-				if (DamageManager.isEnemy(player, entity) && !hitEntities.contains(entity)) {
-					hitEntities.add(entity);
-					DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 20, false);
+			if (counter.get() % 5 == 0) {
+
+				for (Entity entity : armorStand.getWorld().getNearbyEntities(armorStand.getLocation().add(0, 1, 0), 1,
+						1, 1)) {
+					if (DamageManager.isEnemy(player, entity) && !hitEntities.contains(entity)) {
+						hitEntities.add(entity);
+						DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 20, false);
+					}
 				}
 			}
 		});
