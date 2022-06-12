@@ -15,6 +15,8 @@ import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.MainClass;
 import me.didi.champion.ability.AbilityStateManager;
+import me.didi.events.customEvents.CustomPlayerHealEvent;
+import me.didi.events.customEvents.HealReason;
 import me.didi.player.effects.SpecialEffect;
 import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
@@ -49,7 +51,7 @@ public class CustomPlayerManager {
 		UUID uuid = player.getUniqueId();
 		String name = player.getName();
 
-		players.put(uuid, new CustomPlayer(100, 0, 0, 0, 0, uuid, name));
+		players.put(uuid, new CustomPlayer(100, 10, 10, 5, 5, uuid, name));
 
 	}
 
@@ -112,14 +114,18 @@ public class CustomPlayerManager {
 		if (customPlayer.getCurrentHealth() + regenAmount > maxHealth)
 			regenAmount = maxHealth - customPlayer.getCurrentHealth();
 
-		customPlayer.setCurrentHealth(customPlayer.getCurrentHealth() + regenAmount);
+		Bukkit.getPluginManager()
+				.callEvent(new CustomPlayerHealEvent(customPlayer, HealReason.REGENERATION, regenAmount));
 	}
 
 	public void setHealth(CustomPlayer customPlayer) {
 		Player player = Bukkit.getPlayer(customPlayer.getUuid());
 		float maxHealth = customPlayer.getBaseHealth() + getBonusHealth(player);
 
-		player.setHealth(customPlayer.getCurrentHealth() / maxHealth * player.getMaxHealth());
+		if (customPlayer.getCurrentHealth() / maxHealth * player.getMaxHealth() <= player.getMaxHealth())
+			player.setHealth(customPlayer.getCurrentHealth() / maxHealth * player.getMaxHealth());
+		else
+			player.setHealth(player.getMaxHealth());
 	}
 
 	private void sendHealthBar(CustomPlayer customPlayer) {

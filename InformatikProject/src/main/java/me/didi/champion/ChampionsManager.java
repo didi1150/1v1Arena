@@ -26,6 +26,8 @@ import me.didi.champion.ability.impl.lloyd.LloydThirdAbility;
 import me.didi.champion.ability.impl.lloyd.LloydUltimate;
 import me.didi.champion.ability.impl.perry.PerryFirstAbility;
 import me.didi.champion.ability.impl.perry.PerrySecondAbility;
+import me.didi.champion.ability.impl.perry.PerryThirdAbility;
+import me.didi.champion.ability.impl.perry.PerryUltimate;
 import me.didi.champion.ability.impl.rex.RexFirstAbility;
 import me.didi.champion.ability.impl.rex.RexSecondAbility;
 import me.didi.champion.ability.impl.rex.RexThirdAbility;
@@ -88,16 +90,13 @@ public class ChampionsManager {
 
 				new PerrySecondAbility(),
 
-				new AbilityImpl(AbilityType.OTHER, "Fist",
-						new ItemBuilder(new ItemStack(Material.LEATHER_HELMET))
-								.setDisplayName(ChatColor.GOLD + "Boomerang").toItemStack(),
-						20),
+				new PerryThirdAbility(),
 
-				new AbilityImpl(AbilityType.OTHER, "Enchant", new ItemBuilder(new ItemStack(Material.LEATHER_HELMET))
-						.setDisplayName(ChatColor.GOLD + "Boomerang").toItemStack(), 20)
+				new PerryUltimate(),
 
 		}, 100, 0, 0, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_PERRY),
-				new ItemBuilder(new ItemStack(Material.ANVIL)).setDisplayName(ChatColor.GREEN + "Fist").toItemStack()));
+				new ItemBuilder(new ItemStack(Material.ANVIL)).setDisplayName(ChatColor.GREEN + "Fist")
+						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "10").toItemStack()));
 
 		selectableChampions.forEach(champion -> {
 

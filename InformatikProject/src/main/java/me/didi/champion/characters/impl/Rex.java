@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import me.didi.MainClass;
 import me.didi.champion.ability.Ability;
 import me.didi.champion.characters.RangedChampion;
-import me.didi.events.customEvents.DamageReason;
 import me.didi.utilities.MathUtils;
 
 public class Rex extends RangedChampion {
@@ -36,8 +35,8 @@ public class Rex extends RangedChampion {
 			}
 		}, 20 / 4);
 
-		MathUtils.shootArmorStandProjectile(player, 13, new ItemStack(Material.PRISMARINE_CRYSTALS),
-				customPlayerManager.getDamage(player), DamageReason.AUTO, true, 0.75);
+		MathUtils.shootAutoAttackProjectile(player, 13, new ItemStack(Material.PRISMARINE_CRYSTALS),
+				customPlayerManager.getDamage(player), true, 0.75);
 	}
 
 	@Override

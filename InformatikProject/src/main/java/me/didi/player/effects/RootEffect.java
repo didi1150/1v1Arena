@@ -26,7 +26,7 @@ public class RootEffect extends SpecialEffect {
 
 	private void rootEnemy(Entity to) {
 		LivingEntity ent = (LivingEntity) to;
-		ent.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 255, false, false));
+		ent.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30, 255, false, false));
 		net.minecraft.server.v1_8_R3.Entity craftEntity = ((CraftEntity) to).getHandle();
 
 		Location location = ent.getLocation();
@@ -41,7 +41,6 @@ public class RootEffect extends SpecialEffect {
 			@Override
 			public void run() {
 				if (counter >= duration * 20) {
-					ent.removePotionEffect(PotionEffectType.SLOW);
 					endEffect();
 					this.cancel();
 				}

@@ -3,6 +3,7 @@ package me.didi.champion.ability.impl.rex;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
@@ -82,6 +83,9 @@ public class RexSecondAbility implements Ability {
 
 					ParticleEffect.EXPLOSION_NORMAL.display(as.getLocation());
 					ParticleEffect.EXPLOSION_HUGE.display(as.getLocation());
+
+					as.getWorld().playSound(as.getLocation(), Sound.EXPLODE, 5, 5);
+
 					as.getNearbyEntities(3, 3, 3).forEach(ent -> {
 						if (DamageManager.isEnemy(player, ent))
 							DamageManager.damageEntity(player, ent, DamageReason.PHYSICAL, 20, true);

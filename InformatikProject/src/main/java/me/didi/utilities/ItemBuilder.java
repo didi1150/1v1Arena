@@ -48,6 +48,11 @@ public class ItemBuilder {
 		return this;
 	}
 
+	public ItemBuilder setMaterial(Material material) {
+		itemStack.setType(material);
+		return this;
+	}
+
 	public ItemBuilder setAmount(int amount) {
 		itemStack.setAmount(amount);
 		return this;
