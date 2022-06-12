@@ -91,7 +91,8 @@ public class RexUltimate implements Ability {
 					if (counter % 2 == 0) {
 						Random random = new Random();
 						drawCyl(radius * random.nextDouble(), dest);
-						for (Entity entity : world.getNearbyEntities(dest, radius - 1, radius - 1, radius - 1)) {
+						for (Entity entity : world.getNearbyEntities(dest.add(0, 100, 0), radius - 1, 100,
+								radius - 1)) {
 
 							if (DamageManager.isEnemy(player, entity)) {
 								DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 20, false);

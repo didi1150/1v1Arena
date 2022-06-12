@@ -171,9 +171,9 @@ public class LloydThirdAbility extends Recastable implements Ability {
 
 				markedStand.remove();
 
-				TaskManager.getInstance().repeat(0, 1, task -> {
+				TaskManager.getInstance().repeatUntil(0, 1, Long.MAX_VALUE, (task, counter) -> {
 
-					if (player.getLocation().distanceSquared(target.getLocation()) <= 2) {
+					if (player.getLocation().distanceSquared(target.getLocation()) <= 5) {
 						abilityStateManager.addCooldown(player, 2, getCooldown());
 						task.cancel();
 
@@ -182,9 +182,11 @@ public class LloydThirdAbility extends Recastable implements Ability {
 						return;
 					}
 
-					Vector vector = target.getLocation().subtract(player.getLocation()).toVector();
+					if (counter.get() % 5 == 0) {
+						Vector vector = target.getLocation().subtract(player.getLocation()).toVector();
 
-					player.setVelocity(vector);
+						player.setVelocity(vector);
+					}
 				});
 			}
 		};
