@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.champion.ChampionsManager;
 import me.didi.champion.ability.Ability;
@@ -13,11 +14,12 @@ import me.didi.gamesystem.gameStates.LobbyState;
 import me.didi.player.CustomPlayerManager;
 import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
+import me.didi.utilities.TaskManager;
 
 public class LobbyCountdown extends Countdown {
 
 	private static final int COUNTDOWN_TIME = 20, IDLE_TIME = 20 * 15;
-	private int idleID;
+	private BukkitTask idleTask;
 	private GameStateManager gameStateManager;
 	private boolean isIdling;
 
@@ -41,67 +43,124 @@ public class LobbyCountdown extends Countdown {
 	@Override
 	public void start() {
 		this.isRunning = true;
-		taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(gameStateManager.getPlugin(), new Runnable() {
 
-			@Override
-			public void run() {
+		this.bukkitTask = TaskManager.getInstance().repeatUntil(20, 20, COUNTDOWN_TIME * 20, (task, counter) -> {
 
-				if (seconds % 10 == 0) {
+			if (seconds % 10 == 0) {
+				ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel startet in " + ChatColor.GOLD + seconds
+						+ ChatColor.YELLOW + " Sekunden!");
+			}
+			if (seconds <= 5 && seconds > 0) {
+				if (seconds == 1) {
+					ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel startet in " + ChatColor.GOLD + seconds
+							+ ChatColor.YELLOW + " Sekunde!");
+				} else {
+
 					ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel startet in " + ChatColor.GOLD + seconds
 							+ ChatColor.YELLOW + " Sekunden!");
 				}
-				if (seconds <= 5 && seconds > 0) {
-					if (seconds == 1) {
-						ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel startet in " + ChatColor.GOLD + seconds
-								+ ChatColor.YELLOW + " Sekunde!");
-					} else {
-
-						ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel startet in " + ChatColor.GOLD + seconds
-								+ ChatColor.YELLOW + " Sekunden!");
-					}
-					Bukkit.getOnlinePlayers().forEach(player -> {
-						ChatUtils.sendTitle(player, countdownColours[seconds - 1] + "" + seconds, "", 0, 20, 0);
-
-					});
-
-				}
-
-				if (seconds == 0) {
-
-					Bukkit.getOnlinePlayers().forEach(player -> {
-						player.getInventory().clear();
-						Ability[] abilities = championsManager.getSelectedChampion(player).getAbilities();
-						for (int i = 0; i < abilities.length; i++) {
-							player.getInventory().setItem(i, abilities[i].getIcon());
-						}
-
-						ItemStack autoAttackItem = championsManager.getSelectedChampion(player).getAutoAttackItem();
-
-						player.getInventory().setItem(4, autoAttackItem);
-						for (int i = 5; i < 9; i++) {
-							player.getInventory().setItem(i,
-									new ItemBuilder(new ItemStack(Material.BARRIER))
-											.setDisplayName(ChatColor.RED + "NA")
-											.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack());
-						}
-						customPlayerManager.addPlayer(player);
-						player.getInventory().setHelmet(championsManager.getSelectedChampion(player).getIcon());
-
-					});
-
-					customPlayerManager.startBackgroundTask();
-					gameStateManager.setGameState(GameState.INGAME_STATE);
-					stop();
-				}
-
 				Bukkit.getOnlinePlayers().forEach(player -> {
-					player.setLevel(seconds);
-					player.setExp(((float) seconds / COUNTDOWN_TIME));
+					ChatUtils.sendTitle(player, countdownColours[seconds - 1] + "" + seconds, "", 0, 20, 0);
+
 				});
 
-				seconds--;
 			}
-		}, 0, 20);
+
+			if (seconds == 0) {
+
+				Bukkit.getOnlinePlayers().forEach(player -> {
+					player.getInventory().clear();
+					Ability[] abilities = championsManager.getSelectedChampion(player).getAbilities();
+					for (int i = 0; i < abilities.length; i++) {
+						player.getInventory().setItem(i, abilities[i].getIcon());
+					}
+
+					ItemStack autoAttackItem = championsManager.getSelectedChampion(player).getAutoAttackItem();
+
+					player.getInventory().setItem(4, autoAttackItem);
+					for (int i = 5; i < 9; i++) {
+						player.getInventory().setItem(i,
+								new ItemBuilder(new ItemStack(Material.BARRIER)).setDisplayName(ChatColor.RED + "NA")
+										.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack());
+					}
+					customPlayerManager.addPlayer(player);
+					player.getInventory().setHelmet(championsManager.getSelectedChampion(player).getIcon());
+
+				});
+
+				customPlayerManager.startBackgroundTask();
+				gameStateManager.setGameState(GameState.INGAME_STATE);
+				stop();
+			}
+
+			Bukkit.getOnlinePlayers().forEach(player -> {
+				player.setLevel(seconds);
+				player.setExp(((float) seconds / COUNTDOWN_TIME));
+			});
+
+			seconds--;
+		});
+//		taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(gameStateManager.getPlugin(), new Runnable() {
+//
+//			@Override
+//			public void run() {
+//
+//				if (seconds % 10 == 0) {
+//					ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel startet in " + ChatColor.GOLD + seconds
+//							+ ChatColor.YELLOW + " Sekunden!");
+//				}
+//				if (seconds <= 5 && seconds > 0) {
+//					if (seconds == 1) {
+//						ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel startet in " + ChatColor.GOLD + seconds
+//								+ ChatColor.YELLOW + " Sekunde!");
+//					} else {
+//
+//						ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel startet in " + ChatColor.GOLD + seconds
+//								+ ChatColor.YELLOW + " Sekunden!");
+//					}
+//					Bukkit.getOnlinePlayers().forEach(player -> {
+//						ChatUtils.sendTitle(player, countdownColours[seconds - 1] + "" + seconds, "", 0, 20, 0);
+//
+//					});
+//
+//				}
+//
+//				if (seconds == 0) {
+//
+//					Bukkit.getOnlinePlayers().forEach(player -> {
+//						player.getInventory().clear();
+//						Ability[] abilities = championsManager.getSelectedChampion(player).getAbilities();
+//						for (int i = 0; i < abilities.length; i++) {
+//							player.getInventory().setItem(i, abilities[i].getIcon());
+//						}
+//
+//						ItemStack autoAttackItem = championsManager.getSelectedChampion(player).getAutoAttackItem();
+//
+//						player.getInventory().setItem(4, autoAttackItem);
+//						for (int i = 5; i < 9; i++) {
+//							player.getInventory().setItem(i,
+//									new ItemBuilder(new ItemStack(Material.BARRIER))
+//											.setDisplayName(ChatColor.RED + "NA")
+//											.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack());
+//						}
+//						customPlayerManager.addPlayer(player);
+//						player.getInventory().setHelmet(championsManager.getSelectedChampion(player).getIcon());
+//
+//					});
+//
+//					customPlayerManager.startBackgroundTask();
+//					gameStateManager.setGameState(GameState.INGAME_STATE);
+//					stop();
+//				}
+//
+//				Bukkit.getOnlinePlayers().forEach(player -> {
+//					player.setLevel(seconds);
+//					player.setExp(((float) seconds / COUNTDOWN_TIME));
+//				});
+//
+//				seconds--;
+//			}
+//		}, 0, 20);
 
 	}
 
@@ -109,27 +168,23 @@ public class LobbyCountdown extends Countdown {
 	public void stop() {
 		if (isRunning) {
 			this.isRunning = false;
-			Bukkit.getScheduler().cancelTask(taskID);
+			bukkitTask.cancel();
 			seconds = COUNTDOWN_TIME;
 		}
 	}
 
 	public void startIdle() {
 		this.isIdling = true;
-		this.idleID = Bukkit.getScheduler().scheduleSyncRepeatingTask(gameStateManager.getPlugin(), new Runnable() {
-
-			@Override
-			public void run() {
-				ChatUtils.broadCastMessage(ChatColor.YELLOW + "Bis zum Spielstart fehlen noch " + ChatColor.GOLD
-						+ (LobbyState.MIN_PLAYERS - gameStateManager.getPlugin().getAlivePlayers().size())
-						+ ChatColor.YELLOW + " Spieler!");
-			}
-		}, IDLE_TIME, IDLE_TIME);
+		this.idleTask = TaskManager.getInstance().repeat(IDLE_TIME, IDLE_TIME, task -> {
+			ChatUtils.broadCastMessage(ChatColor.YELLOW + "Bis zum Spielstart fehlen noch " + ChatColor.GOLD
+					+ (LobbyState.MIN_PLAYERS - gameStateManager.getPlugin().getAlivePlayers().size())
+					+ ChatColor.YELLOW + " Spieler!");
+		});
 	}
 
 	public void stopIdle() {
 		if (isIdling) {
-			Bukkit.getScheduler().cancelTask(idleID);
+			idleTask.cancel();
 			this.isIdling = false;
 		}
 	}

@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,7 +15,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
-import me.didi.MainClass;
 import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
@@ -24,11 +22,13 @@ import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
+import me.didi.utilities.TaskManager;
 import xyz.xenondevs.particle.ParticleEffect;
 
 public class RexUltimate implements Ability {
 
 	private Map<Player, BukkitTask> tasks = new HashMap<>();
+	private Map<Player, Double> raidii = new HashMap<Player, Double>();
 
 	@Override
 	public String getName() {
@@ -71,71 +71,66 @@ public class RexUltimate implements Ability {
 		transparent.add(Material.STATIONARY_WATER);
 		Location dest = player.getTargetBlock(transparent, 30).getLocation();
 		dest.setY(player.getWorld().getHighestBlockYAt(dest));
-
+		raidii.put(player, 0.00);
 		World world = player.getWorld();
-		tasks.put(player, Bukkit.getScheduler().runTaskTimer(MainClass.getPlugin(), new Runnable() {
-			int counter = 0;
-			double radius = 0;
+		tasks.put(player, TaskManager.getInstance().repeatUntil(1, 1, 20 * 5, (task, counter) -> {
 
-			@Override
-			public void run() {
-				if (counter >= 20 * 5) {
-					tasks.get(player).cancel();
-				}
+			if (raidii.get(player) <= 5) {
+				drawParticleCircle(raidii.get(player), dest, dest.getWorld());
+				raidii.put(player, raidii.get(player) + 0.25);
+			} else {
 
-				if (radius <= 5) {
-					drawParticleCircle(radius, dest);
-					radius += 0.25;
-				} else {
+				Random random = new Random();
+				drawCyl(raidii.get(player) * random.nextDouble(), dest, dest.getWorld());
+				for (Entity entity : world.getLivingEntities()) {
+					double higherX = Math.max(entity.getLocation().getX(), dest.getX());
+					double lowerX = Math.min(entity.getLocation().getX(), dest.getX());
 
-					if (counter % 2 == 0) {
-						Random random = new Random();
-						drawCyl(radius * random.nextDouble(), dest);
-						for (Entity entity : world.getNearbyEntities(dest.add(0, 100, 0), radius - 1, 100,
-								radius - 1)) {
+					double higherZ = Math.max(entity.getLocation().getZ(), dest.getZ());
+					double lowerZ = Math.min(entity.getLocation().getZ(), dest.getZ());
 
-							if (DamageManager.isEnemy(player, entity)) {
-								DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 20, false);
-							}
+					if (higherX - lowerX <= raidii.get(player) && higherZ - lowerZ <= raidii.get(player)) {
+
+						if (DamageManager.isEnemy(player, entity)) {
+							DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 20, false);
 						}
 					}
 				}
-				counter++;
 			}
+		}));
+	}
 
-			private void drawCyl(double radius, Location location) {
-				for (double t = 0; t <= 2 * Math.PI * radius; t += 5) {
-					double x = (radius * Math.cos(t)) + location.getX();
-					double z = (location.getZ() + radius * Math.sin(t));
-					Location lightning = new Location(world, x, location.getY(), z);
-					world.strikeLightningEffect(lightning);
-				}
+	private void drawCyl(double radius, Location location, World world) {
+		for (double t = 0; t <= 2 * Math.PI * radius; t += 5) {
+			double x = (radius * Math.cos(t)) + location.getX();
+			double z = (location.getZ() + radius * Math.sin(t));
+			Location lightning = new Location(world, x, location.getY(), z);
+			world.strikeLightningEffect(lightning);
+		}
+	}
+
+	private void drawParticleCircle(double radius, Location location, World world) {
+		for (double y = 1; y < world.getMaxHeight(); y *= 1.25) {
+			for (double s = 0; s <= 2 * Math.PI * radius; s += 2 * Math.PI / 9) {
+				double t = s + Math.toRadians(radius * 24);
+				double x = (radius * Math.cos(t)) + location.getX();
+				double z = (location.getZ() + radius * Math.sin(t));
+				Location particle = new Location(world, x, location.getY(), z);
+				ParticleEffect.REDSTONE.display(particle);
+
+				particle = new Location(world, x, location.getY() + y, z);
+				ParticleEffect.REDSTONE.display(particle);
 			}
-
-			private void drawParticleCircle(double radius, Location location) {
-				for (double y = 1; y < world.getMaxHeight(); y *= 1.25) {
-					for (double s = 0; s <= 2 * Math.PI * radius; s += 2 * Math.PI / 9) {
-						double t = s + Math.toRadians(radius * 24);
-						double x = (radius * Math.cos(t)) + location.getX();
-						double z = (location.getZ() + radius * Math.sin(t));
-						Location particle = new Location(world, x, location.getY(), z);
-						ParticleEffect.REDSTONE.display(particle);
-
-						particle = new Location(world, x, location.getY() + y, z);
-						ParticleEffect.REDSTONE.display(particle);
-					}
-				}
-				for (int y = 0; y <= 24; y += 6) {
-					for (double t = 0; t <= 2 * Math.PI * radius; t += 2 * Math.PI / 50) {
-						double x = (radius * Math.cos(t)) + location.getX();
-						double z = (location.getZ() + radius * Math.sin(t));
-						Location particle = new Location(world, x, location.getY() + y, z);
-						ParticleEffect.REDSTONE.display(particle);
-					}
-				}
-
+		}
+		for (int y = 0; y <= 24; y += 6) {
+			for (double t = 0; t <= 2 * Math.PI * radius; t += 2 * Math.PI / 50) {
+				double x = (radius * Math.cos(t)) + location.getX();
+				double z = (location.getZ() + radius * Math.sin(t));
+				Location particle = new Location(world, x, location.getY() + y, z);
+				ParticleEffect.REDSTONE.display(particle);
 			}
-		}, 1, 1));
+		}
+
 	}
 
 }

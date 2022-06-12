@@ -20,6 +20,7 @@ import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.MathUtils;
+import me.didi.utilities.TaskManager;
 import xyz.xenondevs.particle.ParticleBuilder;
 import xyz.xenondevs.particle.ParticleEffect;
 
@@ -60,13 +61,9 @@ public class RexFirstAbility implements Ability {
 
 		abilityStateManager.addCooldown(player, 0, getCooldown());
 		shootBeam(player.getLocation().add(0, 0.5, 0), 13, false, player);
-		Bukkit.getScheduler().runTaskLater(MainClass.getPlugin(), new Runnable() {
-
-			@Override
-			public void run() {
-				shootBeam(player.getLocation().add(0, 0.5, 0), 13, true, player);
-			}
-		}, 3);
+		TaskManager.getInstance().runTaskLater(3, task -> {
+			shootBeam(player.getLocation().add(0, 0.5, 0), 13, true, player);
+		});
 
 	}
 

@@ -1,21 +1,13 @@
 package me.didi.champion.characters.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.didi.MainClass;
 import me.didi.champion.ability.Ability;
 import me.didi.champion.characters.RangedChampion;
 import me.didi.utilities.MathUtils;
 
 public class Rex extends RangedChampion {
-
-	private List<Player> cooldowns = new ArrayList<>();
 
 	public Rex(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist, ItemStack icon,
 			ItemStack autoAttackItem) {
@@ -24,17 +16,6 @@ public class Rex extends RangedChampion {
 
 	@Override
 	public void executeAutoAttack() {
-		if (cooldowns.contains(player))
-			return;
-		cooldowns.add(player);
-		Bukkit.getScheduler().runTaskLater(MainClass.getPlugin(), new Runnable() {
-
-			@Override
-			public void run() {
-				cooldowns.remove(player);
-			}
-		}, 20 / 4);
-
 		MathUtils.shootAutoAttackProjectile(player, 13, new ItemStack(Material.PRISMARINE_CRYSTALS),
 				customPlayerManager.getDamage(player), true, 0.75);
 	}
