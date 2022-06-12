@@ -133,8 +133,6 @@ public class MathUtils {
 					.getBlockAt(getLocationToRight(armorStand.getLocation().add(0, 0.5, 0), 0.3));
 
 			if (armorStand.getLocation().distanceSquared(destination) <= 1 || blockAt.getType().isSolid()) {
-				ChatUtils.broadCastMessage(
-						"remove loc: " + (armorStand.getLocation().distanceSquared(destination) <= 2));
 
 				armorStand.remove();
 				task.cancel();
@@ -144,9 +142,7 @@ public class MathUtils {
 			armorStand.getNearbyEntities(0.5, 1, 0.5).stream().filter(entity -> entity instanceof LivingEntity)
 					.filter(entity -> !(entity instanceof ArmorStand)).filter(entity -> entity != player)
 					.collect(Collectors.toList()).forEach(entity -> {
-						ChatUtils.broadCastMessage("hit!");
 						if (DamageManager.isEnemy(player, entity)) {
-							ChatUtils.broadCastMessage("remove hit");
 							DamageManager.damageEntity(player, entity, damageReason, damage, knockback);
 
 							armorStand.remove();
