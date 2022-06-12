@@ -5,8 +5,15 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
+
+import me.didi.events.customEvents.DamageManager;
+import me.didi.events.customEvents.DamageReason;
 
 public class MathUtils {
 
@@ -105,6 +112,49 @@ public class MathUtils {
 
 	public static double getRandomBetween(double min, double max) {
 		return Math.random() * (max - min) + min;
+	}
+
+	public static void shootArmorStandProjectile(Player player, double range, ItemStack heldItem, double damage,
+			DamageReason damageReason, boolean knockback, double speed) {
+		ArmorStand armorStand = (ArmorStand) ArmorStandFactory
+				.spawnInvisibleArmorStand(getLocationToRight(player.getLocation().add(0, 0.4, 0), 0.3));
+		armorStand.setMarker(true);
+		armorStand.setArms(true);
+		armorStand.setItemInHand(heldItem);
+		armorStand.setGravity(false);
+
+		Location destination = player.getLocation().add(player.getLocation().getDirection().multiply(range));
+
+		Vector vec = destination.clone().subtract(player.getLocation()).toVector();
+		TaskManager.getInstance().repeat(1, 1, task -> {
+			armorStand.teleport(armorStand.getLocation().add(vec.normalize().multiply(speed)));
+
+			Block blockAt = armorStand.getWorld()
+					.getBlockAt(getLocationToRight(armorStand.getLocation().add(0, 0.5, 0), 0.3));
+
+			if (armorStand.getLocation().distanceSquared(destination) <= 1 || blockAt.getType().isSolid()) {
+				ChatUtils.broadCastMessage(
+						"remove loc: " + (armorStand.getLocation().distanceSquared(destination) <= 2));
+
+				armorStand.remove();
+				task.cancel();
+				return;
+			}
+
+			armorStand.getNearbyEntities(0.5, 1, 0.5).stream().filter(entity -> entity instanceof LivingEntity)
+					.filter(entity -> !(entity instanceof ArmorStand)).filter(entity -> entity != player)
+					.collect(Collectors.toList()).forEach(entity -> {
+						ChatUtils.broadCastMessage("hit!");
+						if (DamageManager.isEnemy(player, entity)) {
+							ChatUtils.broadCastMessage("remove hit");
+							DamageManager.damageEntity(player, entity, damageReason, damage, knockback);
+
+							armorStand.remove();
+							task.cancel();
+							return;
+						}
+					});
+		});
 	}
 
 }

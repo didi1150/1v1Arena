@@ -28,13 +28,15 @@ public class PlayerInteractListener implements Listener {
 	private AbilityStateManager abilityStateManager;
 	private SpecialEffectsManager specialEffectsManager;
 
-	private List<Player> cooldowns;
+	private List<Player> abilityCooldowns;
+	private List<Player> autoAttackCooldowns;
 
 	public PlayerInteractListener(ChampionsManager championsManager, GameStateManager gameStateManager,
 			AbilityStateManager abilityStateManager, SpecialEffectsManager specialEffectsManager) {
 		this.championsManager = championsManager;
 		this.gameStateManager = gameStateManager;
-		this.cooldowns = new ArrayList<Player>();
+		this.abilityCooldowns = new ArrayList<Player>();
+		this.autoAttackCooldowns = new ArrayList<Player>();
 		this.abilityStateManager = abilityStateManager;
 		this.specialEffectsManager = specialEffectsManager;
 	}
@@ -72,11 +74,11 @@ public class PlayerInteractListener implements Listener {
 					return;
 
 				Player player = event.getPlayer();
-				if (cooldowns.contains(player))
+				if (abilityCooldowns.contains(player))
 					return;
-				cooldowns.add(player);
+				abilityCooldowns.add(player);
 				TaskManager.getInstance().runTaskLater(15, task -> {
-					cooldowns.remove(player);
+					abilityCooldowns.remove(player);
 				});
 
 				int slot = player.getInventory().getHeldItemSlot();
@@ -98,6 +100,13 @@ public class PlayerInteractListener implements Listener {
 				int slot = player.getInventory().getHeldItemSlot();
 				Champion champion = championsManager.getSelectedChampion(player);
 				if (slot == 4) {
+					if (autoAttackCooldowns.contains(player))
+						return;
+					autoAttackCooldowns.add(player);
+					TaskManager.getInstance().runTaskLater(20 / 4, task -> {
+						autoAttackCooldowns.remove(player);
+					});
+
 					champion.executeAutoAttack();
 				}
 			}
