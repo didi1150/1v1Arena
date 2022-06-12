@@ -24,7 +24,6 @@ import me.didi.events.listeners.PickupListener;
 import me.didi.events.listeners.PlayerInteractListener;
 import me.didi.events.listeners.PlayerMoveListener;
 import me.didi.events.listeners.QuitListener;
-import me.didi.events.listeners.WeatherTimeChangeListener;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.menus.PlayerMenuUtility;
@@ -65,10 +64,13 @@ public class MainClass extends JavaPlugin {
 
 		specialEffectsManager = new SpecialEffectsManager(this);
 
-		abilityStateManager = new AbilityStateManager(championsManager, new ItemManager());
+		AbilityStateManager.init(championsManager, new ItemManager());
+
+		abilityStateManager = AbilityStateManager.getInstance();
 		abilityStateManager.startBackGroundTask();
 
-		customPlayerManager = new CustomPlayerManager(this, abilityStateManager);
+		CustomPlayerManager.init(this, abilityStateManager);
+		customPlayerManager = CustomPlayerManager.getInstance();
 
 		championsManager.registerChampions(abilityStateManager, specialEffectsManager, customPlayerManager);
 
@@ -108,7 +110,6 @@ public class MainClass extends JavaPlugin {
 		pm.registerEvents(new DropItemListener(), this);
 		pm.registerEvents(new PickupListener(), this);
 		pm.registerEvents(new HealListener(), this);
-		pm.registerEvents(new WeatherTimeChangeListener(), this);
 		pm.registerEvents(new PlayerMoveListener(), this);
 	}
 

@@ -25,6 +25,7 @@ import me.didi.champion.ability.impl.lloyd.LloydSecondAbility;
 import me.didi.champion.ability.impl.lloyd.LloydThirdAbility;
 import me.didi.champion.ability.impl.lloyd.LloydUltimate;
 import me.didi.champion.ability.impl.perry.PerryFirstAbility;
+import me.didi.champion.ability.impl.perry.PerrySecondAbility;
 import me.didi.champion.ability.impl.rex.RexFirstAbility;
 import me.didi.champion.ability.impl.rex.RexSecondAbility;
 import me.didi.champion.ability.impl.rex.RexThirdAbility;
@@ -85,10 +86,7 @@ public class ChampionsManager {
 
 				new PerryFirstAbility(),
 
-				new AbilityImpl(AbilityType.OTHER, "Get Away",
-						new ItemBuilder(new ItemStack(Material.LEATHER_HELMET))
-								.setDisplayName(ChatColor.GOLD + "Boomerang").toItemStack(),
-						20),
+				new PerrySecondAbility(),
 
 				new AbilityImpl(AbilityType.OTHER, "Fist",
 						new ItemBuilder(new ItemStack(Material.LEATHER_HELMET))

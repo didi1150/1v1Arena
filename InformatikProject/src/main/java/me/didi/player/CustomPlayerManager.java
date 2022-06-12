@@ -23,18 +23,25 @@ import me.didi.utilities.TaskManager;
 
 public class CustomPlayerManager {
 
-	private Map<UUID, CustomPlayer> players = new HashMap<>();
-	private Map<CustomPlayer, SpecialEffect> nextOnHitEffect = new HashMap<>();
+	private static Map<UUID, CustomPlayer> players = new HashMap<>();
+	private static Map<CustomPlayer, SpecialEffect> nextOnHitEffect = new HashMap<>();
 
-	private BukkitTask bukkitTask;
-	private MainClass plugin;
+	private static BukkitTask bukkitTask;
+	private static MainClass plugin;
 
-	private AbilityStateManager abilityStateManager;
-	private int counter = 0;
+	private static AbilityStateManager abilityStateManager;
+	private static int counter = 0;
 
-	public CustomPlayerManager(MainClass plugin, AbilityStateManager abilityCooldownManager) {
-		this.plugin = plugin;
-		this.abilityStateManager = abilityCooldownManager;
+	private static CustomPlayerManager instance;
+
+	public static void init(MainClass plugin, AbilityStateManager abilityStateManager) {
+		instance = new CustomPlayerManager();
+		CustomPlayerManager.plugin = plugin;
+		CustomPlayerManager.abilityStateManager = abilityStateManager;
+	}
+
+	public static CustomPlayerManager getInstance() {
+		return instance;
 	}
 
 	public void addPlayer(Player player) {
@@ -70,6 +77,7 @@ public class CustomPlayerManager {
 	}
 
 	public void startBackgroundTask() {
+
 		bukkitTask = TaskManager.getInstance().repeat(1, 1, task -> {
 			if (counter >= 20 * 2) {
 				plugin.getAlivePlayers().forEach(uuid -> {
@@ -79,6 +87,8 @@ public class CustomPlayerManager {
 				counter = 0;
 			}
 			plugin.getAlivePlayers().forEach(uuid -> {
+				Bukkit.getPlayer(uuid).getWorld().setTime(0);
+				Bukkit.getPlayer(uuid).getWorld().setStorm(false);
 				CustomPlayer customPlayer = getPlayer(uuid);
 				setHealth(customPlayer);
 				sendHealthBar(customPlayer);

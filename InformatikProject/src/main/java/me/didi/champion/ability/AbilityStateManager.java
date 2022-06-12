@@ -19,15 +19,23 @@ import net.md_5.bungee.api.ChatColor;
 
 public class AbilityStateManager {
 
-	private BukkitTask bukkitTask;
-	private Map<UUID, AbilityState> abilityStates = new HashMap<UUID, AbilityState>();
+	private static BukkitTask bukkitTask;
+	private static Map<UUID, AbilityState> abilityStates = new HashMap<UUID, AbilityState>();
 
-	private ChampionsManager championsManager;
-	private ItemManager itemManager;
+	private static ChampionsManager championsManager;
+	private static ItemManager itemManager;
 
-	public AbilityStateManager(ChampionsManager championsManager, ItemManager itemManager) {
-		this.championsManager = championsManager;
-		this.itemManager = itemManager;
+	private static AbilityStateManager instance;
+
+	public static void init(ChampionsManager championsManager, ItemManager itemManager) {
+		if (instance == null)
+			instance = new AbilityStateManager();
+		AbilityStateManager.championsManager = championsManager;
+		AbilityStateManager.itemManager = itemManager;
+	}
+
+	public static AbilityStateManager getInstance() {
+		return instance;
 	}
 
 	public void startBackGroundTask() {
@@ -141,7 +149,7 @@ public class AbilityStateManager {
 		if (getAbilityState(player).getRecasts().containsKey(index)) {
 			getAbilityState(player).removeRecast(index);
 
-			itemManager.setItem(player, index, ability.getIcon());
+			itemManager.setItem(player, index, createOnCooldownItem(1, ability.getName()));
 		}
 		if (getAbilityState(player).getCooldowns() == null) {
 			int[] array = new int[] { 0, 0, 0, 0 };
