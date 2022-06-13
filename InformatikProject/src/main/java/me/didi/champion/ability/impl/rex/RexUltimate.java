@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,6 +19,7 @@ import org.bukkit.scheduler.BukkitTask;
 import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
+import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.SpecialEffectsManager;
@@ -62,6 +64,10 @@ public class RexUltimate implements Ability {
 	@Override
 	public void execute(AbilityStateManager abilityStateManager, Player player,
 			SpecialEffectsManager specialEffectsManager) {
+		AbilityCastEvent event = new AbilityCastEvent(player, getAbilityType());
+		Bukkit.getPluginManager().callEvent(event);
+		if (event.isCancelled())
+			return;
 		abilityStateManager.addCooldown(player, 3, getCooldown());
 		Set<Material> transparent = new HashSet<>();
 		transparent.add(Material.AIR);

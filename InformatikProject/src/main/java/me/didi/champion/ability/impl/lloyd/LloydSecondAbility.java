@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
+import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.TaskManager;
@@ -74,6 +75,10 @@ public class LloydSecondAbility implements Ability {
 	@Override
 	public void execute(AbilityStateManager abilityStateManager, Player player,
 			SpecialEffectsManager specialEffectsManager) {
+		AbilityCastEvent event = new AbilityCastEvent(player, getAbilityType());
+		Bukkit.getPluginManager().callEvent(event);
+		if (event.isCancelled())
+			return;
 		abilityStateManager.addCooldown(player, 1, getCooldown());
 		createSmoke(player);
 	}

@@ -17,6 +17,7 @@ import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
 import me.didi.champion.ability.Recastable;
+import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.CustomPlayerHealEvent;
 import me.didi.events.customEvents.HealReason;
 import me.didi.player.CustomPlayerManager;
@@ -69,6 +70,10 @@ public class PerrySecondAbility extends Recastable implements Ability {
 	@Override
 	public void execute(AbilityStateManager abilityStateManager, Player player,
 			SpecialEffectsManager specialEffectsManager) {
+		AbilityCastEvent event = new AbilityCastEvent(player, getAbilityType());
+		Bukkit.getPluginManager().callEvent(event);
+		if (event.isCancelled())
+			return;
 		getRecasts()[recastCounters.getOrDefault(player, 0)].accept(player, abilityStateManager);
 	}
 

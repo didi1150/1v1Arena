@@ -2,6 +2,7 @@ package me.didi.champion.ability.impl.perry;
 
 import java.awt.Color;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,6 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
+import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.player.CustomPlayer;
 import me.didi.player.CustomPlayerManager;
 import me.didi.player.effects.SpecialEffectsManager;
@@ -55,6 +57,10 @@ public class PerryUltimate implements Ability {
 	@Override
 	public void execute(AbilityStateManager abilityStateManager, Player player,
 			SpecialEffectsManager specialEffectsManager) {
+		AbilityCastEvent event = new AbilityCastEvent(player, getAbilityType());
+		Bukkit.getPluginManager().callEvent(event);
+		if (event.isCancelled())
+			return;
 		if (player.getInventory().getItem(3).getEnchantments().isEmpty()) {
 			TaskManager.getInstance().repeatUntil(0, 1, 20 * 10, (task, counter) -> {
 				for (int radius = 1; radius <= 4; radius++) {

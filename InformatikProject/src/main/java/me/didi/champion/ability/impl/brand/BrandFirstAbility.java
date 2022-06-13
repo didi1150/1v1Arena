@@ -1,5 +1,6 @@
 package me.didi.champion.ability.impl.brand;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -8,8 +9,14 @@ import org.bukkit.inventory.ItemStack;
 import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
+import me.didi.events.customEvents.AbilityCastEvent;
+import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.SpecialEffectsManager;
+import me.didi.player.effects.StunEffect;
 import me.didi.utilities.ItemBuilder;
+import me.didi.utilities.MathUtils;
+import xyz.xenondevs.particle.ParticleBuilder;
+import xyz.xenondevs.particle.ParticleEffect;
 
 public class BrandFirstAbility implements Ability {
 
@@ -31,18 +38,27 @@ public class BrandFirstAbility implements Ability {
 
 	@Override
 	public AbilityType getAbilityType() {
-		return null;
+		return AbilityType.MAGIC;
 	}
 
 	@Override
 	public int getCooldown() {
-		return 0;
+		return 8;
 	}
 
 	@Override
 	public void execute(AbilityStateManager abilityStateManager, Player player,
 			SpecialEffectsManager specialEffectsManager) {
-
+		AbilityCastEvent event = new AbilityCastEvent(player, getAbilityType());
+		Bukkit.getPluginManager().callEvent(event);
+		if (event.isCancelled())
+			return;
+		MathUtils.shootProjectile(player, 10, new ItemStack(Material.FIREBALL), 10, false, 0.8,
+				new ParticleBuilder(ParticleEffect.FLAME), DamageReason.MAGIC, entity -> {
+					if (entity.getFireTicks() > 0) {
+						specialEffectsManager.addSpecialEffect(new StunEffect(player, entity, 1.5));
+					}
+				});
 	}
 
 }

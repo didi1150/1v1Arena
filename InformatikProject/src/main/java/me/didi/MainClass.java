@@ -59,9 +59,9 @@ public class MainClass extends JavaPlugin {
 		TaskManager.init(this);
 
 		alivePlayers = new ArrayList<UUID>();
-
-		championsManager = new ChampionsManager(this);
-
+		ChampionsManager.init();
+		championsManager = ChampionsManager.getInstance();
+		
 		specialEffectsManager = new SpecialEffectsManager(this);
 
 		AbilityStateManager.init(championsManager, new ItemManager());
@@ -72,7 +72,7 @@ public class MainClass extends JavaPlugin {
 		CustomPlayerManager.init(this, abilityStateManager);
 		customPlayerManager = CustomPlayerManager.getInstance();
 
-		championsManager.registerChampions(abilityStateManager, specialEffectsManager, customPlayerManager);
+		ChampionsManager.registerChampions(abilityStateManager, specialEffectsManager, customPlayerManager, this);
 
 		gameStateManager = new GameStateManager(this, customPlayerManager, championsManager);
 		gameStateManager.setGameState(GameState.LOBBY_STATE);

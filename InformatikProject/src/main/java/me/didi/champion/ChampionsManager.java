@@ -42,17 +42,13 @@ import net.md_5.bungee.api.ChatColor;
 
 public class ChampionsManager {
 
-	private Set<Champion> selectableChampions = new HashSet<Champion>();
-	private Map<UUID, Champion> selectedChampions = new HashMap<UUID, Champion>();
+	private static Set<Champion> selectableChampions = new HashSet<Champion>();
+	private static Map<UUID, Champion> selectedChampions = new HashMap<UUID, Champion>();
 
-	private MainClass plugin;
+	private static ChampionsManager instance;
 
-	public ChampionsManager(MainClass plugin) {
-		this.plugin = plugin;
-	}
-
-	public void registerChampions(AbilityStateManager abilityCooldownManager,
-			SpecialEffectsManager specialEffectsManager, CustomPlayerManager customPlayerManager) {
+	public static void registerChampions(AbilityStateManager abilityCooldownManager,
+			SpecialEffectsManager specialEffectsManager, CustomPlayerManager customPlayerManager, MainClass plugin) {
 		selectableChampions.add(new Lloyd("Lloyd", new Ability[] { new LloydFirstAbility(),
 
 				new LloydSecondAbility(),
@@ -125,6 +121,14 @@ public class ChampionsManager {
 			}
 		}
 		return null;
+	}
+
+	public static void init() {
+		instance = new ChampionsManager();
+	}
+	
+	public static ChampionsManager getInstance() {
+		return instance;
 	}
 
 }

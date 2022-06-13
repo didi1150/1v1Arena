@@ -1,5 +1,6 @@
 package me.didi.champion.ability.impl.brand;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -7,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
+import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.player.effects.SpecialEffectsManager;
 
 public class BrandSecondAbility implements Ability {
@@ -44,7 +46,10 @@ public class BrandSecondAbility implements Ability {
 	@Override
 	public void execute(AbilityStateManager abilityStateManager, Player player,
 			SpecialEffectsManager specialEffectsManager) {
-		// TODO Auto-generated method stub
+		AbilityCastEvent event = new AbilityCastEvent(player, getAbilityType());
+		Bukkit.getPluginManager().callEvent(event);
+		if (event.isCancelled())
+			return;
 
 	}
 

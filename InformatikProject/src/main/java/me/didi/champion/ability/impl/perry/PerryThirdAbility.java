@@ -3,6 +3,7 @@ package me.didi.champion.ability.impl.perry;
 import java.awt.Color;
 import java.util.function.Consumer;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -13,6 +14,7 @@ import org.bukkit.util.Vector;
 import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
+import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
@@ -53,6 +55,10 @@ public class PerryThirdAbility implements Ability {
 	@Override
 	public void execute(AbilityStateManager abilityStateManager, Player player,
 			SpecialEffectsManager specialEffectsManager) {
+		AbilityCastEvent event = new AbilityCastEvent(player, getAbilityType());
+		Bukkit.getPluginManager().callEvent(event);
+		if (event.isCancelled())
+			return;
 		abilityStateManager.addCooldown(player, 2, getCooldown());
 		ParticleUtils.createSphere(ParticleEffect.REDSTONE, Color.CYAN, player.getLocation().add(0, 1, 0), 1);
 		MathUtils.shootProjectile(player, 9, new ItemStack(Material.BEACON), 30, false, 0.8, null, DamageReason.MAGIC,
