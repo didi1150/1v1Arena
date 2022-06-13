@@ -33,22 +33,21 @@ public class StunEffect extends SpecialEffect {
 		LivingEntity ent = (LivingEntity) to;
 		ent.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30, 255, false, false));
 		net.minecraft.server.v1_8_R3.Entity craftEntity = ((CraftEntity) to).getHandle();
-
-		Location location = ent.getLocation();
 		AxisAlignedBB bb = craftEntity.getBoundingBox();
-
-		Location highLocation = location.clone();
-		highLocation.setY(bb.e);
-
 		double radius = (bb.d - bb.a) / 2;
 		TaskManager.getInstance().repeatUntil(1, 1, (long) (20 * duration), (task, counter) -> {
+
+			Location location = ent.getLocation();
+
+			Location highLocation = location.clone();
+			highLocation.setY(bb.e);
 			if (counter.get() >= duration * 20)
 				endEffect();
 
-			ParticleUtils.drawCircle(ParticleEffect.REDSTONE, new Color(85, 0, 102), highLocation.add(0, 0.5, 0),
-					radius);
-			ParticleUtils.drawCircle(ParticleEffect.REDSTONE, new Color(85, 0, 102), highLocation.add(0, 0.25, 0),
-					radius);
+			ParticleUtils.drawCircle(ParticleEffect.REDSTONE, new Color(85, 0, 102),
+					highLocation.clone().add(0, 0.5, 0), radius);
+			ParticleUtils.drawCircle(ParticleEffect.REDSTONE, new Color(85, 0, 102),
+					highLocation.clone().add(0, 0.25, 0), radius);
 		});
 	}
 
