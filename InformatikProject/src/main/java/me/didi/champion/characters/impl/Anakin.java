@@ -16,32 +16,4 @@ public class Anakin extends MeleeChampion {
 	public void executeAutoAttack() {
 
 	}
-
-	@Override
-	public void executeFirstAbility() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void executeSecondAbility() {
-//		ChatUtils.broadCastMessage("(" + toVec.getX() + " | " + toVec.getY() + " | " + toVec.getZ() + ")");
-//		ChatUtils.broadCastMessage("(" + toVec.getX() * 2 + " | " + toVec.getY() + " | " + toVec.getZ() * 2 + ")");
-
-		player.setVelocity(player.getLocation().getDirection().multiply(2).setY(0.1));
-
-		abilityStateManager.addCooldown(player, 1, 2);
-	}
-
-	@Override
-	public void executeThirdAbility() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void executeUltimate() {
-		// TODO Auto-generated method stub
-
-	}
 }

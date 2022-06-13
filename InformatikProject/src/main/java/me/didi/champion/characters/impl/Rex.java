@@ -19,26 +19,4 @@ public class Rex extends RangedChampion {
 		MathUtils.shootAutoAttackProjectile(player, 13, new ItemStack(Material.PRISMARINE_CRYSTALS),
 				customPlayerManager.getDamage(player), true, 0.75);
 	}
-
-	@Override
-	public void executeFirstAbility() {
-		getAbilities()[0].execute(abilityStateManager, player, specialEffectsManager);
-	}
-
-	@Override
-	public void executeSecondAbility() {
-		getAbilities()[1].execute(abilityStateManager, player, specialEffectsManager);
-	}
-
-	@Override
-	public void executeThirdAbility() {
-
-		getAbilities()[2].execute(abilityStateManager, player, specialEffectsManager);
-	}
-
-	@Override
-	public void executeUltimate() {
-
-		getAbilities()[3].execute(abilityStateManager, player, specialEffectsManager);
-	}
 }

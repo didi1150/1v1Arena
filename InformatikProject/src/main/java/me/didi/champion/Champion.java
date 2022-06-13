@@ -93,26 +93,6 @@ public abstract class Champion {
 	public abstract void executeAutoAttack();
 
 	/**
-	 * Executes the first ability
-	 */
-	public abstract void executeFirstAbility();
-
-	/**
-	 * Executes the second ability
-	 */
-	public abstract void executeSecondAbility();
-
-	/**
-	 * Executes the third ability
-	 */
-	public abstract void executeThirdAbility();
-
-	/**
-	 * Executes the ultimate
-	 */
-	public abstract void executeUltimate();
-
-	/**
 	 * Returns this champion's base magic resistance
 	 */
 	public int getBaseMagicResist() {

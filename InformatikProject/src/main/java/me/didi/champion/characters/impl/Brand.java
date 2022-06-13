@@ -3,17 +3,18 @@ package me.didi.champion.characters.impl;
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.champion.ability.Ability;
-import me.didi.champion.characters.MeleeChampion;
+import me.didi.champion.characters.MageChampion;
 
-public class Perry extends MeleeChampion {
+public class Brand extends MageChampion {
 
-	public Perry(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist, ItemStack icon,
+	public Brand(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist, ItemStack icon,
 			ItemStack autoAttackItem) {
 		super(name, abilities, baseHealth, baseDefense, baseMagicResist, icon, autoAttackItem);
 	}
 
 	@Override
 	public void executeAutoAttack() {
+		// TODO Auto-generated method stub
 
 	}
 }
