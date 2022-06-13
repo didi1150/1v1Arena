@@ -1,5 +1,6 @@
 package me.didi.champion.ability.impl.brand;
 
+import java.awt.Color;
 import java.util.function.Consumer;
 
 import org.bukkit.Bukkit;
@@ -65,6 +66,7 @@ public class BrandUltimate implements Ability {
 		if (event.isCancelled())
 			return;
 
+		abilityStateManager.addCooldown(player, 3, getCooldown());
 		MathUtils.shootProjectile(player, 7.5, new ItemStack(Material.FIREBALL), 50, false, 0.75,
 				new ParticleBuilder(ParticleEffect.FLAME).setSpeed(0.1f), DamageReason.MAGIC, entity -> {
 					drawUltimate(player, entity, 4, specialEffectsManager);
@@ -87,9 +89,9 @@ public class BrandUltimate implements Ability {
 					double z = radius * Math.sin(Math.toRadians(i));
 
 					if (i < angle)
-						location.getWorld().playEffect(location.clone().add(x, 0, z), Effect.WITCH_MAGIC, 10);
+						ParticleEffect.REDSTONE.display(location.clone().add(x, 0, z), Color.GRAY);
 					else
-						location.getWorld().playEffect(location.clone().add(x, 0, z), Effect.COLOURED_DUST, 10);
+						ParticleEffect.FLAME.display(location.clone().add(x, 0, z));
 				}
 
 				if (angle >= 360) {

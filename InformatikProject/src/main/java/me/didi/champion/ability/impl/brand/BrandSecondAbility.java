@@ -65,6 +65,7 @@ public class BrandSecondAbility implements Ability {
 		Bukkit.getPluginManager().callEvent(event);
 		if (event.isCancelled())
 			return;
+		abilityStateManager.addCooldown(player, 1, getCooldown());
 		Set<Material> materials = new HashSet<>();
 		materials.add(Material.AIR);
 		materials.add(Material.WATER);
@@ -74,31 +75,14 @@ public class BrandSecondAbility implements Ability {
 
 		Location dest = player.getTargetBlock(materials, 9).getLocation();
 
-		drawPillar(dest);
-		player.getWorld().getLivingEntities().stream().filter(entity -> entity != player)
-				.filter(entity -> !(entity instanceof ArmorStand)).collect(Collectors.toList()).forEach(entity -> {
-
-					double higherX = Math.max(entity.getLocation().getX(), dest.getX());
-					double lowerX = Math.min(entity.getLocation().getX(), dest.getX());
-
-					double higherZ = Math.max(entity.getLocation().getZ(), dest.getZ());
-					double lowerZ = Math.min(entity.getLocation().getZ(), dest.getZ());
-
-					if (higherX - lowerX <= 5 && higherZ - lowerZ <= 5) {
-						DamageManager.damageEntity(player, entity, DamageReason.MAGIC, 20, false);
-						specialEffectsManager.addSpecialEffect(new BurnEffect(player, entity, 4, 3));
-						entity.setFireTicks(entity.getFireTicks() + 4 * 19 - 1);
-					}
-				});
-
+		drawPillar(dest, player, specialEffectsManager);
 	}
 
-	private void drawPillar(Location location) {
+	private void drawPillar(Location location, Player player, SpecialEffectsManager specialEffectsManager) {
 
 		TaskManager.getInstance().repeat(1, 1, new Consumer<BukkitTask>() {
 			double radius = 5;
 			double y = 0.1;
-			double increase = 0.4;
 
 			@Override
 			public void accept(BukkitTask task) {
@@ -113,6 +97,7 @@ public class BrandSecondAbility implements Ability {
 						}
 					}
 					task.cancel();
+					damageEnemies(location, player, specialEffectsManager);
 					return;
 				}
 
@@ -121,7 +106,26 @@ public class BrandSecondAbility implements Ability {
 
 				radius -= 0.25;
 
-				y *= 1 / (y + increase);
+				y *= 1.05;
+			}
+
+			private void damageEnemies(Location location, Player player, SpecialEffectsManager specialEffectsManager) {
+				player.getWorld().getLivingEntities().stream().filter(entity -> entity != player)
+						.filter(entity -> !(entity instanceof ArmorStand)).collect(Collectors.toList())
+						.forEach(entity -> {
+
+							final double higherX = Math.max(entity.getLocation().getX(), location.getX());
+							final double lowerX = Math.min(entity.getLocation().getX(), location.getX());
+
+							final double higherZ = Math.max(entity.getLocation().getZ(), location.getZ());
+							final double lowerZ = Math.min(entity.getLocation().getZ(), location.getZ());
+
+							if (higherX - lowerX <= 5 && higherZ - lowerZ <= 5) {
+								DamageManager.damageEntity(player, entity, DamageReason.MAGIC, 20, false);
+								specialEffectsManager.addSpecialEffect(new BurnEffect(player, entity, 4, 3));
+								entity.setFireTicks(entity.getFireTicks() + 4 * 19 - 1);
+							}
+						});
 			}
 		});
 	}

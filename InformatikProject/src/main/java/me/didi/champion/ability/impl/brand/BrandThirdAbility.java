@@ -72,15 +72,12 @@ public class BrandThirdAbility implements Ability {
 
 		Location dest = targetPlayer.getLocation();
 
-		drawCircle(dest);
-		targetPlayer.setFireTicks(targetPlayer.getFireTicks() + 20 * 1);
-
-		DamageManager.damageEntity(player, targetPlayer, DamageReason.MAGIC, 20, false);
-		specialEffectsManager.addSpecialEffect(new BurnEffect(player, targetPlayer, 4, 3));
+		drawCircle(dest, targetPlayer, specialEffectsManager, player);
 
 	}
 
-	private void drawCircle(Location dest) {
+	private void drawCircle(Location dest, Player targetPlayer, SpecialEffectsManager specialEffectsManager,
+			Player player) {
 		TaskManager.getInstance().repeat(1, 1, new Consumer<BukkitTask>() {
 
 			double radius = 5;
@@ -89,10 +86,14 @@ public class BrandThirdAbility implements Ability {
 			public void accept(BukkitTask task) {
 				if (radius <= 0) {
 					task.cancel();
+					targetPlayer.setFireTicks(targetPlayer.getFireTicks() + 20 * 1);
+
+					DamageManager.damageEntity(player, targetPlayer, DamageReason.MAGIC, 20, false);
+					specialEffectsManager.addSpecialEffect(new BurnEffect(player, targetPlayer, 4, 3));
 					return;
 				}
 				ParticleUtils.drawCircle(ParticleEffect.REDSTONE, Color.ORANGE, dest, radius);
-				radius -= 0.25;
+				radius -= 0.75;
 			}
 		});
 	}
