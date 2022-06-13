@@ -52,10 +52,10 @@ public class LloydThirdAbility extends Recastable implements Ability {
 	public String[] getDescription() {
 		// TODO Auto-generated method stub
 		return new String[] { ChatColor.GRAY + "Lloyd throws a shuriken, propelling himself backwards.",
-				ChatColor.GRAY + "If the shuriken hits, the enemy takes " + ChatColor.GREEN + " 10 damage",
+				ChatColor.GRAY + "If the shuriken hits, the enemy takes " + ChatColor.DARK_AQUA + " 10 damage",
 				ChatColor.GRAY + "and is marked for 3 seconds. During this time",
 				ChatColor.GRAY + "Lloyd can recast this ability to dash into the target",
-				ChatColor.GRAY + "dealing " + ChatColor.GREEN + " 25 damage " + ChatColor.GRAY + "on impact." };
+				ChatColor.GRAY + "dealing " + ChatColor.DARK_AQUA + " 25 damage " + ChatColor.GRAY + "on impact." };
 	}
 
 	@Override

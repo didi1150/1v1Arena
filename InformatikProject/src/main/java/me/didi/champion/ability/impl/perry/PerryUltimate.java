@@ -38,7 +38,7 @@ public class PerryUltimate implements Ability {
 	public String[] getDescription() {
 		return new String[] { ChatColor.GRAY + "Perry hears his colleagues chanting his name, motivating",
 				ChatColor.GRAY + "him. This increases his " + ChatColor.GREEN + "baseHealth" + ChatColor.GRAY + ", "
-						+ ChatColor.DARK_GRAY + "baseDefense" + ChatColor.GRAY + "and " + ChatColor.DARK_PURPLE
+						+ ChatColor.YELLOW + "baseDefense" + ChatColor.GRAY + " and " + ChatColor.AQUA
 						+ "magic resistance " + ChatColor.GRAY + "by 30 percent" };
 	}
 

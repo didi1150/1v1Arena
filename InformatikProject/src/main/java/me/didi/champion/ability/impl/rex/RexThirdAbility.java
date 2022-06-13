@@ -37,7 +37,7 @@ public class RexThirdAbility implements Ability {
 	public String[] getDescription() {
 		return new String[] { ChatColor.GRAY + "Rex fires an immobilizing shot,",
 				ChatColor.GRAY + "causing the first enemy hit to be " + ChatColor.WHITE + "rooted",
-				ChatColor.GRAY + " for 1.5 seconds" };
+				ChatColor.GRAY + " for 1.5 seconds and dealing " + ChatColor.DARK_AQUA + "15 damage." };
 	}
 
 	@Override
@@ -56,7 +56,8 @@ public class RexThirdAbility implements Ability {
 		abilityStateManager.addCooldown(player, 2, getCooldown());
 
 		MathUtils.shootProjectile(player, 13, new ItemStack(Material.CLAY_BALL), 15, false, 0.5,
-				new ParticleBuilder(ParticleEffect.REDSTONE).setColor(java.awt.Color.CYAN), DamageReason.MAGIC, new Consumer<Entity>() {
+				new ParticleBuilder(ParticleEffect.REDSTONE).setColor(java.awt.Color.CYAN), DamageReason.MAGIC,
+				new Consumer<Entity>() {
 
 					@Override
 					public void accept(Entity entity) {

@@ -50,9 +50,9 @@ public class PerrySecondAbility extends Recastable implements Ability {
 	public String[] getDescription() {
 		// TODO Auto-generated method stub
 		return new String[] { ChatColor.GRAY + "Perry hops into his car, driving around",
-				ChatColor.GRAY + "while regenerating " + ChatColor.GREEN + "30 percent " + ChatColor.GRAY + "of his"
+				ChatColor.GRAY + "while regenerating " + ChatColor.GREEN + "30% " + ChatColor.GRAY + "of his"
 						+ ChatColor.GREEN + " max health",
-				ChatColor.GRAY + " over the next 8 seconds.",
+				ChatColor.GRAY + "over the next 8 seconds.",
 				ChatColor.GRAY + "He can choose to recast this ability, to hop out of his car early" };
 	}
 

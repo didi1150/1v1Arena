@@ -35,6 +35,10 @@ public class EntityDamageListener implements Listener {
 			return;
 		}
 		if (event.getEntity() instanceof Player) {
+			if (event.getCause() == DamageCause.FIRE_TICK) {
+				event.setCancelled(true);
+				return;
+			}
 			if (event.getCause() == DamageCause.ENTITY_ATTACK)
 				return;
 			if (event.getCause() == DamageCause.CUSTOM)
