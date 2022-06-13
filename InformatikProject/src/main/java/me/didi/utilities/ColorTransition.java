@@ -1,7 +1,5 @@
 package me.didi.utilities;
 
-import java.text.NumberFormat;
-
 import javax.annotation.Nonnull;
 
 import org.bukkit.Color;
@@ -96,7 +94,6 @@ public class ColorTransition {
 		try {
 			color = Color.fromRGB((int) red, (int) green, (int) blue);
 		} catch (IllegalArgumentException exp) {
-			NumberFormat nf = NumberFormat.getNumberInstance();
 			exp.printStackTrace();
 		}
 		return color;

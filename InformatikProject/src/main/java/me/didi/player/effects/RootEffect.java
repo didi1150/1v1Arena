@@ -10,9 +10,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import me.didi.MainClass;
 import me.didi.utilities.ParticleUtils;
 import me.didi.utilities.TaskManager;
 import net.minecraft.server.v1_8_R3.AxisAlignedBB;

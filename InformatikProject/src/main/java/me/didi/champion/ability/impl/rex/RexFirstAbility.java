@@ -2,7 +2,6 @@ package me.didi.champion.ability.impl.rex;
 
 import java.awt.Color;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import me.didi.MainClass;
 import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;

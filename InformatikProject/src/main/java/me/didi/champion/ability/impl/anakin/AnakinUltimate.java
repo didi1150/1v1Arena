@@ -3,7 +3,6 @@ package me.didi.champion.ability.impl.anakin;
 import java.awt.Color;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,8 +18,8 @@ import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
-import me.didi.utilities.TaskManager;
 import me.didi.utilities.MathUtils;
+import me.didi.utilities.TaskManager;
 import xyz.xenondevs.particle.ParticleEffect;
 
 public class AnakinUltimate implements Ability {
