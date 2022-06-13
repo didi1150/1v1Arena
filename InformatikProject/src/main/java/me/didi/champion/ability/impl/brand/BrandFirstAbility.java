@@ -54,15 +54,13 @@ public class BrandFirstAbility implements Ability {
 		Bukkit.getPluginManager().callEvent(event);
 		if (event.isCancelled())
 			return;
-		
+
 		abilityStateManager.addCooldown(player, 0, getCooldown());
 		MathUtils.shootProjectile(player, 10, new ItemStack(Material.FIREBALL), 10, false, 0.8,
 				new ParticleBuilder(ParticleEffect.FLAME), DamageReason.MAGIC, entity -> {
 					DamageManager.damageEntity(player, entity, DamageReason.MAGIC, 20, false);
-					if (entity.getFireTicks() > 0) {
-						specialEffectsManager.addSpecialEffect(new StunEffect(player, entity, 1.5));
-						entity.setFireTicks(entity.getFireTicks() + 4 * 19 - 1);
-					}
+					specialEffectsManager.addSpecialEffect(new StunEffect(player, entity, 1.5));
+					entity.setFireTicks(entity.getFireTicks() + 4 * 19 - 1);
 				});
 	}
 

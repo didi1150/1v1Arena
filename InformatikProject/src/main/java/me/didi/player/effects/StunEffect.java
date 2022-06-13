@@ -44,10 +44,12 @@ public class StunEffect extends SpecialEffect {
 			if (counter.get() >= duration * 20)
 				endEffect();
 
-			ParticleUtils.drawCircle(ParticleEffect.REDSTONE, new Color(85, 0, 102),
-					highLocation.clone().add(0, 0.5, 0), radius);
-			ParticleUtils.drawCircle(ParticleEffect.REDSTONE, new Color(85, 0, 102),
-					highLocation.clone().add(0, 0.25, 0), radius);
+			if (counter.get() % 3 == 0) {
+				ParticleUtils.drawCircle(ParticleEffect.REDSTONE, new Color(85, 0, 102),
+						highLocation.clone().add(0, 0.5, 0), radius);
+				ParticleUtils.drawCircle(ParticleEffect.REDSTONE, new Color(85, 0, 102),
+						highLocation.clone().add(0, 0.25, 0), radius);
+			}
 		});
 	}
 
