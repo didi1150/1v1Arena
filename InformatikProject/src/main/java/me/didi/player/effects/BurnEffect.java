@@ -35,8 +35,9 @@ public class BurnEffect extends SpecialEffect {
 				return;
 			}
 
-			Bukkit.getPluginManager()
-					.callEvent(new CustomDamageEvent(to, from, DamageReason.MAGIC, damagePerSec, false));
+			if (counter.get() % 20 == 0)
+				Bukkit.getPluginManager()
+						.callEvent(new CustomDamageEvent(to, from, DamageReason.MAGIC, damagePerSec, false));
 
 			ParticleUtils.drawCircle(ParticleEffect.FLAME, null, location, radius);
 		});
