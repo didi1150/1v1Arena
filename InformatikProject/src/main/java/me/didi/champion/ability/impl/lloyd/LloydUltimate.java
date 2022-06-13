@@ -3,9 +3,9 @@ package me.didi.champion.ability.impl.lloyd;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiConsumer;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
-import me.didi.MainClass;
 import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
@@ -24,6 +23,7 @@ import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.ItemManager;
+import me.didi.utilities.TaskManager;
 import xyz.xenondevs.particle.ParticleEffect;
 
 public class LloydUltimate extends Recastable implements Ability {
@@ -104,12 +104,12 @@ public class LloydUltimate extends Recastable implements Ability {
 	@SuppressWarnings("unchecked")
 	@Override
 	public BiConsumer<Player, AbilityStateManager>[] getRecasts() {
-		BiConsumer<Player, AbilityStateManager> recasts[] = new BiConsumer[4];
+		BiConsumer<Player, AbilityStateManager> recasts[] = new BiConsumer[3];
 		recasts[0] = new BiConsumer<Player, AbilityStateManager>() {
 
 			@Override
 			public void accept(Player player, AbilityStateManager abilityStateManager) {
-				airjitzu(player);
+				airjitzu(player, abilityStateManager);
 			}
 
 		};
@@ -119,20 +119,11 @@ public class LloydUltimate extends Recastable implements Ability {
 			@Override
 			public void accept(Player player, AbilityStateManager abilityStateManager) {
 				cancelAirjitzu(player, abilityStateManager);
-			}
-
-		};
-
-		recasts[2] = new BiConsumer<Player, AbilityStateManager>() {
-
-			@Override
-			public void accept(Player player, AbilityStateManager abilityStateManager) {
 				spinjitzu(player, abilityStateManager);
 			}
 
 		};
-
-		recasts[3] = new BiConsumer<Player, AbilityStateManager>() {
+		recasts[2] = new BiConsumer<Player, AbilityStateManager>() {
 
 			@Override
 			public void accept(Player player, AbilityStateManager abilityStateManager) {
@@ -140,17 +131,18 @@ public class LloydUltimate extends Recastable implements Ability {
 			}
 
 		};
+
 		return recasts;
 	}
 
 	@Override
 	public String getName() {
-		return "Master of Spin";
+		return ChatColor.GOLD + "Master of Spin";
 	}
 
 	@Override
 	public ItemStack getIcon() {
-		ItemStack itemStack = new ItemBuilder(new ItemStack(Material.STRING)).setDisplayName(ChatColor.GOLD + getName())
+		ItemStack itemStack = new ItemBuilder(new ItemStack(Material.STRING)).setDisplayName(getName())
 				.setLore(getDescription()).toItemStack();
 		return itemStack;
 	}
@@ -174,91 +166,86 @@ public class LloydUltimate extends Recastable implements Ability {
 
 	@Override
 	public int getRecastCountdown() {
-		return 5;
+		return 10;
 	}
 
-	private void airjitzu(Player player) {
+	private void airjitzu(Player player, AbilityStateManager abilityStateManager) {
 
 		new ItemManager().setItem(player, 3, new ItemBuilder(getIcon().clone()).addGlow().toItemStack());
 		player.setAllowFlight(true);
 		player.setFlying(true);
-		tasks.put(player, Bukkit.getScheduler().runTaskTimer(MainClass.getPlugin(), new Runnable() {
 
-			int angle = 0;
+		abilityStateManager.addRecastCooldown(player, 3, getRecastCountdown());
 
-			int max_height = 2;
-			double max_radius = 2;
-			int lines = 7;
-			double height_increasement = 0.2;
-			double radius_increasement = max_radius / max_height;
-			Location loc = null;
+		tasks.put(player,
+				TaskManager.getInstance().repeatUntil(0, 1, 20 * 10, new BiConsumer<BukkitTask, AtomicLong>() {
+					int angle = 0;
 
-			@Override
-			public void run() {
-				loc = player.getLocation().subtract(0, 1, 0);
-				if (angle >= 360)
-					angle = 0;
+					int max_height = 2;
+					double max_radius = 2;
+					int lines = 7;
+					double height_increasement = 0.2;
+					double radius_increasement = max_radius / max_height;
+					Location loc = null;
 
-				for (int l = 0; l < lines; l++) {
-					for (double y = 0; y < max_height; y += height_increasement) {
-						double radius = y * radius_increasement;
-						double x = Math.cos(Math.toRadians(360 / lines * l + y * 25 - angle)) * radius;
-						double z = Math.sin(Math.toRadians(360 / lines * l + y * 25 - angle)) * radius;
+					private void createSphere(Player player) {
+						Location location = player.getLocation().add(0, 1, 0);
+						for (int i = 0; i < x3Array.length; i++) {
+							double x = x3Array[i];
+							double z = z3Array[i];
+							double y = y3Array[i];
+							Location next = location.clone().add(x, y, z);
+							ParticleEffect.REDSTONE.display(next, Color.GREEN);
 
-						Location next = loc.clone().add(x, y, z);
-						ParticleEffect.REDSTONE.display(next, Color.GREEN);
+						}
 					}
-				}
 
-				createSphere(player);
-				angle += 8;
-			}
+					@Override
+					public void accept(BukkitTask task, AtomicLong counter) {
+						loc = player.getLocation().subtract(0, 1, 0);
+						if (angle >= 360)
+							angle = 0;
 
-			private void createSphere(Player player) {
-				Location location = player.getLocation().add(0, 1, 0);
-				for (int i = 0; i < x3Array.length; i++) {
-					double x = x3Array[i];
-					double z = z3Array[i];
-					double y = y3Array[i];
-					Location next = location.clone().add(x, y, z);
-					ParticleEffect.REDSTONE.display(next, Color.GREEN);
+						for (int l = 0; l < lines; l++) {
+							for (double y = 0; y < max_height; y += height_increasement) {
+								double radius = y * radius_increasement;
+								double x = Math.cos(Math.toRadians(360 / lines * l + y * 25 - angle)) * radius;
+								double z = Math.sin(Math.toRadians(360 / lines * l + y * 25 - angle)) * radius;
 
-				}
-			}
-		}, 0, 1));
+								Location next = loc.clone().add(x, y, z);
+								ParticleEffect.REDSTONE.display(next, Color.GREEN);
+							}
+						}
+						if (counter.get() % 3 == 0)
+							createSphere(player);
+						angle += 8;
+
+						if (counter.get() >= 20 * 10) {
+							abilityStateManager.addCooldown(player, 3, getCooldown());
+							cancelAirjitzu(player, abilityStateManager);
+							recastCounters.put(player, 0);
+							return;
+						}
+					}
+				}));
 
 		recastCounters.put(player, 1);
 	}
 
 	private void cancelAirjitzu(Player player, AbilityStateManager abilityStateManager) {
-
 		tasks.get(player).cancel();
 		player.setFallDistance(0);
 		player.setAllowFlight(false);
 		player.setFlying(false);
-
-		abilityStateManager.addRecastCooldown(player, 3, getRecastCountdown());
-		tasks.put(player, Bukkit.getScheduler().runTaskLater(MainClass.getPlugin(), new Runnable() {
-
-			@Override
-			public void run() {
-				abilityStateManager.addCooldown(player, 3, getCooldown());
-				recastCounters.put(player, 0);
-				tasks.get(player).cancel();
-			}
-		}, 20 * getRecastCountdown()));
-
-		recastCounters.put(player, recastCounters.get(player) + 1);
 	}
 
 	private void spinjitzu(Player player, AbilityStateManager abilityStateManager) {
-		tasks.get(player).cancel();
 		abilityStateManager.removeRecastCooldown(player, this, 3);
-		new ItemManager().setItem(player, 3, new ItemBuilder(getIcon().clone()).addGlow().toItemStack());
+		abilityStateManager.addRecastCooldown(player, 3, getRecastCountdown());
 
-		tasks.put(player, Bukkit.getScheduler().runTaskTimer(MainClass.getPlugin(), new Runnable() {
-			@Override
-			public void run() {
+		tasks.put(player, TaskManager.getInstance().repeatUntil(0, 1, 20 * 10, (task, counter) -> {
+			player.setFallDistance(0);
+			if (counter.get() % 2 == 0) {
 				spin(player);
 				for (Entity entity : player.getWorld().getNearbyEntities(player.getLocation().add(0, 1, 0), 1.75, 0.5,
 						1.75)) {
@@ -267,25 +254,29 @@ public class LloydUltimate extends Recastable implements Ability {
 				}
 			}
 
-			private void spin(Player player) {
-				Location loc = player.getLocation().clone();
-				float y = (float) loc.getY() - 0.25f;
-				int index = 0;
-				for (double t = 0; t < 2 * Math.PI * (turns + 1); t += stepSize) {
-					float x = xArray[index];
-					float z = zArray[index];
-
-					Location newLoc = new Location(player.getWorld(), loc.getX() + x, y, loc.getZ() + z);
-					ParticleEffect.REDSTONE.display(newLoc, Color.GREEN);
-					if (t < 2 * Math.PI * turns)
-						y += 2.5 / particleCount;
-					index++;
-				}
+			if (counter.get() >= 20 * 10) {
+				cancelSpinjitzu(player, abilityStateManager);
 			}
+		}));
 
-		}, 0, 2));
-
+		new ItemManager().setItem(player, 3, new ItemBuilder(getIcon().clone()).addGlow().toItemStack());
 		recastCounters.put(player, recastCounters.get(player) + 1);
+	}
+
+	private void spin(Player player) {
+		Location loc = player.getLocation().clone();
+		float y = (float) loc.getY() - 0.25f;
+		int index = 0;
+		for (double t = 0; t < 2 * Math.PI * (turns + 1); t += stepSize) {
+			float x = xArray[index];
+			float z = zArray[index];
+
+			Location newLoc = new Location(player.getWorld(), loc.getX() + x, y, loc.getZ() + z);
+			ParticleEffect.REDSTONE.display(newLoc, Color.GREEN);
+			if (t < 2 * Math.PI * turns)
+				y += 2.5 / particleCount;
+			index++;
+		}
 	}
 
 	private void cancelSpinjitzu(Player player, AbilityStateManager abilityStateManager) {
