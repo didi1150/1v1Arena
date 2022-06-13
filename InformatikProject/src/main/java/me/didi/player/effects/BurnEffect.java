@@ -30,7 +30,7 @@ public class BurnEffect extends SpecialEffect {
 		double radius = (bb.d - bb.a) / 2;
 
 		TaskManager.getInstance().repeatUntil(0, 1, (long) duration * 20, (task, counter) -> {
-			if (counter.get() >= duration) {
+			if (counter.get() >= duration * 20) {
 				endEffect();
 				return;
 			}
