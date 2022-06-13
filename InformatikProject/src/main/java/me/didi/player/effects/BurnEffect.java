@@ -24,12 +24,11 @@ public class BurnEffect extends SpecialEffect {
 		net.minecraft.server.v1_8_R3.Entity craftEntity = ((CraftEntity) to).getHandle();
 		AxisAlignedBB bb = craftEntity.getBoundingBox();
 
-		Location location = to.getLocation().clone();
-		location.setY(bb.e);
-
 		double radius = (bb.d - bb.a) / 2;
 
 		TaskManager.getInstance().repeatUntil(0, 1, (long) duration * 20, (task, counter) -> {
+			Location location = to.getLocation().clone();
+			location.setY(bb.e);
 			if (counter.get() >= duration * 20) {
 				endEffect();
 				return;
