@@ -8,9 +8,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import me.didi.MainClass;
 import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
@@ -19,8 +17,9 @@ import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ArmorStandFactory;
 import me.didi.utilities.ItemBuilder;
-import me.didi.utilities.SkullFactory;
 import me.didi.utilities.MathUtils;
+import me.didi.utilities.SkullFactory;
+import me.didi.utilities.TaskManager;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutAnimation;
 import xyz.xenondevs.particle.ParticleEffect;
@@ -29,7 +28,6 @@ public class RexSecondAbility implements Ability {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return ChatColor.DARK_GREEN + "Greenade";
 	}
 
@@ -73,28 +71,24 @@ public class RexSecondAbility implements Ability {
 		as.setItemInHand(ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_BOMB));
 		Location dest = player.getLocation().clone().add(player.getLocation().getDirection().multiply(25));
 		as.setVelocity(MathUtils.calculateVelocity(as.getLocation().toVector(), dest.toVector(), 2));
-		new BukkitRunnable() {
+		TaskManager.getInstance().repeat(1, 1, task -> {
+			if (as.getWorld().getBlockAt(as.getLocation().add(0, -0.5, 0)).getType() != Material.AIR) {
 
-			@Override
-			public void run() {
-				if (as.getWorld().getBlockAt(as.getLocation().add(0, -0.5, 0)).getType() != Material.AIR) {
+				as.remove();
 
-					as.remove();
+				ParticleEffect.EXPLOSION_NORMAL.display(as.getLocation());
+				ParticleEffect.EXPLOSION_HUGE.display(as.getLocation());
 
-					ParticleEffect.EXPLOSION_NORMAL.display(as.getLocation());
-					ParticleEffect.EXPLOSION_HUGE.display(as.getLocation());
+				as.getWorld().playSound(as.getLocation(), Sound.EXPLODE, 5, 5);
 
-					as.getWorld().playSound(as.getLocation(), Sound.EXPLODE, 5, 5);
+				as.getNearbyEntities(3, 3, 3).forEach(ent -> {
+					if (DamageManager.isEnemy(player, ent))
+						DamageManager.damageEntity(player, ent, DamageReason.PHYSICAL, 20, true);
+				});
 
-					as.getNearbyEntities(3, 3, 3).forEach(ent -> {
-						if (DamageManager.isEnemy(player, ent))
-							DamageManager.damageEntity(player, ent, DamageReason.PHYSICAL, 20, true);
-					});
-
-					this.cancel();
-				}
+				task.cancel();
 			}
-		}.runTaskTimer(MainClass.getPlugin(), 1, 1);
+		});
 	}
 
 }

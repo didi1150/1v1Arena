@@ -5,12 +5,11 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import me.didi.MainClass;
 import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.utilities.ParticleUtils;
+import me.didi.utilities.TaskManager;
 import net.minecraft.server.v1_8_R3.AxisAlignedBB;
 import xyz.xenondevs.particle.ParticleEffect;
 
@@ -29,26 +28,18 @@ public class BurnEffect extends SpecialEffect {
 		location.setY(bb.e);
 
 		double radius = (bb.d - bb.a) / 2;
-		new BukkitRunnable() {
 
-			int counter = 0;
-
-			@Override
-			public void run() {
-
-				if (counter >= duration) {
-					endEffect();
-					this.cancel();
-				}
-
-				Bukkit.getPluginManager()
-						.callEvent(new CustomDamageEvent(to, from, DamageReason.MAGIC, damagePerSec, false));
-
-				ParticleUtils.drawCircle(ParticleEffect.FLAME, null, location, radius);
-
-				counter++;
+		TaskManager.getInstance().repeatUntil(0, 1, (long) duration * 20, (task, counter) -> {
+			if (counter.get() >= duration) {
+				endEffect();
+				return;
 			}
-		}.runTaskTimer(MainClass.getPlugin(), 0, 20);
+
+			Bukkit.getPluginManager()
+					.callEvent(new CustomDamageEvent(to, from, DamageReason.MAGIC, damagePerSec, false));
+
+			ParticleUtils.drawCircle(ParticleEffect.FLAME, null, location, radius);
+		});
 	}
 
 	@Override
