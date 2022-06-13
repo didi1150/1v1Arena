@@ -18,6 +18,10 @@ import me.didi.champion.ability.impl.anakin.AnakinFirstAbility;
 import me.didi.champion.ability.impl.anakin.AnakinSecondAbility;
 import me.didi.champion.ability.impl.anakin.AnakinThirdAbility;
 import me.didi.champion.ability.impl.anakin.AnakinUltimate;
+import me.didi.champion.ability.impl.brand.BrandFirstAbility;
+import me.didi.champion.ability.impl.brand.BrandSecondAbility;
+import me.didi.champion.ability.impl.brand.BrandThirdAbility;
+import me.didi.champion.ability.impl.brand.BrandUltimate;
 import me.didi.champion.ability.impl.lloyd.LloydFirstAbility;
 import me.didi.champion.ability.impl.lloyd.LloydSecondAbility;
 import me.didi.champion.ability.impl.lloyd.LloydThirdAbility;
@@ -31,6 +35,7 @@ import me.didi.champion.ability.impl.rex.RexSecondAbility;
 import me.didi.champion.ability.impl.rex.RexThirdAbility;
 import me.didi.champion.ability.impl.rex.RexUltimate;
 import me.didi.champion.characters.impl.Anakin;
+import me.didi.champion.characters.impl.Brand;
 import me.didi.champion.characters.impl.Lloyd;
 import me.didi.champion.characters.impl.Perry;
 import me.didi.champion.characters.impl.Rex;
@@ -91,6 +96,19 @@ public class ChampionsManager {
 		}, 100, 0, 0, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_PERRY),
 				new ItemBuilder(new ItemStack(Material.ANVIL)).setDisplayName(ChatColor.GREEN + "Fist")
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "10").toItemStack()));
+		selectableChampions.add(new Brand("Brand", new Ability[] {
+
+				new BrandFirstAbility(),
+
+				new BrandSecondAbility(),
+
+				new BrandThirdAbility(),
+
+				new BrandUltimate(),
+
+		}, 100, 0, 0, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_BRAND),
+				new ItemBuilder(Material.GOLD_NUGGET).setDisplayName(ChatColor.GOLD + "Molten Fire")
+						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "6").toItemStack()));
 
 		selectableChampions.forEach(champion -> {
 
@@ -126,7 +144,7 @@ public class ChampionsManager {
 	public static void init() {
 		instance = new ChampionsManager();
 	}
-	
+
 	public static ChampionsManager getInstance() {
 		return instance;
 	}

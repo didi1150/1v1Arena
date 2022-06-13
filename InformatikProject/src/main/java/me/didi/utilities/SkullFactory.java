@@ -21,7 +21,10 @@ public enum SkullFactory {
 			"Perry", ChatColor.DARK_GREEN),
 	HEAD_REX(
 			"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODgxMGZiNjBkZmU1MmI2YjQ3MTAyMDg5ZDg0YjU1MWFkODM3NmQ3ZTk5NjczZmNlNTQxZmNiOTYyOWMxYjI1MSJ9fX0=",
-			"Rex", ChatColor.BLUE),;
+			"Rex", ChatColor.BLUE),
+	HEAD_BRAND(
+			"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzc3N2JmZWM0NTIxNjYxODU1NWE4NGUyY2FjM2UxMmE1ZDg5NTU3N2IxYjE0NjM1MzRkYTFiN2VlODFjMmRlNCJ9fX0=",
+			"Brand", ChatColor.GOLD);
 
 	String value, name;
 	ChatColor color;

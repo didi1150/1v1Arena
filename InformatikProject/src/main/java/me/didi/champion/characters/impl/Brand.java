@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.didi.champion.ability.Ability;
 import me.didi.champion.characters.MageChampion;
+import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.BurnEffect;
 import me.didi.utilities.MathUtils;
@@ -22,8 +23,10 @@ public class Brand extends MageChampion {
 	public void executeAutoAttack() {
 		MathUtils.shootProjectile(player, 13, new ItemStack(Material.AIR), 8, true, 0.75,
 				new ParticleBuilder(ParticleEffect.FLAME), DamageReason.MAGIC, entity -> {
+					DamageManager.damageEntity(player, entity, DamageReason.AUTO, customPlayerManager.getDamage(player),
+							true);
 					specialEffectsManager.addSpecialEffect(new BurnEffect(player, entity, 4, 3));
-					entity.setFireTicks(20 * 4 - 1);
+					entity.setFireTicks(entity.getFireTicks() + 4 * 19 - 1);
 				});
 	}
 }

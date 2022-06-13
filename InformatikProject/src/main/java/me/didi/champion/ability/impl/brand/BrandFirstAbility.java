@@ -10,6 +10,7 @@ import me.didi.champion.ability.Ability;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
+import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.player.effects.StunEffect;
@@ -55,8 +56,10 @@ public class BrandFirstAbility implements Ability {
 			return;
 		MathUtils.shootProjectile(player, 10, new ItemStack(Material.FIREBALL), 10, false, 0.8,
 				new ParticleBuilder(ParticleEffect.FLAME), DamageReason.MAGIC, entity -> {
+					DamageManager.damageEntity(player, entity, DamageReason.MAGIC, 20, false);
 					if (entity.getFireTicks() > 0) {
 						specialEffectsManager.addSpecialEffect(new StunEffect(player, entity, 1.5));
+						entity.setFireTicks(entity.getFireTicks() + 4 * 19 - 1);
 					}
 				});
 	}
