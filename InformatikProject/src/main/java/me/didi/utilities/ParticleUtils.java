@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import org.bukkit.Location;
 
+import xyz.xenondevs.particle.ParticleBuilder;
 import xyz.xenondevs.particle.ParticleEffect;
 
 public class ParticleUtils {
@@ -16,6 +17,14 @@ public class ParticleUtils {
 				particleEffect.display(centre.clone().add(x, 0, z));
 			} else
 				particleEffect.display(centre.clone().add(x, 0, z), color);
+		}
+	}
+
+	public static void drawCircle(ParticleBuilder particleBuilder, Location centre, double radius) {
+		for (double t = 0; t <= 2 * Math.PI; t += 0.05) {
+			double x = radius * Math.cos(t);
+			double z = radius * Math.sin(t);
+			particleBuilder.setLocation(centre.clone().add(x, 0, z)).display();
 		}
 	}
 

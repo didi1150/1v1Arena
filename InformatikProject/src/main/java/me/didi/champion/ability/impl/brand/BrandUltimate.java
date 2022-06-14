@@ -22,6 +22,7 @@ import me.didi.player.effects.BurnEffect;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.MathUtils;
+import me.didi.utilities.ParticleUtils;
 import me.didi.utilities.TaskManager;
 import xyz.xenondevs.particle.ParticleBuilder;
 import xyz.xenondevs.particle.ParticleEffect;
@@ -94,10 +95,12 @@ public class BrandUltimate implements Ability {
 				}
 
 				if (angle >= 360) {
+					ParticleUtils.drawCircle(new ParticleBuilder(ParticleEffect.FLAME).setSpeed(1), location, radius);
 					DamageManager.damageEntity(player, entity, DamageReason.MAGIC, 25, false);
 					entity.setFireTicks(4 * 20);
 					specialEffectsManager.addSpecialEffect(new BurnEffect(player, entity, 4, 3));
 					entity.setFireTicks(entity.getFireTicks() + 4 * 20);
+
 					task.cancel();
 				}
 				angle += 10;
