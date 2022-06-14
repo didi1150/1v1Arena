@@ -28,8 +28,8 @@ public class StunEffect extends SpecialEffect {
 	}
 
 	private void display(Entity entity) {
-		AbilityStateManager.getInstance().disableAbilities((Player) to, MathUtils.round(duration));
-
+		if (to instanceof Player)
+			AbilityStateManager.getInstance().disableAbilities((Player) to, MathUtils.round(duration));
 		LivingEntity ent = (LivingEntity) to;
 		ent.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30, 255, false, false));
 		net.minecraft.server.v1_8_R3.Entity craftEntity = ((CraftEntity) to).getHandle();

@@ -95,12 +95,17 @@ public class BrandUltimate implements Ability {
 				}
 
 				if (angle >= 360) {
-					ParticleUtils.drawCircle(new ParticleBuilder(ParticleEffect.FLAME).setSpeed(1), location, radius);
+
 					DamageManager.damageEntity(player, entity, DamageReason.MAGIC, 25, false);
 					entity.setFireTicks(4 * 20);
 					specialEffectsManager.addSpecialEffect(new BurnEffect(player, entity, 4, 3));
 					entity.setFireTicks(entity.getFireTicks() + 4 * 20);
 
+					TaskManager.getInstance().runTaskLater(20 * 1, delayTask -> {
+						ParticleBuilder particleBuilder = new ParticleBuilder(ParticleEffect.FLAME).setSpeed(0.1f)
+								.setAmount(10);
+						ParticleUtils.drawCircle(particleBuilder, location, radius);
+					});
 					task.cancel();
 				}
 				angle += 10;

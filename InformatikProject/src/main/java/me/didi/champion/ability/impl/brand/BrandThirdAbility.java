@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
@@ -72,12 +73,11 @@ public class BrandThirdAbility implements Ability {
 
 		Location dest = targetPlayer.getLocation();
 
-		drawCircle(dest, targetPlayer, specialEffectsManager, player);
-
+		drawCircle(dest, targetPlayer, specialEffectsManager, player, true);
 	}
 
-	private void drawCircle(Location dest, Player targetPlayer, SpecialEffectsManager specialEffectsManager,
-			Player player) {
+	private void drawCircle(Location dest, Entity target, SpecialEffectsManager specialEffectsManager, Player player,
+			boolean firstTime) {
 		TaskManager.getInstance().repeat(1, 1, new Consumer<BukkitTask>() {
 
 			double radius = 5;
@@ -86,16 +86,27 @@ public class BrandThirdAbility implements Ability {
 			public void accept(BukkitTask task) {
 				if (radius <= 0) {
 					task.cancel();
-					targetPlayer.setFireTicks(targetPlayer.getFireTicks() + 20 * 1);
-
-					DamageManager.damageEntity(player, targetPlayer, DamageReason.MAGIC, 20, false);
-					specialEffectsManager.addSpecialEffect(new BurnEffect(player, targetPlayer, 4, 3));
+					burnEntity(target, specialEffectsManager, player);
+					if (firstTime) {
+						for (Entity entity : target.getNearbyEntities(4, 4, 4)) {
+							if (DamageManager.isEnemy(player, entity)) {
+								drawCircle(entity.getLocation(), entity, specialEffectsManager, player, false);
+							}
+						}
+					}
 					return;
 				}
 				ParticleUtils.drawCircle(ParticleEffect.REDSTONE, Color.ORANGE, dest, radius);
 				radius -= 0.75;
 			}
+
 		});
 	}
 
+	private void burnEntity(Entity target, SpecialEffectsManager specialEffectsManager, Player player) {
+		target.setFireTicks(target.getFireTicks() + 20 * 1);
+
+		DamageManager.damageEntity(player, target, DamageReason.MAGIC, 20, false);
+		specialEffectsManager.addSpecialEffect(new BurnEffect(player, target, 4, 3));
+	}
 }
