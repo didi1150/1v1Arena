@@ -81,7 +81,7 @@ public class CustomPlayerManager {
 	public void startBackgroundTask() {
 
 		bukkitTask = TaskManager.getInstance().repeat(1, 1, task -> {
-			if (counter >= 20 * 2) {
+			if (counter >= 20 * 5) {
 				plugin.getAlivePlayers().forEach(uuid -> {
 					regenHealth(getPlayer(uuid));
 				});

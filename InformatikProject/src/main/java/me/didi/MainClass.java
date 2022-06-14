@@ -104,7 +104,6 @@ public class MainClass extends JavaPlugin {
 		pm.registerEvents(new PlayerInteractListener(championsManager, gameStateManager, abilityStateManager,
 				specialEffectsManager), this);
 		pm.registerEvents(new EntityDamageListener(customPlayerManager, gameStateManager), this);
-		pm.registerEvents(new HealListener(), this);
 		pm.registerEvents(new BlockListener(), this);
 		pm.registerEvents(new DeathListener(this, customPlayerManager, gameStateManager), this);
 		pm.registerEvents(new DropItemListener(), this);

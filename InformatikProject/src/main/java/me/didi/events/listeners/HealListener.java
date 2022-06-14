@@ -27,12 +27,16 @@ public class HealListener implements Listener {
 
 	@EventHandler
 	public void onCustomHeal(CustomPlayerHealEvent event) {
+
 		CustomPlayer customPlayer = event.getCustomPlayer();
 		int bonusHealth = CustomPlayerManager.getInstance().getBonusHealth(Bukkit.getPlayer(customPlayer.getUuid()));
-		if (customPlayer.getCurrentHealth() + event.getHealAmount() < (customPlayer.getBaseHealth() + bonusHealth))
+		if (customPlayer.getCurrentHealth() + event.getHealAmount() < (customPlayer.getBaseHealth() + bonusHealth)) {
 			customPlayer.setCurrentHealth(customPlayer.getCurrentHealth() + event.getHealAmount());
-		else
+			return;
+		} else {
 			customPlayer.setCurrentHealth(customPlayer.getBaseHealth() + bonusHealth);
+			return;
+		}
 	}
 
 }
