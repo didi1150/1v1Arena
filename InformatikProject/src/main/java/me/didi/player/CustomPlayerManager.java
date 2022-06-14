@@ -1,5 +1,6 @@
 package me.didi.player;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -131,7 +132,8 @@ public class CustomPlayerManager {
 	private void sendHealthBar(CustomPlayer customPlayer) {
 		Player player = Bukkit.getPlayer(customPlayer.getUuid());
 		int maxHealth = (int) (customPlayer.getBaseHealth() + getBonusHealth(player));
-		ChatUtils.sendActionBar(player, ChatColor.RED + "" + customPlayer.getCurrentHealth() + "/" + maxHealth + "❤");
+		ChatUtils.sendActionBar(player, ChatColor.RED + ""
+				+ new DecimalFormat("#").format(customPlayer.getCurrentHealth()) + "/" + maxHealth + "❤");
 	}
 
 	public int getBonusHealth(Player player) {
