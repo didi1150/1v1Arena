@@ -14,6 +14,7 @@ import me.didi.gamesystem.countdowns.LobbyCountdown;
 import me.didi.gamesystem.gameStates.LobbyState;
 import me.didi.player.CustomPlayerManager;
 import me.didi.utilities.ChatUtils;
+import me.didi.utilities.ConfigHandler;
 import me.didi.utilities.ItemBuilder;
 import net.md_5.bungee.api.ChatColor;
 
@@ -23,16 +24,23 @@ public class JoinListener implements Listener {
 
 	private GameStateManager gameStateManager;
 	private CustomPlayerManager customPlayerManager;
+	private ConfigHandler configHandler;
 
-	public JoinListener(MainClass plugin, GameStateManager gameStateManager, CustomPlayerManager customPlayerManager) {
+	public JoinListener(MainClass plugin, GameStateManager gameStateManager, CustomPlayerManager customPlayerManager,
+			ConfigHandler configHandler) {
 		this.plugin = plugin;
 		this.gameStateManager = gameStateManager;
 		this.customPlayerManager = customPlayerManager;
+		this.configHandler = configHandler;
 	}
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		event.setJoinMessage(null);
+
+		if (!configHandler.isSetupFinished())
+			return;
+
 		if (gameStateManager.getCurrentGameState() instanceof LobbyState) {
 			Player player = event.getPlayer();
 

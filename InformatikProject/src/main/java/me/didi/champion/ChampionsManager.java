@@ -54,7 +54,7 @@ public class ChampionsManager {
 
 	public static void registerChampions(AbilityStateManager abilityCooldownManager,
 			SpecialEffectsManager specialEffectsManager, CustomPlayerManager customPlayerManager, MainClass plugin) {
-		selectableChampions.add(new Lloyd("Lloyd", new Ability[] { new LloydFirstAbility(),
+		selectableChampions.add(new Lloyd(ChatColor.GREEN + "Lloyd", new Ability[] { new LloydFirstAbility(),
 
 				new LloydSecondAbility(),
 
@@ -63,7 +63,7 @@ public class ChampionsManager {
 				new LloydUltimate() }, 50, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_LLOYD),
 				new ItemBuilder(new ItemStack(Material.GOLD_SWORD)).setDisplayName(ChatColor.GOLD + "Katana")
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "6").toItemStack()));
-		selectableChampions.add(new Anakin("Anakin", new Ability[] { new AnakinFirstAbility(),
+		selectableChampions.add(new Anakin(ChatColor.BLUE + "Anakin", new Ability[] { new AnakinFirstAbility(),
 
 				new AnakinSecondAbility(),
 
@@ -72,7 +72,7 @@ public class ChampionsManager {
 				new AnakinUltimate() }, 75, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_ANAKIN),
 				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName(ChatColor.AQUA + "Lightsaber").addGlow()
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "7").toItemStack()));
-		selectableChampions.add(new Rex("Rex", new Ability[] {
+		selectableChampions.add(new Rex(ChatColor.BLUE + "Rex", new Ability[] {
 
 				new RexFirstAbility(),
 
@@ -83,7 +83,7 @@ public class ChampionsManager {
 				new RexUltimate() }, 75, 50, 50, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_REX),
 				new ItemBuilder(new ItemStack(Material.IRON_BARDING)).setDisplayName(ChatColor.AQUA + "Blaster")
 						.addGlow().setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "5").toItemStack()));
-		selectableChampions.add(new Perry("Perry", new Ability[] {
+		selectableChampions.add(new Perry(ChatColor.DARK_GREEN + "Perry", new Ability[] {
 
 				new PerryFirstAbility(),
 
@@ -96,7 +96,7 @@ public class ChampionsManager {
 		}, 100, 0, 0, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_PERRY),
 				new ItemBuilder(new ItemStack(Material.ANVIL)).setDisplayName(ChatColor.GREEN + "Fist")
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "10").toItemStack()));
-		selectableChampions.add(new Brand("Brand", new Ability[] {
+		selectableChampions.add(new Brand(ChatColor.GOLD + "Brand", new Ability[] {
 
 				new BrandFirstAbility(),
 

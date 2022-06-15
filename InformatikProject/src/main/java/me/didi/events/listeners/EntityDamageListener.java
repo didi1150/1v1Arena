@@ -15,6 +15,7 @@ import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.gamesystem.gameStates.IngameState;
+import me.didi.menus.ScoreboardHandler;
 import me.didi.player.CustomPlayer;
 import me.didi.player.CustomPlayerManager;
 
@@ -35,6 +36,10 @@ public class EntityDamageListener implements Listener {
 			return;
 		}
 		if (event.getEntity() instanceof Player) {
+			Bukkit.getOnlinePlayers().forEach(pl -> {
+				ScoreboardHandler.getInstance().updateScoreboard(pl);
+			});
+
 			if (event.getCause() == DamageCause.FIRE_TICK) {
 				event.setCancelled(true);
 				return;
@@ -66,6 +71,10 @@ public class EntityDamageListener implements Listener {
 			event.setCancelled(true);
 			return;
 		}
+		Bukkit.getOnlinePlayers().forEach(pl -> {
+			ScoreboardHandler.getInstance().updateScoreboard(pl);
+		});
+
 		if (event.getDamager() instanceof Player) {
 			Player attacker = (Player) event.getDamager();
 			event.setCancelled(true);
@@ -84,7 +93,9 @@ public class EntityDamageListener implements Listener {
 
 		boolean knockback = event.isKnockback();
 		if (event.getEntity() instanceof Player) {
-
+			Bukkit.getOnlinePlayers().forEach(pl -> {
+				ScoreboardHandler.getInstance().updateScoreboard(pl);
+			});
 			Player player = (Player) event.getEntity();
 
 			double calculatedDamage = event.getDamage();

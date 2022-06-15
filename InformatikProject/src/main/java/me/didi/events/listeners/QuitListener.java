@@ -13,6 +13,7 @@ import me.didi.gamesystem.countdowns.LobbyCountdown;
 import me.didi.gamesystem.gameStates.IngameState;
 import me.didi.gamesystem.gameStates.LobbyState;
 import me.didi.utilities.ChatUtils;
+import me.didi.utilities.ConfigHandler;
 import net.md_5.bungee.api.ChatColor;
 
 public class QuitListener implements Listener {
@@ -22,14 +23,21 @@ public class QuitListener implements Listener {
 	private GameStateManager gameStateManager;
 	private AbilityStateManager abilityStateManager;
 
-	public QuitListener(MainClass plugin, GameStateManager gameStateManager, AbilityStateManager abilityStateManager) {
+	private ConfigHandler configHandler;
+
+	public QuitListener(MainClass plugin, GameStateManager gameStateManager, AbilityStateManager abilityStateManager,
+			ConfigHandler configHandler) {
 		this.plugin = plugin;
 		this.gameStateManager = gameStateManager;
 		this.abilityStateManager = abilityStateManager;
+		this.configHandler = configHandler;
 	}
 
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
+		if (!configHandler.isSetupFinished())
+			return;
+
 		event.setQuitMessage(null);
 		Player player = event.getPlayer();
 		if (gameStateManager.getCurrentGameState() instanceof LobbyState) {

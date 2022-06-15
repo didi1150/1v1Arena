@@ -8,15 +8,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
+import me.didi.commands.subcommands.AddSpawnCommand;
+import me.didi.commands.subcommands.SetupCommand;
 import me.didi.commands.subcommands.StartCommand;
 import me.didi.gamesystem.GameStateManager;
+import me.didi.utilities.ConfigHandler;
 
 public class CommandManager implements TabExecutor {
 
 	private ArrayList<SubCommand> subcommands = new ArrayList<>();
 
-	public CommandManager(GameStateManager gameStateManager) {
+	public CommandManager(GameStateManager gameStateManager, ConfigHandler configHandler) {
 		subcommands.add(new StartCommand(gameStateManager));
+		subcommands.add(new SetupCommand(configHandler));
+		subcommands.add(new AddSpawnCommand(configHandler));
 	}
 
 	@Override

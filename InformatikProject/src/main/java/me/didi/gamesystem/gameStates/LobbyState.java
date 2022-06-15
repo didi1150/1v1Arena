@@ -6,13 +6,13 @@ import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.countdowns.LobbyCountdown;
 import me.didi.utilities.ChatUtils;
 
-public class LobbyState extends GameState{
+public class LobbyState extends GameState {
 
-	public static final int MAX_PLAYERS = 2;
-	public static final int MIN_PLAYERS = 1;
-	
+	public static int MAX_PLAYERS = 2;
+	public static int MIN_PLAYERS = 1;
+
 	private LobbyCountdown countdown;
-	
+
 	public LobbyState(LobbyCountdown countdown) {
 		this.countdown = countdown;
 	}
@@ -30,5 +30,5 @@ public class LobbyState extends GameState{
 	public LobbyCountdown getCountdown() {
 		return countdown;
 	}
-	
+
 }

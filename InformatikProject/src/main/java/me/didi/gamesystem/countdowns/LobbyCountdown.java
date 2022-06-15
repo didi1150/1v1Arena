@@ -3,8 +3,8 @@ package me.didi.gamesystem.countdowns;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.champion.ChampionsManager;
@@ -14,6 +14,7 @@ import me.didi.gamesystem.GameStateManager;
 import me.didi.gamesystem.gameStates.LobbyState;
 import me.didi.player.CustomPlayerManager;
 import me.didi.utilities.ChatUtils;
+import me.didi.utilities.ConfigHandler;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.TaskManager;
 
@@ -24,6 +25,7 @@ public class LobbyCountdown extends Countdown {
 	private GameStateManager gameStateManager;
 	private boolean isIdling;
 
+	private ConfigHandler configHandler;
 	private CustomPlayerManager customPlayerManager;
 	private ChampionsManager championsManager;
 
@@ -34,8 +36,9 @@ public class LobbyCountdown extends Countdown {
 	private boolean isRunning;
 
 	public LobbyCountdown(GameStateManager gameStateManager, CustomPlayerManager customPlayerManager,
-			ChampionsManager championsManager) {
+			ChampionsManager championsManager, ConfigHandler configHandler) {
 		this.gameStateManager = gameStateManager;
+		this.configHandler = configHandler;
 		this.seconds = COUNTDOWN_TIME;
 		this.customPlayerManager = customPlayerManager;
 		this.championsManager = championsManager;
@@ -69,7 +72,9 @@ public class LobbyCountdown extends Countdown {
 
 			if (seconds == 0) {
 
-				Bukkit.getOnlinePlayers().forEach(player -> {
+				int index = 0;
+
+				for (Player player : Bukkit.getOnlinePlayers()) {
 					player.getInventory().clear();
 					Ability[] abilities = championsManager.getSelectedChampion(player).getAbilities();
 					for (int i = 0; i < abilities.length; i++) {
@@ -87,7 +92,10 @@ public class LobbyCountdown extends Countdown {
 					customPlayerManager.addPlayer(player);
 					player.getInventory().setHelmet(championsManager.getSelectedChampion(player).getIcon());
 
-				});
+					if (configHandler.getSpawnLocations() != null)
+						player.teleport(configHandler.getSpawnLocations().get(index));
+					index++;
+				}
 
 				customPlayerManager.startBackgroundTask();
 				gameStateManager.setGameState(GameState.INGAME_STATE);
@@ -100,15 +108,6 @@ public class LobbyCountdown extends Countdown {
 			});
 
 			seconds--;
-			
-			new BukkitRunnable() {
-				
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					
-				}
-			};
 		});
 //		taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(gameStateManager.getPlugin(), new Runnable() {
 //

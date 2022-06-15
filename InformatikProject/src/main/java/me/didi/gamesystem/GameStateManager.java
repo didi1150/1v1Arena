@@ -8,6 +8,7 @@ import me.didi.gamesystem.gameStates.EndingState;
 import me.didi.gamesystem.gameStates.IngameState;
 import me.didi.gamesystem.gameStates.LobbyState;
 import me.didi.player.CustomPlayerManager;
+import me.didi.utilities.ConfigHandler;
 
 public class GameStateManager {
 
@@ -17,14 +18,16 @@ public class GameStateManager {
 
 	private GameState currentGameState;
 
+	private ConfigHandler configHandler;
 
 	public GameStateManager(MainClass plugin, CustomPlayerManager customPlayerManager,
-			ChampionsManager championsManager) {
+			ChampionsManager championsManager, ConfigHandler configHandler) {
 		this.plugin = plugin;
+		this.configHandler = configHandler;
 		this.gameStates = new GameState[3];
 
 		gameStates[GameState.LOBBY_STATE] = new LobbyState(
-				new LobbyCountdown(this, customPlayerManager, championsManager));
+				new LobbyCountdown(this, customPlayerManager, championsManager, configHandler));
 		gameStates[GameState.INGAME_STATE] = new IngameState();
 		gameStates[GameState.ENDING_STATE] = new EndingState(new EndingCountdown(this, customPlayerManager), plugin);
 
@@ -34,7 +37,8 @@ public class GameStateManager {
 		if (currentGameState != null)
 			currentGameState.stop();
 		currentGameState = gameStates[gameStateID];
-		currentGameState.start();
+		if (configHandler.isSetupFinished())
+			currentGameState.start();
 	}
 
 	public void stopCurrentGameState() {

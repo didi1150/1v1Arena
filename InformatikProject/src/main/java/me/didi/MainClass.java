@@ -27,8 +27,10 @@ import me.didi.events.listeners.QuitListener;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.menus.PlayerMenuUtility;
+import me.didi.menus.ScoreboardHandler;
 import me.didi.player.CustomPlayerManager;
 import me.didi.player.effects.SpecialEffectsManager;
+import me.didi.utilities.ConfigHandler;
 import me.didi.utilities.ItemManager;
 import me.didi.utilities.TaskManager;
 
@@ -52,16 +54,22 @@ public class MainClass extends JavaPlugin {
 
 	private SpecialEffectsManager specialEffectsManager;
 
+	private ConfigHandler configHandler;
+
 	@Override
 	public void onEnable() {
 		plugin = this;
+
+		ConfigHandler.init(this);
+
+		configHandler = ConfigHandler.getInstance();
 
 		TaskManager.init(this);
 
 		alivePlayers = new ArrayList<UUID>();
 		ChampionsManager.init();
 		championsManager = ChampionsManager.getInstance();
-		
+
 		specialEffectsManager = new SpecialEffectsManager(this);
 
 		AbilityStateManager.init(championsManager, new ItemManager());
@@ -74,12 +82,13 @@ public class MainClass extends JavaPlugin {
 
 		ChampionsManager.registerChampions(abilityStateManager, specialEffectsManager, customPlayerManager, this);
 
-		gameStateManager = new GameStateManager(this, customPlayerManager, championsManager);
+		gameStateManager = new GameStateManager(this, customPlayerManager, championsManager, configHandler);
 		gameStateManager.setGameState(GameState.LOBBY_STATE);
 
+		ScoreboardHandler.init(this, customPlayerManager, championsManager);
+		
 		registerListeners();
-		getCommand("project").setExecutor(new CommandManager(gameStateManager));
-
+		getCommand("project").setExecutor(new CommandManager(gameStateManager, configHandler));
 	}
 
 	@Override
@@ -99,8 +108,8 @@ public class MainClass extends JavaPlugin {
 	private void registerListeners() {
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(new InventoryListener(), this);
-		pm.registerEvents(new JoinListener(this, gameStateManager, customPlayerManager), this);
-		pm.registerEvents(new QuitListener(this, gameStateManager, abilityStateManager), this);
+		pm.registerEvents(new JoinListener(this, gameStateManager, customPlayerManager, configHandler), this);
+		pm.registerEvents(new QuitListener(this, gameStateManager, abilityStateManager, configHandler), this);
 		pm.registerEvents(new PlayerInteractListener(championsManager, gameStateManager, abilityStateManager,
 				specialEffectsManager), this);
 		pm.registerEvents(new EntityDamageListener(customPlayerManager, gameStateManager), this);
