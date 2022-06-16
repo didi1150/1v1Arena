@@ -70,8 +70,6 @@ public class BrandUltimate implements Ability {
 		MathUtils.shootProjectile(player, 7.5, new ItemStack(Material.FIREBALL), 50, false, 0.75,
 				new ParticleBuilder(ParticleEffect.FLAME).setSpeed(0.1f), DamageReason.MAGIC, entity -> {
 					drawUltimate(player, entity, 4, specialEffectsManager);
-
-					entity.setFireTicks(entity.getFireTicks() + 4 * 20);
 					specialEffectsManager.addSpecialEffect(new BurnEffect(player, entity, 4, 3));
 				});
 	}
@@ -97,10 +95,7 @@ public class BrandUltimate implements Ability {
 				if (angle >= 360) {
 
 					DamageManager.damageEntity(player, entity, DamageReason.MAGIC, 25, false);
-					entity.setFireTicks(4 * 20);
 					specialEffectsManager.addSpecialEffect(new BurnEffect(player, entity, 4, 3));
-					entity.setFireTicks(entity.getFireTicks() + 4 * 20);
-
 					TaskManager.getInstance().runTaskLater(20 * 1, delayTask -> {
 						ParticleBuilder particleBuilder = new ParticleBuilder(ParticleEffect.FLAME).setSpeed(0.1f)
 								.setAmount(10);

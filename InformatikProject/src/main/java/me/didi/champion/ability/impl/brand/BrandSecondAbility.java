@@ -123,7 +123,6 @@ public class BrandSecondAbility implements Ability {
 							if (higherX - lowerX <= 5 && higherZ - lowerZ <= 5) {
 								DamageManager.damageEntity(player, entity, DamageReason.MAGIC, 20, false);
 								specialEffectsManager.addSpecialEffect(new BurnEffect(player, entity, 4, 3));
-								entity.setFireTicks(entity.getFireTicks() + 4 * 19 - 1);
 							}
 						});
 			}

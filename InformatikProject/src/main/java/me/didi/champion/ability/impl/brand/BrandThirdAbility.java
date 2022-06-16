@@ -104,8 +104,6 @@ public class BrandThirdAbility implements Ability {
 	}
 
 	private void burnEntity(Entity target, SpecialEffectsManager specialEffectsManager, Player player) {
-		target.setFireTicks(target.getFireTicks() + 20 * 1);
-
 		DamageManager.damageEntity(player, target, DamageReason.MAGIC, 20, false);
 		specialEffectsManager.addSpecialEffect(new BurnEffect(player, target, 4, 3));
 	}

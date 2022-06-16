@@ -12,6 +12,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.effects.BurnEffect;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.player.effects.StunEffect;
 import me.didi.utilities.ItemBuilder;
@@ -62,7 +63,7 @@ public class BrandFirstAbility implements Ability {
 						specialEffectsManager.addSpecialEffect(new StunEffect(player, entity, 1.5));
 
 					DamageManager.damageEntity(player, entity, DamageReason.MAGIC, 20, false);
-					entity.setFireTicks(entity.getFireTicks() + 4 * 19 - 1);
+					specialEffectsManager.addSpecialEffect(new BurnEffect(player, entity, 4, 1));
 				});
 	}
 

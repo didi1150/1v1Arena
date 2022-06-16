@@ -17,6 +17,7 @@ public class BurnEffect extends SpecialEffect {
 
 	public BurnEffect(Entity from, Entity to, double duration, double damagePerSec) {
 		super(from, to, duration);
+		to.setFireTicks((int) (4 * duration));
 		burnEnemy(from, to, damagePerSec);
 	}
 

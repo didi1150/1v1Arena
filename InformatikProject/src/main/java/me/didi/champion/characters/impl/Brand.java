@@ -26,7 +26,6 @@ public class Brand extends MageChampion {
 					DamageManager.damageEntity(player, entity, DamageReason.AUTO, customPlayerManager.getDamage(player),
 							true);
 					specialEffectsManager.addSpecialEffect(new BurnEffect(player, entity, 4, 3));
-					entity.setFireTicks(entity.getFireTicks() + 4 * 19 - 1);
 				});
 	}
 }
