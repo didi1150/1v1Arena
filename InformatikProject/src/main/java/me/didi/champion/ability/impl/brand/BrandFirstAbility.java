@@ -59,9 +59,9 @@ public class BrandFirstAbility implements Ability {
 		abilityStateManager.addCooldown(player, 0, getCooldown());
 		MathUtils.shootProjectile(player, 10, new ItemStack(Material.FIREBALL), 10, false, 0.8,
 				new ParticleBuilder(ParticleEffect.FLAME), DamageReason.MAGIC, entity -> {
-					if (entity.getFireTicks() > 0)
+					if (entity.getFireTicks() > 0) {
 						specialEffectsManager.addSpecialEffect(new StunEffect(player, entity, 1.5));
-
+					}
 					DamageManager.damageEntity(player, entity, DamageReason.MAGIC, 20, false);
 					specialEffectsManager.addSpecialEffect(new BurnEffect(player, entity, 4, 1));
 				});

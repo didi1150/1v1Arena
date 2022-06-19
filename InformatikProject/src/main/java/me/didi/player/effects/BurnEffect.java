@@ -8,6 +8,7 @@ import org.bukkit.event.Event;
 
 import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ParticleUtils;
 import me.didi.utilities.TaskManager;
 import net.minecraft.server.v1_8_R3.AxisAlignedBB;
@@ -17,7 +18,7 @@ public class BurnEffect extends SpecialEffect {
 
 	public BurnEffect(Entity from, Entity to, double duration, double damagePerSec) {
 		super(from, to, duration);
-		to.setFireTicks((int) (4 * duration));
+		to.setFireTicks(to.getFireTicks() + (int) (20 * duration));
 		burnEnemy(from, to, damagePerSec);
 	}
 
