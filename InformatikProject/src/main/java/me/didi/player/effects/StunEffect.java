@@ -11,6 +11,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.events.customEvents.AbilityCastEvent;
@@ -45,10 +46,33 @@ public class StunEffect extends SpecialEffect {
 				endEffect();
 
 			if (counter.get() % 3 == 0) {
-				ParticleUtils.drawCircle(ParticleEffect.REDSTONE, new Color(85, 0, 102),
-						highLocation.clone().add(0, 0.5, 0), radius);
-				ParticleUtils.drawCircle(ParticleEffect.REDSTONE, new Color(85, 0, 102),
-						highLocation.clone().add(0, 0.25, 0), radius);
+
+				final int batAmount = 40;
+				final double increments = 4 * Math.PI / batAmount; // the angle to increment so all bats are evenly
+																	// spaced
+																	// out
+
+				double increase = 0.35 / batAmount;
+				double startRadius = 0.03;
+				for (double t = 0; t < 4 * Math.PI; t += increments) {
+
+					double x = startRadius * Math.cos(t);
+					double z = startRadius * Math.sin(t);
+
+					Vector rotatedVector = new Vector(x, 0, z);
+					double angleRadians = Math.toRadians(90);
+					rotatedVector = MathUtils.rotateAroundAxisX(rotatedVector, Math.cos(angleRadians),
+							Math.sin(angleRadians));
+
+					float yaw = to.getLocation().getYaw();
+					double yawRadians = -Math.toRadians(yaw);
+					rotatedVector = MathUtils.rotateAroundAxisY(rotatedVector, Math.cos(yawRadians),
+							Math.sin(yawRadians));
+					Location loc = highLocation.add(rotatedVector);
+
+					ParticleEffect.REDSTONE.display(loc, new Color(85, 0, 102));
+					startRadius += increase;
+				}
 			}
 		});
 	}

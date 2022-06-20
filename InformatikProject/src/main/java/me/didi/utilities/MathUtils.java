@@ -194,15 +194,52 @@ public class MathUtils {
 		});
 	}
 
-	public static int round(double d){
-	    double dAbs = Math.abs(d);
-	    int i = (int) dAbs;
-	    double result = dAbs - (double) i;
-	    if(result<0.5){
-	        return d<0 ? -i : i;            
-	    }else{
-	        return d<0 ? -(i+1) : i+1;          
-	    }
+	public static int round(double d) {
+		double dAbs = Math.abs(d);
+		int i = (int) dAbs;
+		double result = dAbs - (double) i;
+		if (result < 0.5) {
+			return d < 0 ? -i : i;
+		} else {
+			return d < 0 ? -(i + 1) : i + 1;
+		}
+	}
+
+	/**
+	 * Convert to radians first
+	 * 
+	 * @param cos insert angle in cos function
+	 * @param sin insert angle in sin function
+	 * */
+	public static Vector rotateAroundAxisX(Vector v, double cos, double sin) {
+		double y = v.getY() * cos - v.getZ() * sin;
+		double z = v.getY() * sin + v.getZ() * cos;
+		return v.setY(y).setZ(z);
 	}
 	
+	/**
+	 * Convert to radians first
+	 * Also angle is negated => use -angle
+	 * 
+	 * @param cos insert -angle in cos function
+	 * @param sin insert -angle in sin function
+	 * */
+	public static Vector rotateAroundAxisY(Vector v, double cos, double sin) {
+		double x = v.getX() * cos + v.getZ() * sin;
+		double z = v.getX() * -sin + v.getZ() * cos;
+		return v.setX(x).setZ(z);
+	}
+
+	/**
+	 * Convert to radians first
+	 * 
+	 * @param cos insert angle in cos function
+	 * @param sin insert angle in sin function
+	 * */
+	public static Vector rotateAroundAxisZ(Vector v, double cos, double sin) {
+		double x = v.getX() * cos - v.getY() * sin;
+		double y = v.getX() * sin + v.getY() * cos;
+		return v.setX(x).setY(y);
+	}
+
 }
