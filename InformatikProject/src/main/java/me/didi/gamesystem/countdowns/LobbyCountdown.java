@@ -1,12 +1,18 @@
 package me.didi.gamesystem.countdowns;
 
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
+import me.didi.champion.Champion;
 import me.didi.champion.ChampionsManager;
 import me.didi.champion.ability.Ability;
 import me.didi.gamesystem.GameState;
@@ -54,6 +60,27 @@ public class LobbyCountdown extends Countdown {
 				ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel startet in " + ChatColor.GOLD + seconds
 						+ ChatColor.YELLOW + " Sekunden!");
 			}
+			if (seconds == 5) {
+				Bukkit.getOnlinePlayers().forEach(player -> {
+					player.playSound(player.getLocation(), Sound.ANVIL_LAND, 10, 1);
+
+					Champion selectedChampion = championsManager.getSelectedChampion(player);
+
+					if (selectedChampion == null) {
+						Set<Champion> championSet = new HashSet<Champion>(championsManager.getSelectableChampions());
+						selectedChampion = championSet.stream().skip(new Random().nextInt(championSet.size()))
+								.findFirst().orElse(null);
+
+						championsManager.setSelectedChampion(player.getUniqueId(), selectedChampion);
+						ChatUtils.sendMessageToPlayer(player, ChatColor.YELLOW + "Du hast den Champion "
+								+ selectedChampion.getName() + ChatColor.YELLOW + " ausgewählt.");
+					}
+
+					player.getInventory().clear();
+
+				});
+			}
+
 			if (seconds <= 5 && seconds > 0) {
 				if (seconds == 1) {
 					ChatUtils.broadCastMessage(ChatColor.YELLOW + "Das Spiel startet in " + ChatColor.GOLD + seconds
@@ -76,12 +103,20 @@ public class LobbyCountdown extends Countdown {
 
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					player.getInventory().clear();
-					Ability[] abilities = championsManager.getSelectedChampion(player).getAbilities();
+					Champion selectedChampion = championsManager.getSelectedChampion(player);
+
+					if (selectedChampion == null) {
+						Set<Champion> championSet = new HashSet<Champion>(championsManager.getSelectableChampions());
+						championsManager.setSelectedChampion(player.getUniqueId(), championSet.stream()
+								.skip(new Random().nextInt(championSet.size())).findFirst().orElse(null));
+					}
+
+					Ability[] abilities = selectedChampion.getAbilities();
 					for (int i = 0; i < abilities.length; i++) {
 						player.getInventory().setItem(i, abilities[i].getIcon());
 					}
 
-					ItemStack autoAttackItem = championsManager.getSelectedChampion(player).getAutoAttackItem();
+					ItemStack autoAttackItem = selectedChampion.getAutoAttackItem();
 
 					player.getInventory().setItem(4, autoAttackItem);
 					for (int i = 5; i < 9; i++) {
@@ -89,8 +124,8 @@ public class LobbyCountdown extends Countdown {
 								new ItemBuilder(new ItemStack(Material.BARRIER)).setDisplayName(ChatColor.RED + "NA")
 										.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack());
 					}
-					customPlayerManager.addPlayer(player);
-					player.getInventory().setHelmet(championsManager.getSelectedChampion(player).getIcon());
+					customPlayerManager.addPlayer(player, selectedChampion);
+					player.getInventory().setHelmet(selectedChampion.getIcon());
 
 					if (configHandler.getSpawnLocations() != null)
 						player.teleport(configHandler.getSpawnLocations().get(index));
