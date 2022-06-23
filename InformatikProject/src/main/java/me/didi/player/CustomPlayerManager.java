@@ -15,6 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.MainClass;
+import me.didi.champion.Champion;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.events.customEvents.CustomPlayerHealEvent;
 import me.didi.events.customEvents.HealReason;
@@ -47,12 +48,12 @@ public class CustomPlayerManager {
 		return instance;
 	}
 
-	public void addPlayer(Player player) {
+	public void addPlayer(Player player, Champion champion) {
 
 		UUID uuid = player.getUniqueId();
 		String name = player.getName();
 
-		players.put(uuid, new CustomPlayer(100, 10, 10, 5, 5, uuid, name));
+		players.put(uuid, new CustomPlayer(champion.getBaseHealth(), champion.getBaseDefense(), champion.getBaseMagicResist(), 5, 5, uuid, name));
 
 	}
 
