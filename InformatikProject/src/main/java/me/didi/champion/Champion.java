@@ -26,6 +26,9 @@ public abstract class Champion {
 	private int baseHealth;
 	private int baseDefense;
 	private int baseMagicResist;
+	private int baseArmorPenetration;
+	private int baseMagicPenetration;
+	
 	protected Player player;
 
 	protected MainClass plugin;
@@ -113,6 +116,20 @@ public abstract class Champion {
 		return baseHealth;
 	}
 
+	/**
+	 * Returns this champion's base armor penetration
+	 * */
+	public int getBaseArmorPenetration() {
+		return baseArmorPenetration;
+	}
+	
+	/**
+	 * Returns this champion's base armor penetration
+	 * */
+	public int getBaseMagicPenetration() {
+		return baseMagicPenetration;
+	}
+	
 	public Ability[] getAbilities() {
 		return abilities;
 	}
