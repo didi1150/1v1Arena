@@ -28,6 +28,7 @@ import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.menus.PlayerMenuUtility;
 import me.didi.menus.ScoreboardHandler;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.CustomPlayerManager;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ConfigHandler;
@@ -56,6 +57,8 @@ public class MainClass extends JavaPlugin {
 
 	private ConfigHandler configHandler;
 
+	private CurrentStatGetter currentStatGetter;
+
 	@Override
 	public void onEnable() {
 		plugin = this;
@@ -80,13 +83,16 @@ public class MainClass extends JavaPlugin {
 		CustomPlayerManager.init(this, abilityStateManager);
 		customPlayerManager = CustomPlayerManager.getInstance();
 
+		CurrentStatGetter.init(customPlayerManager);
+		this.currentStatGetter = CurrentStatGetter.getInstance();
+
 		ChampionsManager.registerChampions(abilityStateManager, specialEffectsManager, customPlayerManager, this);
 
 		gameStateManager = new GameStateManager(this, customPlayerManager, championsManager, configHandler);
 		gameStateManager.setGameState(GameState.LOBBY_STATE);
 
 		ScoreboardHandler.init(this, customPlayerManager, championsManager);
-		
+
 		registerListeners();
 		getCommand("project").setExecutor(new CommandManager(gameStateManager, configHandler));
 	}
@@ -112,7 +118,7 @@ public class MainClass extends JavaPlugin {
 		pm.registerEvents(new QuitListener(this, gameStateManager, abilityStateManager, configHandler), this);
 		pm.registerEvents(new PlayerInteractListener(championsManager, gameStateManager, abilityStateManager,
 				specialEffectsManager), this);
-		pm.registerEvents(new EntityDamageListener(customPlayerManager, gameStateManager), this);
+		pm.registerEvents(new EntityDamageListener(gameStateManager, currentStatGetter), this);
 		pm.registerEvents(new BlockListener(), this);
 		pm.registerEvents(new DeathListener(this, customPlayerManager, gameStateManager), this);
 		pm.registerEvents(new DropItemListener(), this);
