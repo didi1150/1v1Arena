@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitTask;
 import me.didi.champion.Champion;
 import me.didi.champion.ChampionsManager;
 import me.didi.utilities.ItemBuilder;
-import me.didi.utilities.ItemManager;
+import me.didi.utilities.ItemSetter;
 import me.didi.utilities.TaskManager;
 import net.md_5.bungee.api.ChatColor;
 
@@ -23,11 +23,11 @@ public class AbilityStateManager {
 	private static Map<UUID, AbilityState> abilityStates = new HashMap<UUID, AbilityState>();
 
 	private static ChampionsManager championsManager;
-	private static ItemManager itemManager;
+	private static ItemSetter itemManager;
 
 	private static AbilityStateManager instance;
 
-	public static void init(ChampionsManager championsManager, ItemManager itemManager) {
+	public static void init(ChampionsManager championsManager, ItemSetter itemManager) {
 		if (instance == null)
 			instance = new AbilityStateManager();
 		AbilityStateManager.championsManager = championsManager;

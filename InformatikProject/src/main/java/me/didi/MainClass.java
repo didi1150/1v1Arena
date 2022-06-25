@@ -32,7 +32,7 @@ import me.didi.player.CurrentStatGetter;
 import me.didi.player.CustomPlayerManager;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ConfigHandler;
-import me.didi.utilities.ItemManager;
+import me.didi.utilities.ItemSetter;
 import me.didi.utilities.TaskManager;
 
 public class MainClass extends JavaPlugin {
@@ -75,7 +75,7 @@ public class MainClass extends JavaPlugin {
 
 		specialEffectsManager = new SpecialEffectsManager(this);
 
-		AbilityStateManager.init(championsManager, new ItemManager());
+		AbilityStateManager.init(championsManager, new ItemSetter());
 
 		abilityStateManager = AbilityStateManager.getInstance();
 		abilityStateManager.startBackGroundTask();

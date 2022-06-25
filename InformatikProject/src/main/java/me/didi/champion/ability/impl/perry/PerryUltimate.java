@@ -19,7 +19,7 @@ import me.didi.player.CustomPlayer;
 import me.didi.player.CustomPlayerManager;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
-import me.didi.utilities.ItemManager;
+import me.didi.utilities.ItemSetter;
 import me.didi.utilities.TaskManager;
 import xyz.xenondevs.particle.ParticleEffect;
 
@@ -74,7 +74,7 @@ public class PerryUltimate implements Ability {
 					}
 				}
 			});
-			new ItemManager().setItem(player, 3, new ItemBuilder(getIcon().clone()).addGlow().toItemStack());
+			new ItemSetter().setItem(player, 3, new ItemBuilder(getIcon().clone()).addGlow().toItemStack());
 			CustomPlayer customPlayer = CustomPlayerManager.getInstance().getPlayer(player.getUniqueId());
 			customPlayer.setBaseDefense(customPlayer.getBaseDefense() * 1.3f);
 			customPlayer.setBaseHealth(customPlayer.getBaseHealth() * 1.3f);

@@ -24,7 +24,7 @@ import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
-import me.didi.utilities.ItemManager;
+import me.didi.utilities.ItemSetter;
 import me.didi.utilities.TaskManager;
 import xyz.xenondevs.particle.ParticleEffect;
 
@@ -173,7 +173,7 @@ public class LloydUltimate extends Recastable implements Ability {
 
 	private void airjitzu(Player player, AbilityStateManager abilityStateManager) {
 
-		new ItemManager().setItem(player, 3, new ItemBuilder(getIcon().clone()).addGlow().toItemStack());
+		new ItemSetter().setItem(player, 3, new ItemBuilder(getIcon().clone()).addGlow().toItemStack());
 		player.setAllowFlight(true);
 		player.setFlying(true);
 
@@ -261,7 +261,7 @@ public class LloydUltimate extends Recastable implements Ability {
 			}
 		}));
 
-		new ItemManager().setItem(player, 3, new ItemBuilder(getIcon().clone()).addGlow().toItemStack());
+		new ItemSetter().setItem(player, 3, new ItemBuilder(getIcon().clone()).addGlow().toItemStack());
 		recastCounters.put(player, recastCounters.get(player) + 1);
 	}
 
