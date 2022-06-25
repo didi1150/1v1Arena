@@ -2,6 +2,7 @@ package me.didi.utilities;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Material;
@@ -37,6 +38,11 @@ public class ItemBuilder {
 
 	public ItemBuilder setLore(String... lore) {
 		itemMeta.setLore(Arrays.asList(lore));
+		return this;
+	}
+	
+	public ItemBuilder setLore(List<String> lore) {
+		itemMeta.setLore(lore);
 		return this;
 	}
 

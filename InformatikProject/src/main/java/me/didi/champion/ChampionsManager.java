@@ -1,9 +1,9 @@
 package me.didi.champion;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -47,7 +47,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class ChampionsManager {
 
-	private static Set<Champion> selectableChampions = new HashSet<Champion>();
+	private static List<Champion> selectableChampions = new ArrayList<Champion>();
 	private static Map<UUID, Champion> selectedChampions = new HashMap<UUID, Champion>();
 
 	private static ChampionsManager instance;
@@ -60,7 +60,8 @@ public class ChampionsManager {
 
 				new LloydThirdAbility(),
 
-				new LloydUltimate() }, 570, 23, 37, 62, 57, 0, 0, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_LLOYD),
+				new LloydUltimate() }, 570, 23, 37, 62, 57, 0, 0,
+				ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_LLOYD),
 				new ItemBuilder(new ItemStack(Material.GOLD_SWORD)).setDisplayName(ChatColor.GOLD + "Katana")
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "6").toItemStack()));
 		selectableChampions.add(new Anakin(ChatColor.BLUE + "Anakin", new Ability[] { new AnakinFirstAbility(),
@@ -69,7 +70,8 @@ public class ChampionsManager {
 
 				new AnakinThirdAbility(),
 
-				new AnakinUltimate() }, 685, 36, 32, 68, 0, 0, 0, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_ANAKIN),
+				new AnakinUltimate() }, 685, 36, 32, 68, 0, 0, 0,
+				ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_ANAKIN),
 				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName(ChatColor.AQUA + "Lightsaber").addGlow()
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "7").toItemStack()));
 		selectableChampions.add(new Rex(ChatColor.BLUE + "Rex", new Ability[] {
@@ -119,7 +121,7 @@ public class ChampionsManager {
 		});
 	}
 
-	public Set<Champion> getSelectableChampions() {
+	public List<Champion> getSelectableChampions() {
 		return selectableChampions;
 	}
 
