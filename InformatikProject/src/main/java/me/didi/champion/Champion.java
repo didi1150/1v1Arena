@@ -28,7 +28,9 @@ public abstract class Champion {
 	private int baseMagicResist;
 	private int baseArmorPenetration;
 	private int baseMagicPenetration;
-	
+	private int baseAttackDamage;
+	private int baseAbilityPower;
+
 	protected Player player;
 
 	protected MainClass plugin;
@@ -42,12 +44,17 @@ public abstract class Champion {
 	protected CustomPlayerManager customPlayerManager;
 
 	public Champion(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist,
+			int baseAttackDamage, int baseAbilityPower, int baseArmorPenetration, int baseMagicPenetration,
 			ItemStack icon, ItemStack autoAttackItem) {
 		this.name = name;
 		this.abilities = abilities;
 		this.baseHealth = baseHealth;
 		this.baseDefense = baseDefense;
 		this.baseMagicResist = baseMagicResist;
+		this.baseAttackDamage = baseAttackDamage;
+		this.baseAbilityPower = baseAbilityPower;
+		this.baseArmorPenetration = baseArmorPenetration;
+		this.baseMagicPenetration = baseMagicPenetration;
 		this.icon = icon;
 		this.autoAttackItem = autoAttackItem;
 		this.damageManager = new DamageManager();
@@ -118,18 +125,18 @@ public abstract class Champion {
 
 	/**
 	 * Returns this champion's base armor penetration
-	 * */
+	 */
 	public int getBaseArmorPenetration() {
 		return baseArmorPenetration;
 	}
-	
+
 	/**
 	 * Returns this champion's base armor penetration
-	 * */
+	 */
 	public int getBaseMagicPenetration() {
 		return baseMagicPenetration;
 	}
-	
+
 	public Ability[] getAbilities() {
 		return abilities;
 	}
@@ -140,5 +147,13 @@ public abstract class Champion {
 		if (hit instanceof LivingEntity && !(hit instanceof ArmorStand))
 			return true;
 		return false;
+	}
+
+	public int getBaseAttackDamage() {
+		return baseAttackDamage;
+	}
+
+	public int getBaseAbilityPower() {
+		return baseAbilityPower;
 	}
 }

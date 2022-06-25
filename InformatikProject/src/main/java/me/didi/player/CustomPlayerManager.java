@@ -53,7 +53,10 @@ public class CustomPlayerManager {
 		UUID uuid = player.getUniqueId();
 		String name = player.getName();
 
-		players.put(uuid, new CustomPlayer(champion.getBaseHealth(), champion.getBaseDefense(), champion.getBaseMagicResist(), 5, 5, uuid, name));
+		players.put(uuid,
+				new CustomPlayer(champion.getBaseHealth(), champion.getBaseDefense(), champion.getBaseMagicResist(),
+						champion.getBaseArmorPenetration(), champion.getBaseMagicPenetration(),
+						champion.getBaseAttackDamage(), champion.getBaseAbilityPower(), uuid, name));
 
 	}
 
