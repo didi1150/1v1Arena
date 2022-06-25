@@ -105,13 +105,11 @@ public class LloydThirdAbility extends Recastable implements Ability {
 
 				TaskManager.getInstance().repeat(0, 1, task -> {
 					if (armorStand.getLocation().distanceSquared(destination) <= 2) {
-						ChatUtils.sendDebugMessage("removed");
 						armorStand.remove();
 						task.cancel();
 					}
 
 					for (Entity entity : armorStand.getNearbyEntities(2, 2, 2)) {
-						ChatUtils.sendDebugMessage("entity detected");
 						if (DamageManager.isEnemy(player, entity)) {
 							abilityStateManager.removeCooldown(player);
 							abilityStateManager.addRecastCooldown(player, 2, getRecastCountdown());
@@ -176,11 +174,12 @@ public class LloydThirdAbility extends Recastable implements Ability {
 					return;
 
 				markedStand.remove();
-
+				Vector vector = target.getLocation().toVector().subtract(player.getLocation().toVector()).normalize().multiply(3);
 				TaskManager.getInstance().repeatUntil(0, 1, Long.MAX_VALUE, (task, counter) -> {
 
 					if (player.getLocation().distanceSquared(target.getLocation()) <= 5) {
 						abilityStateManager.addCooldown(player, 2, getCooldown());
+						player.setVelocity(new Vector(0, 0, 0));
 						task.cancel();
 
 						DamageManager.damageEntity(player, target, DamageReason.MAGIC, 15, false);
@@ -188,11 +187,7 @@ public class LloydThirdAbility extends Recastable implements Ability {
 						return;
 					}
 
-					if (counter.get() % 5 == 0) {
-						Vector vector = target.getLocation().subtract(player.getLocation()).toVector();
-
-						player.setVelocity(vector);
-					}
+					player.setVelocity(vector);
 				});
 			}
 		};
