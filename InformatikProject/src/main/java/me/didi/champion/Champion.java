@@ -12,6 +12,7 @@ import me.didi.champion.ability.AbilityStateManager;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.player.CustomPlayerManager;
 import me.didi.player.effects.SpecialEffectsManager;
+import me.didi.utilities.BaseStats;
 
 public abstract class Champion {
 
@@ -30,6 +31,8 @@ public abstract class Champion {
 	private int baseMagicPenetration;
 	private int baseAttackDamage;
 	private int baseAbilityPower;
+
+	private BaseStats baseStats;
 
 	protected Player player;
 
@@ -55,6 +58,20 @@ public abstract class Champion {
 		this.baseAbilityPower = baseAbilityPower;
 		this.baseArmorPenetration = baseArmorPenetration;
 		this.baseMagicPenetration = baseMagicPenetration;
+
+	}
+
+	public Champion(String name, Ability[] abilities, BaseStats baseStats, ItemStack icon, ItemStack autoAttackItem) {
+		this.name = name;
+		this.abilities = abilities;
+		this.baseStats = baseStats;
+		this.baseHealth = baseStats.getBaseHealth();
+		this.baseDefense = baseStats.getBaseDefense();
+		this.baseMagicResist = baseStats.getBaseMagicResist();
+		this.baseAttackDamage = baseStats.getBaseAttackDamage();
+		this.baseAbilityPower = baseStats.getBaseAbilityPower();
+		this.baseArmorPenetration = baseStats.getBaseArmorPenetration();
+		this.baseMagicPenetration = baseStats.getBaseMagicPenetration();
 		this.icon = icon;
 		this.autoAttackItem = autoAttackItem;
 		this.damageManager = new DamageManager();
