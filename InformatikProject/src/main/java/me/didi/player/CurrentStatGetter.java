@@ -201,7 +201,7 @@ public class CurrentStatGetter {
 		return 0;
 	}
 
-	private CustomPlayer getCustomPlayer(Player player) {
+	public CustomPlayer getCustomPlayer(Player player) {
 		CustomPlayer customPlayer = customPlayerManager.getPlayer(player.getUniqueId());
 
 		if (customPlayer == null) {

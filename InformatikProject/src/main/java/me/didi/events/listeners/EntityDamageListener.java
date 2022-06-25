@@ -16,17 +16,18 @@ import me.didi.events.customEvents.DamageReason;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.gamesystem.gameStates.IngameState;
 import me.didi.menus.ScoreboardHandler;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.CustomPlayer;
 import me.didi.player.CustomPlayerManager;
 
 public class EntityDamageListener implements Listener {
 
-	private CustomPlayerManager customPlayerManager;
 	private GameStateManager gameStateManager;
+	private CurrentStatGetter currentStatGetter;
 
-	public EntityDamageListener(CustomPlayerManager customPlayerManager, GameStateManager gameStateManager) {
-		this.customPlayerManager = customPlayerManager;
+	public EntityDamageListener(GameStateManager gameStateManager, CurrentStatGetter currentStatGetter) {
 		this.gameStateManager = gameStateManager;
+		this.currentStatGetter = currentStatGetter;
 	}
 
 	@EventHandler
@@ -52,16 +53,18 @@ public class EntityDamageListener implements Listener {
 			Player player = (Player) event.getEntity();
 
 			double damage = event.getDamage();
-			CustomPlayer customPlayer = customPlayerManager.getPlayer(player.getUniqueId());
+			CustomPlayer customPlayer;
+			if ((customPlayer = currentStatGetter.getCustomPlayer(player)) != null) {
 
-			if (customPlayer.getCurrentHealth() - damage <= 0) {
-				customPlayer.setCurrentHealth(customPlayer.getBaseHealth());
-				Bukkit.getPluginManager().callEvent(new CustomPlayerDeathEvent(null, player));
-				return;
+				if (customPlayer.getCurrentHealth() - damage <= 0) {
+					customPlayer.setCurrentHealth(customPlayer.getBaseHealth());
+					Bukkit.getPluginManager().callEvent(new CustomPlayerDeathEvent(null, player));
+					return;
+				}
+
+				customPlayer.setCurrentHealth((int) (customPlayer.getCurrentHealth() - damage));
+				player.damage(0);
 			}
-
-			customPlayer.setCurrentHealth((int) (customPlayer.getCurrentHealth() - damage));
-			player.damage(0);
 		}
 	}
 
@@ -80,7 +83,7 @@ public class EntityDamageListener implements Listener {
 			event.setCancelled(true);
 			if (attacker.getInventory().getHeldItemSlot() == 4)
 				DamageManager.damageEntity(attacker, event.getEntity(), DamageReason.AUTO,
-						customPlayerManager.getDamage(attacker), true);
+						currentStatGetter.getAttackDamage(attacker), true);
 		} else {
 			DamageManager.damageEntity(event.getDamager(), event.getEntity(), DamageReason.AUTO, event.getDamage(),
 					true);
@@ -99,23 +102,22 @@ public class EntityDamageListener implements Listener {
 			Player player = (Player) event.getEntity();
 
 			double calculatedDamage = event.getDamage();
-			CustomPlayer customPlayer = customPlayerManager.getPlayer(player.getUniqueId());
+			CustomPlayer customPlayer;
 
-			if (customPlayer == null)
+			if ((customPlayer = currentStatGetter.getCustomPlayer(player)) == null)
 				return;
 
 			double damage = event.getDamage();
 
 			if (event.getDamageReason() == DamageReason.PHYSICAL || event.getDamageReason() == DamageReason.AUTO) {
-				float defense = customPlayer.getBaseDefense() + customPlayerManager.getBonusDefense(player);
+				float defense = currentStatGetter.getCurrentArmor(player);
 				if (defense >= 0) {
 					calculatedDamage = (100 / (100 + defense)) * damage;
 				} else {
 					calculatedDamage = (2 - (100 / (100 - defense)));
 				}
 			} else if (event.getDamageReason() == DamageReason.MAGIC) {
-				float magicResistance = customPlayer.getMagicResist()
-						+ customPlayerManager.getBonusMagicResistance(player);
+				float magicResistance = currentStatGetter.getCurrentMagicResistance(player);
 				if (magicResistance >= 0) {
 					calculatedDamage = (100 / (100 + magicResistance)) * damage;
 				} else {
