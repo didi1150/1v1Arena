@@ -60,7 +60,7 @@ public class ChampionsManager {
 
 				new LloydThirdAbility(),
 
-				new LloydUltimate() }, 570, 23, 37, 62, 57, 0, 0,
+				new LloydUltimate() }, 1040, 41, 45, 75, 55, 0, 0,
 				ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_LLOYD),
 				new ItemBuilder(new ItemStack(Material.GOLD_SWORD)).setDisplayName(ChatColor.GOLD + "Katana")
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "6").toItemStack()));
@@ -70,7 +70,7 @@ public class ChampionsManager {
 
 				new AnakinThirdAbility(),
 
-				new AnakinUltimate() }, 685, 36, 32, 68, 0, 0, 0,
+				new AnakinUltimate() }, 1076, 52, 40, 84, 0, 0, 0,
 				ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_ANAKIN),
 				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName(ChatColor.AQUA + "Lightsaber").addGlow()
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "7").toItemStack()));
@@ -82,7 +82,7 @@ public class ChampionsManager {
 
 				new RexThirdAbility(),
 
-				new RexUltimate() }, 641, 28, 30, 60, 0, 0, 0, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_REX),
+				new RexUltimate() }, 1036, 44, 35, 71, 0, 0, 0, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_REX),
 				new ItemBuilder(new ItemStack(Material.IRON_BARDING)).setDisplayName(ChatColor.AQUA + "Blaster")
 						.addGlow().setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "5").toItemStack()));
 		selectableChampions.add(new Perry(ChatColor.DARK_GREEN + "Perry", new Ability[] {
@@ -95,7 +95,7 @@ public class ChampionsManager {
 
 				new PerryUltimate(),
 
-		}, 694, 32, 32, 61, 0, 0, 0, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_PERRY),
+		}, 1060, 48, 40, 74, 10, 0, 0, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_PERRY),
 				new ItemBuilder(new ItemStack(Material.ANVIL)).setDisplayName(ChatColor.GREEN + "Fist")
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "10").toItemStack()));
 		selectableChampions.add(new Brand(ChatColor.GOLD + "Brand", new Ability[] {
@@ -108,7 +108,7 @@ public class ChampionsManager {
 
 				new BrandUltimate(),
 
-		}, 590, 22, 30, 57, 57, 0, 0, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_BRAND),
+		}, 992, 40, 35, 69, 57, 0, 0, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_BRAND),
 				new ItemBuilder(Material.GOLD_NUGGET).setDisplayName(ChatColor.GOLD + "Molten Fire")
 						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "6").toItemStack()));
 
