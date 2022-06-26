@@ -1,9 +1,12 @@
 package me.didi.utilities;
 
+import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Random;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -154,8 +157,44 @@ public class Utils {
 		});
 	}
 
-	
-	
+	public static void spawnIndicator(Location location, DamageReason damageReason, double damage) {
+		ChatColor color = null;
+
+		if (damageReason == DamageReason.AUTO || damageReason == DamageReason.PHYSICAL) {
+			color = ChatColor.GOLD;
+		} else if (damageReason == DamageReason.MAGIC) {
+			color = ChatColor.AQUA;
+		} else {
+			color = ChatColor.WHITE;
+		}
+
+		Random random = new Random();
+		double x = random.nextDouble() - 0.5;
+		double z = random.nextDouble() - 0.5;
+
+		ArmorStand armorStand = (ArmorStand) ArmorStandFactory.spawnInvisibleArmorStand(location.add(x, 1, z));
+		armorStand.setGravity(false);
+		armorStand.setCustomNameVisible(true);
+
+		armorStand.setCustomName(
+				(damage >= 100 ? color + "" + ChatColor.BOLD : color) + new DecimalFormat("#").format(damage));
+		armorStand.setMarker(true);
+	}
+
+	public static void spawnIndicator(Location location, ChatColor color, double damage) {
+		Random random = new Random();
+		double x = random.nextDouble() - 0.5;
+		double z = random.nextDouble() - 0.5;
+
+		ArmorStand armorStand = (ArmorStand) ArmorStandFactory.spawnInvisibleArmorStand(location.add(x, 1, z));
+		armorStand.setGravity(false);
+		armorStand.setCustomNameVisible(true);
+
+		armorStand.setCustomName(
+				(damage >= 100 ? color + "" + ChatColor.BOLD : color) + new DecimalFormat("#").format(damage));
+		armorStand.setMarker(true);
+	}
+
 	public static void shootProjectile(Player player, double range, ItemStack heldItem, double damage,
 			boolean knockback, double speed, ParticleBuilder trail, DamageReason damageReason, Consumer<Entity> onHit) {
 		ArmorStand armorStand = (ArmorStand) ArmorStandFactory
@@ -212,20 +251,19 @@ public class Utils {
 	 * 
 	 * @param cos insert angle in cos function
 	 * @param sin insert angle in sin function
-	 * */
+	 */
 	public static Vector rotateAroundAxisX(Vector v, double cos, double sin) {
 		double y = v.getY() * cos - v.getZ() * sin;
 		double z = v.getY() * sin + v.getZ() * cos;
 		return v.setY(y).setZ(z);
 	}
-	
+
 	/**
-	 * Convert to radians first
-	 * Also angle is negated => use -angle
+	 * Convert to radians first Also angle is negated => use -angle
 	 * 
 	 * @param cos insert -angle in cos function
 	 * @param sin insert -angle in sin function
-	 * */
+	 */
 	public static Vector rotateAroundAxisY(Vector v, double cos, double sin) {
 		double x = v.getX() * cos + v.getZ() * sin;
 		double z = v.getX() * -sin + v.getZ() * cos;
@@ -237,7 +275,7 @@ public class Utils {
 	 * 
 	 * @param cos insert angle in cos function
 	 * @param sin insert angle in sin function
-	 * */
+	 */
 	public static Vector rotateAroundAxisZ(Vector v, double cos, double sin) {
 		double x = v.getX() * cos - v.getY() * sin;
 		double y = v.getX() * sin + v.getY() * cos;

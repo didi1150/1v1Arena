@@ -19,6 +19,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ArmorStandFactory;
 import me.didi.utilities.ItemBuilder;
@@ -43,7 +44,9 @@ public class PerryFirstAbility implements Ability {
 	public String[] getDescription() {
 		// TODO Auto-generated method stub
 		return new String[] { ChatColor.GRAY + "Perry throws his hat like a boomerang",
-				ChatColor.GRAY + "dealing " + ChatColor.RED + "20 damage " + ChatColor.GRAY + "on its way" };
+				ChatColor.GRAY + "dealing " + ChatColor.RED + "physical damage (" + ChatColor.WHITE + "40"
+						+ ChatColor.GOLD + " (+30.5% AD)" + ChatColor.RED + ")" + ChatColor.GRAY
+						+ " on its way" };
 	}
 
 	@Override
@@ -110,8 +113,9 @@ public class PerryFirstAbility implements Ability {
 				for (Entity entity : armorStand.getWorld().getNearbyEntities(armorStand.getLocation().add(0, 1, 0), 1,
 						1, 1)) {
 					if (DamageManager.isEnemy(player, entity) && !hitEntities.contains(entity)) {
+						double damage = CurrentStatGetter.getInstance().getAttackDamage(player) * 0.305 + 40;
 						hitEntities.add(entity);
-						DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 20, false);
+						DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, damage, false);
 					}
 				}
 			}

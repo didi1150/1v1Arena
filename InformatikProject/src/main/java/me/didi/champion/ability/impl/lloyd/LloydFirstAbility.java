@@ -23,6 +23,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ArmorStandFactory;
 import me.didi.utilities.ItemBuilder;
@@ -44,8 +45,9 @@ public class LloydFirstAbility implements Ability {
 
 	@Override
 	public String[] getDescription() {
-		return new String[] { ChatColor.GRAY + "Lloyd sends out 5 daggers",
-				ChatColor.GRAY + "dealing " + ChatColor.RED + "10 damage " + ChatColor.GRAY + "each" };
+		return new String[] { ChatColor.GRAY + "Akali unleashes kunais in a pyramid in the target direction,",
+				ChatColor.GRAY + " dealing " + ChatColor.DARK_AQUA + "magic damage (" + ChatColor.WHITE + "30 "
+						+ ChatColor.GOLD + "(+65% AD)" + ChatColor.DARK_PURPLE + " (+60% AP)" + " to enemies hit" };
 	}
 
 	@Override
@@ -120,10 +122,13 @@ public class LloydFirstAbility implements Ability {
 
 				armorStand.teleport(armorStand.getLocation().add(vectors[i].clone()));
 
+				double damage = 30 + CurrentStatGetter.getInstance().getAbilityPower(player) * 0.6
+						+ CurrentStatGetter.getInstance().getAttackDamage(player) * 0.65;
+
 				for (Entity entity : armorStand.getNearbyEntities(1.5, 3, 1.5)) {
 					if (DamageManager.isEnemy(player, entity) && !hitEntities.get(i).contains(entity)) {
 						hitEntities.get(i).add(entity);
-						DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 10, false);
+						DamageManager.damageEntity(player, entity, DamageReason.MAGIC, damage, false);
 					}
 				}
 

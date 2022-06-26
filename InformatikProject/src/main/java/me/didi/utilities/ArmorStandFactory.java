@@ -6,6 +6,10 @@ import org.bukkit.entity.Entity;
 
 public class ArmorStandFactory {
 
+	
+	/**
+	 * Spaws an invisible armorstand without arms and base plate
+	 * */
 	public static Entity spawnInvisibleArmorStand(Location l) {
 		// You can remove the net.minecraft.server.v1_8_R3 and just import the classes
 		// You need to change v1_8_R3 for your version.

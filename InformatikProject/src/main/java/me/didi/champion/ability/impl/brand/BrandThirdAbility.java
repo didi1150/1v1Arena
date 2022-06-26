@@ -18,6 +18,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.BurnEffect;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
@@ -42,7 +43,8 @@ public class BrandThirdAbility implements Ability {
 	@Override
 	public String[] getDescription() {
 		return new String[] { ChatColor.GRAY + "Brand sets the target enemy aflame, which creates a blast",
-				ChatColor.GRAY + "that deals " + ChatColor.DARK_AQUA + "20 damage " + ChatColor.GRAY
+				ChatColor.GRAY + "that deals " + ChatColor.DARK_AQUA + "magic damage (" + ChatColor.WHITE + "70"
+						+ ChatColor.DARK_PURPLE + " (+45% AP)" + ChatColor.DARK_AQUA + ") " + ChatColor.GRAY
 						+ "to them and nearby enemies." };
 	}
 
@@ -104,7 +106,8 @@ public class BrandThirdAbility implements Ability {
 	}
 
 	private void burnEntity(Entity target, SpecialEffectsManager specialEffectsManager, Player player) {
-		DamageManager.damageEntity(player, target, DamageReason.MAGIC, 20, false);
+		double damage = CurrentStatGetter.getInstance().getAbilityPower(player) * 0.45 + 70;
+		DamageManager.damageEntity(player, target, DamageReason.MAGIC, damage, false);
 		specialEffectsManager.addSpecialEffect(new BurnEffect(player, target, 4, 3));
 	}
 }

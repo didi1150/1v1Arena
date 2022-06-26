@@ -22,6 +22,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.TaskManager;
@@ -48,7 +49,8 @@ public class RexUltimate implements Ability {
 	public String[] getDescription() {
 
 		return new String[] { ChatColor.GRAY + "Launches an airstrike dealing",
-				ChatColor.RED + "20 damage" + ChatColor.GRAY + " per tick" };
+				ChatColor.RED + "physical damage (" + ChatColor.WHITE + "150" + ChatColor.GOLD + " (+80% AD)"
+						+ ChatColor.RED + ")" + ChatColor.GRAY + " over 5 seconds" };
 	}
 
 	@Override
@@ -98,7 +100,8 @@ public class RexUltimate implements Ability {
 					if (higherX - lowerX <= raidii.get(player) && higherZ - lowerZ <= raidii.get(player)) {
 
 						if (DamageManager.isEnemy(player, entity)) {
-							DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 20, false);
+							double damage = 150 + CurrentStatGetter.getInstance().getAttackDamage(player) * 0.8;
+							DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, damage / 100, false);
 						}
 					}
 				}

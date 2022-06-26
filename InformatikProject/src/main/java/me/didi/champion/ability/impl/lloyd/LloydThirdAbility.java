@@ -22,11 +22,12 @@ import me.didi.champion.ability.Recastable;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ArmorStandFactory;
 import me.didi.utilities.ItemBuilder;
-import me.didi.utilities.Utils;
 import me.didi.utilities.TaskManager;
+import me.didi.utilities.Utils;
 
 public class LloydThirdAbility extends Recastable implements Ability {
 
@@ -51,12 +52,15 @@ public class LloydThirdAbility extends Recastable implements Ability {
 
 	@Override
 	public String[] getDescription() {
-		// TODO Auto-generated method stub
 		return new String[] { ChatColor.GRAY + "Lloyd throws a shuriken, propelling himself backwards.",
-				ChatColor.GRAY + "If the shuriken hits, the enemy takes " + ChatColor.DARK_AQUA + " 10 damage",
+				ChatColor.GRAY + "If the shuriken hits, the enemy takes " + ChatColor.DARK_AQUA + "magic damage ("
+						+ ChatColor.WHITE + "30" + ChatColor.GOLD + " (+25.5% AD)" + ChatColor.DARK_PURPLE
+						+ " (+36% AP)" + ChatColor.DARK_AQUA + ")",
 				ChatColor.GRAY + "and is marked for 3 seconds. During this time",
 				ChatColor.GRAY + "Lloyd can recast this ability to dash into the target",
-				ChatColor.GRAY + "dealing " + ChatColor.DARK_AQUA + " 25 damage " + ChatColor.GRAY + "on impact." };
+				ChatColor.GRAY + "dealing " + ChatColor.DARK_AQUA + " magic damage (" + ChatColor.WHITE + "70 "
+						+ ChatColor.GOLD + "(+59.5% AD)" + ChatColor.DARK_PURPLE + "(+84% AP)" + ChatColor.GRAY
+						+ "on impact." };
 	}
 
 	@Override
@@ -113,7 +117,9 @@ public class LloydThirdAbility extends Recastable implements Ability {
 							abilityStateManager.removeCooldown(player);
 							abilityStateManager.addRecastCooldown(player, 2, getRecastCountdown());
 							recastCounters.put(player, 1);
-							DamageManager.damageEntity(player, entity, DamageReason.MAGIC, 10, false);
+							double damage = 30 + CurrentStatGetter.getInstance().getAttackDamage(player) * 0.255
+									+ CurrentStatGetter.getInstance().getAbilityPower(player) * 0.36;
+							DamageManager.damageEntity(player, entity, DamageReason.MAGIC, damage, false);
 							armorStand.remove();
 							task.cancel();
 							markerStands.put(player, (ArmorStand) ArmorStandFactory.spawnInvisibleArmorStand(
@@ -127,8 +133,8 @@ public class LloydThirdAbility extends Recastable implements Ability {
 							markerStand.setItemInHand(new ItemStack(Material.IRON_SWORD));
 
 							TaskManager.getInstance().repeatUntil(0, 1, 20 * 3, (bukkitTask, counter) -> {
-								markerStand.teleport(
-										Utils.getLocationToRight(entity.getLocation().add(0, 2.5, 0), 0.1));
+								markerStand
+										.teleport(Utils.getLocationToRight(entity.getLocation().add(0, 2.5, 0), 0.1));
 
 								if (counter.get() >= 20 * 3) {
 									abilityStateManager.removeRecastCooldown(player, instance, 2);
@@ -173,15 +179,18 @@ public class LloydThirdAbility extends Recastable implements Ability {
 					return;
 
 				markedStand.remove();
-				Vector vector = target.getLocation().toVector().subtract(player.getLocation().toVector()).normalize().multiply(3);
+				Vector vector = target.getLocation().toVector().subtract(player.getLocation().toVector()).normalize()
+						.multiply(3);
 				TaskManager.getInstance().repeatUntil(0, 1, Long.MAX_VALUE, (task, counter) -> {
 
 					if (player.getLocation().distanceSquared(target.getLocation()) <= 5) {
 						abilityStateManager.addCooldown(player, 2, getCooldown());
 						player.setVelocity(new Vector(0, 0, 0));
 						task.cancel();
+						double damage = 70 + CurrentStatGetter.getInstance().getAbilityPower(player) * 0.84
+								+ CurrentStatGetter.getInstance().getAttackDamage(player) * 0.595;
 
-						DamageManager.damageEntity(player, target, DamageReason.MAGIC, 15, false);
+						DamageManager.damageEntity(player, target, DamageReason.MAGIC, damage, false);
 						recastCounters.put(player, 0);
 						return;
 					}

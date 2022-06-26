@@ -16,6 +16,7 @@ import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.Utils;
@@ -39,7 +40,8 @@ public class PerryThirdAbility implements Ability {
 	public String[] getDescription() {
 		return new String[] { ChatColor.GRAY + "Perry overloads his blaster, causing it",
 				ChatColor.GRAY + "to fire off a powerful shot, knocking back enemies",
-				ChatColor.GRAY + "and dealing" + ChatColor.RED + " 30 damage" };
+				ChatColor.GRAY + "and dealing" + ChatColor.RED + "physical damage (" + ChatColor.WHITE + "75"
+						+ ChatColor.GOLD + " (+60% AD)" + ChatColor.RED + ")" };
 	}
 
 	@Override
@@ -61,7 +63,8 @@ public class PerryThirdAbility implements Ability {
 			return;
 		abilityStateManager.addCooldown(player, 2, getCooldown());
 		ParticleUtils.createSphere(ParticleEffect.REDSTONE, Color.CYAN, player.getLocation().add(0, 1, 0), 1);
-		Utils.shootProjectile(player, 9, new ItemStack(Material.BEACON), 30, false, 0.8, null, DamageReason.MAGIC,
+		double damage = 75 + CurrentStatGetter.getInstance().getAttackDamage(player) * 0.6;
+		Utils.shootProjectile(player, 9, new ItemStack(Material.BEACON), damage, false, 0.8, null, DamageReason.MAGIC,
 				new Consumer<Entity>() {
 
 					@Override

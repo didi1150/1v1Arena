@@ -22,6 +22,7 @@ import me.didi.champion.ability.Recastable;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.ItemSetter;
@@ -151,8 +152,12 @@ public class LloydUltimate extends Recastable implements Ability {
 
 	@Override
 	public String[] getDescription() {
-		String[] lore = new String[] { ChatColor.GRAY + "Lloyd casts airjitzu, which he",
-				ChatColor.GRAY + "can recast into Spinjitzu" };
+		String[] lore = new String[] { ChatColor.GRAY + "Lloyd casts airjitzu, temporarily gaining " + ChatColor.YELLOW
+				+ "" + ChatColor.ITALIC + "flight.",
+				ChatColor.GRAY + "He can recast this ability to start spinjitzu, which",
+				ChatColor.GRAY + "deals " + ChatColor.RED + "physical damage (" + ChatColor.WHITE + "60"
+						+ ChatColor.GOLD + " (+75% AD)" + ChatColor.DARK_PURPLE + "(+19% AP)" + ChatColor.RED + ") "
+						+ ChatColor.GRAY + "over 10 seconds" };
 		return lore;
 	}
 
@@ -180,7 +185,7 @@ public class LloydUltimate extends Recastable implements Ability {
 		abilityStateManager.addRecastCooldown(player, 3, getRecastCountdown());
 
 		tasks.put(player,
-				TaskManager.getInstance().repeatUntil(0, 1, 20 * 10, new BiConsumer<BukkitTask, AtomicLong>() {
+				TaskManager.getInstance().repeatUntil(1, 1, 20 * 10, new BiConsumer<BukkitTask, AtomicLong>() {
 					int angle = 0;
 
 					int max_height = 2;
@@ -245,14 +250,17 @@ public class LloydUltimate extends Recastable implements Ability {
 		abilityStateManager.removeRecastCooldown(player, this, 3);
 		abilityStateManager.addRecastCooldown(player, 3, getRecastCountdown());
 
-		tasks.put(player, TaskManager.getInstance().repeatUntil(0, 1, 20 * 10, (task, counter) -> {
+		tasks.put(player, TaskManager.getInstance().repeatUntil(1, 1, 20 * 10, (task, counter) -> {
 			player.setFallDistance(0);
 			if (counter.get() % 2 == 0) {
 				spin(player);
 				for (Entity entity : player.getWorld().getNearbyEntities(player.getLocation().add(0, 1, 0), 1.75, 0.5,
 						1.75)) {
-					if (DamageManager.isEnemy(player, entity))
-						DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 2, true);
+					if (DamageManager.isEnemy(player, entity)) {
+						double damage = CurrentStatGetter.getInstance().getAttackDamage(player) * 0.75
+								+ CurrentStatGetter.getInstance().getAbilityPower(player) * 0.19 + 60;
+						DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, damage / 10, true);
+					}
 				}
 			}
 

@@ -12,6 +12,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.BurnEffect;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.player.effects.StunEffect;
@@ -35,7 +36,8 @@ public class BrandFirstAbility implements Ability {
 	@Override
 	public String[] getDescription() {
 		return new String[] { ChatColor.GRAY + "Brand launches a fireball in the target direction that deals",
-				ChatColor.DARK_AQUA + "magic damage" + ChatColor.GRAY + " to the first enemy hit." };
+				ChatColor.DARK_AQUA + "magic damage (" + ChatColor.WHITE + "80 " + ChatColor.DARK_PURPLE + "(+55% AP)"
+						+ ChatColor.DARK_AQUA + ")" + ChatColor.GRAY + " to the first enemy hit." };
 	}
 
 	@Override
@@ -62,7 +64,9 @@ public class BrandFirstAbility implements Ability {
 					if (entity.getFireTicks() > 0) {
 						specialEffectsManager.addSpecialEffect(new StunEffect(player, entity, 1.5));
 					}
-					DamageManager.damageEntity(player, entity, DamageReason.MAGIC, 20, false);
+					double damage = 80 + CurrentStatGetter.getInstance().getAbilityPower(player) * 0.55;
+
+					DamageManager.damageEntity(player, entity, DamageReason.MAGIC, damage, false);
 					specialEffectsManager.addSpecialEffect(new BurnEffect(player, entity, 4, 1));
 				});
 	}

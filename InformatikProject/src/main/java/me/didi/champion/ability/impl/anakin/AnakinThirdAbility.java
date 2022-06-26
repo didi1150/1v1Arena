@@ -14,6 +14,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.TaskManager;
@@ -36,7 +37,9 @@ public class AnakinThirdAbility implements Ability {
 	public String[] getDescription() {
 		return new String[] { ChatColor.GRAY + "Anakin force chokes the enemy, holding",
 				ChatColor.GRAY + "them up in the air for 10 seconds. Enemies",
-				ChatColor.GRAY + "recieve " + ChatColor.GREEN + "3 damage" + ChatColor.GRAY + " every second" };
+				ChatColor.GRAY + "recieve " + ChatColor.DARK_AQUA + "magic damage (" + ChatColor.WHITE + "25"
+						+ ChatColor.DARK_PURPLE + " (+25% AP)" + ChatColor.DARK_AQUA + ")" + ChatColor.GRAY
+						+ " every second" };
 	}
 
 	@Override
@@ -72,7 +75,8 @@ public class AnakinThirdAbility implements Ability {
 			target.setVelocity(vector);
 
 			if (counter.get() % 20 == 0) {
-				DamageManager.damageEntity(player, target, DamageReason.MAGIC, 3, false);
+				double damage = 25 + CurrentStatGetter.getInstance().getAbilityPower(player) * 0.25;
+				DamageManager.damageEntity(player, target, DamageReason.MAGIC, damage, false);
 			}
 
 			if (counter.get() >= 20 * 10) {

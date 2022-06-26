@@ -21,6 +21,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ColorTransition;
 import me.didi.utilities.DefaultLightningCreator;
@@ -60,7 +61,8 @@ public class AnakinFirstAbility implements Ability {
 		// TODO Auto-generated method stub
 		return new String[] { ChatColor.GRAY + "Anakin taps into the dark side of the force, unleashing",
 				ChatColor.GRAY + "waves of force lightning, dealing",
-				ChatColor.GREEN + "10 damage" + ChatColor.GRAY + " per wave" };
+				ChatColor.DARK_AQUA + "magic damage (" + ChatColor.WHITE + "30" + ChatColor.DARK_PURPLE + " (+24% AP)"
+						+ ChatColor.DARK_AQUA + ")" + ChatColor.GRAY + " per lightning" };
 	}
 
 	@Override
@@ -77,6 +79,7 @@ public class AnakinFirstAbility implements Ability {
 	@Override
 	public void execute(AbilityStateManager abilityStateManager, Player player,
 			SpecialEffectsManager specialEffectsManager) {
+		lightningDamage = 30 + CurrentStatGetter.getInstance().getAbilityPower(player) * 0.24;
 		AbilityCastEvent event = new AbilityCastEvent(player, getAbilityType());
 		Bukkit.getPluginManager().callEvent(event);
 		if (event.isCancelled())

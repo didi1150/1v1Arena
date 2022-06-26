@@ -21,6 +21,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.BurnEffect;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
@@ -44,7 +45,8 @@ public class BrandSecondAbility implements Ability {
 	@Override
 	public String[] getDescription() {
 		return new String[] { ChatColor.GRAY + "After a delay, Brand erupts a pillar of flame at the target",
-				ChatColor.GRAY + "location that deals " + ChatColor.DARK_AQUA + "magic damage " + ChatColor.GRAY
+				ChatColor.GRAY + "location that deals " + ChatColor.DARK_AQUA + "magic damage (" + ChatColor.WHITE
+						+ "75" + ChatColor.DARK_PURPLE + " (+60% AP)" + ChatColor.DARK_AQUA + ") " + ChatColor.GRAY
 						+ "to enemies hit." };
 	}
 
@@ -121,7 +123,8 @@ public class BrandSecondAbility implements Ability {
 							final double lowerZ = Math.min(entity.getLocation().getZ(), location.getZ());
 
 							if (higherX - lowerX <= 5 && higherZ - lowerZ <= 5) {
-								DamageManager.damageEntity(player, entity, DamageReason.MAGIC, 20, false);
+								double damage = 75 + CurrentStatGetter.getInstance().getAbilityPower(player) * 0.6;
+								DamageManager.damageEntity(player, entity, DamageReason.MAGIC, damage, false);
 								specialEffectsManager.addSpecialEffect(new BurnEffect(player, entity, 4, 3));
 							}
 						});

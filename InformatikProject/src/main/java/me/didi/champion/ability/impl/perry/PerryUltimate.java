@@ -41,7 +41,7 @@ public class PerryUltimate implements Ability {
 		return new String[] { ChatColor.GRAY + "Perry hears his colleagues chanting his name, motivating",
 				ChatColor.GRAY + "him. This increases his " + ChatColor.GREEN + "baseHealth" + ChatColor.GRAY + ", "
 						+ ChatColor.YELLOW + "baseDefense" + ChatColor.GRAY + " and " + ChatColor.AQUA
-						+ "magic resistance " + ChatColor.GRAY + "by 30 percent" };
+						+ "magic resistance " + ChatColor.GRAY + "by 70 percent" };
 	}
 
 	@Override
@@ -76,22 +76,22 @@ public class PerryUltimate implements Ability {
 			});
 			new ItemSetter().setItem(player, 3, new ItemBuilder(getIcon().clone()).addGlow().toItemStack());
 			CustomPlayer customPlayer = CustomPlayerManager.getInstance().getPlayer(player.getUniqueId());
-			customPlayer.setBaseDefense(customPlayer.getBaseDefense() * 1.3f);
-			customPlayer.setBaseHealth(customPlayer.getBaseHealth() * 1.3f);
-			customPlayer.setMagicResist(customPlayer.getMagicResist() * 1.3f);
+			customPlayer.setBaseDefense(customPlayer.getBaseDefense() * 1.7f);
+			customPlayer.setBaseHealth(customPlayer.getBaseHealth() * 1.7f);
+			customPlayer.setMagicResist(customPlayer.getMagicResist() * 1.7f);
 
 			player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 10, 2, false, false));
 
 			TaskManager.getInstance().runTaskLater(20 * 10, task -> {
 				abilityStateManager.addCooldown(player, 3, getCooldown());
-				customPlayer.setBaseDefense(customPlayer.getBaseDefense() / 1.3f);
-				customPlayer.setBaseHealth(customPlayer.getBaseHealth() / 1.3f);
+				customPlayer.setBaseDefense(customPlayer.getBaseDefense() / 1.7f);
+				customPlayer.setBaseHealth(customPlayer.getBaseHealth() / 1.7f);
 				if (customPlayer.getCurrentHealth() > customPlayer.getBaseHealth()
 						+ CustomPlayerManager.getInstance().getBonusHealth(player)) {
 					customPlayer.setCurrentHealth(
 							customPlayer.getBaseHealth() + CustomPlayerManager.getInstance().getBonusHealth(player));
 				}
-				customPlayer.setMagicResist(customPlayer.getMagicResist() / 1.3f);
+				customPlayer.setMagicResist(customPlayer.getMagicResist() / 1.7f);
 			});
 		}
 	}

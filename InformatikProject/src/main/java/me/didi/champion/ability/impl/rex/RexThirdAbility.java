@@ -14,6 +14,7 @@ import me.didi.champion.ability.AbilityStateManager;
 import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.RootEffect;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
@@ -38,8 +39,9 @@ public class RexThirdAbility implements Ability {
 	@Override
 	public String[] getDescription() {
 		return new String[] { ChatColor.GRAY + "Rex fires an immobilizing shot,",
-				ChatColor.GRAY + "causing the first enemy hit to be " + ChatColor.WHITE + "rooted",
-				ChatColor.GRAY + " for 1.5 seconds and dealing " + ChatColor.DARK_AQUA + "15 damage." };
+				ChatColor.GRAY + "causing the first enemy hit to be " + ChatColor.YELLOW + ChatColor.ITALIC + "rooted",
+				ChatColor.GRAY + " for 1.5 seconds and dealing " + ChatColor.DARK_AQUA + "magic damage (" + ChatColor.WHITE
+						+ "20" + ChatColor.DARK_PURPLE + " (+60% AP)" + ChatColor.DARK_AQUA + ")" };
 	}
 
 	@Override
@@ -61,7 +63,8 @@ public class RexThirdAbility implements Ability {
 			return;
 		abilityStateManager.addCooldown(player, 2, getCooldown());
 
-		Utils.shootProjectile(player, 13, new ItemStack(Material.CLAY_BALL), 15, false, 0.5,
+		double damage = 20 + CurrentStatGetter.getInstance().getAbilityPower(player) * 0.6;
+		Utils.shootProjectile(player, 13, new ItemStack(Material.CLAY_BALL), damage, false, 0.5,
 				new ParticleBuilder(ParticleEffect.REDSTONE).setColor(java.awt.Color.CYAN), DamageReason.MAGIC,
 				new Consumer<Entity>() {
 

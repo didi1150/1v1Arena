@@ -18,6 +18,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.BurnEffect;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
@@ -45,7 +46,8 @@ public class BrandUltimate implements Ability {
 		return new String[] {
 				ChatColor.GRAY + "Brand launches a fireball at the target enemy (" + ChatColor.DARK_AQUA + "50 damage"
 						+ ChatColor.GRAY + "), which",
-				ChatColor.GRAY + "fizzles after a few seconds, dealing " + ChatColor.DARK_AQUA + "25 damage" };
+				ChatColor.GRAY + "fizzles after a few seconds, dealing " + ChatColor.DARK_AQUA + "magic damage ("
+						+ ChatColor.WHITE + "100" + ChatColor.DARK_PURPLE + " (+25% AP)" + ChatColor.DARK_AQUA + ")" };
 	}
 
 	@Override
@@ -94,7 +96,8 @@ public class BrandUltimate implements Ability {
 
 				if (angle >= 360) {
 
-					DamageManager.damageEntity(player, entity, DamageReason.MAGIC, 25, false);
+					double damage = CurrentStatGetter.getInstance().getAbilityPower(player) * 0.25 + 100;
+					DamageManager.damageEntity(player, entity, DamageReason.MAGIC, damage, false);
 					specialEffectsManager.addSpecialEffect(new BurnEffect(player, entity, 4, 3));
 					TaskManager.getInstance().runTaskLater(20 * 1, delayTask -> {
 						ParticleBuilder particleBuilder = new ParticleBuilder(ParticleEffect.FLAME).setSpeed(0.1f)

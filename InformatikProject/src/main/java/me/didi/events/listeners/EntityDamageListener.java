@@ -18,6 +18,7 @@ import me.didi.gamesystem.gameStates.IngameState;
 import me.didi.menus.ScoreboardHandler;
 import me.didi.player.CurrentStatGetter;
 import me.didi.player.CustomPlayer;
+import me.didi.utilities.Utils;
 
 public class EntityDamageListener implements Listener {
 
@@ -124,6 +125,8 @@ public class EntityDamageListener implements Listener {
 				}
 
 			}
+
+			Utils.spawnIndicator(event.getEntity().getLocation(), event.getDamageReason(), calculatedDamage);
 
 			if (customPlayer.getCurrentHealth() - calculatedDamage <= 0) {
 				customPlayer.setCurrentHealth(customPlayer.getBaseHealth());

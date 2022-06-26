@@ -17,6 +17,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.Utils;
@@ -42,7 +43,8 @@ public class RexFirstAbility implements Ability {
 	public String[] getDescription() {
 		// TODO Auto-generated method stub
 		return new String[] { ChatColor.GRAY + "Rex quickly fires with his",
-				ChatColor.GRAY + "two blasters, dealing " + ChatColor.RED + "10 damage " + ChatColor.GRAY + "each" };
+				ChatColor.GRAY + "two blasters, dealing " + ChatColor.RED + "physical damage (" + ChatColor.WHITE + "35"
+						+ ChatColor.GOLD + " (+50% AD)" + ChatColor.RED + ")" + ChatColor.GRAY + " each" };
 	}
 
 	@Override
@@ -90,7 +92,8 @@ public class RexFirstAbility implements Ability {
 			for (Entity entity : player.getWorld().getNearbyEntities(fromNew, 0.5, 0.5, 0.5)) {
 				if (DamageManager.isEnemy(player, entity)) {
 					enemyHit = true;
-					DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, 10, false);
+					double damage = 35 + CurrentStatGetter.getInstance().getAttackDamage(player) * 0.5;
+					DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, damage, false);
 					break;
 				}
 			}

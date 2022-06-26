@@ -18,6 +18,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.Utils;
@@ -46,8 +47,9 @@ public class AnakinUltimate implements Ability {
 		// TODO Auto-generated method stub
 		return new String[] { ChatColor.GRAY + "Anakin uses the force on the next player he sees. If",
 				ChatColor.GRAY + " he detects a player, he throws the enemy up",
-				ChatColor.GRAY + " and slams him back into the ground, dealing " + ChatColor.RED + "90 damage"
-						+ ChatColor.GRAY + ".",
+				ChatColor.GRAY + " and slams him back into the ground, dealing " + ChatColor.RED + "physical damage ("
+						+ ChatColor.WHITE + "100" + ChatColor.GOLD + " (+120% AD)" + ChatColor.DARK_PURPLE
+						+ " (+100% AP)" + ChatColor.RED + ")" + ChatColor.GRAY + ".",
 				ChatColor.GRAY + "Afterwards, the target is slowed down for 5 seconds." };
 	}
 
@@ -89,7 +91,9 @@ public class AnakinUltimate implements Ability {
 				target.setAllowFlight(true);
 				if (target.isOnGround()) {
 					target.setAllowFlight(false);
-					DamageManager.damageEntity(player, target, DamageReason.PHYSICAL, 90, false);
+					double damage = 100 + CurrentStatGetter.getInstance().getAttackDamage(player) * 1.2
+							+ CurrentStatGetter.getInstance().getAbilityPower(player) * 1;
+					DamageManager.damageEntity(player, target, DamageReason.PHYSICAL, damage, false);
 
 					target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 5, 3, false, false));
 					task.cancel();

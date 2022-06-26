@@ -16,6 +16,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ArmorStandFactory;
 import me.didi.utilities.ItemBuilder;
@@ -44,7 +45,8 @@ public class RexSecondAbility implements Ability {
 		// TODO Auto-generated method stub
 		return new String[] { ChatColor.GRAY + "Rex throws a greenade which",
 				ChatColor.GRAY + " flies a short distance, exploding", ChatColor.GRAY + "in a small radius",
-				ChatColor.GRAY + "dealing " + ChatColor.RED + "20 damage " + ChatColor.GRAY + "to nearby enemies" };
+				ChatColor.GRAY + "dealing " + ChatColor.RED + "physical damage (" + ChatColor.WHITE + "85"
+						+ ChatColor.GOLD + " (+65% AD)" + ChatColor.RED + ")" + ChatColor.GRAY + " to nearby enemies" };
 	}
 
 	@Override
@@ -88,8 +90,10 @@ public class RexSecondAbility implements Ability {
 				as.getWorld().playSound(as.getLocation(), Sound.EXPLODE, 5, 5);
 
 				as.getNearbyEntities(3, 3, 3).forEach(ent -> {
-					if (DamageManager.isEnemy(player, ent))
-						DamageManager.damageEntity(player, ent, DamageReason.PHYSICAL, 20, true);
+					if (DamageManager.isEnemy(player, ent)) {
+						double damage = 85 + CurrentStatGetter.getInstance().getAttackDamage(player) * 0.65;
+						DamageManager.damageEntity(player, ent, DamageReason.PHYSICAL, damage, true);
+					}
 				});
 
 				task.cancel();
