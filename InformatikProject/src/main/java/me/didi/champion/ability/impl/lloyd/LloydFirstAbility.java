@@ -27,7 +27,7 @@ import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ArmorStandFactory;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.TaskManager;
-import me.didi.utilities.MathUtils;
+import me.didi.utilities.Utils;
 
 public class LloydFirstAbility implements Ability {
 
@@ -72,13 +72,13 @@ public class LloydFirstAbility implements Ability {
 		Location mid = player.getLocation().add(player.getLocation().getDirection().multiply(7));
 		mid.setY(player.getLocation().getY() - 1);
 
-		Location location1 = MathUtils.getLocationToLeft(mid.clone(), 2);
+		Location location1 = Utils.getLocationToLeft(mid.clone(), 2);
 
-		Location location2 = MathUtils.getLocationToLeft(mid, 1);
+		Location location2 = Utils.getLocationToLeft(mid, 1);
 
-		Location location3 = MathUtils.getLocationToRight(mid.clone(), 1);
+		Location location3 = Utils.getLocationToRight(mid.clone(), 1);
 
-		Location location4 = MathUtils.getLocationToRight(mid.clone(), 2);
+		Location location4 = Utils.getLocationToRight(mid.clone(), 2);
 
 		Location[] locations = new Location[] { location2, location1, mid, location3, location4 };
 
@@ -89,7 +89,7 @@ public class LloydFirstAbility implements Ability {
 		Map<Integer, List<Entity>> hitEntities = new HashMap<>();
 
 		for (int i = 0; i < locations.length; i++) {
-			Location spawnLocation = MathUtils.getLocationToRight(
+			Location spawnLocation = Utils.getLocationToRight(
 					player.getEyeLocation().subtract(player.getEyeLocation().getDirection().normalize().setY(1)), 0.1);
 			ArmorStand armorStand = (ArmorStand) ArmorStandFactory.spawnInvisibleArmorStand(spawnLocation);
 			armorStand.setSmall(true);
@@ -112,7 +112,7 @@ public class LloydFirstAbility implements Ability {
 					return;
 				}
 
-				if (world.getBlockAt(MathUtils.getLocationToRight(armorStand.getLocation().add(0, 0.6, 0), 0.3))
+				if (world.getBlockAt(Utils.getLocationToRight(armorStand.getLocation().add(0, 0.6, 0), 0.3))
 						.getType() != Material.AIR) {
 					armorStands.remove(i);
 					armorStand.remove();

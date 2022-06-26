@@ -16,7 +16,7 @@ import me.didi.player.effects.BurnEffect;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.player.effects.StunEffect;
 import me.didi.utilities.ItemBuilder;
-import me.didi.utilities.MathUtils;
+import me.didi.utilities.Utils;
 import xyz.xenondevs.particle.ParticleBuilder;
 import xyz.xenondevs.particle.ParticleEffect;
 
@@ -57,7 +57,7 @@ public class BrandFirstAbility implements Ability {
 			return;
 
 		abilityStateManager.addCooldown(player, 0, getCooldown());
-		MathUtils.shootProjectile(player, 10, new ItemStack(Material.FIREBALL), 10, false, 0.8,
+		Utils.shootProjectile(player, 10, new ItemStack(Material.FIREBALL), 10, false, 0.8,
 				new ParticleBuilder(ParticleEffect.FLAME), DamageReason.MAGIC, entity -> {
 					if (entity.getFireTicks() > 0) {
 						specialEffectsManager.addSpecialEffect(new StunEffect(player, entity, 1.5));

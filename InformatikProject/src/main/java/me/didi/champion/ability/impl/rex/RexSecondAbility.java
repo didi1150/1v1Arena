@@ -19,7 +19,7 @@ import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ArmorStandFactory;
 import me.didi.utilities.ItemBuilder;
-import me.didi.utilities.MathUtils;
+import me.didi.utilities.Utils;
 import me.didi.utilities.SkullFactory;
 import me.didi.utilities.TaskManager;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
@@ -73,10 +73,10 @@ public class RexSecondAbility implements Ability {
 		PacketPlayOutAnimation packet = new PacketPlayOutAnimation(entityPlayer, 0);
 		entityPlayer.playerConnection.sendPacket(packet);
 		ArmorStand as = (ArmorStand) ArmorStandFactory
-				.spawnInvisibleArmorStand(MathUtils.getLocationToRight(player.getLocation().add(0, 1, 0), 0.3));
+				.spawnInvisibleArmorStand(Utils.getLocationToRight(player.getLocation().add(0, 1, 0), 0.3));
 		as.setItemInHand(ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_BOMB));
 		Location dest = player.getLocation().clone().add(player.getLocation().getDirection().multiply(25));
-		as.setVelocity(MathUtils.calculateVelocity(as.getLocation().toVector(), dest.toVector(), 2));
+		as.setVelocity(Utils.calculateVelocity(as.getLocation().toVector(), dest.toVector(), 2));
 		TaskManager.getInstance().repeat(1, 1, task -> {
 			if (as.getWorld().getBlockAt(as.getLocation().add(0, -0.5, 0)).getType() != Material.AIR) {
 

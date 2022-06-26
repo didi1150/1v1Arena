@@ -19,7 +19,7 @@ import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
-import me.didi.utilities.MathUtils;
+import me.didi.utilities.Utils;
 import me.didi.utilities.TaskManager;
 import xyz.xenondevs.particle.ParticleBuilder;
 import xyz.xenondevs.particle.ParticleEffect;
@@ -76,9 +76,9 @@ public class RexFirstAbility implements Ability {
 
 		Location toLocation = fromOrigin.clone().add(fromOrigin.clone().getDirection().normalize().multiply(maxRange))
 				.add(0, 1, 0);
-		Location fromNew = MathUtils.getLocationToRight(fromOrigin.clone(), 0.3);
+		Location fromNew = Utils.getLocationToRight(fromOrigin.clone(), 0.3);
 		if (left)
-			fromNew = MathUtils.getLocationToLeft(fromOrigin.clone(), 0.3);
+			fromNew = Utils.getLocationToLeft(fromOrigin.clone(), 0.3);
 
 		Vector direction = toLocation.toVector().subtract(fromNew.toVector()).normalize();
 		double range = Math.min(fromOrigin.distanceSquared(toLocation), maxRange * maxRange);

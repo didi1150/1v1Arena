@@ -18,7 +18,7 @@ import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
-import me.didi.utilities.MathUtils;
+import me.didi.utilities.Utils;
 import me.didi.utilities.ParticleUtils;
 import xyz.xenondevs.particle.ParticleEffect;
 
@@ -61,7 +61,7 @@ public class PerryThirdAbility implements Ability {
 			return;
 		abilityStateManager.addCooldown(player, 2, getCooldown());
 		ParticleUtils.createSphere(ParticleEffect.REDSTONE, Color.CYAN, player.getLocation().add(0, 1, 0), 1);
-		MathUtils.shootProjectile(player, 9, new ItemStack(Material.BEACON), 30, false, 0.8, null, DamageReason.MAGIC,
+		Utils.shootProjectile(player, 9, new ItemStack(Material.BEACON), 30, false, 0.8, null, DamageReason.MAGIC,
 				new Consumer<Entity>() {
 
 					@Override

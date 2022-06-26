@@ -17,7 +17,7 @@ import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.RootEffect;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
-import me.didi.utilities.MathUtils;
+import me.didi.utilities.Utils;
 import xyz.xenondevs.particle.ParticleBuilder;
 import xyz.xenondevs.particle.ParticleEffect;
 
@@ -61,7 +61,7 @@ public class RexThirdAbility implements Ability {
 			return;
 		abilityStateManager.addCooldown(player, 2, getCooldown());
 
-		MathUtils.shootProjectile(player, 13, new ItemStack(Material.CLAY_BALL), 15, false, 0.5,
+		Utils.shootProjectile(player, 13, new ItemStack(Material.CLAY_BALL), 15, false, 0.5,
 				new ParticleBuilder(ParticleEffect.REDSTONE).setColor(java.awt.Color.CYAN), DamageReason.MAGIC,
 				new Consumer<Entity>() {
 

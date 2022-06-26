@@ -18,7 +18,7 @@ import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import xyz.xenondevs.particle.ParticleBuilder;
 
-public class MathUtils {
+public class Utils {
 
 	public static Location getLocationToRight(Location location, double distance) {
 
@@ -154,6 +154,8 @@ public class MathUtils {
 		});
 	}
 
+	
+	
 	public static void shootProjectile(Player player, double range, ItemStack heldItem, double damage,
 			boolean knockback, double speed, ParticleBuilder trail, DamageReason damageReason, Consumer<Entity> onHit) {
 		ArmorStand armorStand = (ArmorStand) ArmorStandFactory

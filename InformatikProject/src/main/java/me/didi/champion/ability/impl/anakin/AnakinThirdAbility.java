@@ -17,7 +17,7 @@ import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.TaskManager;
-import me.didi.utilities.MathUtils;
+import me.didi.utilities.Utils;
 
 public class AnakinThirdAbility implements Ability {
 
@@ -58,7 +58,7 @@ public class AnakinThirdAbility implements Ability {
 			return;
 		abilityStateManager.addCooldown(player, 2, getCooldown());
 
-		Player target = MathUtils.getTargetPlayer(player, 10);
+		Player target = Utils.getTargetPlayer(player, 10);
 
 		if (target == null)
 			return;

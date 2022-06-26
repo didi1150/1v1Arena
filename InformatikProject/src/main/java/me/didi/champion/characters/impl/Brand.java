@@ -8,7 +8,7 @@ import me.didi.champion.characters.MageChampion;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.BurnEffect;
-import me.didi.utilities.MathUtils;
+import me.didi.utilities.Utils;
 import xyz.xenondevs.particle.ParticleBuilder;
 import xyz.xenondevs.particle.ParticleEffect;
 
@@ -24,7 +24,7 @@ public class Brand extends MageChampion {
 
 	@Override
 	public void executeAutoAttack() {
-		MathUtils.shootProjectile(player, 13, new ItemStack(Material.AIR), 8, true, 0.75,
+		Utils.shootProjectile(player, 13, new ItemStack(Material.AIR), 8, true, 0.75,
 				new ParticleBuilder(ParticleEffect.FLAME), DamageReason.MAGIC, entity -> {
 					DamageManager.damageEntity(player, entity, DamageReason.AUTO, customPlayerManager.getDamage(player),
 							true);

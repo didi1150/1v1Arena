@@ -15,7 +15,7 @@ import org.bukkit.util.Vector;
 
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.events.customEvents.AbilityCastEvent;
-import me.didi.utilities.MathUtils;
+import me.didi.utilities.Utils;
 import me.didi.utilities.ParticleUtils;
 import me.didi.utilities.TaskManager;
 import net.minecraft.server.v1_8_R3.AxisAlignedBB;
@@ -30,7 +30,7 @@ public class StunEffect extends SpecialEffect {
 
 	private void display(Entity entity) {
 		if (to instanceof Player)
-			AbilityStateManager.getInstance().disableAbilities((Player) to, MathUtils.round(duration));
+			AbilityStateManager.getInstance().disableAbilities((Player) to, Utils.round(duration));
 		LivingEntity ent = (LivingEntity) to;
 		ent.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30, 255, false, false));
 		net.minecraft.server.v1_8_R3.Entity craftEntity = ((CraftEntity) to).getHandle();
@@ -61,12 +61,12 @@ public class StunEffect extends SpecialEffect {
 
 					Vector rotatedVector = new Vector(x, 0, z);
 					double angleRadians = Math.toRadians(90);
-					rotatedVector = MathUtils.rotateAroundAxisX(rotatedVector, Math.cos(angleRadians),
+					rotatedVector = Utils.rotateAroundAxisX(rotatedVector, Math.cos(angleRadians),
 							Math.sin(angleRadians));
 
 					float yaw = to.getLocation().getYaw();
 					double yawRadians = -Math.toRadians(yaw);
-					rotatedVector = MathUtils.rotateAroundAxisY(rotatedVector, Math.cos(yawRadians),
+					rotatedVector = Utils.rotateAroundAxisY(rotatedVector, Math.cos(yawRadians),
 							Math.sin(yawRadians));
 					Location loc = highLocation.add(rotatedVector);
 

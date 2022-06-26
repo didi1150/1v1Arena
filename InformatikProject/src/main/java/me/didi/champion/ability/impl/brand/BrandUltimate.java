@@ -21,7 +21,7 @@ import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.BurnEffect;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
-import me.didi.utilities.MathUtils;
+import me.didi.utilities.Utils;
 import me.didi.utilities.ParticleUtils;
 import me.didi.utilities.TaskManager;
 import xyz.xenondevs.particle.ParticleBuilder;
@@ -67,7 +67,7 @@ public class BrandUltimate implements Ability {
 			return;
 
 		abilityStateManager.addCooldown(player, 3, getCooldown());
-		MathUtils.shootProjectile(player, 7.5, new ItemStack(Material.FIREBALL), 50, false, 0.75,
+		Utils.shootProjectile(player, 7.5, new ItemStack(Material.FIREBALL), 50, false, 0.75,
 				new ParticleBuilder(ParticleEffect.FLAME).setSpeed(0.1f), DamageReason.MAGIC, entity -> {
 					drawUltimate(player, entity, 4, specialEffectsManager);
 					specialEffectsManager.addSpecialEffect(new BurnEffect(player, entity, 4, 3));

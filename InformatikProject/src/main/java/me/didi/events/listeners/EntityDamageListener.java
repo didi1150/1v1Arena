@@ -18,7 +18,6 @@ import me.didi.gamesystem.gameStates.IngameState;
 import me.didi.menus.ScoreboardHandler;
 import me.didi.player.CurrentStatGetter;
 import me.didi.player.CustomPlayer;
-import me.didi.player.CustomPlayerManager;
 
 public class EntityDamageListener implements Listener {
 

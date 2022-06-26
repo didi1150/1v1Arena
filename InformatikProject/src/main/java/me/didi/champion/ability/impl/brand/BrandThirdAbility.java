@@ -21,7 +21,7 @@ import me.didi.events.customEvents.DamageReason;
 import me.didi.player.effects.BurnEffect;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.ItemBuilder;
-import me.didi.utilities.MathUtils;
+import me.didi.utilities.Utils;
 import me.didi.utilities.ParticleUtils;
 import me.didi.utilities.TaskManager;
 import xyz.xenondevs.particle.ParticleEffect;
@@ -66,7 +66,7 @@ public class BrandThirdAbility implements Ability {
 
 		abilityStateManager.addCooldown(player, 2, getCooldown());
 
-		Player targetPlayer = MathUtils.getTargetPlayer(player, 9);
+		Player targetPlayer = Utils.getTargetPlayer(player, 9);
 
 		if (targetPlayer == null)
 			return;

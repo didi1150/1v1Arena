@@ -26,7 +26,7 @@ import me.didi.utilities.ColorTransition;
 import me.didi.utilities.DefaultLightningCreator;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.Lightning;
-import me.didi.utilities.MathUtils;
+import me.didi.utilities.Utils;
 import me.didi.utilities.TaskManager;
 
 public class AnakinFirstAbility implements Ability {
@@ -89,11 +89,11 @@ public class AnakinFirstAbility implements Ability {
 	private void shootLightning(Player player) {
 		TaskManager.getInstance().repeatUntil(0, 1, 20 * 1, (backTask, counter) -> {
 
-			Location dest = MathUtils.getLocationToLeft(
+			Location dest = Utils.getLocationToLeft(
 					player.getLocation().add(0, 0.5, 0).add(player.getLocation().getDirection().multiply(2)),
-					MathUtils.getRandomBetween(-2, 2));
+					Utils.getRandomBetween(-2, 2));
 
-			Location playerLoc = MathUtils.getLocationToRight(player.getLocation().add(0, 0.6, 0), 0.3);
+			Location playerLoc = Utils.getLocationToRight(player.getLocation().add(0, 0.6, 0), 0.3);
 
 			Vector dir = dest.clone().subtract(playerLoc).toVector().normalize();
 
