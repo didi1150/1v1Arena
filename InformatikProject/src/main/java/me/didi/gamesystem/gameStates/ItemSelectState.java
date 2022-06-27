@@ -1,11 +1,11 @@
 package me.didi.gamesystem.gameStates;
 
 import me.didi.gamesystem.GameState;
-import me.didi.gamesystem.countdowns.ItemSelectStateCountdown;
+import me.didi.gamesystem.countdowns.ItemSelectCountdown;
 
 public class ItemSelectState extends GameState {
 
-	private ItemSelectStateCountdown countdown;
+	private ItemSelectCountdown countdown;
 
 	@Override
 	public void start() {

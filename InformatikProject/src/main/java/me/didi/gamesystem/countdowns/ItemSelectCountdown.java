@@ -8,14 +8,14 @@ import me.didi.gamesystem.GameStateManager;
 import me.didi.utilities.ChatUtils;
 import me.didi.utilities.TaskManager;
 
-public class ItemSelectStateCountdown extends Countdown {
+public class ItemSelectCountdown extends Countdown {
 
 	private GameStateManager gameStateManager;
 	private static final int COUNTDOWN_TIME = 20;
 
 	private int seconds;
 
-	public ItemSelectStateCountdown(GameStateManager gameStateManager) {
+	public ItemSelectCountdown(GameStateManager gameStateManager) {
 		this.gameStateManager = gameStateManager;
 		this.seconds = COUNTDOWN_TIME;
 	}
