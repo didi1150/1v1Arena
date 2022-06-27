@@ -26,6 +26,7 @@ import me.didi.events.listeners.PlayerMoveListener;
 import me.didi.events.listeners.QuitListener;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
+import me.didi.items.CustomItemManager;
 import me.didi.menus.PlayerMenuUtility;
 import me.didi.menus.ScoreboardHandler;
 import me.didi.player.CurrentStatGetter;
@@ -59,6 +60,8 @@ public class MainClass extends JavaPlugin {
 
 	private CurrentStatGetter currentStatGetter;
 
+	private CustomItemManager customItemManager;
+
 	@Override
 	public void onEnable() {
 		plugin = this;
@@ -68,6 +71,8 @@ public class MainClass extends JavaPlugin {
 		configHandler = ConfigHandler.getInstance();
 
 		TaskManager.init(this);
+
+		customItemManager = new CustomItemManager();
 
 		alivePlayers = new ArrayList<UUID>();
 		ChampionsManager.init();
@@ -83,12 +88,13 @@ public class MainClass extends JavaPlugin {
 		CustomPlayerManager.init(this, abilityStateManager);
 		customPlayerManager = CustomPlayerManager.getInstance();
 
-		CurrentStatGetter.init(customPlayerManager);
+		CurrentStatGetter.init();
 		this.currentStatGetter = CurrentStatGetter.getInstance();
 
 		ChampionsManager.registerChampions(abilityStateManager, specialEffectsManager, customPlayerManager, this);
 
-		gameStateManager = new GameStateManager(this, customPlayerManager, championsManager, configHandler);
+		gameStateManager = new GameStateManager(this, customPlayerManager, championsManager, configHandler,
+				customItemManager);
 		gameStateManager.setGameState(GameState.LOBBY_STATE);
 
 		ScoreboardHandler.init(this, customPlayerManager, championsManager);

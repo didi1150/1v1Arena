@@ -14,6 +14,7 @@ import me.didi.champion.Champion;
 import me.didi.champion.ChampionsManager;
 import me.didi.champion.ability.Ability;
 import me.didi.gamesystem.GameState;
+import me.didi.items.CustomItemManager;
 import me.didi.menus.ScoreboardHandler;
 import me.didi.player.CustomPlayerManager;
 import me.didi.utilities.ConfigHandler;
@@ -24,12 +25,14 @@ public class IngameState extends GameState {
 	private ConfigHandler configHandler;
 	private CustomPlayerManager customPlayerManager;
 	private ChampionsManager championsManager;
+	private CustomItemManager customItemManager;
 
 	public IngameState(ConfigHandler configHandler, CustomPlayerManager customPlayerManager,
-			ChampionsManager championsManager) {
+			ChampionsManager championsManager, CustomItemManager customItemManager) {
 		this.configHandler = configHandler;
 		this.customPlayerManager = customPlayerManager;
 		this.championsManager = championsManager;
+		this.customItemManager = customItemManager;
 	}
 
 	@Override
@@ -41,6 +44,7 @@ public class IngameState extends GameState {
 		int index = 0;
 
 		for (Player player : Bukkit.getOnlinePlayers()) {
+			player.closeInventory();
 			player.getInventory().clear();
 			Champion selectedChampion = championsManager.getSelectedChampion(player);
 
@@ -66,6 +70,10 @@ public class IngameState extends GameState {
 			customPlayerManager.addPlayer(player, selectedChampion);
 			player.getInventory().setHelmet(selectedChampion.getIcon());
 
+			customItemManager.getSelectedItems().get(player).forEach(customItem -> {
+				player.getInventory().addItem(customItem.getItemStack());
+			});
+
 			if (configHandler.getSpawnLocations() != null)
 				player.teleport(configHandler.getSpawnLocations().get(index));
 			index++;
@@ -76,7 +84,6 @@ public class IngameState extends GameState {
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
 
 	}
 

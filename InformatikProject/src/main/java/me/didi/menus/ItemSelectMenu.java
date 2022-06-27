@@ -1,6 +1,5 @@
 package me.didi.menus;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +13,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.items.CustomItem;
+import me.didi.items.CustomItemManager;
 import me.didi.utilities.ItemBuilder;
 
 public class ItemSelectMenu extends PaginatedMenu {
@@ -24,15 +24,15 @@ public class ItemSelectMenu extends PaginatedMenu {
 
 	private Player owner;
 
-	public ItemSelectMenu(PlayerMenuUtility playerMenuUtility) {
+	private CustomItemManager customItemManager;
+
+	public ItemSelectMenu(PlayerMenuUtility playerMenuUtility, CustomItemManager customItemManager) {
 		super(playerMenuUtility);
+		this.customItemManager = customItemManager;
 		owner = playerMenuUtility.getOwner();
 
 		selectedItems = new HashMap<Player, Set<CustomItem>>();
-		items = new ArrayList<CustomItem>();
-		// Adding items
-		items.add(null);
-
+		items = customItemManager.getCustomItems();
 	}
 
 	@Override
@@ -58,10 +58,8 @@ public class ItemSelectMenu extends PaginatedMenu {
 			return;
 
 		if (event.getCurrentItem().getType().equals(Material.BARRIER)) {
-
 			// close inventory
 			player.closeInventory();
-
 		} else if (event.getCurrentItem().getType().equals(Material.WOOD_BUTTON)) {
 			if (ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Left")) {
 				if (page == 0) {
@@ -153,6 +151,8 @@ public class ItemSelectMenu extends PaginatedMenu {
 
 			inventory.setItem(slot, new ItemBuilder(itemStack).addGlow().setLore(lore).toItemStack());
 		}
+
+		customItemManager.getSelectedItems().put(owner, selectedItems.get(owner));
 	}
 
 	public Map<Player, Set<CustomItem>> getSelectedItems() {

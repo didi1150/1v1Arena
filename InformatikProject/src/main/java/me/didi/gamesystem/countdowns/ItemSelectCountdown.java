@@ -55,9 +55,6 @@ public class ItemSelectCountdown extends Countdown {
 	public void stop() {
 		if (bukkitTask != null) {
 			bukkitTask.cancel();
-			Bukkit.getOnlinePlayers().forEach(player -> {
-				player.closeInventory();
-			});
 			gameStateManager.setGameState(GameState.INGAME_STATE);
 		}
 	}

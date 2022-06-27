@@ -114,8 +114,7 @@ public abstract class Champion {
 	}
 
 	/**
-	 * Executes the basic AutoAttack <br>
-	 * Still on TODO List
+	 * Executes the basic AutoAttack
 	 */
 	public abstract void executeAutoAttack();
 
@@ -172,5 +171,9 @@ public abstract class Champion {
 
 	public int getBaseAbilityPower() {
 		return baseAbilityPower;
+	}
+
+	public BaseStats getBaseStats() {
+		return baseStats;
 	}
 }

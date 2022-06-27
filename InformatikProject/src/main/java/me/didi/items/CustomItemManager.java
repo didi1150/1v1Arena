@@ -1,26 +1,44 @@
 package me.didi.items;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 public class CustomItemManager implements Listener {
 
-	private Set<CustomItem> customItems;
+	private List<CustomItem> customItems;
+	private Map<Player, Set<CustomItem>> selectedItems;
 
 	public CustomItemManager() {
-		customItems = new HashSet<CustomItem>();
+		customItems = new ArrayList<CustomItem>();
+		selectedItems = new HashMap<Player, Set<CustomItem>>();
 
 	}
 
 	@EventHandler
 	public void onEvent(Event event) {
-		customItems.forEach(customItem -> {
-			customItem.runPassive(event);
+		selectedItems.entrySet().forEach(entry -> {
+			Player player = entry.getKey();
+			Set<CustomItem> selection = entry.getValue();
+
+			selection.forEach(item -> {
+				item.runPassive(event, player);
+			});
 		});
 	}
 
+	public List<CustomItem> getCustomItems() {
+		return customItems;
+	}
+
+	public Map<Player, Set<CustomItem>> getSelectedItems() {
+		return selectedItems;
+	}
 }

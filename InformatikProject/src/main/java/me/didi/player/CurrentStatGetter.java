@@ -16,14 +16,9 @@ import me.didi.utilities.ChatUtils;
 public class CurrentStatGetter {
 
 	private static CurrentStatGetter instance;
-	private CustomPlayerManager customPlayerManager;
 
-	public CurrentStatGetter(CustomPlayerManager customPlayerManager) {
-		this.customPlayerManager = customPlayerManager;
-	}
-
-	public static void init(CustomPlayerManager customPlayerManager) {
-		instance = new CurrentStatGetter(customPlayerManager);
+	public static void init() {
+		instance = new CurrentStatGetter();
 	}
 
 	public static CurrentStatGetter getInstance() {
@@ -155,8 +150,7 @@ public class CurrentStatGetter {
 		if (player == null)
 			return 0;
 
-		CustomPlayer customPlayer;
-		if ((customPlayer = getCustomPlayer(player)) != null) {
+		if (getCustomPlayer(player) != null) {
 			double damage = 0;
 			for (ItemStack itemStack : player.getInventory().getContents()) {
 				if (itemStack == null || itemStack.getType() == Material.AIR)
@@ -175,13 +169,12 @@ public class CurrentStatGetter {
 		}
 		return 0;
 	}
-	
+
 	public double getAbilityPower(Player player) {
 		if (player == null)
 			return 0;
 
-		CustomPlayer customPlayer;
-		if ((customPlayer = getCustomPlayer(player)) != null) {
+		if (getCustomPlayer(player) != null) {
 			double damage = 0;
 			for (ItemStack itemStack : player.getInventory().getContents()) {
 				if (itemStack == null || itemStack.getType() == Material.AIR)
@@ -189,7 +182,7 @@ public class CurrentStatGetter {
 				if (itemStack.hasItemMeta() && itemStack.getItemMeta().getLore() != null) {
 					// ChatColor.Red + health: ChatColor.GREEN + 40
 					for (String string : itemStack.getItemMeta().getLore()) {
-						if (string.contains("damage:")) {
+						if (string.contains("ability power:")) {
 							String toAdd = ChatColor.stripColor(string.split(": ")[1]);
 							damage += Integer.parseInt(toAdd);
 						}
@@ -202,7 +195,7 @@ public class CurrentStatGetter {
 	}
 
 	public CustomPlayer getCustomPlayer(Player player) {
-		CustomPlayer customPlayer = customPlayerManager.getPlayer(player.getUniqueId());
+		CustomPlayer customPlayer = CustomPlayerManager.getInstance().getPlayer(player.getUniqueId());
 
 		if (customPlayer == null) {
 			ChatUtils.sendDebugMessage(

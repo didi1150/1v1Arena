@@ -16,8 +16,11 @@ import me.didi.champion.ChampionsManager;
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.gamesystem.gameStates.IngameState;
+import me.didi.gamesystem.gameStates.ItemSelectState;
 import me.didi.gamesystem.gameStates.LobbyState;
+import me.didi.items.CustomItemManager;
 import me.didi.menus.ChampionSelectMenu;
+import me.didi.menus.ItemSelectMenu;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.TaskManager;
 
@@ -30,6 +33,7 @@ public class PlayerInteractListener implements Listener {
 
 	private List<Player> abilityCooldowns;
 	private List<Player> autoAttackCooldowns;
+	private CustomItemManager customItemManager;
 
 	public PlayerInteractListener(ChampionsManager championsManager, GameStateManager gameStateManager,
 			AbilityStateManager abilityStateManager, SpecialEffectsManager specialEffectsManager) {
@@ -61,6 +65,22 @@ public class PlayerInteractListener implements Listener {
 						MainClass.getPlayerMenuUtility(event.getPlayer()), championsManager);
 				championSelectMenu.open();
 			}
+		} else if (gameStateManager.getCurrentGameState() instanceof ItemSelectState) {
+			if (event.getItem() == null)
+				return;
+			if (event.getItem().getType() == Material.AIR)
+				return;
+			if (!event.getItem().hasItemMeta())
+				return;
+			if (!event.getItem().getItemMeta().hasDisplayName())
+				return;
+			if (!event.getItem().getItemMeta().getDisplayName().contains("Select your items"))
+				return;
+
+			ItemSelectMenu itemSelectMenu = new ItemSelectMenu(MainClass.getPlayerMenuUtility(event.getPlayer()),
+					customItemManager);
+			itemSelectMenu.open();
+
 		} else if (gameStateManager.getCurrentGameState() instanceof IngameState) {
 			if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
