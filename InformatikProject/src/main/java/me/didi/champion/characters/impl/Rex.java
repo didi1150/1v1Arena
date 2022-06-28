@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.didi.champion.ability.Ability;
 import me.didi.champion.characters.RangedChampion;
+import me.didi.player.CurrentStatGetter;
 import me.didi.utilities.Utils;
 
 public class Rex extends RangedChampion {
@@ -20,6 +21,6 @@ public class Rex extends RangedChampion {
 	@Override
 	public void executeAutoAttack() {
 		Utils.shootAutoAttackProjectile(player, 13, new ItemStack(Material.PRISMARINE_CRYSTALS),
-				customPlayerManager.getDamage(player), true, 0.75);
+				CurrentStatGetter.getInstance().getAttackDamage(player), true, 0.75);
 	}
 }

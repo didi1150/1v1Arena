@@ -8,7 +8,6 @@ import org.bukkit.event.Event;
 
 import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.events.customEvents.DamageReason;
-import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ParticleUtils;
 import me.didi.utilities.TaskManager;
 import net.minecraft.server.v1_8_R3.AxisAlignedBB;

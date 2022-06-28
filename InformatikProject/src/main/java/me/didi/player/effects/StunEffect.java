@@ -15,9 +15,8 @@ import org.bukkit.util.Vector;
 
 import me.didi.champion.ability.AbilityStateManager;
 import me.didi.events.customEvents.AbilityCastEvent;
-import me.didi.utilities.Utils;
-import me.didi.utilities.ParticleUtils;
 import me.didi.utilities.TaskManager;
+import me.didi.utilities.Utils;
 import net.minecraft.server.v1_8_R3.AxisAlignedBB;
 import xyz.xenondevs.particle.ParticleEffect;
 
@@ -35,7 +34,6 @@ public class StunEffect extends SpecialEffect {
 		ent.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 30, 255, false, false));
 		net.minecraft.server.v1_8_R3.Entity craftEntity = ((CraftEntity) to).getHandle();
 		AxisAlignedBB bb = craftEntity.getBoundingBox();
-		double radius = (bb.d - bb.a) / 2;
 		TaskManager.getInstance().repeatUntil(1, 1, (long) (20 * duration), (task, counter) -> {
 
 			Location location = ent.getLocation();
