@@ -75,7 +75,7 @@ public class ChampionsManager {
 
 				new AnakinUltimate() }, 1076, 52, 40, 84, 0, 0, 0, 0.638f,
 				ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_ANAKIN),
-				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName(ChatColor.AQUA + "Youngling slayer 9000")
+				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName(ChatColor.AQUA + "Youngling Slayer 9000")
 						.addGlow().setLore(ChatColor.GRAY + "attack damage: " + ChatColor.GOLD + "+7").toItemStack()));
 		selectableChampions.add(new Rex(ChatColor.BLUE + "Rex", new Ability[] {
 
