@@ -1,13 +1,34 @@
 package me.didi.items;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.utilities.BaseStats;
 
-public interface CustomItem extends ItemPassive {
+public abstract class CustomItem implements ItemPassive {
 
-	public BaseStats getBaseStats();
+	public abstract BaseStats getBaseStats();
 
-	public ItemStack getItemStack();
+	public abstract ItemStack getItemStack();
+
+	
+	//TODO
+	public List<String> addStatsToLore() {
+		List<String> lore = new ArrayList<String>();
+		BaseStats baseStats = getBaseStats();
+
+		baseStats.getAttackSpeed();
+		baseStats.getBaseAbilityPower();
+		baseStats.getBaseArmorPenetration();
+		baseStats.getBaseAttackDamage();
+		baseStats.getBaseDefense();
+		baseStats.getBaseHealth();
+		baseStats.getBaseMagicPenetration();
+		baseStats.getBaseMagicResist();
+		
+		return lore;
+	}
 
 }
