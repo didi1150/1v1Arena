@@ -1,9 +1,7 @@
 package me.didi.menus;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
@@ -14,13 +12,12 @@ import org.bukkit.inventory.ItemStack;
 
 import me.didi.items.CustomItem;
 import me.didi.items.CustomItemManager;
+import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 
 public class ItemSelectMenu extends PaginatedMenu {
 
 	private List<CustomItem> items;
-
-	private Map<Player, Set<CustomItem>> selectedItems;
 
 	private Player owner;
 
@@ -31,7 +28,6 @@ public class ItemSelectMenu extends PaginatedMenu {
 		this.customItemManager = customItemManager;
 		owner = playerMenuUtility.getOwner();
 
-		selectedItems = new HashMap<Player, Set<CustomItem>>();
 		items = customItemManager.getCustomItems();
 	}
 
@@ -63,7 +59,7 @@ public class ItemSelectMenu extends PaginatedMenu {
 		} else if (event.getCurrentItem().getType().equals(Material.WOOD_BUTTON)) {
 			if (ChatColor.stripColor(event.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Left")) {
 				if (page == 0) {
-					player.sendMessage(ChatColor.GRAY + "You are already on the first page.");
+					ChatUtils.sendMessageToPlayer(player, ChatColor.RED + "You are on the first page already...");
 				} else {
 					page = page - 1;
 					super.open();
@@ -74,7 +70,7 @@ public class ItemSelectMenu extends PaginatedMenu {
 					page = page + 1;
 					super.open();
 				} else {
-					player.sendMessage(ChatColor.GRAY + "You are on the last page.");
+					ChatUtils.sendMessageToPlayer(player, ChatColor.RED + "You are on the last page.");
 				}
 			}
 		} else {
@@ -96,7 +92,8 @@ public class ItemSelectMenu extends PaginatedMenu {
 
 				ItemStack itemStack = customItem.getItemStack().clone();
 
-				if (selectedItems.containsKey(owner) && selectedItems.get(owner).contains(customItem)) {
+				if (customItemManager.getSelectedItems().containsKey(owner)
+						&& customItemManager.getSelectedItems().get(owner).contains(customItem)) {
 					List<String> lore = itemStack.getItemMeta().getLore();
 					lore.add(" ");
 					lore.add(ChatColor.GREEN + "" + ChatColor.BOLD + "SELECTED");
@@ -113,10 +110,10 @@ public class ItemSelectMenu extends PaginatedMenu {
 		boolean isSelected = false;
 
 		CustomItem customItem = null;
-		if (selectedItems.containsKey(owner)) {
-			for (CustomItem element : selectedItems.get(owner)) {
+		if (customItemManager.getSelectedItems().containsKey(owner)) {
+			for (CustomItem element : customItemManager.getSelectedItems().get(owner)) {
 				if (element.getItemStack().getItemMeta().getDisplayName()
-						.equalsIgnoreCase(itemStack.getItemMeta().getDisplayName())) {
+						.contains(itemStack.getItemMeta().getDisplayName())) {
 					isSelected = true;
 					customItem = element;
 					break;
@@ -124,7 +121,7 @@ public class ItemSelectMenu extends PaginatedMenu {
 			}
 		}
 		if (isSelected) {
-			selectedItems.remove(owner);
+			customItemManager.getSelectedItems().get(owner).remove(customItem);
 			inventory.setItem(slot, customItem.getItemStack());
 		} else {
 
@@ -137,14 +134,11 @@ public class ItemSelectMenu extends PaginatedMenu {
 			}
 
 			Set<CustomItem> customItems = new HashSet<CustomItem>();
-
-			if (selectedItems.containsKey(owner)) {
-				customItems = selectedItems.get(owner);
-			}
+			customItems = customItemManager.getSelectedItems().getOrDefault(owner, new HashSet<CustomItem>());
 
 			customItems.add(customItem);
 
-			selectedItems.put(owner, customItems);
+			customItemManager.getSelectedItems().put(owner, customItems);
 			List<String> lore = itemStack.getItemMeta().getLore();
 			lore.add(" ");
 			lore.add(ChatColor.GREEN + "" + ChatColor.BOLD + "SELECTED");
@@ -152,10 +146,7 @@ public class ItemSelectMenu extends PaginatedMenu {
 			inventory.setItem(slot, new ItemBuilder(itemStack).addGlow().setLore(lore).toItemStack());
 		}
 
-		customItemManager.getSelectedItems().put(owner, selectedItems.get(owner));
+		customItemManager.getSelectedItems().put(owner, customItemManager.getSelectedItems().get(owner));
 	}
 
-	public Map<Player, Set<CustomItem>> getSelectedItems() {
-		return selectedItems;
-	}
 }

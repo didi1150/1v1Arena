@@ -37,9 +37,11 @@ public class PlayerInteractListener implements Listener {
 	private CustomItemManager customItemManager;
 
 	public PlayerInteractListener(ChampionsManager championsManager, GameStateManager gameStateManager,
-			AbilityStateManager abilityStateManager, SpecialEffectsManager specialEffectsManager) {
+			AbilityStateManager abilityStateManager, SpecialEffectsManager specialEffectsManager,
+			CustomItemManager customItemManager) {
 		this.championsManager = championsManager;
 		this.gameStateManager = gameStateManager;
+		this.customItemManager = customItemManager;
 		this.abilityCooldowns = new ArrayList<Player>();
 		this.autoAttackCooldowns = new ArrayList<Player>();
 		this.abilityStateManager = abilityStateManager;

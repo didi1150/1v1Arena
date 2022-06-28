@@ -123,7 +123,7 @@ public class MainClass extends JavaPlugin {
 		pm.registerEvents(new JoinListener(this, gameStateManager, customPlayerManager, configHandler), this);
 		pm.registerEvents(new QuitListener(this, gameStateManager, abilityStateManager, configHandler), this);
 		pm.registerEvents(new PlayerInteractListener(championsManager, gameStateManager, abilityStateManager,
-				specialEffectsManager), this);
+				specialEffectsManager, customItemManager), this);
 		pm.registerEvents(new EntityDamageListener(gameStateManager, currentStatGetter), this);
 		pm.registerEvents(new BlockListener(), this);
 		pm.registerEvents(new DeathListener(this, customPlayerManager, gameStateManager), this);

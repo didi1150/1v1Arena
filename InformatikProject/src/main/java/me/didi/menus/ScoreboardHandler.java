@@ -53,24 +53,25 @@ public class ScoreboardHandler {
 		obj.getScore("Champion:").setScore(5);
 		obj.getScore(championsManager.getSelectedChampion(player).getName()).setScore(4);
 		obj.getScore("   ").setScore(3);
-		obj.getScore("Opponent health:").setScore(2);
+		obj.getScore("Opponent:").setScore(2);
 
-		Team opponentHP = scoreboard.registerNewTeam("opponentHP");
+		Team opponentHP = scoreboard.registerNewTeam("opponent");
 
 		UUID oppositePlayer = null;
 		for (UUID uuid : plugin.getAlivePlayers()) {
 			if (Bukkit.getPlayer(uuid) != player)
 				oppositePlayer = uuid;
 		}
-
-		if (oppositePlayer == null)
-			return;
-
-		CustomPlayer customPlayer = customPlayerManager.getPlayer(oppositePlayer);
 		opponentHP.addEntry(ChatColor.GRAY + "" + ChatColor.DARK_GRAY);
-		opponentHP.setPrefix(ChatColor.RED + "" + new DecimalFormat("#").format(customPlayer.getCurrentHealth()) + "/"
-				+ new DecimalFormat("#").format((customPlayer.getBaseHealth()
-						+ customPlayerManager.getBonusHealth(Bukkit.getPlayer(oppositePlayer)))));
+		if (oppositePlayer != null) {
+			CustomPlayer customPlayer = customPlayerManager.getPlayer(oppositePlayer);
+
+			opponentHP.setPrefix(ChatColor.RED + "" + new DecimalFormat("#").format(customPlayer.getCurrentHealth())
+					+ "/" + new DecimalFormat("#").format((customPlayer.getBaseHealth()
+							+ customPlayerManager.getBonusHealth(Bukkit.getPlayer(oppositePlayer)))));
+		} else {
+			opponentHP.setPrefix(ChatColor.RED + "No opponent");
+		}
 
 		obj.getScore(ChatColor.GRAY + "" + ChatColor.DARK_GRAY).setScore(1);
 		// INFORMATIKPROJEKT
@@ -85,18 +86,18 @@ public class ScoreboardHandler {
 	public void updateScoreboard(Player player) {
 		Scoreboard scoreboard = scoreboards.get(player);
 
-		Team opponentHP = scoreboard.getTeam("opponentHP");
+		Team opponentHP = scoreboard.getTeam("opponent");
 		UUID oppositePlayer = null;
 		for (UUID uuid : plugin.getAlivePlayers()) {
 			if (Bukkit.getPlayer(uuid) != player)
 				oppositePlayer = uuid;
 		}
 
-		if (oppositePlayer == null)
-			return;
-		CustomPlayer customPlayer = customPlayerManager.getPlayer(oppositePlayer);
-		opponentHP.setPrefix(ChatColor.RED + "" + new DecimalFormat("#").format(customPlayer.getCurrentHealth()) + "/"
-				+ new DecimalFormat("#").format((customPlayer.getBaseHealth()
-						+ customPlayerManager.getBonusHealth(Bukkit.getPlayer(oppositePlayer)))));
+		if (oppositePlayer != null) {
+			CustomPlayer customPlayer = customPlayerManager.getPlayer(oppositePlayer);
+			opponentHP.setPrefix(ChatColor.RED + "" + new DecimalFormat("#").format(customPlayer.getCurrentHealth())
+					+ "/" + new DecimalFormat("#").format((customPlayer.getBaseHealth()
+							+ customPlayerManager.getBonusHealth(Bukkit.getPlayer(oppositePlayer)))));
+		}
 	}
 }

@@ -59,8 +59,10 @@ public abstract class Champion {
 		this.baseAbilityPower = baseAbilityPower;
 		this.baseArmorPenetration = baseArmorPenetration;
 		this.baseMagicPenetration = baseMagicPenetration;
-		baseAttackSpeed = attackSpeed;
-
+		this.baseAttackSpeed = attackSpeed;
+		this.autoAttackItem = autoAttackItem;
+		this.icon = icon;
+		this.damageManager = new DamageManager();
 	}
 
 	public Champion(String name, Ability[] abilities, BaseStats baseStats, ItemStack icon, ItemStack autoAttackItem) {

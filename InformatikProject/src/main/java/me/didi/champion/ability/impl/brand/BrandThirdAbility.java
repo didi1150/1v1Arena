@@ -42,7 +42,7 @@ public class BrandThirdAbility implements Ability {
 
 	@Override
 	public String[] getDescription() {
-		return new String[] { ChatColor.GRAY + "Brand sets the target enemy aflame, which creates a blast",
+		return new String[] { ChatColor.GRAY + "(Target a champion) Brand sets the target enemy aflame, which creates a blast",
 				ChatColor.GRAY + "that deals " + ChatColor.DARK_AQUA + "magic damage (" + ChatColor.WHITE + "70"
 						+ ChatColor.DARK_PURPLE + " (+45% AP)" + ChatColor.DARK_AQUA + ") " + ChatColor.GRAY
 						+ "to them and nearby enemies." };

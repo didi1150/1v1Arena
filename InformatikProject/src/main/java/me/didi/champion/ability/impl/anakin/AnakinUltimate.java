@@ -46,8 +46,8 @@ public class AnakinUltimate implements Ability {
 	public String[] getDescription() {
 		// TODO Auto-generated method stub
 		return new String[] { ChatColor.GRAY + "Anakin uses the force on the next player he sees. If",
-				ChatColor.GRAY + " he detects a player, he throws the enemy up",
-				ChatColor.GRAY + " and slams him back into the ground, dealing " + ChatColor.RED + "physical damage ("
+				ChatColor.GRAY + "he detects a player, he throws the enemy up",
+				ChatColor.GRAY + "and slams him back into the ground, dealing " + ChatColor.RED + "physical damage ("
 						+ ChatColor.WHITE + "100" + ChatColor.GOLD + " (+120% AD)" + ChatColor.DARK_PURPLE
 						+ " (+100% AP)" + ChatColor.RED + ")" + ChatColor.GRAY + ".",
 				ChatColor.GRAY + "Afterwards, the target is slowed down for 5 seconds." };

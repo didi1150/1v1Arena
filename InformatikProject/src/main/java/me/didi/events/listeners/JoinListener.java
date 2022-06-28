@@ -52,7 +52,13 @@ public class JoinListener implements Listener {
 			player.getInventory().setArmorContents(new ItemStack[] { new ItemStack(Material.AIR),
 					new ItemStack(Material.AIR), new ItemStack(Material.AIR), new ItemStack(Material.AIR) });
 			player.getActivePotionEffects().clear();
-			player.removePotionEffect(PotionEffectType.INVISIBILITY);
+			for (int i = 0; i < PotionEffectType.values().length; i++) {
+				PotionEffectType potionEffectType = PotionEffectType.values()[i];
+				if (potionEffectType == null)
+					continue;
+				if (player.hasPotionEffect(potionEffectType))
+					player.removePotionEffect(potionEffectType);
+			}
 			player.setHealth(player.getMaxHealth());
 			player.setFoodLevel(20);
 			player.setLevel(0);

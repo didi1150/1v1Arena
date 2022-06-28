@@ -52,6 +52,9 @@ public class ChampionsManager {
 
 	private static ChampionsManager instance;
 
+	private ChampionsManager() {
+	}
+	
 	public static void registerChampions(AbilityStateManager abilityCooldownManager,
 			SpecialEffectsManager specialEffectsManager, CustomPlayerManager customPlayerManager, MainClass plugin) {
 		selectableChampions.add(new Lloyd(ChatColor.GREEN + "Lloyd", new Ability[] { new LloydFirstAbility(),
@@ -62,7 +65,7 @@ public class ChampionsManager {
 
 				new LloydUltimate() }, 1040, 41, 45, 75, 55, 0, 0, 0.625f,
 				ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_LLOYD),
-				new ItemBuilder(new ItemStack(Material.GOLD_SWORD)).setDisplayName(ChatColor.GOLD + "Katana")
+				new ItemBuilder(Material.GOLD_SWORD).setDisplayName(ChatColor.GOLD + "Katana")
 						.setLore(ChatColor.GRAY + "attack damage: " + ChatColor.GOLD + "+6").toItemStack()));
 		selectableChampions.add(new Anakin(ChatColor.BLUE + "Anakin", new Ability[] { new AnakinFirstAbility(),
 
@@ -72,8 +75,8 @@ public class ChampionsManager {
 
 				new AnakinUltimate() }, 1076, 52, 40, 84, 0, 0, 0, 0.638f,
 				ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_ANAKIN),
-				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName(ChatColor.AQUA + "Lightsaber").addGlow()
-						.setLore(ChatColor.GRAY + "attack damage: " + ChatColor.GOLD + "+7").toItemStack()));
+				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName(ChatColor.AQUA + "Youngling slayer 9000")
+						.addGlow().setLore(ChatColor.GRAY + "attack damage: " + ChatColor.GOLD + "+7").toItemStack()));
 		selectableChampions.add(new Rex(ChatColor.BLUE + "Rex", new Ability[] {
 
 				new RexFirstAbility(),

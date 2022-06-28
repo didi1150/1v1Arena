@@ -3,6 +3,7 @@ package me.didi.gamesystem;
 import me.didi.MainClass;
 import me.didi.champion.ChampionsManager;
 import me.didi.gamesystem.countdowns.EndingCountdown;
+import me.didi.gamesystem.countdowns.ItemSelectCountdown;
 import me.didi.gamesystem.countdowns.LobbyCountdown;
 import me.didi.gamesystem.gameStates.EndingState;
 import me.didi.gamesystem.gameStates.IngameState;
@@ -29,7 +30,7 @@ public class GameStateManager {
 		this.gameStates = new GameState[4];
 
 		gameStates[GameState.LOBBY_STATE] = new LobbyState(new LobbyCountdown(this, championsManager, configHandler));
-		gameStates[GameState.ITEM_SELECT_STATE] = new ItemSelectState();
+		gameStates[GameState.ITEM_SELECT_STATE] = new ItemSelectState(new ItemSelectCountdown(this));
 		gameStates[GameState.INGAME_STATE] = new IngameState(configHandler, customPlayerManager, championsManager,
 				customItemManager);
 		gameStates[GameState.ENDING_STATE] = new EndingState(new EndingCountdown(this, customPlayerManager), plugin);

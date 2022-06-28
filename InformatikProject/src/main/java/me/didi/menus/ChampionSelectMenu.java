@@ -51,8 +51,11 @@ public class ChampionSelectMenu extends Menu {
 		for (Champion champion : championsManager.getSelectableChampions()) {
 
 			ItemStack icon = champion.getIcon();
-			if (champion.equals(championsManager.getSelectedChampion(this.playerMenuUtility.getOwner()))) {
-				icon = new ItemBuilder(icon).addGlow().toItemStack();
+
+			if (championsManager.getSelectedChampion(this.playerMenuUtility.getOwner()) != null) {
+				if (champion.equals(championsManager.getSelectedChampion(this.playerMenuUtility.getOwner()))) {
+					icon = new ItemBuilder(icon).addGlow().toItemStack();
+				}
 			}
 
 			this.inventory.addItem(icon);
