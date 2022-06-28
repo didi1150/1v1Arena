@@ -66,8 +66,8 @@ public class CurrentStatGetter {
 					// ChatColor.Red + health: ChatColor.GREEN + 40
 					for (String string : itemStack.getItemMeta().getLore()) {
 						if (string.contains("defense:")) {
-							String health = ChatColor.stripColor(string.split(": ")[1]);
-							bonusDefense += Integer.parseInt(health);
+							String def = ChatColor.stripColor(string.split(": ")[1]);
+							bonusDefense += Integer.parseInt(def);
 						}
 					}
 				}
@@ -90,8 +90,8 @@ public class CurrentStatGetter {
 					// ChatColor.Red + magic resistance: ChatColor.GREEN + 40
 					for (String string : itemStack.getItemMeta().getLore()) {
 						if (string.contains("magic resistance:")) {
-							String health = ChatColor.stripColor(string.split(": ")[1]);
-							bonusMagicResistance += Integer.parseInt(health);
+							String mr = ChatColor.stripColor(string.split(": ")[1]);
+							bonusMagicResistance += Integer.parseInt(mr);
 						}
 					}
 				}
@@ -112,8 +112,8 @@ public class CurrentStatGetter {
 					// ChatColor.Red + magic resistance: ChatColor.GREEN + 40
 					for (String string : itemStack.getItemMeta().getLore()) {
 						if (string.contains("armor penetration:")) {
-							String health = ChatColor.stripColor(string.split(": ")[1]);
-							bonusArmorPenetration += Integer.parseInt(health);
+							String am = ChatColor.stripColor(string.split(": ")[1]);
+							bonusArmorPenetration += Integer.parseInt(am);
 						}
 					}
 				}
@@ -135,8 +135,8 @@ public class CurrentStatGetter {
 					// ChatColor.Red + magic resistance: ChatColor.GREEN + 40
 					for (String string : itemStack.getItemMeta().getLore()) {
 						if (string.contains("magic penetration:")) {
-							String health = ChatColor.stripColor(string.split(": ")[1]);
-							bonusMagicPenetration += Integer.parseInt(health);
+							String mp = ChatColor.stripColor(string.split(": ")[1]);
+							bonusMagicPenetration += Integer.parseInt(mp);
 						}
 					}
 				}
@@ -190,6 +190,30 @@ public class CurrentStatGetter {
 				}
 			}
 			return damage;
+		}
+		return 0;
+	}
+
+	public float getAttackSpeed(Player player) {
+		float bonusAttackSpeed = 0;
+
+		CustomPlayer customPlayer;
+		if ((customPlayer = getCustomPlayer(player)) != null) {
+
+			for (ItemStack itemStack : player.getInventory().getContents()) {
+				if (itemStack == null || itemStack.getType() == Material.AIR)
+					continue;
+				if (itemStack.hasItemMeta() && itemStack.getItemMeta().getLore() != null) {
+					// ChatColor.Red + magic resistance: ChatColor.GREEN + 40
+					for (String string : itemStack.getItemMeta().getLore()) {
+						if (string.contains("attack speed:")) {
+							String as = ChatColor.stripColor(string.split(": ")[1]);
+							bonusAttackSpeed += Integer.parseInt(as) / 100;
+						}
+					}
+				}
+			}
+			return bonusAttackSpeed + customPlayer.getBaseAttackSpeed();
 		}
 		return 0;
 	}

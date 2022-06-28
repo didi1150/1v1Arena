@@ -9,6 +9,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import me.didi.champion.Champion;
 import me.didi.champion.ChampionsManager;
@@ -16,6 +18,7 @@ import me.didi.champion.ability.Ability;
 import me.didi.gamesystem.GameState;
 import me.didi.items.CustomItemManager;
 import me.didi.menus.ScoreboardHandler;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.CustomPlayerManager;
 import me.didi.utilities.ConfigHandler;
 import me.didi.utilities.ItemBuilder;
@@ -74,12 +77,37 @@ public class IngameState extends GameState {
 				player.getInventory().addItem(customItem.getItemStack());
 			});
 
+			applyAttackSpeed(player);
+
 			if (configHandler.getSpawnLocations() != null)
 				player.teleport(configHandler.getSpawnLocations().get(index));
 			index++;
 		}
 
 		customPlayerManager.startBackgroundTask();
+	}
+
+	public static void main(String[] args) {
+		float rounded = 0.76f;
+		float amplifier = 1 - rounded;
+
+		System.out.println((int) (amplifier * 10));
+	}
+
+	private void applyAttackSpeed(Player player) {
+		float attackSpeed = CurrentStatGetter.getInstance().getAttackSpeed(player);
+		float rounded = (float) Math.round(attackSpeed * 10) / 10;
+		float amplifier = 0;
+		if (rounded < 1) {
+			amplifier = (1 - rounded) * 10;
+			player.addPotionEffect(
+					new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE, (int) amplifier, false, false));
+		} else if (rounded > 1) {
+			amplifier = (rounded - 1) * 10;
+			player.addPotionEffect(
+					new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, (int) amplifier, false, false));
+		}
+
 	}
 
 	@Override
