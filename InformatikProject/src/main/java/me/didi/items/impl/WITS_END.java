@@ -14,7 +14,7 @@ public class WITS_END extends CustomItem {
 
 	@Override
 	public void runPassive(Event event, Player player) {
-
+		
 	}
 
 	@Override
@@ -24,8 +24,8 @@ public class WITS_END extends CustomItem {
 
 	@Override
 	public ItemStack getItemStack() {
-		return new ItemBuilder(Material.DIAMOND_SWORD).setDisplayName(ChatColor.GOLD + "Wit's End").setLore("", "")
-				.toItemStack();
+		return new ItemBuilder(Material.DIAMOND_SWORD).setDisplayName(ChatColor.GOLD + "Wit's End")
+				.setLore(addStatsToLore()).toItemStack();
 	}
 
 }

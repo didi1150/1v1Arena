@@ -11,6 +11,8 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import me.didi.items.impl.WITS_END;
+
 public class CustomItemManager implements Listener {
 
 	private List<CustomItem> customItems;
@@ -19,6 +21,8 @@ public class CustomItemManager implements Listener {
 	public CustomItemManager() {
 		customItems = new ArrayList<CustomItem>();
 		selectedItems = new HashMap<Player, Set<CustomItem>>();
+
+		customItems.add(new WITS_END());
 
 	}
 
