@@ -21,6 +21,7 @@ import me.didi.gamesystem.gameStates.LobbyState;
 import me.didi.items.CustomItemManager;
 import me.didi.menus.ChampionSelectMenu;
 import me.didi.menus.ItemSelectMenu;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.effects.SpecialEffectsManager;
 import me.didi.utilities.TaskManager;
 
@@ -123,7 +124,10 @@ public class PlayerInteractListener implements Listener {
 					if (autoAttackCooldowns.contains(player))
 						return;
 					autoAttackCooldowns.add(player);
-					TaskManager.getInstance().runTaskLater(20 / 4, task -> {
+					float attackSpeed = CurrentStatGetter.getInstance().getAttackSpeed(player);
+					float rounded = (float) Math.round(attackSpeed * 10);
+
+					TaskManager.getInstance().runTaskLater(20 * (int) (rounded) / 10, task -> {
 						autoAttackCooldowns.remove(player);
 					});
 

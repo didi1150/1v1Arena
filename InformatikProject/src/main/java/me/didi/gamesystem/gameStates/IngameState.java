@@ -87,13 +87,6 @@ public class IngameState extends GameState {
 		customPlayerManager.startBackgroundTask();
 	}
 
-	public static void main(String[] args) {
-		float rounded = 0.76f;
-		float amplifier = 1 - rounded;
-
-		System.out.println((int) (amplifier * 10));
-	}
-
 	private void applyAttackSpeed(Player player) {
 		float attackSpeed = CurrentStatGetter.getInstance().getAttackSpeed(player);
 		float rounded = (float) Math.round(attackSpeed * 10) / 10;
