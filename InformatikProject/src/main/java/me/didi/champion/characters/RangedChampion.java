@@ -9,10 +9,10 @@ public abstract class RangedChampion extends Champion {
 
 	public RangedChampion(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist,
 			int baseAttackDamage, int baseAbilityPower, int baseArmorPenetration, int baseMagicPenetration,
-			ItemStack icon, ItemStack autoAttackItem) {
+			float attackSpeed, ItemStack icon, ItemStack autoAttackItem) {
 		super(name, abilities, baseHealth, baseDefense, baseMagicResist, baseAttackDamage, baseAbilityPower,
-				baseArmorPenetration, baseMagicPenetration, icon, autoAttackItem);
+				baseArmorPenetration, baseMagicPenetration, attackSpeed, icon, autoAttackItem);
+		// TODO Auto-generated constructor stub
 	}
-
 
 }

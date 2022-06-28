@@ -31,6 +31,7 @@ public abstract class Champion {
 	private int baseMagicPenetration;
 	private int baseAttackDamage;
 	private int baseAbilityPower;
+	private float baseAttackSpeed;
 
 	private BaseStats baseStats;
 
@@ -48,7 +49,7 @@ public abstract class Champion {
 
 	public Champion(String name, Ability[] abilities, int baseHealth, int baseDefense, int baseMagicResist,
 			int baseAttackDamage, int baseAbilityPower, int baseArmorPenetration, int baseMagicPenetration,
-			ItemStack icon, ItemStack autoAttackItem) {
+			float attackSpeed, ItemStack icon, ItemStack autoAttackItem) {
 		this.name = name;
 		this.abilities = abilities;
 		this.baseHealth = baseHealth;
@@ -58,6 +59,7 @@ public abstract class Champion {
 		this.baseAbilityPower = baseAbilityPower;
 		this.baseArmorPenetration = baseArmorPenetration;
 		this.baseMagicPenetration = baseMagicPenetration;
+		baseAttackSpeed = attackSpeed;
 
 	}
 
@@ -72,6 +74,7 @@ public abstract class Champion {
 		this.baseAbilityPower = baseStats.getBaseAbilityPower();
 		this.baseArmorPenetration = baseStats.getBaseArmorPenetration();
 		this.baseMagicPenetration = baseStats.getBaseMagicPenetration();
+		this.baseAttackSpeed = baseStats.getAttackSpeed();
 		this.icon = icon;
 		this.autoAttackItem = autoAttackItem;
 		this.damageManager = new DamageManager();
@@ -175,5 +178,9 @@ public abstract class Champion {
 
 	public BaseStats getBaseStats() {
 		return baseStats;
+	}
+
+	public float getBaseAttackSpeed() {
+		return baseAttackSpeed;
 	}
 }

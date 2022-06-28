@@ -9,9 +9,10 @@ public class BaseStats {
 	private int baseMagicPenetration;
 	private int baseAttackDamage;
 	private int baseAbilityPower;
-
+	private int attackSpeed;
+	
 	public BaseStats(int baseHealth, int baseDefense, int baseMagicResist, int baseArmorPenetration,
-			int baseMagicPenetration, int baseAttackDamage, int baseAbilityPower) {
+			int baseMagicPenetration, int baseAttackDamage, int baseAbilityPower, int attackSpeed) {
 		this.baseHealth = baseHealth;
 		this.baseDefense = baseDefense;
 		this.baseMagicResist = baseMagicResist;
@@ -19,6 +20,7 @@ public class BaseStats {
 		this.baseMagicPenetration = baseMagicPenetration;
 		this.baseAttackDamage = baseAttackDamage;
 		this.baseAbilityPower = baseAbilityPower;
+		this.attackSpeed = attackSpeed;
 	}
 
 	public int getBaseHealth() {
@@ -47,6 +49,10 @@ public class BaseStats {
 
 	public int getBaseAbilityPower() {
 		return baseAbilityPower;
+	}
+	
+	public int getAttackSpeed() {
+		return attackSpeed;
 	}
 	
 }

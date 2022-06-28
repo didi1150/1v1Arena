@@ -56,7 +56,8 @@ public class CustomPlayerManager {
 		players.put(uuid,
 				new CustomPlayer(champion.getBaseHealth(), champion.getBaseDefense(), champion.getBaseMagicResist(),
 						champion.getBaseArmorPenetration(), champion.getBaseMagicPenetration(),
-						champion.getBaseAttackDamage(), champion.getBaseAbilityPower(), uuid, name));
+						champion.getBaseAttackDamage(), champion.getBaseAbilityPower(), champion.getBaseAttackSpeed(),
+						uuid, name));
 
 	}
 

@@ -24,8 +24,10 @@ public class CustomPlayer {
 
 	private float currentHealth;
 
+	private float baseAttackSpeed;
+	
 	public CustomPlayer(int baseHealth, int baseDefense, int magicResist, int armorPenetration, int magicPenetration,
-			int attackDamage, int abilityPower, UUID uuid, String name) {
+			int attackDamage, int abilityPower, float baseAttackSpeed, UUID uuid, String name) {
 		this.baseHealth = baseHealth;
 		this.baseDefense = baseDefense;
 		this.magicResist = magicResist;
@@ -33,6 +35,7 @@ public class CustomPlayer {
 		this.magicPenetration = magicPenetration;
 		this.attackDamage = attackDamage;
 		this.abilityPower = abilityPower;
+		this.baseAttackSpeed = baseAttackSpeed;
 		this.uuid = uuid;
 		this.name = name;
 		this.currentHealth = baseHealth;
@@ -118,4 +121,8 @@ public class CustomPlayer {
 		this.attackDamage = attackDamage;
 	}
 
+	public float getBaseAttackSpeed() {
+		return baseAttackSpeed;
+	}
+	
 }
