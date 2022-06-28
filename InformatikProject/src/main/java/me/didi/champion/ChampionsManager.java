@@ -63,7 +63,7 @@ public class ChampionsManager {
 				new LloydUltimate() }, 1040, 41, 45, 75, 55, 0, 0, 0.625f,
 				ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_LLOYD),
 				new ItemBuilder(new ItemStack(Material.GOLD_SWORD)).setDisplayName(ChatColor.GOLD + "Katana")
-						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "6").toItemStack()));
+						.setLore(ChatColor.GRAY + "attack damage: " + ChatColor.GOLD + "+6").toItemStack()));
 		selectableChampions.add(new Anakin(ChatColor.BLUE + "Anakin", new Ability[] { new AnakinFirstAbility(),
 
 				new AnakinSecondAbility(),
@@ -73,7 +73,7 @@ public class ChampionsManager {
 				new AnakinUltimate() }, 1076, 52, 40, 84, 0, 0, 0, 0.638f,
 				ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_ANAKIN),
 				new ItemBuilder(new ItemStack(Material.STICK)).setDisplayName(ChatColor.AQUA + "Lightsaber").addGlow()
-						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "7").toItemStack()));
+						.setLore(ChatColor.GRAY + "attack damage: " + ChatColor.GOLD + "+7").toItemStack()));
 		selectableChampions.add(new Rex(ChatColor.BLUE + "Rex", new Ability[] {
 
 				new RexFirstAbility(),
@@ -85,7 +85,7 @@ public class ChampionsManager {
 				new RexUltimate() }, 1036, 44, 35, 71, 0, 0, 0, 0.638f,
 				ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_REX),
 				new ItemBuilder(new ItemStack(Material.IRON_BARDING)).setDisplayName(ChatColor.AQUA + "Blaster")
-						.addGlow().setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "5").toItemStack()));
+						.addGlow().setLore(ChatColor.GRAY + "attack damage: " + ChatColor.GOLD + "+5").toItemStack()));
 		selectableChampions.add(new Perry(ChatColor.DARK_GREEN + "Perry", new Ability[] {
 
 				new PerryFirstAbility(),
@@ -98,7 +98,7 @@ public class ChampionsManager {
 
 		}, 1060, 48, 40, 74, 10, 0, 0, 72, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_PERRY),
 				new ItemBuilder(new ItemStack(Material.ANVIL)).setDisplayName(ChatColor.GREEN + "Fist")
-						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "10").toItemStack()));
+						.setLore(ChatColor.GRAY + "attack damage: " + ChatColor.GOLD + "+10").toItemStack()));
 		selectableChampions.add(new Brand(ChatColor.GOLD + "Brand", new Ability[] {
 
 				new BrandFirstAbility(),
@@ -111,7 +111,7 @@ public class ChampionsManager {
 
 		}, 992, 40, 35, 69, 57, 0, 0, 0.625f, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_BRAND),
 				new ItemBuilder(Material.GOLD_NUGGET).setDisplayName(ChatColor.GOLD + "Molten Fire")
-						.setLore(ChatColor.GRAY + "damage: " + ChatColor.RED + "6").toItemStack()));
+						.setLore(ChatColor.GRAY + "attack damage: " + ChatColor.GOLD + "+6").toItemStack()));
 
 		selectableChampions.forEach(champion -> {
 

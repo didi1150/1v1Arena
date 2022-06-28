@@ -41,7 +41,7 @@ public class CurrentStatGetter {
 					if (itemStack.getItemMeta().getLore().contains("health")) {
 						for (String string : itemStack.getItemMeta().getLore()) {
 							if (string.contains("health")) {
-								String health = ChatColor.stripColor(string.split(": ")[1]);
+								String health = ChatColor.stripColor(string.split(": ")[1].replaceAll("+", ""));
 								bonusHealth += Integer.parseInt(health);
 							}
 						}
@@ -66,7 +66,7 @@ public class CurrentStatGetter {
 					// ChatColor.Red + health: ChatColor.GREEN + 40
 					for (String string : itemStack.getItemMeta().getLore()) {
 						if (string.contains("defense:")) {
-							String def = ChatColor.stripColor(string.split(": ")[1]);
+							String def = ChatColor.stripColor(string.split(": ")[1].replaceAll("+", ""));
 							bonusDefense += Integer.parseInt(def);
 						}
 					}
@@ -90,7 +90,7 @@ public class CurrentStatGetter {
 					// ChatColor.Red + magic resistance: ChatColor.GREEN + 40
 					for (String string : itemStack.getItemMeta().getLore()) {
 						if (string.contains("magic resistance:")) {
-							String mr = ChatColor.stripColor(string.split(": ")[1]);
+							String mr = ChatColor.stripColor(string.split(": ")[1].replaceAll("+", ""));
 							bonusMagicResistance += Integer.parseInt(mr);
 						}
 					}
@@ -112,7 +112,7 @@ public class CurrentStatGetter {
 					// ChatColor.Red + magic resistance: ChatColor.GREEN + 40
 					for (String string : itemStack.getItemMeta().getLore()) {
 						if (string.contains("armor penetration:")) {
-							String am = ChatColor.stripColor(string.split(": ")[1]);
+							String am = ChatColor.stripColor(string.split(": ")[1].replaceAll("+", ""));
 							bonusArmorPenetration += Integer.parseInt(am);
 						}
 					}
@@ -135,7 +135,7 @@ public class CurrentStatGetter {
 					// ChatColor.Red + magic resistance: ChatColor.GREEN + 40
 					for (String string : itemStack.getItemMeta().getLore()) {
 						if (string.contains("magic penetration:")) {
-							String mp = ChatColor.stripColor(string.split(": ")[1]);
+							String mp = ChatColor.stripColor(string.split(": ")[1].replaceAll("+", ""));
 							bonusMagicPenetration += Integer.parseInt(mp);
 						}
 					}
@@ -158,8 +158,8 @@ public class CurrentStatGetter {
 				if (itemStack.hasItemMeta() && itemStack.getItemMeta().getLore() != null) {
 					// ChatColor.Red + health: ChatColor.GREEN + 40
 					for (String string : itemStack.getItemMeta().getLore()) {
-						if (string.contains("damage:")) {
-							String toAdd = ChatColor.stripColor(string.split(": ")[1]);
+						if (string.contains("attack damage:")) {
+							String toAdd = ChatColor.stripColor(string.split(": ")[1].replaceAll("+", ""));
 							damage += Integer.parseInt(toAdd);
 						}
 					}
@@ -183,7 +183,7 @@ public class CurrentStatGetter {
 					// ChatColor.Red + health: ChatColor.GREEN + 40
 					for (String string : itemStack.getItemMeta().getLore()) {
 						if (string.contains("ability power:")) {
-							String toAdd = ChatColor.stripColor(string.split(": ")[1]);
+							String toAdd = ChatColor.stripColor(string.split(": ")[1].replaceAll("+", ""));
 							damage += Integer.parseInt(toAdd);
 						}
 					}
@@ -207,7 +207,7 @@ public class CurrentStatGetter {
 					// ChatColor.Red + magic resistance: ChatColor.GREEN + 40
 					for (String string : itemStack.getItemMeta().getLore()) {
 						if (string.contains("attack speed:")) {
-							String as = ChatColor.stripColor(string.split(": ")[1]);
+							String as = ChatColor.stripColor(string.split(": ")[1].replaceAll("+", ""));
 							bonusAttackSpeed += Integer.parseInt(as) / 100;
 						}
 					}

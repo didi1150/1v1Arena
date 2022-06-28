@@ -2,15 +2,15 @@ package me.didi.utilities;
 
 public class BaseStats {
 
-	private int baseHealth;
-	private int baseDefense;
-	private int baseMagicResist;
-	private int baseArmorPenetration;
-	private int baseMagicPenetration;
-	private int baseAttackDamage;
-	private int baseAbilityPower;
-	private int attackSpeed;
-	
+	private int baseHealth = 0;
+	private int baseDefense = 0;
+	private int baseMagicResist = 0;
+	private int baseArmorPenetration = 0;
+	private int baseMagicPenetration = 0;
+	private int baseAttackDamage = 0;
+	private int baseAbilityPower = 0;
+	private int attackSpeed = 0;
+
 	public BaseStats(int baseHealth, int baseDefense, int baseMagicResist, int baseArmorPenetration,
 			int baseMagicPenetration, int baseAttackDamage, int baseAbilityPower, int attackSpeed) {
 		this.baseHealth = baseHealth;
@@ -50,9 +50,9 @@ public class BaseStats {
 	public int getBaseAbilityPower() {
 		return baseAbilityPower;
 	}
-	
+
 	public int getAttackSpeed() {
 		return attackSpeed;
 	}
-	
+
 }
