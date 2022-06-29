@@ -1,5 +1,8 @@
 package me.didi.events.listeners;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -18,6 +21,7 @@ import me.didi.gamesystem.gameStates.IngameState;
 import me.didi.menus.ScoreboardHandler;
 import me.didi.player.CurrentStatGetter;
 import me.didi.player.CustomPlayer;
+import me.didi.utilities.TaskManager;
 import me.didi.utilities.Utils;
 
 public class EntityDamageListener implements Listener {
@@ -25,9 +29,12 @@ public class EntityDamageListener implements Listener {
 	private GameStateManager gameStateManager;
 	private CurrentStatGetter currentStatGetter;
 
+	private List<Player> attackCooldowns;
+
 	public EntityDamageListener(GameStateManager gameStateManager, CurrentStatGetter currentStatGetter) {
 		this.gameStateManager = gameStateManager;
 		this.currentStatGetter = currentStatGetter;
+		this.attackCooldowns = new ArrayList<Player>();
 	}
 
 	@EventHandler
@@ -96,19 +103,22 @@ public class EntityDamageListener implements Listener {
 
 		boolean knockback = event.isKnockback();
 		if (event.getEntity() instanceof Player) {
-			Bukkit.getOnlinePlayers().forEach(pl -> {
-				ScoreboardHandler.getInstance().updateOpponentHealth(pl);
-			});
 			Player player = (Player) event.getEntity();
-
+			
 			float attackSpeed = CurrentStatGetter.getInstance().getAttackSpeed((Player) event.getAttacker());
 			float rounded = (float) Math.round(attackSpeed * 10);
 
-			int ticks = 20 * (int) (rounded) / 10;
-			if (ticks >= 20)
-				ticks = 20;
-			player.setMaximumNoDamageTicks(20 - ticks);
+			int ticks = (int) (20 / (rounded / 10));
+			
+			if (!attackCooldowns.contains(player)) {
+				attackCooldowns.add(player);
 
+				TaskManager.getInstance().runTaskLater(ticks, task -> {
+					attackCooldowns.remove(player);
+				});
+			} else
+				return;
+			
 			double calculatedDamage = event.getDamage();
 			CustomPlayer customPlayer;
 
@@ -150,6 +160,10 @@ public class EntityDamageListener implements Listener {
 		}
 		if (knockback)
 			DamageManager.knockbackEnemy(event.getAttacker(), event.getEntity());
+
+		Bukkit.getOnlinePlayers().forEach(pl -> {
+			ScoreboardHandler.getInstance().updateOpponentHealth(pl);
+		});
 	}
 
 }
