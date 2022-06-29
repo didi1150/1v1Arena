@@ -15,6 +15,7 @@ import org.bukkit.scoreboard.Team;
 
 import me.didi.MainClass;
 import me.didi.champion.ChampionsManager;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.CustomPlayer;
 import me.didi.player.CustomPlayerManager;
 
@@ -78,13 +79,23 @@ public class ScoreboardHandler {
 		obj.getScore(ChatColor.GOLD + "Stats").setScore(10);
 
 		obj.getScore(ChatColor.GOLD + "Attack damage").setScore(9);
-		
+
+		Team attackDamage = scoreboard.registerNewTeam("AD");
+		attackDamage.addEntry(ChatColor.GRAY + "" + ChatColor.BLUE);
+		attackDamage.setPrefix(ChatColor.GOLD + "" + CurrentStatGetter.getInstance().getAttackDamage(player));
+		obj.getScore(ChatColor.GRAY + "" + ChatColor.BLUE).setScore(8);
+
 		obj.getScore(ChatColor.GOLD + "Ability power").setScore(7);
-		
+
+		Team abilityPower = scoreboard.registerNewTeam("AP");
+		attackDamage.addEntry(ChatColor.GRAY + "" + ChatColor.DARK_BLUE);
+		attackDamage.setPrefix(ChatColor.GOLD + "" + CurrentStatGetter.getInstance().getAttackDamage(player));
+		obj.getScore(ChatColor.GRAY + "" + ChatColor.BLUE).setScore(8);
+
 		obj.getScore(ChatColor.GOLD + "Attack Speed").setScore(5);
-		
+
 		obj.getScore(ChatColor.GOLD + "Armor Penetration").setScore(3);
-		
+
 		obj.getScore(ChatColor.GOLD + "Magic Penetration").setScore(1);
 		// INFORMATIKPROJEKT
 		// Champion: 15

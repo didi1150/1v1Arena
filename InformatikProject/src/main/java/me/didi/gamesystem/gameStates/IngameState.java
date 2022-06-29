@@ -40,10 +40,6 @@ public class IngameState extends GameState {
 
 	@Override
 	public void start() {
-		Bukkit.getOnlinePlayers().forEach(player -> {
-			ScoreboardHandler.getInstance().setScoreboard(player);
-		});
-
 		int index = 0;
 
 		for (Player player : Bukkit.getOnlinePlayers()) {
@@ -81,6 +77,8 @@ public class IngameState extends GameState {
 
 			if (configHandler.getSpawnLocations() != null)
 				player.teleport(configHandler.getSpawnLocations().get(index));
+
+			ScoreboardHandler.getInstance().setScoreboard(player);
 			index++;
 		}
 
