@@ -74,23 +74,35 @@ public class ScoreboardHandler {
 		}
 
 		obj.getScore(ChatColor.GRAY + "" + ChatColor.DARK_GRAY).setScore(11);
+
+		obj.getScore(ChatColor.GOLD + "Stats").setScore(10);
+
+		obj.getScore(ChatColor.GOLD + "Attack damage").setScore(9);
+		
+		obj.getScore(ChatColor.GOLD + "Ability power").setScore(7);
+		
+		obj.getScore(ChatColor.GOLD + "Attack Speed").setScore(5);
+		
+		obj.getScore(ChatColor.GOLD + "Armor Penetration").setScore(3);
+		
+		obj.getScore(ChatColor.GOLD + "Magic Penetration").setScore(1);
 		// INFORMATIKPROJEKT
 		// Champion: 15
 		// name 14
-		//13
+		// 13
 		// Opponent health 12
 		// currentHealth / maxHealth 11
 		// Stats:10
 		// attack damage: 9
-		//0  8
+		// 0 8
 		// ability power:
-		//0
-		// attack speed: 
-		//0
+		// 0
+		// attack speed:
+		// 0
 		// armor penetration:
-		//0
+		// 0
 		// magic penetration:
-		//0
+		// 0
 		player.setScoreboard(scoreboard);
 	}
 
