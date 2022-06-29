@@ -105,9 +105,9 @@ public class EntityDamageListener implements Listener {
 			float rounded = (float) Math.round(attackSpeed * 10);
 
 			int ticks = 20 * (int) (rounded) / 10;
-			if (ticks <= 0)
-				ticks = 0;
-			player.setMaximumNoDamageTicks(ticks);
+			if (ticks >= 20)
+				ticks = 20;
+			player.setMaximumNoDamageTicks(20 - ticks);
 
 			double calculatedDamage = event.getDamage();
 			CustomPlayer customPlayer;
