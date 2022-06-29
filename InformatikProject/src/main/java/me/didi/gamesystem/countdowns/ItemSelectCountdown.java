@@ -59,4 +59,12 @@ public class ItemSelectCountdown extends Countdown {
 		}
 	}
 
+	public int getSeconds() {
+		return seconds;
+	}
+	
+	public void setSeconds(int seconds) {
+		this.seconds = seconds;
+	}
+	
 }

@@ -42,6 +42,8 @@ public class IngameState extends GameState {
 	public void start() {
 		int index = 0;
 
+		customPlayerManager.startBackgroundTask();
+		
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			player.closeInventory();
 			player.getInventory().clear();
@@ -69,9 +71,10 @@ public class IngameState extends GameState {
 			customPlayerManager.addPlayer(player, selectedChampion);
 			player.getInventory().setHelmet(selectedChampion.getIcon());
 
-			customItemManager.getSelectedItems().get(player).forEach(customItem -> {
-				player.getInventory().addItem(customItem.getItemStack());
-			});
+			if (customItemManager.getSelectedItems().containsKey(player))
+				customItemManager.getSelectedItems().get(player).forEach(customItem -> {
+					player.getInventory().addItem(customItem.getItemStack());
+				});
 
 			applyAttackSpeed(player);
 
@@ -81,8 +84,6 @@ public class IngameState extends GameState {
 			ScoreboardHandler.getInstance().setScoreboard(player);
 			index++;
 		}
-
-		customPlayerManager.startBackgroundTask();
 	}
 
 	private void applyAttackSpeed(Player player) {

@@ -179,6 +179,9 @@ public class Utils {
 		armorStand.setCustomName(
 				(damage >= 100 ? color + "" + ChatColor.BOLD : color) + new DecimalFormat("#").format(damage));
 		armorStand.setMarker(true);
+		TaskManager.getInstance().runTaskLater(15, task -> {
+			armorStand.remove();
+		});
 	}
 
 	public static void spawnIndicator(Location location, ChatColor color, double damage) {
@@ -193,6 +196,10 @@ public class Utils {
 		armorStand.setCustomName(
 				(damage >= 100 ? color + "" + ChatColor.BOLD : color) + new DecimalFormat("#").format(damage));
 		armorStand.setMarker(true);
+
+		TaskManager.getInstance().runTaskLater(15, task -> {
+			armorStand.remove();
+		});
 	}
 
 	public static void shootProjectile(Player player, double range, ItemStack heldItem, double damage,

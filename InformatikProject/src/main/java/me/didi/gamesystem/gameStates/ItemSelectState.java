@@ -30,5 +30,9 @@ public class ItemSelectState extends GameState {
 	public void stop() {
 
 	}
+	
+	public ItemSelectCountdown getCountdown() {
+		return countdown;
+	}
 
 }

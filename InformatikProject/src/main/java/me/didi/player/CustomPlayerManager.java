@@ -88,18 +88,19 @@ public class CustomPlayerManager {
 
 		bukkitTask = TaskManager.getInstance().repeat(1, 1, task -> {
 			if (counter >= 20 * 5) {
-				plugin.getAlivePlayers().forEach(uuid -> {
+				players.keySet().forEach(uuid -> {
 					regenHealth(getPlayer(uuid));
 				});
 
 				counter = 0;
 			}
-			plugin.getAlivePlayers().forEach(uuid -> {
+
+			players.keySet().forEach(uuid -> {
 				Bukkit.getPlayer(uuid).getWorld().setTime(0);
 				Bukkit.getPlayer(uuid).getWorld().setStorm(false);
 				CustomPlayer customPlayer = getPlayer(uuid);
 				setHealth(customPlayer);
-				sendHealthBar(customPlayer);
+				sendInfos(customPlayer);
 			});
 
 			counter++;
@@ -134,11 +135,14 @@ public class CustomPlayerManager {
 			player.setHealth(player.getMaxHealth());
 	}
 
-	private void sendHealthBar(CustomPlayer customPlayer) {
+	private void sendInfos(CustomPlayer customPlayer) {
 		Player player = Bukkit.getPlayer(customPlayer.getUuid());
 		int maxHealth = (int) (customPlayer.getBaseHealth() + getBonusHealth(player));
-		ChatUtils.sendActionBar(player, ChatColor.RED + ""
-				+ new DecimalFormat("#").format(customPlayer.getCurrentHealth()) + "/" + maxHealth + "❤");
+		ChatUtils.sendActionBar(player, ChatColor.GREEN
+				+ new DecimalFormat("#").format((customPlayer.getBaseDefense() + getBonusDefense(player))) + "✜"
+				+ ChatColor.RED + " " + new DecimalFormat("#").format(customPlayer.getCurrentHealth()) + "/" + maxHealth
+				+ "❤" + ChatColor.AQUA + " "
+				+ new DecimalFormat("#").format((customPlayer.getMagicResist() + getBonusMagicResistance(player))) + "⦾");
 	}
 
 	public int getBonusHealth(Player player) {
@@ -201,26 +205,6 @@ public class CustomPlayerManager {
 			}
 		}
 		return bonusMagicResistance;
-	}
-
-	public double getDamage(Player player) {
-		if (player == null)
-			return 0;
-		double damage = 0;
-		for (ItemStack itemStack : player.getInventory().getContents()) {
-			if (itemStack == null || itemStack.getType() == Material.AIR)
-				continue;
-			if (itemStack.hasItemMeta() && itemStack.getItemMeta().getLore() != null) {
-				// ChatColor.Red + health: ChatColor.GREEN + 40
-				for (String string : itemStack.getItemMeta().getLore()) {
-					if (string.contains("damage:")) {
-						String toAdd = ChatColor.stripColor(string.split(": ")[1]);
-						damage += Integer.parseInt(toAdd);
-					}
-				}
-			}
-		}
-		return damage;
 	}
 
 	public void setGhost(Player player) {

@@ -104,7 +104,10 @@ public class EntityDamageListener implements Listener {
 			float attackSpeed = CurrentStatGetter.getInstance().getAttackSpeed((Player) event.getAttacker());
 			float rounded = (float) Math.round(attackSpeed * 10);
 
-			player.setMaximumNoDamageTicks(20 * (int) (rounded) / 10);
+			int ticks = 20 * (int) (rounded) / 10;
+			if (ticks <= 0)
+				ticks = 0;
+			player.setMaximumNoDamageTicks(ticks);
 
 			double calculatedDamage = event.getDamage();
 			CustomPlayer customPlayer;

@@ -53,8 +53,7 @@ public class ScoreboardHandler {
 
 		obj.getScore("Champion:").setScore(15);
 		obj.getScore(championsManager.getSelectedChampion(player).getName()).setScore(14);
-		obj.getScore("   ").setScore(13);
-		obj.getScore("Opponent:").setScore(12);
+		obj.getScore("Opponent:").setScore(13);
 
 		Team opponentHP = scoreboard.registerNewTeam("opponent");
 
@@ -66,37 +65,54 @@ public class ScoreboardHandler {
 		opponentHP.addEntry(ChatColor.GRAY + "" + ChatColor.DARK_GRAY);
 		if (oppositePlayer != null) {
 			CustomPlayer customPlayer = customPlayerManager.getPlayer(oppositePlayer);
-
-			opponentHP.setPrefix(ChatColor.RED + "" + new DecimalFormat("#").format(customPlayer.getCurrentHealth())
-					+ "/" + new DecimalFormat("#").format((customPlayer.getBaseHealth()
-							+ customPlayerManager.getBonusHealth(Bukkit.getPlayer(oppositePlayer)))));
+			if (customPlayer != null) {
+				opponentHP.setPrefix(ChatColor.RED + "" + new DecimalFormat("#").format(customPlayer.getCurrentHealth())
+						+ "/" + new DecimalFormat("#").format(CurrentStatGetter.getInstance().getMaxHealth(player)));
+			} else
+				opponentHP.setPrefix(ChatColor.RED + "No opponent");
 		} else {
 			opponentHP.setPrefix(ChatColor.RED + "No opponent");
 		}
 
-		obj.getScore(ChatColor.GRAY + "" + ChatColor.DARK_GRAY).setScore(11);
-
-		obj.getScore(ChatColor.GOLD + "Stats").setScore(10);
-
-		obj.getScore(ChatColor.GOLD + "Attack damage").setScore(9);
+		obj.getScore(ChatColor.GRAY + "" + ChatColor.DARK_GRAY).setScore(12);
+		
+		obj.getScore(ChatColor.AQUA + "Your Stats:").setScore(11);
+		
+		obj.getScore(ChatColor.WHITE + "Attack damage:").setScore(10);
 
 		Team attackDamage = scoreboard.registerNewTeam("AD");
 		attackDamage.addEntry(ChatColor.GRAY + "" + ChatColor.BLUE);
 		attackDamage.setPrefix(ChatColor.GOLD + "" + CurrentStatGetter.getInstance().getAttackDamage(player));
-		obj.getScore(ChatColor.GRAY + "" + ChatColor.BLUE).setScore(8);
+		obj.getScore(ChatColor.GRAY + "" + ChatColor.BLUE).setScore(9);
 
-		obj.getScore(ChatColor.GOLD + "Ability power").setScore(7);
+		obj.getScore(ChatColor.WHITE + "Ability power:").setScore(8);
 
 		Team abilityPower = scoreboard.registerNewTeam("AP");
-		attackDamage.addEntry(ChatColor.GRAY + "" + ChatColor.DARK_BLUE);
-		attackDamage.setPrefix(ChatColor.GOLD + "" + CurrentStatGetter.getInstance().getAttackDamage(player));
-		obj.getScore(ChatColor.GRAY + "" + ChatColor.BLUE).setScore(8);
+		abilityPower.addEntry(ChatColor.GRAY + "" + ChatColor.DARK_BLUE);
+		abilityPower.setPrefix(ChatColor.DARK_PURPLE + "" + CurrentStatGetter.getInstance().getAbilityPower(player));
+		obj.getScore(ChatColor.GRAY + "" + ChatColor.DARK_BLUE).setScore(7);
 
-		obj.getScore(ChatColor.GOLD + "Attack Speed").setScore(5);
+		obj.getScore(ChatColor.WHITE + "Attack Speed:").setScore(6);
 
-		obj.getScore(ChatColor.GOLD + "Armor Penetration").setScore(3);
+		Team attackSpeed = scoreboard.registerNewTeam("AS");
+		attackSpeed.addEntry(ChatColor.GRAY + "" + ChatColor.AQUA);
+		attackSpeed.setPrefix(ChatColor.GOLD + "" + CurrentStatGetter.getInstance().getAttackSpeed(player) + "%");
+		obj.getScore(ChatColor.GRAY + "" + ChatColor.AQUA).setScore(5);
 
-		obj.getScore(ChatColor.GOLD + "Magic Penetration").setScore(1);
+		obj.getScore(ChatColor.WHITE + "Armor Penetration:").setScore(4);
+
+		Team armorPenetration = scoreboard.registerNewTeam("ArmorPen");
+		armorPenetration.addEntry(ChatColor.GRAY + "" + ChatColor.DARK_AQUA);
+		armorPenetration.setPrefix(ChatColor.RED + "" + CurrentStatGetter.getInstance().getArmorPenetration(player));
+		obj.getScore(ChatColor.GRAY + "" + ChatColor.DARK_AQUA).setScore(3);
+
+		obj.getScore(ChatColor.WHITE + "Magic Penetration:").setScore(2);
+
+		Team magicPenetration = scoreboard.registerNewTeam("magicPen");
+		magicPenetration.addEntry(ChatColor.GRAY + "" + ChatColor.BLACK);
+		magicPenetration
+				.setPrefix(ChatColor.DARK_PURPLE + "" + CurrentStatGetter.getInstance().getMagicPenetration(player));
+		obj.getScore(ChatColor.GRAY + "" + ChatColor.BLACK).setScore(1);
 		// INFORMATIKPROJEKT
 		// Champion: 15
 		// name 14
@@ -130,8 +146,7 @@ public class ScoreboardHandler {
 		if (oppositePlayer != null) {
 			CustomPlayer customPlayer = customPlayerManager.getPlayer(oppositePlayer);
 			opponentHP.setPrefix(ChatColor.RED + "" + new DecimalFormat("#").format(customPlayer.getCurrentHealth())
-					+ "/" + new DecimalFormat("#").format((customPlayer.getBaseHealth()
-							+ customPlayerManager.getBonusHealth(Bukkit.getPlayer(oppositePlayer)))));
+					+ "/" + new DecimalFormat("#").format(CurrentStatGetter.getInstance().getMaxHealth(player)));
 		}
 	}
 }

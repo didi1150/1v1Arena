@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 import me.didi.commands.SubCommand;
 import me.didi.gamesystem.GameStateManager;
+import me.didi.gamesystem.gameStates.ItemSelectState;
 import me.didi.gamesystem.gameStates.LobbyState;
 import me.didi.utilities.ChatUtils;
 
@@ -41,6 +42,16 @@ public class StartCommand extends SubCommand {
 				ChatUtils.sendMessageToPlayer(player,
 						ChatColor.GREEN + "You have successfully lowered the remaining countdown");
 			}
+		}
+
+		if (gameStateManager.getCurrentGameState() instanceof ItemSelectState) {
+			ItemSelectState itemSelectState = (ItemSelectState) gameStateManager.getCurrentGameState();
+			if (itemSelectState.getCountdown().getSeconds() > 1) {
+				itemSelectState.getCountdown().setSeconds(1);
+				ChatUtils.sendMessageToPlayer(player,
+						ChatColor.GREEN + "You have successfully lowered the remaining countdown");
+			}
+
 		}
 	}
 
