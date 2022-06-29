@@ -41,7 +41,7 @@ public abstract class CustomItem implements ItemPassive {
 			lore.add(ChatColor.GRAY + "ability power: " + ChatColor.DARK_PURPLE + "+" + abilityPower);
 
 		if (attackSpeed != 0)
-			lore.add(ChatColor.GRAY + "attack speed: " + ChatColor.GOLD + "+" + attackSpeed);
+			lore.add(ChatColor.GRAY + "attack speed: " + ChatColor.GOLD + "+" + attackSpeed + "%");
 
 		if (armorPenetration != 0)
 			lore.add(ChatColor.GRAY + "armor penetration: " + ChatColor.GOLD + "+" + armorPenetration);

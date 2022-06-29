@@ -207,7 +207,7 @@ public class CurrentStatGetter {
 					// ChatColor.Red + magic resistance: ChatColor.GREEN + 40
 					for (String string : itemStack.getItemMeta().getLore()) {
 						if (string.contains("attack speed:")) {
-							String as = ChatColor.stripColor(string.split(": ")[1].replaceAll("\\+", ""));
+							String as = ChatColor.stripColor(string.split(": ")[1].replaceAll("[%\\+]", ""));
 							bonusAttackSpeed += Float.parseFloat(as) / 100;
 						}
 					}
