@@ -31,7 +31,7 @@ public class HealListener implements Listener {
 
 		CustomPlayer customPlayer = event.getCustomPlayer();
 		Bukkit.getOnlinePlayers().forEach(pl -> {
-			ScoreboardHandler.getInstance().updateScoreboard(pl);
+			ScoreboardHandler.getInstance().updateOpponentHealth(pl);
 		});
 
 		int bonusHealth = CustomPlayerManager.getInstance().getBonusHealth(Bukkit.getPlayer(customPlayer.getUuid()));

@@ -50,10 +50,10 @@ public class ScoreboardHandler {
 		obj.setDisplayName(name);
 		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-		obj.getScore("Champion:").setScore(5);
-		obj.getScore(championsManager.getSelectedChampion(player).getName()).setScore(4);
-		obj.getScore("   ").setScore(3);
-		obj.getScore("Opponent:").setScore(2);
+		obj.getScore("Champion:").setScore(15);
+		obj.getScore(championsManager.getSelectedChampion(player).getName()).setScore(14);
+		obj.getScore("   ").setScore(13);
+		obj.getScore("Opponent:").setScore(12);
 
 		Team opponentHP = scoreboard.registerNewTeam("opponent");
 
@@ -73,17 +73,28 @@ public class ScoreboardHandler {
 			opponentHP.setPrefix(ChatColor.RED + "No opponent");
 		}
 
-		obj.getScore(ChatColor.GRAY + "" + ChatColor.DARK_GRAY).setScore(1);
+		obj.getScore(ChatColor.GRAY + "" + ChatColor.DARK_GRAY).setScore(11);
 		// INFORMATIKPROJEKT
-		// Champion:
-		// name
-		//
-		// Opponent health
-		// currentHealth / maxHealth
+		// Champion: 15
+		// name 14
+		//13
+		// Opponent health 12
+		// currentHealth / maxHealth 11
+		// Stats:10
+		// attack damage: 9
+		//0  8
+		// ability power:
+		//0
+		// attack speed: 
+		//0
+		// armor penetration:
+		//0
+		// magic penetration:
+		//0
 		player.setScoreboard(scoreboard);
 	}
 
-	public void updateScoreboard(Player player) {
+	public void updateOpponentHealth(Player player) {
 		Scoreboard scoreboard = scoreboards.get(player);
 
 		Team opponentHP = scoreboard.getTeam("opponent");

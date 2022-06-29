@@ -38,7 +38,7 @@ public class EntityDamageListener implements Listener {
 		}
 		if (event.getEntity() instanceof Player) {
 			Bukkit.getOnlinePlayers().forEach(pl -> {
-				ScoreboardHandler.getInstance().updateScoreboard(pl);
+				ScoreboardHandler.getInstance().updateOpponentHealth(pl);
 			});
 
 			if (event.getCause() == DamageCause.FIRE_TICK) {
@@ -75,7 +75,7 @@ public class EntityDamageListener implements Listener {
 			return;
 		}
 		Bukkit.getOnlinePlayers().forEach(pl -> {
-			ScoreboardHandler.getInstance().updateScoreboard(pl);
+			ScoreboardHandler.getInstance().updateOpponentHealth(pl);
 		});
 
 		if (event.getDamager() instanceof Player) {
@@ -97,7 +97,7 @@ public class EntityDamageListener implements Listener {
 		boolean knockback = event.isKnockback();
 		if (event.getEntity() instanceof Player) {
 			Bukkit.getOnlinePlayers().forEach(pl -> {
-				ScoreboardHandler.getInstance().updateScoreboard(pl);
+				ScoreboardHandler.getInstance().updateOpponentHealth(pl);
 			});
 			Player player = (Player) event.getEntity();
 
