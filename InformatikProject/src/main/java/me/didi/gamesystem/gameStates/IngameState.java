@@ -9,8 +9,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import me.didi.champion.Champion;
 import me.didi.champion.ChampionsManager;
@@ -18,9 +16,7 @@ import me.didi.champion.ability.Ability;
 import me.didi.gamesystem.GameState;
 import me.didi.items.CustomItemManager;
 import me.didi.menus.ScoreboardHandler;
-import me.didi.player.CurrentStatGetter;
 import me.didi.player.CustomPlayerManager;
-import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ConfigHandler;
 import me.didi.utilities.ItemBuilder;
 
