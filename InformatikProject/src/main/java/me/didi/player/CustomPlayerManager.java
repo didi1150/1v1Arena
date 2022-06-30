@@ -87,7 +87,7 @@ public class CustomPlayerManager {
 	public void startBackgroundTask() {
 
 		bukkitTask = TaskManager.getInstance().repeat(1, 1, task -> {
-			if (counter >= 20 * 5) {
+			if (counter >= 20) {
 				players.keySet().forEach(uuid -> {
 					regenHealth(getPlayer(uuid));
 				});
@@ -114,7 +114,7 @@ public class CustomPlayerManager {
 	}
 
 	private void regenHealth(CustomPlayer customPlayer) {
-		float regenAmount = 2;
+		float regenAmount = 1.75f;
 		Player player = Bukkit.getPlayer(customPlayer.getUuid());
 		float maxHealth = customPlayer.getBaseHealth() + getBonusHealth(player);
 
@@ -142,7 +142,8 @@ public class CustomPlayerManager {
 				+ new DecimalFormat("#").format((customPlayer.getBaseDefense() + getBonusDefense(player))) + "✜"
 				+ ChatColor.RED + " " + new DecimalFormat("#").format(customPlayer.getCurrentHealth()) + "/" + maxHealth
 				+ "❤" + ChatColor.AQUA + " "
-				+ new DecimalFormat("#").format((customPlayer.getMagicResist() + getBonusMagicResistance(player))) + "⦾");
+				+ new DecimalFormat("#").format((customPlayer.getMagicResist() + getBonusMagicResistance(player)))
+				+ "⦾");
 	}
 
 	public int getBonusHealth(Player player) {
