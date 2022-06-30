@@ -75,9 +75,9 @@ public class ScoreboardHandler {
 		}
 
 		obj.getScore(ChatColor.GRAY + "" + ChatColor.DARK_GRAY).setScore(12);
-		
+
 		obj.getScore(ChatColor.AQUA + "Your Stats:").setScore(11);
-		
+
 		obj.getScore(ChatColor.WHITE + "Attack damage:").setScore(10);
 
 		Team attackDamage = scoreboard.registerNewTeam("AD");
@@ -146,7 +146,8 @@ public class ScoreboardHandler {
 		if (oppositePlayer != null) {
 			CustomPlayer customPlayer = customPlayerManager.getPlayer(oppositePlayer);
 			opponentHP.setPrefix(ChatColor.RED + "" + new DecimalFormat("#").format(customPlayer.getCurrentHealth())
-					+ "/" + new DecimalFormat("#").format(CurrentStatGetter.getInstance().getMaxHealth(player)));
+					+ "/" + new DecimalFormat("#")
+							.format(CurrentStatGetter.getInstance().getMaxHealth(Bukkit.getPlayer(oppositePlayer))));
 		}
 	}
 }
