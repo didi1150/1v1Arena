@@ -20,6 +20,7 @@ import me.didi.events.listeners.EntityDamageListener;
 import me.didi.events.listeners.HealListener;
 import me.didi.events.listeners.InventoryListener;
 import me.didi.events.listeners.JoinListener;
+import me.didi.events.listeners.PacketListener;
 import me.didi.events.listeners.PickupListener;
 import me.didi.events.listeners.PlayerInteractListener;
 import me.didi.events.listeners.PlayerMoveListener;
@@ -131,6 +132,7 @@ public class MainClass extends JavaPlugin {
 		pm.registerEvents(new PickupListener(), this);
 		pm.registerEvents(new HealListener(), this);
 		pm.registerEvents(new PlayerMoveListener(), this);
+		pm.registerEvents(new PacketListener(), this);
 	}
 
 	public static PlayerMenuUtility getPlayerMenuUtility(Player p) {
