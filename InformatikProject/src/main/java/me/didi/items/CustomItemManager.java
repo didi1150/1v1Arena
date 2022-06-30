@@ -32,9 +32,8 @@ public class CustomItemManager implements Listener {
 			Player player = entry.getKey();
 			Set<CustomItem> selection = entry.getValue();
 
-			selection.forEach(item -> {
-				item.runPassive(event, player);
-			});
+			selection.forEach(item -> item.getItemPassives().forEach(passive -> passive.runPassive(event, player)));
+
 		});
 	}
 

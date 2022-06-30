@@ -7,4 +7,8 @@ public interface ItemPassive {
 
 	void runPassive(Event event, Player player);
 	
+	String getName();
+	
+	String[] getDescription();
+	
 }
