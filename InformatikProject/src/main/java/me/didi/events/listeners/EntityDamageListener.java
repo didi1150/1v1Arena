@@ -105,11 +105,6 @@ public class EntityDamageListener implements Listener {
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
 
-			float attackSpeed = CurrentStatGetter.getInstance().getAttackSpeed((Player) event.getAttacker());
-			float rounded = (float) Math.round(attackSpeed * 10);
-
-			int ticks = (int) (20 / (rounded / 10));
-
 			double calculatedDamage = event.getDamage();
 			CustomPlayer customPlayer;
 
@@ -121,6 +116,10 @@ public class EntityDamageListener implements Listener {
 			if (event.getDamageReason() == DamageReason.PHYSICAL || event.getDamageReason() == DamageReason.AUTO) {
 
 				if (event.getDamageReason() == DamageReason.AUTO) {
+					float attackSpeed = CurrentStatGetter.getInstance().getAttackSpeed((Player) event.getAttacker());
+					float rounded = (float) Math.round(attackSpeed * 10);
+
+					int ticks = (int) (20 / (rounded / 10));
 					if (!attackCooldowns.contains(player)) {
 						attackCooldowns.add(player);
 

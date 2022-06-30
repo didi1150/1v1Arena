@@ -132,7 +132,7 @@ public class MainClass extends JavaPlugin {
 		pm.registerEvents(new PickupListener(), this);
 		pm.registerEvents(new HealListener(), this);
 		pm.registerEvents(new PlayerMoveListener(), this);
-		pm.registerEvents(new PacketListener(), this);
+		pm.registerEvents(PacketListener.getInstance(), this);
 	}
 
 	public static PlayerMenuUtility getPlayerMenuUtility(Player p) {

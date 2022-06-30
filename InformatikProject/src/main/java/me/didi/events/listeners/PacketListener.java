@@ -1,7 +1,8 @@
 package me.didi.events.listeners;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,9 +15,19 @@ import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.ChannelPromise;
-import net.minecraft.server.v1_8_R3.PacketPlayOutBed;
+import net.minecraft.server.v1_8_R3.PacketPlayOutAnimation;
 
 public class PacketListener implements Listener {
+
+	private static PacketListener instance;
+
+	private List<Player> attackSpeedCooldowns = new ArrayList<Player>();
+
+	public static PacketListener getInstance() {
+		if (instance == null)
+			instance = new PacketListener();
+		return instance;
+	}
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
@@ -41,22 +52,16 @@ public class PacketListener implements Listener {
 
 			@Override
 			public void channelRead(ChannelHandlerContext channelHandlerContext, Object packet) throws Exception {
-				// Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "PACKET
-				// READ: " + ChatColor.RED + packet.toString());
 				super.channelRead(channelHandlerContext, packet);
 			}
 
 			@Override
 			public void write(ChannelHandlerContext channelHandlerContext, Object packet, ChannelPromise channelPromise)
 					throws Exception {
-				// Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.AQUA + "PACKET
-				// WRITE: " + ChatColor.GREEN + packet.toString());
-
-				if (packet instanceof PacketPlayOutBed) {
-					PacketPlayOutBed packetPlayOutBed = (PacketPlayOutBed) packet;
-					Bukkit.getServer().getConsoleSender().sendMessage(
-							ChatColor.AQUA + "PACKET BLOCKED: " + ChatColor.GREEN + packetPlayOutBed.toString());
-					return;
+				if (packet instanceof PacketPlayOutAnimation) {
+//					PacketPlayOutAnimation packetPlayOutAnimation = (PacketPlayOutAnimation) packet;
+					if (attackSpeedCooldowns.contains(player))
+						return;
 				}
 				super.write(channelHandlerContext, packet, channelPromise);
 			}
