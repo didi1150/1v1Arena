@@ -104,21 +104,12 @@ public class EntityDamageListener implements Listener {
 		boolean knockback = event.isKnockback();
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
-			
+
 			float attackSpeed = CurrentStatGetter.getInstance().getAttackSpeed((Player) event.getAttacker());
 			float rounded = (float) Math.round(attackSpeed * 10);
 
 			int ticks = (int) (20 / (rounded / 10));
-			
-			if (!attackCooldowns.contains(player)) {
-				attackCooldowns.add(player);
 
-				TaskManager.getInstance().runTaskLater(ticks, task -> {
-					attackCooldowns.remove(player);
-				});
-			} else
-				return;
-			
 			double calculatedDamage = event.getDamage();
 			CustomPlayer customPlayer;
 
@@ -128,6 +119,18 @@ public class EntityDamageListener implements Listener {
 			double damage = event.getDamage();
 
 			if (event.getDamageReason() == DamageReason.PHYSICAL || event.getDamageReason() == DamageReason.AUTO) {
+
+				if (event.getDamageReason() == DamageReason.AUTO) {
+					if (!attackCooldowns.contains(player)) {
+						attackCooldowns.add(player);
+
+						TaskManager.getInstance().runTaskLater(ticks, task -> {
+							attackCooldowns.remove(player);
+						});
+					} else
+						return;
+				}
+
 				float defense = currentStatGetter.getCurrentArmor(player);
 				if (defense >= 0) {
 					calculatedDamage = (100 / (100 + defense)) * damage;
