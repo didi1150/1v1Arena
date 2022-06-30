@@ -133,7 +133,7 @@ public class PlayerInteractListener implements Listener {
 						autoAttackCooldowns.remove(player);
 					});
 
-					champion.executeAutoAttack();
+					champion.executeAutoAttack(player);
 				}
 			}
 		}

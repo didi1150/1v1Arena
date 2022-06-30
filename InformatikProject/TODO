@@ -1,2 +1,25 @@
-- Player als Parameter in den Champion ability Methoden statt als Feld
-- Für jede Ability eine Klasse, get() und eine executeMethode()
+FIGHTER:
+death's dance
+wit's end X
+Sterak's gage
+seryla's grudge
+
+MARKSMAN:
+essence reaver
+lord dominik's
+
+assassin:
+serpent's fang
+umbral glaive
+youmuu's ghostblade
+
+mage:
+nashor's tooth
+cosmic drive
+rylai's
+shadowflame
+
+tank:
+randuin's omen
+thornmail
+spirit visage

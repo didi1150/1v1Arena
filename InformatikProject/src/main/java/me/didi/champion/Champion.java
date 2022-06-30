@@ -35,8 +35,6 @@ public abstract class Champion {
 
 	private BaseStats baseStats;
 
-	protected Player player;
-
 	protected MainClass plugin;
 
 	protected AbilityStateManager abilityStateManager;
@@ -98,14 +96,6 @@ public abstract class Champion {
 		this.abilityStateManager = abilityCooldownManager;
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-
-	public Player getPlayer() {
-		return player;
-	}
-
 	public ItemStack getIcon() {
 		return icon;
 	}
@@ -121,7 +111,7 @@ public abstract class Champion {
 	/**
 	 * Executes the basic AutoAttack
 	 */
-	public abstract void executeAutoAttack();
+	public abstract void executeAutoAttack(Player player);
 
 	/**
 	 * Returns this champion's base magic resistance
@@ -160,14 +150,6 @@ public abstract class Champion {
 
 	public Ability[] getAbilities() {
 		return abilities;
-	}
-
-	protected boolean isEnemy(Entity hit) {
-		if (hit == player)
-			return false;
-		if (hit instanceof LivingEntity && !(hit instanceof ArmorStand))
-			return true;
-		return false;
 	}
 
 	public int getBaseAttackDamage() {

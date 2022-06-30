@@ -1,5 +1,6 @@
 package me.didi.champion.characters.impl;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.champion.ability.Ability;
@@ -16,7 +17,7 @@ public class Lloyd extends MeleeChampion {
 	}
 
 	@Override
-	public void executeAutoAttack() {
+	public void executeAutoAttack(Player player) {
 		// TODO
 	}
 }

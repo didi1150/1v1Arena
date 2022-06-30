@@ -54,7 +54,7 @@ public class ChampionsManager {
 
 	private ChampionsManager() {
 	}
-	
+
 	public static void registerChampions(AbilityStateManager abilityCooldownManager,
 			SpecialEffectsManager specialEffectsManager, CustomPlayerManager customPlayerManager, MainClass plugin) {
 		selectableChampions.add(new Lloyd(ChatColor.GREEN + "Lloyd", new Ability[] { new LloydFirstAbility(),
@@ -130,7 +130,6 @@ public class ChampionsManager {
 	}
 
 	public void setSelectedChampion(UUID uuid, Champion champion) {
-		champion.setPlayer(Bukkit.getPlayer(uuid));
 		selectedChampions.put(uuid, champion);
 	}
 
