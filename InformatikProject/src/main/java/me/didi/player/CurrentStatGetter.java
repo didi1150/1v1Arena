@@ -175,8 +175,9 @@ public class CurrentStatGetter {
 		if (player == null)
 			return 0;
 
-		if (getCustomPlayer(player) != null) {
-			double damage = 0;
+		CustomPlayer customPlayer = null;
+		if ((customPlayer = getCustomPlayer(player)) != null) {
+			double abilityPower = 0;
 			for (ItemStack itemStack : player.getInventory().getContents()) {
 				if (itemStack == null || itemStack.getType() == Material.AIR)
 					continue;
@@ -185,12 +186,12 @@ public class CurrentStatGetter {
 					for (String string : itemStack.getItemMeta().getLore()) {
 						if (string.contains("ability power:")) {
 							String toAdd = ChatColor.stripColor(string.split(": ")[1].replaceAll("\\+", ""));
-							damage += Integer.parseInt(toAdd);
+							abilityPower += Integer.parseInt(toAdd);
 						}
 					}
 				}
 			}
-			return damage;
+			return abilityPower + customPlayer.getAbilityPower();
 		}
 		return 0;
 	}
