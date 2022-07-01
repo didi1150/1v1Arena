@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -100,11 +101,24 @@ public class CustomPlayerManager {
 				Bukkit.getPlayer(uuid).getWorld().setStorm(false);
 				CustomPlayer customPlayer = getPlayer(uuid);
 				setHealth(customPlayer);
+				setShield(customPlayer);
 				sendInfos(customPlayer);
 			});
 
 			counter++;
 		});
+	}
+
+	private void setShield(CustomPlayer customPlayer) {
+		Player player = Bukkit.getPlayer(customPlayer.getUuid());
+		float max = customPlayer.getBaseHealth() + getBonusHealth(player);
+		float remainingShield = customPlayer.getRemainingShield();
+		if (remainingShield == 0)
+			return;
+
+		float calculatedShield = remainingShield / max * 20;
+
+		((CraftPlayer) player).getHandle().setAbsorptionHearts(calculatedShield);
 	}
 
 	public void stopBackgroundTask() {
@@ -136,6 +150,9 @@ public class CustomPlayerManager {
 	}
 
 	private void sendInfos(CustomPlayer customPlayer) {
+		
+		boolean absorbtion = false;
+		
 		Player player = Bukkit.getPlayer(customPlayer.getUuid());
 		int maxHealth = (int) (customPlayer.getBaseHealth() + getBonusHealth(player));
 		ChatUtils.sendActionBar(player, ChatColor.GREEN
