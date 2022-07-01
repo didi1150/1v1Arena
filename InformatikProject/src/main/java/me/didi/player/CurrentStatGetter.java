@@ -150,7 +150,8 @@ public class CurrentStatGetter {
 		if (player == null)
 			return 0;
 
-		if (getCustomPlayer(player) != null) {
+		CustomPlayer customPlayer = null;
+		if ((customPlayer = getCustomPlayer(player)) != null) {
 			double damage = 0;
 			for (ItemStack itemStack : player.getInventory().getContents()) {
 				if (itemStack == null || itemStack.getType() == Material.AIR)
@@ -165,7 +166,7 @@ public class CurrentStatGetter {
 					}
 				}
 			}
-			return damage;
+			return damage + customPlayer.getAttackDamage();
 		}
 		return 0;
 	}
