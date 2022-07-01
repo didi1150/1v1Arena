@@ -1,8 +1,11 @@
 package me.didi.items.impl;
 
+import java.util.List;
+
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.items.CustomItem;
+import me.didi.items.ItemPassive;
 import me.didi.utilities.BaseStats;
 
 public class COSMIC_DRIVE extends CustomItem {
@@ -16,6 +19,11 @@ public class COSMIC_DRIVE extends CustomItem {
 	@Override
 	public ItemStack getItemStack() {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ItemPassive> getItemPassives() {
 		return null;
 	}
 

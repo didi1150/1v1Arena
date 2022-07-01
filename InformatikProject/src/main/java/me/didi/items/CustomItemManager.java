@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 
 import me.didi.items.impl.WITS_END;
 
@@ -21,7 +22,6 @@ public class CustomItemManager implements Listener {
 	public CustomItemManager() {
 		customItems = new ArrayList<CustomItem>();
 		selectedItems = new HashMap<Player, Set<CustomItem>>();
-
 		customItems.add(new WITS_END());
 
 	}
@@ -32,7 +32,8 @@ public class CustomItemManager implements Listener {
 			Player player = entry.getKey();
 			Set<CustomItem> selection = entry.getValue();
 
-			selection.forEach(item -> item.getItemPassives().forEach(passive -> passive.runPassive(event, player)));
+			selection.forEach(item -> item.getItemPassives()
+					.forEach(passive -> passive.runPassive(event, player, item.getSlot())));
 
 		});
 	}
@@ -43,5 +44,16 @@ public class CustomItemManager implements Listener {
 
 	public Map<Player, Set<CustomItem>> getSelectedItems() {
 		return selectedItems;
+	}
+
+	public CustomItem isSame(ItemStack itemStack, CustomItem customItem) {
+		for (CustomItem element : getCustomItems()) {
+			if (element.getItemStack().getItemMeta().getDisplayName()
+					.equalsIgnoreCase(itemStack.getItemMeta().getDisplayName())) {
+				customItem = element;
+				break;
+			}
+		}
+		return customItem;
 	}
 }

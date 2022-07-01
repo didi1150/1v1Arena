@@ -125,13 +125,7 @@ public class ItemSelectMenu extends PaginatedMenu {
 			inventory.setItem(slot, customItem.getItemStack());
 		} else {
 
-			for (CustomItem element : items) {
-				if (element.getItemStack().getItemMeta().getDisplayName()
-						.equalsIgnoreCase(itemStack.getItemMeta().getDisplayName())) {
-					customItem = element;
-					break;
-				}
-			}
+			customItem = customItemManager.isSame(itemStack, customItem);
 
 			Set<CustomItem> customItems = new HashSet<CustomItem>();
 			customItems = customItemManager.getSelectedItems().getOrDefault(owner, new HashSet<CustomItem>());

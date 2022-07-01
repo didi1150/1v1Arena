@@ -14,13 +14,7 @@ public abstract class CustomItem {
 
 	public abstract ItemStack getItemStack();
 
-	protected List<ItemPassive> itemPassives;
-
 	protected int slot = 0;
-
-	public CustomItem() {
-		itemPassives = new ArrayList<ItemPassive>();
-	}
 
 	public void setSlot(int slot) {
 		this.slot = slot;
@@ -30,11 +24,8 @@ public abstract class CustomItem {
 		return slot;
 	}
 
-	public List<ItemPassive> getItemPassives() {
-		return itemPassives;
-	}
+	public abstract List<ItemPassive> getItemPassives();
 
-	// TODO
 	public List<String> getLore() {
 		List<String> lore = new ArrayList<String>();
 		BaseStats baseStats = getBaseStats();
@@ -76,9 +67,9 @@ public abstract class CustomItem {
 		if (health != 0)
 			lore.add(ChatColor.GRAY + "health: " + ChatColor.GREEN + "+" + health);
 
-		if (!itemPassives.isEmpty()) {
+		if (!getItemPassives().isEmpty()) {
 			lore.add(" ");
-			for (ItemPassive itemPassive : itemPassives) {
+			for (ItemPassive itemPassive : getItemPassives()) {
 				for (String string : itemPassive.getDescription())
 					lore.add(string);
 			}

@@ -15,8 +15,14 @@ public class LIFELINE implements ItemPassive {
 
 	private boolean onCooldown = false;
 
+	private int slot;
+	
+	public LIFELINE(int slot){
+		this.slot = slot;
+	}
+	
 	@Override
-	public void runPassive(Event event, Player player) {
+	public void runPassive(Event event, Player player, int slot) {
 		if (onCooldown)
 			return;
 		if (event instanceof CustomPlayerHealthChangeEvent) {

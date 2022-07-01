@@ -8,7 +8,7 @@ import me.didi.items.ItemPassive;
 public class THORNS implements ItemPassive {
 
 	@Override
-	public void runPassive(Event event, Player player) {
+	public void runPassive(Event event, Player player, int slot) {
 
 	}
 
