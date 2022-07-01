@@ -14,6 +14,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.events.customEvents.CustomPlayerDeathEvent;
+import me.didi.events.customEvents.CustomPlayerHealthChangeEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.gamesystem.GameStateManager;
@@ -155,8 +156,14 @@ public class EntityDamageListener implements Listener {
 
 				calculatedDamage -= calculatedDamage - customPlayer.getRemainingShield();
 				customPlayer.setRemainingShield(0);
-				
-				
+
+				CustomPlayerHealthChangeEvent customPlayerHealthChangeEvent = new CustomPlayerHealthChangeEvent(
+						customPlayer, customPlayer.getCurrentHealth(),
+						customPlayer.getCurrentHealth() - (float) calculatedDamage);
+				Bukkit.getPluginManager().callEvent(customPlayerHealthChangeEvent);
+				if (customPlayerHealthChangeEvent.isCancelled())
+					return;
+
 				if (customPlayer.getCurrentHealth() - calculatedDamage <= 0) {
 					customPlayer.setCurrentHealth(customPlayer.getBaseHealth());
 					Bukkit.getPluginManager().callEvent(new CustomPlayerDeathEvent(event.getAttacker(), player));

@@ -8,6 +8,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 
 import me.didi.events.customEvents.CustomPlayerHealEvent;
+import me.didi.events.customEvents.CustomPlayerHealthChangeEvent;
 import me.didi.menus.ScoreboardHandler;
 import me.didi.player.CustomPlayer;
 import me.didi.player.CustomPlayerManager;
@@ -35,6 +36,13 @@ public class HealListener implements Listener {
 		});
 
 		int bonusHealth = CustomPlayerManager.getInstance().getBonusHealth(Bukkit.getPlayer(customPlayer.getUuid()));
+		CustomPlayerHealthChangeEvent customPlayerHealthChangeEvent = new CustomPlayerHealthChangeEvent(customPlayer,
+				customPlayer.getCurrentHealth(), customPlayer.getCurrentHealth() + bonusHealth);
+		Bukkit.getPluginManager().callEvent(customPlayerHealthChangeEvent);
+
+		if (customPlayerHealthChangeEvent.isCancelled())
+			return;
+
 		if (customPlayer.getCurrentHealth() + event.getHealAmount() < (customPlayer.getBaseHealth() + bonusHealth)) {
 			customPlayer.setCurrentHealth(customPlayer.getCurrentHealth() + event.getHealAmount());
 			return;
