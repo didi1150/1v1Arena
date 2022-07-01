@@ -148,12 +148,22 @@ public class EntityDamageListener implements Listener {
 
 			Utils.spawnIndicator(event.getEntity().getLocation(), event.getDamageReason(), calculatedDamage);
 
-			if (customPlayer.getCurrentHealth() - calculatedDamage <= 0) {
-				customPlayer.setCurrentHealth(customPlayer.getBaseHealth());
-				Bukkit.getPluginManager().callEvent(new CustomPlayerDeathEvent(event.getAttacker(), player));
-				return;
+			if (calculatedDamage < customPlayer.getRemainingShield()) {
+				customPlayer.setRemainingShield((float) (customPlayer.getRemainingShield() - calculatedDamage));
+
+			} else {
+
+				calculatedDamage -= calculatedDamage - customPlayer.getRemainingShield();
+				customPlayer.setRemainingShield(0);
+				
+				
+				if (customPlayer.getCurrentHealth() - calculatedDamage <= 0) {
+					customPlayer.setCurrentHealth(customPlayer.getBaseHealth());
+					Bukkit.getPluginManager().callEvent(new CustomPlayerDeathEvent(event.getAttacker(), player));
+					return;
+				}
+				customPlayer.setCurrentHealth((float) (customPlayer.getCurrentHealth() - calculatedDamage));
 			}
-			customPlayer.setCurrentHealth((float) (customPlayer.getCurrentHealth() - calculatedDamage));
 
 			player.damage(0);
 		} else {

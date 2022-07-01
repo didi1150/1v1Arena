@@ -109,18 +109,6 @@ public class CustomPlayerManager {
 		});
 	}
 
-	private void setShield(CustomPlayer customPlayer) {
-		Player player = Bukkit.getPlayer(customPlayer.getUuid());
-		float max = customPlayer.getBaseHealth() + getBonusHealth(player);
-		float remainingShield = customPlayer.getRemainingShield();
-		if (remainingShield == 0)
-			return;
-
-		float calculatedShield = remainingShield / max * 20;
-
-		((CraftPlayer) player).getHandle().setAbsorptionHearts(calculatedShield);
-	}
-
 	public void stopBackgroundTask() {
 		if (bukkitTask == null)
 			return;
@@ -139,7 +127,18 @@ public class CustomPlayerManager {
 				.callEvent(new CustomPlayerHealEvent(customPlayer, HealReason.REGENERATION, regenAmount));
 	}
 
-	public void setHealth(CustomPlayer customPlayer) {
+	private void setShield(CustomPlayer customPlayer) {
+		Player player = Bukkit.getPlayer(customPlayer.getUuid());
+		float maxHealth = customPlayer.getBaseHealth() + getBonusHealth(player);
+
+		double factor = maxHealth / player.getMaxHealth();
+
+		double shield = factor * customPlayer.getRemainingShield();
+
+		((CraftPlayer) player).getHandle().setAbsorptionHearts((float) shield);
+	}
+
+	private void setHealth(CustomPlayer customPlayer) {
 		Player player = Bukkit.getPlayer(customPlayer.getUuid());
 		float maxHealth = customPlayer.getBaseHealth() + getBonusHealth(player);
 
@@ -150,17 +149,27 @@ public class CustomPlayerManager {
 	}
 
 	private void sendInfos(CustomPlayer customPlayer) {
-		
-		boolean absorbtion = false;
-		
+
 		Player player = Bukkit.getPlayer(customPlayer.getUuid());
 		int maxHealth = (int) (customPlayer.getBaseHealth() + getBonusHealth(player));
-		ChatUtils.sendActionBar(player, ChatColor.GREEN
-				+ new DecimalFormat("#").format((customPlayer.getBaseDefense() + getBonusDefense(player))) + "✜"
-				+ ChatColor.RED + " " + new DecimalFormat("#").format(customPlayer.getCurrentHealth()) + "/" + maxHealth
-				+ "❤" + ChatColor.AQUA + " "
-				+ new DecimalFormat("#").format((customPlayer.getMagicResist() + getBonusMagicResistance(player)))
-				+ "⦾");
+
+		if (customPlayer.getRemainingShield() == 0) {
+
+			ChatUtils.sendActionBar(player, ChatColor.GREEN
+					+ new DecimalFormat("#").format((customPlayer.getBaseDefense() + getBonusDefense(player))) + "✜"
+					+ ChatColor.RED + " " + new DecimalFormat("#").format(customPlayer.getCurrentHealth()) + "/"
+					+ maxHealth + "❤" + ChatColor.AQUA + " "
+					+ new DecimalFormat("#").format((customPlayer.getMagicResist() + getBonusMagicResistance(player)))
+					+ "⦾");
+		} else {
+			ChatUtils.sendActionBar(player, ChatColor.GREEN
+					+ new DecimalFormat("#").format((customPlayer.getBaseDefense() + getBonusDefense(player))) + "✜"
+					+ ChatColor.YELLOW + " "
+					+ new DecimalFormat("#").format(customPlayer.getCurrentHealth() + customPlayer.getRemainingShield())
+					+ "/" + maxHealth + "❤" + ChatColor.AQUA + " "
+					+ new DecimalFormat("#").format((customPlayer.getMagicResist() + getBonusMagicResistance(player)))
+					+ "⦾");
+		}
 	}
 
 	public int getBonusHealth(Player player) {

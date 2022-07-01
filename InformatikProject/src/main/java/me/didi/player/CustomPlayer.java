@@ -4,29 +4,29 @@ import java.util.UUID;
 
 public class CustomPlayer {
 
-	private float baseHealth;
+	private float baseHealth = 0;
 
-	private float baseDefense;
+	private float baseDefense = 0;
 
-	private float magicResist;
+	private float magicResist = 0;
 
-	private float armorPenetration;
+	private float armorPenetration = 0;
 
-	private float magicPenetration;
+	private float magicPenetration = 0;
 
-	private int attackDamage;
+	private int attackDamage = 0;
 
-	private int abilityPower;
+	private int abilityPower = 0;
 
-	private float remainingShield;
+	private float remainingShield = 0;
 
 	private UUID uuid;
 
 	private String name;
 
-	private float currentHealth;
+	private float currentHealth = 0;
 
-	private float baseAttackSpeed;
+	private float baseAttackSpeed = 0;
 
 	public CustomPlayer(int baseHealth, int baseDefense, int magicResist, int armorPenetration, int magicPenetration,
 			int attackDamage, int abilityPower, float baseAttackSpeed, UUID uuid, String name) {
