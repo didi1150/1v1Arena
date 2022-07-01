@@ -8,10 +8,12 @@ import org.bukkit.inventory.ItemStack;
 import me.didi.utilities.ChatUtils;
 
 /**
+ * Getter for all player stats <br>
+ * Singleton class
+ * 
  * @author Dezhong Zhuang
  * 
- *         Getter for all player stats <br>
- *         Singleton class
+ * 
  */
 public class CurrentStatGetter {
 
