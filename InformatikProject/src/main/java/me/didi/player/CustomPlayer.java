@@ -18,6 +18,8 @@ public class CustomPlayer {
 
 	private int abilityPower;
 
+	private float remainingShield;
+
 	private UUID uuid;
 
 	private String name;
@@ -25,7 +27,7 @@ public class CustomPlayer {
 	private float currentHealth;
 
 	private float baseAttackSpeed;
-	
+
 	public CustomPlayer(int baseHealth, int baseDefense, int magicResist, int armorPenetration, int magicPenetration,
 			int attackDamage, int abilityPower, float baseAttackSpeed, UUID uuid, String name) {
 		this.baseHealth = baseHealth;
@@ -124,5 +126,13 @@ public class CustomPlayer {
 	public float getBaseAttackSpeed() {
 		return baseAttackSpeed;
 	}
-	
+
+	public void setRemainingShield(float remainingShield) {
+		this.remainingShield = remainingShield;
+	}
+
+	public float getRemainingShield() {
+		return remainingShield;
+	}
+
 }
