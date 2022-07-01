@@ -71,6 +71,19 @@ public class IngameState extends GameState {
 			if (customItemManager.getSelectedItems().containsKey(player))
 				customItemManager.getSelectedItems().get(player).forEach(customItem -> {
 					player.getInventory().addItem(customItem.getItemStack());
+					for (int i = 0; i < player.getInventory().getSize(); i++) {
+						if (player.getInventory().getItem(i) == null)
+							continue;
+						if (!player.getInventory().getItem(i).hasItemMeta())
+							continue;
+						if (!player.getInventory().getItem(i).getItemMeta().hasDisplayName())
+							continue;
+						if (player.getInventory().getItem(i).getItemMeta().getDisplayName()
+								.equalsIgnoreCase(customItem.getItemStack().getItemMeta().getDisplayName())) {
+							customItem.setSlot(i);
+							break;
+						}
+					}
 				});
 
 			if (configHandler.getSpawnLocations() != null)

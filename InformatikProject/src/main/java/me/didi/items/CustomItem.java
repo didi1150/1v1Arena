@@ -16,8 +16,18 @@ public abstract class CustomItem {
 
 	protected List<ItemPassive> itemPassives;
 
+	protected int slot = 0;
+
 	public CustomItem() {
 		itemPassives = new ArrayList<ItemPassive>();
+	}
+
+	public void setSlot(int slot) {
+		this.slot = slot;
+	}
+
+	public int getSlot() {
+		return slot;
 	}
 
 	public List<ItemPassive> getItemPassives() {

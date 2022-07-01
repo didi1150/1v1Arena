@@ -9,13 +9,11 @@ public class STERAKS_GAGE extends CustomItem {
 
 	@Override
 	public BaseStats getBaseStats() {
-		// TODO Auto-generated method stub
-		return null;
+		return new BaseStats(400, 0, 0, 0, 0, 40, 0, 0);
 	}
 
 	@Override
 	public ItemStack getItemStack() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
