@@ -6,14 +6,13 @@ import org.bukkit.event.Event;
 
 import me.didi.events.customEvents.CustomPlayerHealthChangeEvent;
 import me.didi.items.ItemPassive;
+import me.didi.items.ItemPassiveCooldownManager;
 import me.didi.player.CurrentStatGetter;
 import me.didi.player.CustomPlayer;
 import me.didi.player.CustomPlayerManager;
 import me.didi.utilities.TaskManager;
 
 public class LIFELINE implements ItemPassive {
-
-	private boolean onCooldown = false;
 
 	@Override
 	public void runPassive(Event event, Player player, int slot) {
@@ -24,13 +23,12 @@ public class LIFELINE implements ItemPassive {
 
 			if (customPlayerHealthChangeEvent.getChangedHealth() < CurrentStatGetter.getInstance().getMaxHealth(player)
 					* 0.3) {
-				if (onCooldown)
+
+				if (ItemPassiveCooldownManager.getInstance().isOnCooldown(player, slot))
 					return;
 
-				onCooldown = true;
-				TaskManager.getInstance().runTaskLater(20 * getCooldown(), task -> {
-					onCooldown = false;
-				});
+				ItemPassiveCooldownManager.getInstance().addCooldown(this, player, slot,
+						player.getInventory().getItem(slot));
 
 				float shield = (float) (CustomPlayerManager.getInstance().getBonusHealth(player) * 0.75);
 				customPlayer.setRemainingShield(shield);
