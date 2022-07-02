@@ -73,7 +73,7 @@ public class MainClass extends JavaPlugin {
 
 		TaskManager.init(this);
 
-		customItemManager = new CustomItemManager();
+		customItemManager = new CustomItemManager(this);
 
 		alivePlayers = new ArrayList<UUID>();
 		ChampionsManager.init();

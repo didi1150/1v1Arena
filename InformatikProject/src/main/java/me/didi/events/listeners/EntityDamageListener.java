@@ -22,6 +22,7 @@ import me.didi.gamesystem.gameStates.IngameState;
 import me.didi.menus.ScoreboardHandler;
 import me.didi.player.CurrentStatGetter;
 import me.didi.player.CustomPlayer;
+import me.didi.utilities.ChatUtils;
 import me.didi.utilities.TaskManager;
 import me.didi.utilities.Utils;
 
@@ -153,16 +154,16 @@ public class EntityDamageListener implements Listener {
 				customPlayer.setRemainingShield((float) (customPlayer.getRemainingShield() - calculatedDamage));
 
 			} else {
-
-				calculatedDamage -= calculatedDamage - customPlayer.getRemainingShield();
+				calculatedDamage -= customPlayer.getRemainingShield();
 				customPlayer.setRemainingShield(0);
 
 				CustomPlayerHealthChangeEvent customPlayerHealthChangeEvent = new CustomPlayerHealthChangeEvent(
 						customPlayer, customPlayer.getCurrentHealth(),
 						customPlayer.getCurrentHealth() - (float) calculatedDamage);
 				Bukkit.getPluginManager().callEvent(customPlayerHealthChangeEvent);
-				if (customPlayerHealthChangeEvent.isCancelled())
+				if (customPlayerHealthChangeEvent.isCancelled()) {
 					return;
+				}
 
 				if (customPlayer.getCurrentHealth() - calculatedDamage <= 0) {
 					customPlayer.setCurrentHealth(customPlayer.getBaseHealth());

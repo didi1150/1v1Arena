@@ -9,7 +9,7 @@ import me.didi.player.CustomPlayer;
 public class CustomPlayerHealthChangeEvent extends Event implements Cancellable {
 
 	private static final HandlerList HANDLERS_LIST = new HandlerList();
-	private boolean isCancelled;
+	private boolean isCancelled = false;
 
 	private CustomPlayer customPlayer;
 	private float oldHealth;

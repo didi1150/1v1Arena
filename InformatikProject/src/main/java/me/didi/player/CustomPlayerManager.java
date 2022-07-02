@@ -142,10 +142,11 @@ public class CustomPlayerManager {
 		Player player = Bukkit.getPlayer(customPlayer.getUuid());
 		float maxHealth = customPlayer.getBaseHealth() + getBonusHealth(player);
 
-		if (customPlayer.getCurrentHealth() / maxHealth * player.getMaxHealth() <= player.getMaxHealth())
+		if (customPlayer.getCurrentHealth() / maxHealth * player.getMaxHealth() <= player.getMaxHealth()) {
 			player.setHealth(customPlayer.getCurrentHealth() / maxHealth * player.getMaxHealth());
-		else
+		} else {
 			player.setHealth(player.getMaxHealth());
+		}
 	}
 
 	private void sendInfos(CustomPlayer customPlayer) {
