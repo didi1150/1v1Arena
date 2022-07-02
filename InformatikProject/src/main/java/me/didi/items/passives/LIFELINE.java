@@ -9,7 +9,6 @@ import me.didi.items.ItemPassive;
 import me.didi.items.ItemPassiveCooldownManager;
 import me.didi.player.CurrentStatGetter;
 import me.didi.player.CustomPlayer;
-import me.didi.player.CustomPlayerManager;
 import me.didi.utilities.TaskManager;
 
 public class LIFELINE implements ItemPassive {
@@ -30,11 +29,11 @@ public class LIFELINE implements ItemPassive {
 				ItemPassiveCooldownManager.getInstance().addCooldown(this, player, slot,
 						player.getInventory().getItem(slot));
 
-				float shield = (float) (CustomPlayerManager.getInstance().getBonusHealth(player) * 0.75);
+				float shield = (float) (CurrentStatGetter.getInstance().getMaxHealth(player) * 0.75);
 				customPlayer.setRemainingShield(shield);
 
-				TaskManager.getInstance().repeatUntil(1, 1, (long) (3.75 * 20), (task, counter) -> {
-					float perTickRemove = (shield / 3.75f) / 20;
+				TaskManager.getInstance().repeatUntil(1, 5, (long) (3.75 * 4), (task, counter) -> {
+					float perTickRemove = (shield / 3.75f) / 4;
 					if (customPlayer.getRemainingShield() == 0) {
 						task.cancel();
 						return;
@@ -61,7 +60,7 @@ public class LIFELINE implements ItemPassive {
 				ChatColor.GRAY + "that would reduce you below " + ChatColor.GREEN + "30% of your",
 				ChatColor.GREEN + "maximum health" + ChatColor.GRAY + ", gain a " + ChatColor.GOLD + "shield "
 						+ ChatColor.GRAY + "equal to",
-				ChatColor.GREEN + "75% of bonus health " + ChatColor.GRAY + "that decays over 3.75",
+				ChatColor.GREEN + "75% of maximum health " + ChatColor.GRAY + "that decays over 3.75",
 				ChatColor.GRAY + "seconds (60 second cooldown)." };
 	}
 
