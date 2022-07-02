@@ -34,20 +34,22 @@ public class ItemPassiveCooldownManager {
 
 	public void startCounter() {
 		bukkitTask = TaskManager.getInstance().repeat(20, 20, task -> {
-			Iterator<PassiveCooldown> it = cooldowns.iterator();
-			while (it.hasNext()) {
-				PassiveCooldown passiveCooldown = it.next();
-				Player player = passiveCooldown.getPlayer();
-				int slot = passiveCooldown.getSlot();
-				ItemStack cachedItem = passiveCooldown.getCachedItem();
-				int remainingCooldown = passiveCooldown.getRemainingCooldown();
-				if (remainingCooldown == 1) {
-					cooldowns.remove(passiveCooldown);
-					player.getInventory().setItem(slot, cachedItem);
-				} else {
-					passiveCooldown.setRemainingCooldown(remainingCooldown - 1);
-					String displayName = cachedItem.getItemMeta().getDisplayName();
-					new ItemSetter().setItem(player, slot, createOnCooldownItem(remainingCooldown, displayName));
+			if (!cooldowns.isEmpty()) {
+				Iterator<PassiveCooldown> it = cooldowns.iterator();
+				while (it.hasNext()) {
+					PassiveCooldown passiveCooldown = it.next();
+					Player player = passiveCooldown.getPlayer();
+					int slot = passiveCooldown.getSlot();
+					ItemStack cachedItem = passiveCooldown.getCachedItem();
+					int remainingCooldown = passiveCooldown.getRemainingCooldown();
+					if (remainingCooldown == 1) {
+						cooldowns.remove(passiveCooldown);
+						player.getInventory().setItem(slot, cachedItem);
+					} else {
+						passiveCooldown.setRemainingCooldown(remainingCooldown - 1);
+						String displayName = cachedItem.getItemMeta().getDisplayName();
+						new ItemSetter().setItem(player, slot, createOnCooldownItem(remainingCooldown, displayName));
+					}
 				}
 			}
 		});

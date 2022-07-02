@@ -27,6 +27,7 @@ import me.didi.events.listeners.QuitListener;
 import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.items.CustomItemManager;
+import me.didi.items.ItemPassiveCooldownManager;
 import me.didi.menus.PlayerMenuUtility;
 import me.didi.menus.ScoreboardHandler;
 import me.didi.player.CurrentStatGetter;
@@ -99,6 +100,8 @@ public class MainClass extends JavaPlugin {
 
 		ScoreboardHandler.init(this, customPlayerManager, championsManager);
 
+		ItemPassiveCooldownManager.getInstance().startCounter();
+
 		registerListeners();
 		getCommand("project").setExecutor(new CommandManager(gameStateManager, configHandler));
 	}
@@ -107,6 +110,7 @@ public class MainClass extends JavaPlugin {
 	public void onDisable() {
 		abilityStateManager.stopBackgroundTask();
 		customPlayerManager.stopBackgroundTask();
+		ItemPassiveCooldownManager.getInstance().stopCounter();
 
 		Bukkit.getWorlds().forEach(world -> {
 			world.getEntities().forEach(entity -> {
