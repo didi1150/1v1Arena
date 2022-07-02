@@ -86,10 +86,10 @@ public class MainClass extends JavaPlugin {
 		abilityStateManager = AbilityStateManager.getInstance();
 		abilityStateManager.startBackGroundTask();
 
-		CustomPlayerManager.init(this, abilityStateManager);
+		CustomPlayerManager.init(this, abilityStateManager, customItemManager);
 		customPlayerManager = CustomPlayerManager.getInstance();
 
-		CurrentStatGetter.init();
+		CurrentStatGetter.init(customItemManager);
 		this.currentStatGetter = CurrentStatGetter.getInstance();
 
 		ChampionsManager.registerChampions(abilityStateManager, specialEffectsManager, customPlayerManager, this);
