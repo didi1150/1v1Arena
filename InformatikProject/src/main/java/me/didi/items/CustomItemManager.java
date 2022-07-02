@@ -19,6 +19,8 @@ public class CustomItemManager implements Listener {
 	private List<CustomItem> customItems;
 	private Map<Player, Set<CustomItem>> selectedItems;
 
+	
+	
 	public CustomItemManager() {
 		customItems = new ArrayList<CustomItem>();
 		selectedItems = new HashMap<Player, Set<CustomItem>>();

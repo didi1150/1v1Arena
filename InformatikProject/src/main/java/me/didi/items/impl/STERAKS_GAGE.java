@@ -28,7 +28,7 @@ public class STERAKS_GAGE extends CustomItem {
 
 	@Override
 	public List<ItemPassive> getItemPassives() {
-		return Arrays.asList(new LIFELINE(slot));
+		return Arrays.asList(new LIFELINE());
 	}
 
 }

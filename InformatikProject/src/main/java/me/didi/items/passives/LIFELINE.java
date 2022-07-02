@@ -15,26 +15,23 @@ public class LIFELINE implements ItemPassive {
 
 	private boolean onCooldown = false;
 
-	private int slot;
-	
-	public LIFELINE(int slot){
-		this.slot = slot;
-	}
-	
 	@Override
 	public void runPassive(Event event, Player player, int slot) {
-		if (onCooldown)
-			return;
+
 		if (event instanceof CustomPlayerHealthChangeEvent) {
 			CustomPlayerHealthChangeEvent customPlayerHealthChangeEvent = (CustomPlayerHealthChangeEvent) event;
 			CustomPlayer customPlayer = customPlayerHealthChangeEvent.getCustomPlayer();
-			onCooldown = true;
-			TaskManager.getInstance().runTaskLater(20 * getCooldown(), task -> {
-				onCooldown = false;
-			});
 
 			if (customPlayerHealthChangeEvent.getChangedHealth() < CurrentStatGetter.getInstance().getMaxHealth(player)
 					* 0.3) {
+				if (onCooldown)
+					return;
+
+				onCooldown = true;
+				TaskManager.getInstance().runTaskLater(20 * getCooldown(), task -> {
+					onCooldown = false;
+				});
+
 				float shield = (float) (CustomPlayerManager.getInstance().getBonusHealth(player) * 0.75);
 				customPlayer.setRemainingShield(shield);
 
