@@ -20,6 +20,9 @@ public class LIFELINE implements ItemPassive {
 			CustomPlayerHealthChangeEvent customPlayerHealthChangeEvent = (CustomPlayerHealthChangeEvent) event;
 			CustomPlayer customPlayer = customPlayerHealthChangeEvent.getCustomPlayer();
 
+			if (customPlayer.getUuid() != player.getUniqueId())
+				return;
+
 			if (customPlayerHealthChangeEvent.getChangedHealth() < CurrentStatGetter.getInstance().getMaxHealth(player)
 					* 0.3) {
 
