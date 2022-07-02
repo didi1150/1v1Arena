@@ -40,7 +40,8 @@ public class CurrentStatGetter {
 		CustomPlayer customPlayer;
 		if ((customPlayer = getCustomPlayer(player)) != null) {
 			final AtomicInteger bonusHealth = new AtomicInteger(0);
-
+			if (!customItemManager.getSelectedItems().containsKey(player))
+				return (int) customPlayer.getBaseHealth();
 			customItemManager.getSelectedItems().get(player).forEach(customItem -> {
 				if (customItem.getBaseStats().getBaseHealth() > 0)
 					bonusHealth.addAndGet(customItem.getBaseStats().getBaseHealth());
@@ -56,7 +57,8 @@ public class CurrentStatGetter {
 		CustomPlayer customPlayer;
 		if ((customPlayer = getCustomPlayer(player)) != null) {
 			final AtomicInteger bonusDefense = new AtomicInteger(0);
-
+			if (!customItemManager.getSelectedItems().containsKey(player))
+				return (int) customPlayer.getBaseDefense();
 			customItemManager.getSelectedItems().get(player).forEach(customItem -> {
 				if (customItem.getBaseStats().getBaseDefense() > 0)
 					bonusDefense.addAndGet(customItem.getBaseStats().getBaseDefense());
@@ -71,7 +73,8 @@ public class CurrentStatGetter {
 		CustomPlayer customPlayer;
 		if ((customPlayer = getCustomPlayer(player)) != null) {
 			final AtomicInteger bonusMagicResistance = new AtomicInteger(0);
-
+			if (!customItemManager.getSelectedItems().containsKey(player))
+				return (int) customPlayer.getMagicResist();
 			customItemManager.getSelectedItems().get(player).forEach(customItem -> {
 				int baseMagicResist = customItem.getBaseStats().getBaseMagicResist();
 				if (baseMagicResist > 0)
@@ -87,7 +90,8 @@ public class CurrentStatGetter {
 		CustomPlayer customPlayer;
 		if ((customPlayer = getCustomPlayer(player)) != null) {
 			final AtomicInteger bonusArmorPenetration = new AtomicInteger(0);
-
+			if (!customItemManager.getSelectedItems().containsKey(player))
+				return (int) customPlayer.getArmorPenetration();
 			customItemManager.getSelectedItems().get(player).forEach(customItem -> {
 				int baseArmorPenetration = customItem.getBaseStats().getBaseArmorPenetration();
 				if (baseArmorPenetration > 0)
@@ -103,7 +107,8 @@ public class CurrentStatGetter {
 		CustomPlayer customPlayer;
 		if ((customPlayer = getCustomPlayer(player)) != null) {
 			final AtomicInteger bonusMagicPenetration = new AtomicInteger(0);
-
+			if (!customItemManager.getSelectedItems().containsKey(player))
+				return (int) customPlayer.getMagicPenetration();
 			customItemManager.getSelectedItems().get(player).forEach(customItem -> {
 				int baseMagicPenetration = customItem.getBaseStats().getBaseMagicPenetration();
 				if (baseMagicPenetration > 0)
@@ -122,7 +127,8 @@ public class CurrentStatGetter {
 		CustomPlayer customPlayer;
 		if ((customPlayer = getCustomPlayer(player)) != null) {
 			final AtomicInteger bonusAttackDamage = new AtomicInteger(0);
-
+			if (!customItemManager.getSelectedItems().containsKey(player))
+				return customPlayer.getAttackDamage();
 			customItemManager.getSelectedItems().get(player).forEach(customItem -> {
 				int baseAttackDamage = customItem.getBaseStats().getBaseAttackDamage();
 				if (baseAttackDamage > 0)
@@ -137,11 +143,11 @@ public class CurrentStatGetter {
 	public double getAbilityPower(Player player) {
 		if (player == null)
 			return 0;
-
 		CustomPlayer customPlayer;
 		if ((customPlayer = getCustomPlayer(player)) != null) {
 			final AtomicInteger bonusAbilityPower = new AtomicInteger(0);
-
+			if (!customItemManager.getSelectedItems().containsKey(player))
+				return customPlayer.getAbilityPower();
 			customItemManager.getSelectedItems().get(player).forEach(customItem -> {
 				int baseAbilityPower = customItem.getBaseStats().getBaseAbilityPower();
 				if (baseAbilityPower > 0)
@@ -157,7 +163,8 @@ public class CurrentStatGetter {
 		CustomPlayer customPlayer;
 		if ((customPlayer = getCustomPlayer(player)) != null) {
 			final AtomicInteger bonusAttackSpeed = new AtomicInteger(0);
-
+			if (!customItemManager.getSelectedItems().containsKey(player))
+				return customPlayer.getBaseAttackSpeed();
 			customItemManager.getSelectedItems().get(player).forEach(customItem -> {
 				int baseAttackSpeed = customItem.getBaseStats().getAttackSpeed();
 				if (baseAttackSpeed > 0)

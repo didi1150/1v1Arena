@@ -185,6 +185,9 @@ public class CustomPlayerManager {
 			return 0;
 		final AtomicInteger bonusHealth = new AtomicInteger(0);
 
+		if (!customItemManager.getSelectedItems().containsKey(player))
+			return 0;
+
 		customItemManager.getSelectedItems().get(player).forEach(customItem -> {
 			if (customItem.getBaseStats().getBaseHealth() > 0)
 				bonusHealth.addAndGet(customItem.getBaseStats().getBaseHealth());
@@ -196,7 +199,8 @@ public class CustomPlayerManager {
 		if (player == null)
 			return 0;
 		final AtomicInteger bonusDefense = new AtomicInteger(0);
-
+		if (!customItemManager.getSelectedItems().containsKey(player))
+			return 0;
 		customItemManager.getSelectedItems().get(player).forEach(customItem -> {
 			if (customItem.getBaseStats().getBaseDefense() > 0)
 				bonusDefense.addAndGet(customItem.getBaseStats().getBaseHealth());
@@ -208,7 +212,8 @@ public class CustomPlayerManager {
 		if (player == null)
 			return 0;
 		final AtomicInteger bonusMagicResistance = new AtomicInteger(0);
-
+		if (!customItemManager.getSelectedItems().containsKey(player))
+			return 0;
 		customItemManager.getSelectedItems().get(player).forEach(customItem -> {
 			if (customItem.getBaseStats().getBaseMagicResist() > 0)
 				bonusMagicResistance.addAndGet(customItem.getBaseStats().getBaseMagicResist());
