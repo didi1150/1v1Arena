@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
+import me.didi.items.impl.STERAKS_GAGE;
 import me.didi.items.impl.WITS_END;
 
 public class CustomItemManager implements Listener {
@@ -19,13 +20,11 @@ public class CustomItemManager implements Listener {
 	private List<CustomItem> customItems;
 	private Map<Player, Set<CustomItem>> selectedItems;
 
-	
-	
 	public CustomItemManager() {
 		customItems = new ArrayList<CustomItem>();
 		selectedItems = new HashMap<Player, Set<CustomItem>>();
 		customItems.add(new WITS_END());
-
+		customItems.add(new STERAKS_GAGE());
 	}
 
 	@EventHandler
