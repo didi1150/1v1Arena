@@ -22,7 +22,7 @@ public class STERAKS_GAGE extends CustomItem {
 
 	@Override
 	public ItemStack getItemStack() {
-		return new ItemBuilder(Material.IRON_CHESTPLATE).setDisplayName(ChatColor.GOLD + "Sterak's Gage")
+		return new ItemBuilder(Material.GOLD_BARDING).setDisplayName(ChatColor.GOLD + "Sterak's Gage")
 				.setLore(getLore()).toItemStack();
 	}
 
