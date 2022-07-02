@@ -96,7 +96,7 @@ public class ScoreboardHandler {
 
 		Team attackSpeed = scoreboard.registerNewTeam("AS");
 		attackSpeed.addEntry(ChatColor.GRAY + "" + ChatColor.AQUA);
-		attackSpeed.setPrefix(ChatColor.GOLD + "" + CurrentStatGetter.getInstance().getAttackSpeed(player) + "%");
+		attackSpeed.setPrefix(ChatColor.GOLD + "" + CurrentStatGetter.getInstance().getAttackSpeed(player));
 		obj.getScore(ChatColor.GRAY + "" + ChatColor.AQUA).setScore(5);
 
 		obj.getScore(ChatColor.WHITE + "Armor Penetration:").setScore(4);

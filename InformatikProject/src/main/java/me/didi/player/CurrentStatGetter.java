@@ -171,7 +171,7 @@ public class CurrentStatGetter {
 					bonusAttackSpeed.addAndGet(baseAttackSpeed);
 			});
 
-			return (int) (bonusAttackSpeed.get() + customPlayer.getBaseAttackSpeed());
+			return (int) ((double) bonusAttackSpeed.get() / 100 + customPlayer.getBaseAttackSpeed());
 		}
 		return 0;
 	}
