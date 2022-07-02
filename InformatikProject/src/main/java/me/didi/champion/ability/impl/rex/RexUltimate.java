@@ -50,7 +50,7 @@ public class RexUltimate implements Ability {
 
 		return new String[] { ChatColor.GRAY + "Launches an airstrike dealing",
 				ChatColor.RED + "physical damage (" + ChatColor.WHITE + "150" + ChatColor.GOLD + " (+80% AD)"
-						+ ChatColor.RED + ")" + ChatColor.GRAY + " over 5 seconds" };
+						+ ChatColor.RED + ")" + ChatColor.GRAY + " every second for 5 seconds" };
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class RexUltimate implements Ability {
 
 						if (DamageManager.isEnemy(player, entity)) {
 							double damage = 150 + CurrentStatGetter.getInstance().getAttackDamage(player) * 0.8;
-							DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, damage / 100, false);
+							DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, damage, false);
 						}
 					}
 				}
