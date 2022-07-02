@@ -138,9 +138,9 @@ public class CustomPlayerManager {
 		Player player = Bukkit.getPlayer(customPlayer.getUuid());
 		float maxHealth = customPlayer.getBaseHealth() + getBonusHealth(player);
 
-		double factor = maxHealth / player.getMaxHealth();
+		double factor = customPlayer.getRemainingShield() / maxHealth;
 
-		double shield = factor * customPlayer.getRemainingShield();
+		double shield = factor * player.getMaxHealth();
 
 		((CraftPlayer) player).getHandle().setAbsorptionHearts((float) shield);
 	}
