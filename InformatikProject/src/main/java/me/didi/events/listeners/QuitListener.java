@@ -48,19 +48,20 @@ public class QuitListener implements Listener {
 			ChatUtils.broadCastMessage(ChatColor.YELLOW + player.getDisplayName() + ChatColor.GREEN
 					+ " hat das Spiel verlassen! " + ChatColor.GOLD + "[" + plugin.getAlivePlayers().size()
 					+ ChatColor.GRAY + "/" + LobbyState.MAX_PLAYERS + ChatColor.GOLD + "]");
-			if (gameStateManager.getCurrentGameState() instanceof ItemSelectState) {
-				ChatUtils.broadCastMessage(ChatColor.YELLOW + "Item Select has been cancelled: " + ChatColor.AQUA
-						+ player.getName() + ChatColor.YELLOW + " has left.");
-				ItemSelectState itemSelectState = (ItemSelectState) gameStateManager.getCurrentGameState();
-				itemSelectState.getCountdown().stop(false);
-				gameStateManager.setGameState(GameState.LOBBY_STATE);
-				return;
-			}
-
-			LobbyState lobbyState = (LobbyState) gameStateManager.getCurrentGameState();
-			LobbyCountdown countdown = lobbyState.getCountdown();
 
 			if (plugin.getAlivePlayers().size() < LobbyState.MIN_PLAYERS) {
+				if (gameStateManager.getCurrentGameState() instanceof ItemSelectState) {
+					ChatUtils.broadCastMessage(ChatColor.YELLOW + "Item Select has been cancelled: " + ChatColor.AQUA
+							+ player.getName() + ChatColor.YELLOW + " has left.");
+					ItemSelectState itemSelectState = (ItemSelectState) gameStateManager.getCurrentGameState();
+					itemSelectState.getCountdown().stop(false);
+					gameStateManager.setGameState(GameState.LOBBY_STATE);
+					return;
+				}
+
+				LobbyState lobbyState = (LobbyState) gameStateManager.getCurrentGameState();
+				LobbyCountdown countdown = lobbyState.getCountdown();
+
 				if (countdown.isRunning()) {
 					countdown.stop();
 					countdown.startIdle();
