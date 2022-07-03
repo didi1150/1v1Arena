@@ -22,7 +22,6 @@ import me.didi.gamesystem.gameStates.IngameState;
 import me.didi.menus.ScoreboardHandler;
 import me.didi.player.CurrentStatGetter;
 import me.didi.player.CustomPlayer;
-import me.didi.utilities.ChatUtils;
 import me.didi.utilities.TaskManager;
 import me.didi.utilities.Utils;
 
