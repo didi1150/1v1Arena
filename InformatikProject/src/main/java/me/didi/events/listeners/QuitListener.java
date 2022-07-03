@@ -11,6 +11,7 @@ import me.didi.gamesystem.GameState;
 import me.didi.gamesystem.GameStateManager;
 import me.didi.gamesystem.countdowns.LobbyCountdown;
 import me.didi.gamesystem.gameStates.IngameState;
+import me.didi.gamesystem.gameStates.ItemSelectState;
 import me.didi.gamesystem.gameStates.LobbyState;
 import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ConfigHandler;
@@ -40,12 +41,21 @@ public class QuitListener implements Listener {
 
 		event.setQuitMessage(null);
 		Player player = event.getPlayer();
-		if (gameStateManager.getCurrentGameState() instanceof LobbyState) {
+		if (gameStateManager.getCurrentGameState() instanceof LobbyState
+				|| gameStateManager.getCurrentGameState() instanceof ItemSelectState) {
 
 			plugin.getAlivePlayers().remove(player);
 			ChatUtils.broadCastMessage(ChatColor.YELLOW + player.getDisplayName() + ChatColor.GREEN
 					+ " hat das Spiel verlassen! " + ChatColor.GOLD + "[" + plugin.getAlivePlayers().size()
 					+ ChatColor.GRAY + "/" + LobbyState.MAX_PLAYERS + ChatColor.GOLD + "]");
+			if (gameStateManager.getCurrentGameState() instanceof ItemSelectState) {
+				ChatUtils.broadCastMessage(ChatColor.YELLOW + "Item Select has been cancelled: " + ChatColor.AQUA
+						+ player.getName() + ChatColor.YELLOW + " has left.");
+
+				gameStateManager.setGameState(GameState.LOBBY_STATE);
+				return;
+			}
+
 			LobbyState lobbyState = (LobbyState) gameStateManager.getCurrentGameState();
 			LobbyCountdown countdown = lobbyState.getCountdown();
 
