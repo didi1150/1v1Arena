@@ -59,12 +59,22 @@ public class ItemSelectCountdown extends Countdown {
 		}
 	}
 
+	public void stop(boolean nextState) {
+		if (nextState)
+			stop();
+		else {
+			if (bukkitTask != null) {
+				bukkitTask.cancel();
+			}
+		}
+	}
+
 	public int getSeconds() {
 		return seconds;
 	}
-	
+
 	public void setSeconds(int seconds) {
 		this.seconds = seconds;
 	}
-	
+
 }
