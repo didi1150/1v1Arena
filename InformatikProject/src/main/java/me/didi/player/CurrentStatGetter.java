@@ -177,7 +177,7 @@ public class CurrentStatGetter {
 	}
 
 	public CustomPlayer getCustomPlayer(Player player) {
-		CustomPlayer customPlayer = CustomPlayerManager.getInstance().getPlayer(player.getUniqueId());
+		CustomPlayer customPlayer = CustomPlayerManager.getInstance().getPlayer(player);
 
 		if (customPlayer == null) {
 			ChatUtils.sendDebugMessage(

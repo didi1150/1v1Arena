@@ -27,7 +27,7 @@ public class DeathListener implements Listener {
 	@EventHandler
 	public void onDeath(CustomPlayerDeathEvent event) {
 		Player victim = event.getVictim();
-		plugin.getAlivePlayers().remove(victim.getUniqueId());
+		plugin.getAlivePlayers().remove(victim);
 		ChatUtils.sendTitle(victim, ChatColor.RED + "YOU DIED!", "", 5, 20 * 3, 5);
 		ChatUtils.broadCastMessage(ChatColor.AQUA + victim.getName() + ChatColor.GOLD + " has died!");
 

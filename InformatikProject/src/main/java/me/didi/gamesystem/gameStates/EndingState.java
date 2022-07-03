@@ -1,6 +1,5 @@
 package me.didi.gamesystem.gameStates;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -22,7 +21,7 @@ public class EndingState extends GameState {
 	@Override
 	public void start() {
 		if (plugin.getAlivePlayers().size() == 1) {
-			Player player = Bukkit.getPlayer(plugin.getAlivePlayers().get(0));
+			Player player = plugin.getAlivePlayers().get(0);
 			sendVictory(player);
 		}
 

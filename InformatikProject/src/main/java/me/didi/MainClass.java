@@ -2,7 +2,6 @@ package me.didi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.ArmorStand;
@@ -45,7 +44,7 @@ public class MainClass extends JavaPlugin {
 	 */
 	private static MainClass plugin;
 
-	private ArrayList<UUID> alivePlayers;
+	private ArrayList<Player> alivePlayers;
 
 	private GameStateManager gameStateManager;
 
@@ -75,7 +74,7 @@ public class MainClass extends JavaPlugin {
 
 		customItemManager = new CustomItemManager(this);
 
-		alivePlayers = new ArrayList<UUID>();
+		alivePlayers = new ArrayList<Player>();
 		ChampionsManager.init();
 		championsManager = ChampionsManager.getInstance();
 
@@ -154,7 +153,7 @@ public class MainClass extends JavaPlugin {
 		return plugin;
 	}
 
-	public ArrayList<UUID> getAlivePlayers() {
+	public ArrayList<Player> getAlivePlayers() {
 		return alivePlayers;
 	}
 }

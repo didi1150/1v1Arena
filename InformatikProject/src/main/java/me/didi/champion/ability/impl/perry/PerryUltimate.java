@@ -75,7 +75,7 @@ public class PerryUltimate implements Ability {
 				}
 			});
 			new ItemSetter().setItem(player, 3, new ItemBuilder(getIcon().clone()).addGlow().toItemStack());
-			CustomPlayer customPlayer = CustomPlayerManager.getInstance().getPlayer(player.getUniqueId());
+			CustomPlayer customPlayer = CustomPlayerManager.getInstance().getPlayer(player);
 			customPlayer.setBaseDefense(customPlayer.getBaseDefense() * 1.7f);
 			customPlayer.setBaseHealth(customPlayer.getBaseHealth() * 1.7f);
 			customPlayer.setMagicResist(customPlayer.getMagicResist() * 1.7f);

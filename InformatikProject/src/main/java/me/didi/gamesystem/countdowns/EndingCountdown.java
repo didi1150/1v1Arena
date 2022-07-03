@@ -80,8 +80,8 @@ public class EndingCountdown extends Countdown {
 
 	@Override
 	public void stop() {
-		gameStateManager.getPlugin().getAlivePlayers().forEach(uuid -> {
-			customPlayerManager.removePlayer(uuid);
+		gameStateManager.getPlugin().getAlivePlayers().forEach(player -> {
+			customPlayerManager.removePlayer(player);
 		});
 		Bukkit.getOnlinePlayers().forEach(player -> {
 			player.kickPlayer("Server stop");

@@ -3,7 +3,6 @@ package me.didi.menus;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -57,10 +56,10 @@ public class ScoreboardHandler {
 
 		Team opponentHP = scoreboard.registerNewTeam("opponent");
 
-		UUID oppositePlayer = null;
-		for (UUID uuid : plugin.getAlivePlayers()) {
-			if (Bukkit.getPlayer(uuid) != player)
-				oppositePlayer = uuid;
+		Player oppositePlayer = null;
+		for (Player pl : plugin.getAlivePlayers()) {
+			if (pl != player)
+				oppositePlayer = pl;
 		}
 		opponentHP.addEntry(ChatColor.GRAY + "" + ChatColor.DARK_GRAY);
 		if (oppositePlayer != null) {
@@ -137,17 +136,17 @@ public class ScoreboardHandler {
 		Scoreboard scoreboard = scoreboards.get(player);
 
 		Team opponentHP = scoreboard.getTeam("opponent");
-		UUID oppositePlayer = null;
-		for (UUID uuid : plugin.getAlivePlayers()) {
-			if (Bukkit.getPlayer(uuid) != player)
-				oppositePlayer = uuid;
+		Player oppositePlayer = null;
+		for (Player pl : plugin.getAlivePlayers()) {
+			if (pl != player)
+				oppositePlayer = pl;
 		}
 
 		if (oppositePlayer != null) {
 			CustomPlayer customPlayer = customPlayerManager.getPlayer(oppositePlayer);
 			opponentHP.setPrefix(ChatColor.RED + "" + new DecimalFormat("#").format(customPlayer.getCurrentHealth())
-					+ "/" + new DecimalFormat("#")
-							.format(CurrentStatGetter.getInstance().getMaxHealth(Bukkit.getPlayer(oppositePlayer))));
+					+ "/"
+					+ new DecimalFormat("#").format(CurrentStatGetter.getInstance().getMaxHealth(oppositePlayer)));
 		}
 	}
 }

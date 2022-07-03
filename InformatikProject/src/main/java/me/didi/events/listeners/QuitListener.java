@@ -42,7 +42,7 @@ public class QuitListener implements Listener {
 		Player player = event.getPlayer();
 		if (gameStateManager.getCurrentGameState() instanceof LobbyState) {
 
-			plugin.getAlivePlayers().remove(player.getUniqueId());
+			plugin.getAlivePlayers().remove(player);
 			ChatUtils.broadCastMessage(ChatColor.YELLOW + player.getDisplayName() + ChatColor.GREEN
 					+ " hat das Spiel verlassen! " + ChatColor.GOLD + "[" + plugin.getAlivePlayers().size()
 					+ ChatColor.GRAY + "/" + LobbyState.MAX_PLAYERS + ChatColor.GOLD + "]");
@@ -56,8 +56,8 @@ public class QuitListener implements Listener {
 				}
 			}
 		} else {
-			if (plugin.getAlivePlayers().contains(player.getUniqueId()))
-				plugin.getAlivePlayers().remove(player.getUniqueId());
+			if (plugin.getAlivePlayers().contains(player))
+				plugin.getAlivePlayers().remove(player);
 
 			abilityStateManager.removeCooldowns(player);
 

@@ -92,7 +92,7 @@ public class PerrySecondAbility extends Recastable implements Ability {
 			private void hopIntoCar(Player player, AbilityStateManager abilityStateManager) {
 				recastCounters.put(player, 1);
 				double healAmount = (CustomPlayerManager.getInstance().getBonusHealth(player)
-						+ CustomPlayerManager.getInstance().getPlayer(player.getUniqueId()).getBaseHealth()) * 0.3;
+						+ CustomPlayerManager.getInstance().getPlayer(player).getBaseHealth()) * 0.3;
 
 				double healAmountPerTick = healAmount / (20 * (getRecastCountdown() - 2) * 20);
 
@@ -114,8 +114,8 @@ public class PerrySecondAbility extends Recastable implements Ability {
 							if (counter.get() < 20 * (getRecastCountdown() - 2) * 20)
 								Bukkit.getPluginManager()
 										.callEvent(new CustomPlayerHealEvent(
-												CustomPlayerManager.getInstance().getPlayer(player.getUniqueId()),
-												HealReason.OTHER, (float) healAmountPerTick));
+												CustomPlayerManager.getInstance().getPlayer(player), HealReason.OTHER,
+												(float) healAmountPerTick));
 						}));
 			}
 		};

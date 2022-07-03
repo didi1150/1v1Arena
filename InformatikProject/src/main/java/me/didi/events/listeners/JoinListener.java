@@ -64,7 +64,7 @@ public class JoinListener implements Listener {
 			player.setLevel(0);
 			player.setExp(0);
 
-			plugin.getAlivePlayers().add(player.getUniqueId());
+			plugin.getAlivePlayers().add(player);
 			ChatUtils.broadCastMessage(ChatColor.YELLOW + player.getDisplayName() + ChatColor.GREEN
 					+ " ist dem Spiel beigetreten! " + ChatColor.GOLD + "[" + plugin.getAlivePlayers().size()
 					+ ChatColor.GRAY + "/" + LobbyState.MAX_PLAYERS + ChatColor.GOLD + "]");

@@ -20,7 +20,6 @@ import me.didi.champion.ability.AbilityStateManager;
 import me.didi.events.customEvents.CustomPlayerHealEvent;
 import me.didi.events.customEvents.HealReason;
 import me.didi.items.CustomItemManager;
-import me.didi.player.effects.SpecialEffect;
 import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.SkullFactory;
@@ -28,8 +27,7 @@ import me.didi.utilities.TaskManager;
 
 public class CustomPlayerManager {
 
-	private Map<UUID, CustomPlayer> players = new HashMap<>();
-	private Map<CustomPlayer, SpecialEffect> nextOnHitEffect = new HashMap<>();
+	private Map<Player, CustomPlayer> players = new HashMap<>();
 
 	private BukkitTask bukkitTask;
 	private MainClass plugin;
@@ -61,7 +59,7 @@ public class CustomPlayerManager {
 		UUID uuid = player.getUniqueId();
 		String name = player.getName();
 
-		players.put(uuid,
+		players.put(player,
 				new CustomPlayer(champion.getBaseHealth(), champion.getBaseDefense(), champion.getBaseMagicResist(),
 						champion.getBaseArmorPenetration(), champion.getBaseMagicPenetration(),
 						champion.getBaseAttackDamage(), champion.getBaseAbilityPower(), champion.getBaseAttackSpeed(),
@@ -69,27 +67,19 @@ public class CustomPlayerManager {
 
 	}
 
-	public void removePlayer(UUID uuid) {
-		players.remove(uuid);
+	public void removePlayer(Player player) {
+		players.remove(player);
 	}
 
-	public CustomPlayer getPlayer(UUID uuid) {
-		if (players.containsKey(uuid)) {
-			for (Map.Entry<UUID, CustomPlayer> entry : players.entrySet()) {
-				if (entry.getKey() == uuid) {
+	public CustomPlayer getPlayer(Player player) {
+		if (players.containsKey(player)) {
+			for (Map.Entry<Player, CustomPlayer> entry : players.entrySet()) {
+				if (entry.getKey() == player) {
 					return entry.getValue();
 				}
 			}
 		}
 		return null;
-	}
-
-	public void addSpecialEffect(UUID uuid, SpecialEffect specialEffect) {
-		nextOnHitEffect.put(getPlayer(uuid), specialEffect);
-	}
-
-	public void removeSpecialEffect(UUID uuid) {
-		nextOnHitEffect.remove(getPlayer(uuid));
 	}
 
 	public void startBackgroundTask() {
@@ -103,10 +93,10 @@ public class CustomPlayerManager {
 				counter = 0;
 			}
 
-			players.keySet().forEach(uuid -> {
-				Bukkit.getPlayer(uuid).getWorld().setTime(0);
-				Bukkit.getPlayer(uuid).getWorld().setStorm(false);
-				CustomPlayer customPlayer = getPlayer(uuid);
+			players.keySet().forEach(player -> {
+				player.getWorld().setTime(0);
+				player.getWorld().setStorm(false);
+				CustomPlayer customPlayer = getPlayer(player);
 				setHealth(customPlayer);
 				setShield(customPlayer);
 				sendInfos(customPlayer);
@@ -222,10 +212,10 @@ public class CustomPlayerManager {
 	}
 
 	public void setGhost(Player player) {
-		if (players.containsKey(player.getUniqueId()))
-			removePlayer(player.getUniqueId());
-		if (plugin.getAlivePlayers().contains(player.getUniqueId()))
-			plugin.getAlivePlayers().remove(player.getUniqueId());
+		if (players.containsKey(player))
+			removePlayer(player);
+		if (plugin.getAlivePlayers().contains(player))
+			plugin.getAlivePlayers().remove(player);
 
 		abilityStateManager.removeCooldowns(player);
 
