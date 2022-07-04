@@ -32,7 +32,7 @@ public class AnakinUltimate implements Ability {
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return ChatColor.WHITE + "Unleashed Force";
+		return ChatColor.WHITE + "Unleashed High Ground";
 	}
 
 	@Override
