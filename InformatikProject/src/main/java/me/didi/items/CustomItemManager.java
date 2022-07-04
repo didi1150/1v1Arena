@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import me.didi.events.customEvents.CustomPlayerHealthChangeEvent;
+import me.didi.items.impl.COSMIC_DRIVE;
 import me.didi.items.impl.STERAKS_GAGE;
 import me.didi.items.impl.WITS_END;
 
@@ -28,12 +29,12 @@ public class CustomItemManager {
 		selectedItems = new HashMap<Player, Set<CustomItem>>();
 		customItems.add(new WITS_END());
 		customItems.add(new STERAKS_GAGE());
-
+		customItems.add(new COSMIC_DRIVE());
 		Bukkit.getPluginManager().registerEvents(listener, plugin);
 	}
 
 	Listener listener = new Listener() {
-		
+
 		@EventHandler
 		public void onDamage(CustomPlayerHealthChangeEvent event) {
 			forwardEvent(event);

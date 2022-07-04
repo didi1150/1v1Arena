@@ -54,7 +54,7 @@ public class LIFELINE implements ItemPassive {
 
 	@Override
 	public String getName() {
-		return ChatColor.GOLD + "Lifeline";
+		return ChatColor.GOLD + "" + ChatColor.BOLD + "LIFELINE";
 	}
 
 	@Override
