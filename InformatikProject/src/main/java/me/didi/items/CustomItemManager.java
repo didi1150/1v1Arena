@@ -17,6 +17,7 @@ import org.bukkit.plugin.Plugin;
 import me.didi.events.customEvents.CustomPlayerHealthChangeEvent;
 import me.didi.items.impl.COSMIC_DRIVE;
 import me.didi.items.impl.STERAKS_GAGE;
+import me.didi.items.impl.THORNMAIL;
 import me.didi.items.impl.WITS_END;
 
 public class CustomItemManager {
@@ -30,6 +31,7 @@ public class CustomItemManager {
 		customItems.add(new WITS_END());
 		customItems.add(new STERAKS_GAGE());
 		customItems.add(new COSMIC_DRIVE());
+		customItems.add(new THORNMAIL());
 		Bukkit.getPluginManager().registerEvents(listener, plugin);
 	}
 
