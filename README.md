@@ -32,4 +32,8 @@ Weitere häufig verwendete Interfaces wären z.B das Listener Interface, oder di
 ## Spielaufbau des Plugins
 Die Idee ist einfach: Beim joinen haben die Spieler 20 Sekunden Zeit, ihren Champion auszuwählen. Nach dieser Phase bekommen sie Zeit, um 4 Items auszuwählen. Danach beginnt die Kampfphase. Falls ein Spieler in dieser Phase den Gegner besiegt, oder der Gegner den Server verlässt, gewinnt der Spieler.
 
-## Strukur des Plugins
+## Struktur des Plugins
+### Die Main Class
+In meiner Main Class werden alle Manager initialisiert.
+
+
