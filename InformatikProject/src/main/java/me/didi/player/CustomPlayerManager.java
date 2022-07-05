@@ -227,4 +227,8 @@ public class CustomPlayerManager {
 		player.getInventory().setHelmet(ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_GHOST));
 	}
 
+	public Map<Player, CustomPlayer> getPlayers() {
+		return players;
+	}
+	
 }

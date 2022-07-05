@@ -10,10 +10,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.events.customEvents.CustomPlayerHealthChangeEvent;
 import me.didi.items.impl.COSMIC_DRIVE;
 import me.didi.items.impl.STERAKS_GAGE;
@@ -39,6 +41,11 @@ public class CustomItemManager {
 
 		@EventHandler
 		public void onDamage(CustomPlayerHealthChangeEvent event) {
+			forwardEvent(event);
+		}
+
+		@EventHandler(priority = EventPriority.LOW)
+		public void onDamage(CustomDamageEvent event) {
 			forwardEvent(event);
 		}
 	};

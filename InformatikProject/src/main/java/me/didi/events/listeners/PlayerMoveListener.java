@@ -9,6 +9,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
 
+import me.didi.menus.ScoreboardHandler;
+
 public class PlayerMoveListener implements Listener {
 
 	public static Map<Player, Vector> vectors = new HashMap<>();
@@ -24,6 +26,8 @@ public class PlayerMoveListener implements Listener {
 		} else {
 			vectors.remove(event.getPlayer());
 		}
+
+		ScoreboardHandler.getInstance().updateMoveSpeed(event.getPlayer());
 	}
 
 }

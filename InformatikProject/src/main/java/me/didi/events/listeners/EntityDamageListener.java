@@ -45,10 +45,9 @@ public class EntityDamageListener implements Listener {
 			return;
 		}
 		if (event.getEntity() instanceof Player) {
-			Bukkit.getOnlinePlayers().forEach(pl -> {
-				ScoreboardHandler.getInstance().updateOpponentHealth(pl);
-			});
-
+			for (Player pl : Bukkit.getOnlinePlayers()) {
+				ScoreboardHandler.getInstance().updatePlayerHealth(pl);
+			}
 			if (event.getCause() == DamageCause.FIRE_TICK) {
 				event.setCancelled(true);
 				return;
@@ -82,12 +81,10 @@ public class EntityDamageListener implements Listener {
 			event.setCancelled(true);
 			return;
 		}
-		Bukkit.getOnlinePlayers().forEach(pl -> {
-			ScoreboardHandler.getInstance().updateOpponentHealth(pl);
-		});
 
 		if (event.getDamager() instanceof Player) {
 			Player attacker = (Player) event.getDamager();
+			ScoreboardHandler.getInstance().updatePlayerHealth(attacker);
 			event.setCancelled(true);
 			if (attacker.getInventory().getHeldItemSlot() == 4)
 				DamageManager.damageEntity(attacker, event.getEntity(), DamageReason.AUTO,
@@ -109,8 +106,10 @@ public class EntityDamageListener implements Listener {
 			double calculatedDamage = event.getDamage();
 			CustomPlayer customPlayer;
 
-			if ((customPlayer = currentStatGetter.getCustomPlayer(player)) == null)
+			if ((customPlayer = currentStatGetter.getCustomPlayer(player)) == null) {
+				event.setCancelled(true);
 				return;
+			}
 
 			double damage = event.getDamage();
 
@@ -127,8 +126,10 @@ public class EntityDamageListener implements Listener {
 						TaskManager.getInstance().runTaskLater(ticks, task -> {
 							attackCooldowns.remove(player);
 						});
-					} else
+					} else {
+						event.setCancelled(true);
 						return;
+					}
 				}
 
 				float defense = currentStatGetter.getCurrentArmor(player);
@@ -180,9 +181,7 @@ public class EntityDamageListener implements Listener {
 		if (knockback)
 			DamageManager.knockbackEnemy(event.getAttacker(), event.getEntity());
 
-		Bukkit.getOnlinePlayers().forEach(pl -> {
-			ScoreboardHandler.getInstance().updateOpponentHealth(pl);
-		});
+		ScoreboardHandler.getInstance().updatePlayerHealth((Player) event.getAttacker());
 	}
 
 }

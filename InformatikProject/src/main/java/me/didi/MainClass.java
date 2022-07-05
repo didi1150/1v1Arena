@@ -97,7 +97,7 @@ public class MainClass extends JavaPlugin {
 				customItemManager);
 		gameStateManager.setGameState(GameState.LOBBY_STATE);
 
-		ScoreboardHandler.init(this, customPlayerManager, championsManager);
+		ScoreboardHandler.init(customPlayerManager, championsManager);
 
 		ItemPassiveCooldownManager.getInstance().startCounter();
 
