@@ -5,12 +5,15 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiConsumer;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.items.ItemPassive;
+import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.ParticleUtils;
 import me.didi.utilities.TaskManager;
 import xyz.xenondevs.particle.ParticleEffect;
@@ -46,12 +49,19 @@ public class SPELLDANCE implements ItemPassive {
 				if (!isActive) {
 					isActive = true;
 
+					ItemStack item = player.getInventory().getItem(slot);
+					ItemStack barrier = new ItemBuilder(new ItemStack(Material.BARRIER))
+							.setDisplayName(ChatColor.RED + "NA")
+							.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack();
+
 					float originalSpeed = player.getWalkSpeed();
 					float bonusSpeed = 1.15f;
 					player.setWalkSpeed(player.getWalkSpeed() * bonusSpeed);
 
 					ParticleUtils.createSphere(ParticleEffect.REDSTONE, Color.WHITE, player.getLocation().add(0, 1, 0),
 							1.5);
+
+					player.getInventory().setItem(slot - 4, item);
 
 					TaskManager.getInstance().repeatUntil(20, 1, 20 * 5, new BiConsumer<BukkitTask, AtomicLong>() {
 						float bSpeed = 1.15f;
@@ -70,6 +80,7 @@ public class SPELLDANCE implements ItemPassive {
 
 							if (counter.get() >= 20 * 5) {
 								isActive = false;
+								player.getInventory().setItem(slot - 4, barrier);
 								player.setWalkSpeed(originalSpeed);
 								task.cancel();
 								return;
