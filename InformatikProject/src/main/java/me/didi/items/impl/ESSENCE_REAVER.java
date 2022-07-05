@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.didi.items.CustomItem;
 import me.didi.items.ItemPassive;
+import me.didi.items.passives.SPELLBLADE;
 import me.didi.utilities.BaseStats;
 import me.didi.utilities.ItemBuilder;
 
@@ -16,7 +17,7 @@ public class ESSENCE_REAVER extends CustomItem {
 
 	@Override
 	public BaseStats getBaseStats() {
-		return new BaseStats(0, 0, 0, 0, 0, 0, 0, 0);
+		return new BaseStats(0, 0, 0, 0, 0, 80, 0, 0);
 	}
 
 	@Override
@@ -27,7 +28,7 @@ public class ESSENCE_REAVER extends CustomItem {
 
 	@Override
 	public List<ItemPassive> getItemPassives() {
-		return Arrays.asList();
+		return Arrays.asList(new SPELLBLADE());
 	}
 
 }
