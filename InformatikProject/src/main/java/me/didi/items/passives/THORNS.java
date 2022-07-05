@@ -21,6 +21,8 @@ public class THORNS implements ItemPassive {
 	public void runPassive(Event event, Player player, int slot) {
 		if (event instanceof CustomDamageEvent) {
 			CustomDamageEvent customDamageEvent = (CustomDamageEvent) event;
+			if (customDamageEvent.getDamageReason() != DamageReason.AUTO)
+				return;
 			if (customDamageEvent.getEntity() == player) {
 				CustomPlayer customPlayer = CustomPlayerManager.getInstance().getPlayer(player);
 				if (customPlayer == null)
