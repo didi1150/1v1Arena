@@ -18,6 +18,8 @@ import org.bukkit.plugin.Plugin;
 import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.events.customEvents.CustomPlayerHealthChangeEvent;
 import me.didi.items.impl.COSMIC_DRIVE;
+import me.didi.items.impl.DEATHS_DANCE;
+import me.didi.items.impl.ESSENCE_REAVER;
 import me.didi.items.impl.STERAKS_GAGE;
 import me.didi.items.impl.THORNMAIL;
 import me.didi.items.impl.WITS_END;
@@ -34,6 +36,8 @@ public class CustomItemManager {
 		customItems.add(new STERAKS_GAGE());
 		customItems.add(new COSMIC_DRIVE());
 		customItems.add(new THORNMAIL());
+		customItems.add(new DEATHS_DANCE());
+		customItems.add(new ESSENCE_REAVER());
 		Bukkit.getPluginManager().registerEvents(listener, plugin);
 	}
 
