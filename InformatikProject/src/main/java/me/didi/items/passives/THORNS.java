@@ -23,6 +23,8 @@ public class THORNS implements ItemPassive {
 			CustomDamageEvent customDamageEvent = (CustomDamageEvent) event;
 			if (customDamageEvent.getEntity() == player) {
 				CustomPlayer customPlayer = CustomPlayerManager.getInstance().getPlayer(player);
+				if (customPlayer == null)
+					return;
 				double damage = (CurrentStatGetter.getInstance().getCurrentArmor(player)
 						- customPlayer.getBaseDefense()) * 0.2 + 10;
 				DamageManager.damageEntity(player, customDamageEvent.getAttacker(), DamageReason.MAGIC, damage, false);
