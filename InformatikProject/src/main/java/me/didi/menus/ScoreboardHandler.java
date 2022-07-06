@@ -155,23 +155,16 @@ public class ScoreboardHandler {
 
 	public void updateMoveSpeed(Player player) {
 
-		for (Player pl : Bukkit.getOnlinePlayers()) {
-			if (pl != player) {
-				Scoreboard scoreboard = scoreboards.get(pl);
-				if(scoreboard == null) return;
-				Team movementSpeed = scoreboard.getTeam("speed");
+		Scoreboard scoreboard = scoreboards.get(player);
+		if (scoreboard == null)
+			return;
 
-				CustomPlayer customPlayer = customPlayerManager.getPlayer(player);
-				if (customPlayer != null) {
-					CustomPlayer oppositePlayer = customPlayerManager.getPlayer(pl);
-					if (oppositePlayer != null) {
-						int speed = (int) (player.getWalkSpeed() * 100);
-						movementSpeed.setPrefix("" + speed);
-					}
-				}
+		Team movementSpeed = scoreboard.getTeam("speed");
 
-			}
+		CustomPlayer customPlayer = customPlayerManager.getPlayer(player);
+		if (customPlayer != null) {
+			int speed = (int) (player.getWalkSpeed() * 100);
+			movementSpeed.setPrefix("" + speed);
 		}
-
 	}
 }

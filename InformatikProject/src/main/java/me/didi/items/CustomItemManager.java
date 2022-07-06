@@ -24,7 +24,11 @@ import me.didi.items.impl.ESSENCE_REAVER;
 import me.didi.items.impl.STERAKS_GAGE;
 import me.didi.items.impl.THORNMAIL;
 import me.didi.items.impl.WITS_END;
+import me.didi.items.passives.IGNORE_PAIN;
+import me.didi.items.passives.LIFELINE;
+import me.didi.items.passives.SPELLBLADE;
 import me.didi.items.passives.SPELLDANCE;
+import me.didi.items.passives.THORNS;
 
 public class CustomItemManager {
 
@@ -35,11 +39,11 @@ public class CustomItemManager {
 		customItems = new ArrayList<CustomItem>();
 		selectedItems = new HashMap<Player, Set<CustomItem>>();
 		customItems.add(new WITS_END(Arrays.asList()));
-		customItems.add(new STERAKS_GAGE(Arrays.asList()));
+		customItems.add(new STERAKS_GAGE(Arrays.asList(new LIFELINE())));
 		customItems.add(new COSMIC_DRIVE(Arrays.asList(new SPELLDANCE())));
-		customItems.add(new THORNMAIL(Arrays.asList()));
-		customItems.add(new DEATHS_DANCE(Arrays.asList()));
-		customItems.add(new ESSENCE_REAVER(Arrays.asList()));
+		customItems.add(new THORNMAIL(Arrays.asList(new THORNS())));
+		customItems.add(new DEATHS_DANCE(Arrays.asList(new IGNORE_PAIN())));
+		customItems.add(new ESSENCE_REAVER(Arrays.asList(new SPELLBLADE())));
 		Bukkit.getPluginManager().registerEvents(listener, plugin);
 	}
 

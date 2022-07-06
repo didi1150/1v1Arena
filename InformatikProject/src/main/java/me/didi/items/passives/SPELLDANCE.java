@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.events.customEvents.CustomDamageEvent;
@@ -54,6 +55,10 @@ public class SPELLDANCE implements ItemPassive {
 					isActive = true;
 
 					ItemStack item = player.getInventory().getItem(slot).clone();
+					ItemMeta itemMeta = item.getItemMeta();
+					itemMeta.spigot().setUnbreakable(false);
+					item.setItemMeta(itemMeta);
+
 					ItemStack barrier = new ItemBuilder(new ItemStack(Material.BARRIER))
 							.setDisplayName(ChatColor.RED + "NA")
 							.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack();
@@ -75,6 +80,7 @@ public class SPELLDANCE implements ItemPassive {
 
 						@Override
 						public void accept(BukkitTask task, AtomicLong counter) {
+							percentage += maxValue / amountOfSeconds / 20;
 							if (hasRefreshedEffect) {
 								hasRefreshedEffect = false;
 								counter.set(0);
@@ -83,10 +89,8 @@ public class SPELLDANCE implements ItemPassive {
 
 							if (counter.get() % 5 == 0 && counter.get() <= 20 * 2 && bonusSpeed > 1.02f) {
 								bSpeed -= 0.13f / 8;
-								percentage += maxValue / amountOfSeconds / 4;
-								item.setDurability((short) (item.getType().getMaxDurability() * percentage));
 								player.getInventory().setItem(slot - 4, item);
-								player.setWalkSpeed(bSpeed);
+								player.setWalkSpeed(bSpeed * originalSpeed);
 							}
 
 							if (counter.get() >= 20 * 5) {
@@ -96,6 +100,8 @@ public class SPELLDANCE implements ItemPassive {
 								task.cancel();
 								return;
 							}
+
+							item.setDurability((short) (item.getType().getMaxDurability() * percentage));
 
 						}
 					});
