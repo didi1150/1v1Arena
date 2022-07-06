@@ -22,7 +22,7 @@ public class SpecialEffectsManager {
 			forwardEvent(event);
 		}
 
-		@EventHandler(priority = EventPriority.HIGHEST)
+		@EventHandler(priority = EventPriority.NORMAL)
 		public void onDamage(CustomDamageEvent event) {
 			forwardEvent(event);
 		}

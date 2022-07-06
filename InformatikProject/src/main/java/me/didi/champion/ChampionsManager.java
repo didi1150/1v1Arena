@@ -98,7 +98,7 @@ public class ChampionsManager {
 
 				new PerryUltimate(),
 
-		}, 1060, 48, 40, 74, 10, 0, 0, 72, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_PERRY),
+		}, 1060, 48, 40, 74, 10, 0, 0, 0.72f, ItemBuilder.getCustomTextureHead(SkullFactory.HEAD_PERRY),
 				new ItemBuilder(new ItemStack(Material.ANVIL)).setDisplayName(ChatColor.GREEN + "Fist")
 						.setLore(ChatColor.GRAY + "attack damage: " + ChatColor.GOLD + "+10").toItemStack()));
 		selectableChampions.add(new Brand(ChatColor.GOLD + "Brand", new Ability[] {

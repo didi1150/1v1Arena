@@ -52,6 +52,8 @@ public class ItemSelectMenu extends PaginatedMenu {
 			return;
 		if (!event.getCurrentItem().hasItemMeta())
 			return;
+		if (event.getCurrentItem().getType() == FILLER_GLASS.getType())
+			return;
 
 		if (event.getCurrentItem().getType().equals(Material.BARRIER)) {
 			// close inventory

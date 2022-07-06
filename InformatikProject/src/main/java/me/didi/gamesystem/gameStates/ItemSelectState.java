@@ -11,7 +11,7 @@ import me.didi.utilities.ItemBuilder;
 public class ItemSelectState extends GameState {
 
 	private ItemSelectCountdown countdown;
-	
+
 	public ItemSelectState(ItemSelectCountdown countdown) {
 		this.countdown = countdown;
 	}
@@ -28,9 +28,9 @@ public class ItemSelectState extends GameState {
 
 	@Override
 	public void stop() {
-
+		countdown.stop();
 	}
-	
+
 	public ItemSelectCountdown getCountdown() {
 		return countdown;
 	}

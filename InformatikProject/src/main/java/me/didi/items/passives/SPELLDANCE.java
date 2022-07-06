@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.items.ItemPassive;
+import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.ParticleUtils;
 import me.didi.utilities.TaskManager;
@@ -30,26 +31,29 @@ public class SPELLDANCE implements ItemPassive {
 
 		if (event instanceof CustomDamageEvent) {
 			CustomDamageEvent customDamageEvent = (CustomDamageEvent) event;
+			if (customDamageEvent.isCancelled())
+				return;
 			if (customDamageEvent.getAttacker() != player)
 				return;
 
 			if (counter == 0 && isWithinThreeSeconds) {
+				isWithinThreeSeconds = false;
+				ChatUtils.sendDebugMessage("Pre Effect started");
+
 				TaskManager.getInstance().runTaskLater(20 * 3, task -> {
-					isWithinThreeSeconds = false;
+					ChatUtils.sendDebugMessage("Reset counter");
+					isWithinThreeSeconds = true;
+					counter = 0;
 				});
 			}
 
-			if (!isWithinThreeSeconds) {
-				isWithinThreeSeconds = true;
-				counter = 0;
-			}
 			if (counter >= 3) {
 				counter = 0;
 
 				if (!isActive) {
 					isActive = true;
 
-					ItemStack item = player.getInventory().getItem(slot);
+					ItemStack item = player.getInventory().getItem(slot).clone();
 					ItemStack barrier = new ItemBuilder(new ItemStack(Material.BARRIER))
 							.setDisplayName(ChatColor.RED + "NA")
 							.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack();
@@ -65,16 +69,23 @@ public class SPELLDANCE implements ItemPassive {
 
 					TaskManager.getInstance().repeatUntil(20, 1, 20 * 5, new BiConsumer<BukkitTask, AtomicLong>() {
 						float bSpeed = 1.15f;
+						float percentage = 0;
+						float maxValue = 1;
+						float amountOfSeconds = 5;
 
 						@Override
 						public void accept(BukkitTask task, AtomicLong counter) {
 							if (hasRefreshedEffect) {
 								hasRefreshedEffect = false;
 								counter.set(0);
+								percentage = 0;
 							}
 
 							if (counter.get() % 5 == 0 && counter.get() <= 20 * 2 && bonusSpeed > 1.02f) {
 								bSpeed -= 0.13f / 8;
+								percentage += maxValue / amountOfSeconds / 4;
+								item.setDurability((short) (item.getType().getMaxDurability() * percentage));
+								player.getInventory().setItem(slot - 4, item);
 								player.setWalkSpeed(bSpeed);
 							}
 
@@ -92,6 +103,7 @@ public class SPELLDANCE implements ItemPassive {
 			}
 
 			counter++;
+			ChatUtils.sendDebugMessage("Counter: " + counter + " [" + this.toString() + "]");
 		}
 	}
 

@@ -135,7 +135,7 @@ public class CurrentStatGetter {
 					bonusAttackDamage.addAndGet(baseAttackDamage);
 			});
 
-			return (int) (bonusAttackDamage.get() + customPlayer.getAttackDamage());
+			return (bonusAttackDamage.get() + customPlayer.getAttackDamage());
 		}
 		return 0;
 	}
@@ -154,7 +154,7 @@ public class CurrentStatGetter {
 					bonusAbilityPower.addAndGet(baseAbilityPower);
 			});
 
-			return (int) (bonusAbilityPower.get() + customPlayer.getAbilityPower());
+			return (bonusAbilityPower.get() + customPlayer.getAbilityPower());
 		}
 		return 0;
 	}
@@ -171,7 +171,7 @@ public class CurrentStatGetter {
 					bonusAttackSpeed.addAndGet(baseAttackSpeed);
 			});
 
-			return (int) ((double) bonusAttackSpeed.get() / 100 + customPlayer.getBaseAttackSpeed());
+			return ((float) bonusAttackSpeed.get() / 100 + customPlayer.getBaseAttackSpeed());
 		}
 		return 0;
 	}

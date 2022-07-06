@@ -44,8 +44,10 @@ public class ItemSelectCountdown extends Countdown {
 				player.setExp(((float) seconds / COUNTDOWN_TIME));
 			});
 
-			if (seconds == 0)
+			if (seconds == 0) {
 				stop();
+				gameStateManager.setGameState(GameState.INGAME_STATE);
+			}
 
 			seconds--;
 		});
@@ -55,17 +57,6 @@ public class ItemSelectCountdown extends Countdown {
 	public void stop() {
 		if (bukkitTask != null) {
 			bukkitTask.cancel();
-			gameStateManager.setGameState(GameState.INGAME_STATE);
-		}
-	}
-
-	public void stop(boolean nextState) {
-		if (nextState)
-			stop();
-		else {
-			if (bukkitTask != null) {
-				bukkitTask.cancel();
-			}
 		}
 	}
 

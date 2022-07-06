@@ -51,8 +51,6 @@ public class QuitListener implements Listener {
 			if (gameStateManager.getCurrentGameState() instanceof ItemSelectState) {
 				ChatUtils.broadCastMessage(ChatColor.YELLOW + "Item Select has been cancelled: " + ChatColor.AQUA
 						+ player.getName() + ChatColor.YELLOW + " has left.");
-				ItemSelectState itemSelectState = (ItemSelectState) gameStateManager.getCurrentGameState();
-				itemSelectState.getCountdown().stop(false);
 				gameStateManager.setGameState(GameState.LOBBY_STATE);
 				return;
 			}

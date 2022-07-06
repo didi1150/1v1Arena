@@ -1,6 +1,7 @@
 package me.didi.items;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import me.didi.items.impl.ESSENCE_REAVER;
 import me.didi.items.impl.STERAKS_GAGE;
 import me.didi.items.impl.THORNMAIL;
 import me.didi.items.impl.WITS_END;
+import me.didi.items.passives.SPELLDANCE;
 
 public class CustomItemManager {
 
@@ -34,7 +36,7 @@ public class CustomItemManager {
 		selectedItems = new HashMap<Player, Set<CustomItem>>();
 		customItems.add(new WITS_END());
 		customItems.add(new STERAKS_GAGE());
-		customItems.add(new COSMIC_DRIVE());
+		customItems.add(new COSMIC_DRIVE(Arrays.asList(new SPELLDANCE())));
 		customItems.add(new THORNMAIL());
 		customItems.add(new DEATHS_DANCE());
 		customItems.add(new ESSENCE_REAVER());
@@ -48,7 +50,7 @@ public class CustomItemManager {
 			forwardEvent(event);
 		}
 
-		@EventHandler(priority = EventPriority.LOW)
+		@EventHandler(priority = EventPriority.NORMAL)
 		public void onDamage(CustomDamageEvent event) {
 			forwardEvent(event);
 		}

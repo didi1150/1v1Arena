@@ -14,8 +14,9 @@ public class CustomDamageEvent extends Event implements Cancellable {
 	private DamageReason damageReason;
 	private double damage;
 	private boolean knockback;
-	
-	public CustomDamageEvent(Entity entity, Entity attacker, DamageReason damageReason, double damage, boolean knockback) {
+
+	public CustomDamageEvent(Entity entity, Entity attacker, DamageReason damageReason, double damage,
+			boolean knockback) {
 		this.isCancelled = false;
 		this.entity = entity;
 		this.attacker = attacker;
@@ -62,9 +63,9 @@ public class CustomDamageEvent extends Event implements Cancellable {
 	public boolean isKnockback() {
 		return knockback;
 	}
-	
+
 	public void setDamage(double damage) {
 		this.damage = damage;
 	}
-	
+
 }

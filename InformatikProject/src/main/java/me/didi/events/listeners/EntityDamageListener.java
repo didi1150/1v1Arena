@@ -98,11 +98,28 @@ public class EntityDamageListener implements Listener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.HIGH)
+	@EventHandler(priority = EventPriority.LOW)
 	public void onDamageCalculate(CustomDamageEvent event) {
-
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
+
+			if (event.getDamageReason() == DamageReason.AUTO) {
+				Player attacker = (Player) event.getAttacker();
+				float attackSpeed = CurrentStatGetter.getInstance().getAttackSpeed(attacker);
+				float rounded = (float) Math.round(attackSpeed * 10);
+
+				int ticks = (int) (20 / (rounded / 10));
+				if (!attackCooldowns.contains(attacker)) {
+					attackCooldowns.add(attacker);
+
+					TaskManager.getInstance().runTaskLater(ticks, task -> {
+						attackCooldowns.remove(attacker);
+					});
+				} else {
+					event.setCancelled(true);
+					return;
+				}
+			}
 
 			double calculatedDamage = event.getDamage();
 
@@ -114,23 +131,6 @@ public class EntityDamageListener implements Listener {
 			double damage = event.getDamage();
 
 			if (event.getDamageReason() == DamageReason.PHYSICAL || event.getDamageReason() == DamageReason.AUTO) {
-
-				if (event.getDamageReason() == DamageReason.AUTO) {
-					float attackSpeed = CurrentStatGetter.getInstance().getAttackSpeed((Player) event.getAttacker());
-					float rounded = (float) Math.round(attackSpeed * 10);
-
-					int ticks = (int) (20 / (rounded / 10));
-					if (!attackCooldowns.contains(player)) {
-						attackCooldowns.add(player);
-
-						TaskManager.getInstance().runTaskLater(ticks, task -> {
-							attackCooldowns.remove(player);
-						});
-					} else {
-						event.setCancelled(true);
-						return;
-					}
-				}
 
 				float defense = currentStatGetter.getCurrentArmor(player);
 				if (defense >= 0) {
@@ -155,8 +155,11 @@ public class EntityDamageListener implements Listener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onProcess(CustomDamageEvent event) {
+
+		if (event.isCancelled())
+			return;
 		if (event.getEntity() instanceof Player) {
 
 			Player player = (Player) event.getEntity();
