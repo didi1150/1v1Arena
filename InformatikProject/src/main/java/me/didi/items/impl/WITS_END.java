@@ -14,6 +14,11 @@ import net.md_5.bungee.api.ChatColor;
 
 public class WITS_END extends CustomItem {
 
+	public WITS_END(List<ItemPassive> itemPassives) {
+		super(itemPassives);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public BaseStats getBaseStats() {
 		return new BaseStats(0, 0, 40, 0, 0, 40, 0, 40);
@@ -24,10 +29,4 @@ public class WITS_END extends CustomItem {
 		return new ItemBuilder(Material.DIAMOND_SWORD).setDisplayName(ChatColor.GOLD + "Wit's End").setLore(getLore())
 				.toItemStack();
 	}
-
-	@Override
-	public List<ItemPassive> getItemPassives() {
-		return Arrays.asList();
-	};
-
 }

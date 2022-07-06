@@ -15,6 +15,11 @@ import me.didi.utilities.ItemBuilder;
 
 public class ESSENCE_REAVER extends CustomItem {
 
+	public ESSENCE_REAVER(List<ItemPassive> itemPassives) {
+		super(itemPassives);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public BaseStats getBaseStats() {
 		return new BaseStats(0, 0, 0, 0, 0, 80, 0, 0);
@@ -25,10 +30,4 @@ public class ESSENCE_REAVER extends CustomItem {
 		return new ItemBuilder(Material.DIAMOND_BARDING).setDisplayName(ChatColor.GOLD + "Essence Reaver")
 				.setLore(getLore()).toItemStack();
 	}
-
-	@Override
-	public List<ItemPassive> getItemPassives() {
-		return Arrays.asList(new SPELLBLADE());
-	}
-
 }

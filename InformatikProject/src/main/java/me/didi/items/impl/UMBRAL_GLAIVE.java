@@ -10,6 +10,11 @@ import me.didi.utilities.BaseStats;
 
 public class UMBRAL_GLAIVE extends CustomItem {
 
+	public UMBRAL_GLAIVE(List<ItemPassive> itemPassives) {
+		super(itemPassives);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public BaseStats getBaseStats() {
 		// TODO Auto-generated method stub
@@ -21,11 +26,4 @@ public class UMBRAL_GLAIVE extends CustomItem {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public List<ItemPassive> getItemPassives() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

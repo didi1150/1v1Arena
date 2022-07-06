@@ -10,6 +10,11 @@ import me.didi.utilities.BaseStats;
 
 public class SERYLDAS_GRUDGE extends CustomItem {
 
+	public SERYLDAS_GRUDGE(List<ItemPassive> itemPassives) {
+		super(itemPassives);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public BaseStats getBaseStats() {
 		return null;
@@ -19,11 +24,4 @@ public class SERYLDAS_GRUDGE extends CustomItem {
 	public ItemStack getItemStack() {
 		return null;
 	}
-
-	@Override
-	public List<ItemPassive> getItemPassives() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

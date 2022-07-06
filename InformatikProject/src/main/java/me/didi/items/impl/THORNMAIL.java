@@ -15,6 +15,11 @@ import me.didi.utilities.ItemBuilder;
 
 public class THORNMAIL extends CustomItem {
 
+	public THORNMAIL(List<ItemPassive> itemPassives) {
+		super(itemPassives);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public BaseStats getBaseStats() {
 		return new BaseStats(350, 50, 0, 0, 0, 0, 0, 0);
@@ -25,11 +30,4 @@ public class THORNMAIL extends CustomItem {
 		return new ItemBuilder(Material.IRON_CHESTPLATE).setDisplayName(ChatColor.GOLD + "Thornmail").setLore(getLore())
 				.toItemStack();
 	}
-
-	@Override
-	public List<ItemPassive> getItemPassives() {
-		// TODO Auto-generated method stub
-		return Arrays.asList(new THORNS());
-	}
-
 }

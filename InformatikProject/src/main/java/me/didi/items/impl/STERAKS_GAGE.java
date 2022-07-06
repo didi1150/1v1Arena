@@ -15,6 +15,11 @@ import me.didi.utilities.ItemBuilder;
 
 public class STERAKS_GAGE extends CustomItem {
 
+	public STERAKS_GAGE(List<ItemPassive> itemPassives) {
+		super(itemPassives);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public BaseStats getBaseStats() {
 		return new BaseStats(400, 0, 0, 0, 0, 40, 0, 0);
@@ -25,10 +30,4 @@ public class STERAKS_GAGE extends CustomItem {
 		return new ItemBuilder(Material.GOLD_BARDING).setDisplayName(ChatColor.GOLD + "Sterak's Gage")
 				.setLore(getLore()).toItemStack();
 	}
-
-	@Override
-	public List<ItemPassive> getItemPassives() {
-		return Arrays.asList(new LIFELINE());
-	}
-
 }

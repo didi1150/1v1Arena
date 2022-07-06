@@ -15,6 +15,11 @@ import me.didi.utilities.ItemBuilder;
 
 public class DEATHS_DANCE extends CustomItem {
 
+	public DEATHS_DANCE(List<ItemPassive> itemPassives) {
+		super(itemPassives);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public BaseStats getBaseStats() {
 		return new BaseStats(0, 45, 0, 0, 0, 55, 0, 0);
@@ -24,11 +29,6 @@ public class DEATHS_DANCE extends CustomItem {
 	public ItemStack getItemStack() {
 		return new ItemBuilder(Material.WOOD_SPADE).setDisplayName(ChatColor.GOLD + "Death's Dance").setLore(getLore())
 				.toItemStack();
-	}
-
-	@Override
-	public List<ItemPassive> getItemPassives() {
-		return Arrays.asList(new IGNORE_PAIN());
 	}
 
 }

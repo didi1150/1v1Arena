@@ -10,6 +10,10 @@ import me.didi.utilities.BaseStats;
 
 public class LORD_DOMINIKS extends CustomItem {
 
+	public LORD_DOMINIKS(List<ItemPassive> itemPassives) {
+		super(itemPassives);
+	}
+
 	@Override
 	public BaseStats getBaseStats() {
 		// TODO Auto-generated method stub
@@ -21,11 +25,4 @@ public class LORD_DOMINIKS extends CustomItem {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public List<ItemPassive> getItemPassives() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

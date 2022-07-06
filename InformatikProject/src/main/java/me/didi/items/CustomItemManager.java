@@ -34,12 +34,12 @@ public class CustomItemManager {
 	public CustomItemManager(Plugin plugin) {
 		customItems = new ArrayList<CustomItem>();
 		selectedItems = new HashMap<Player, Set<CustomItem>>();
-		customItems.add(new WITS_END());
-		customItems.add(new STERAKS_GAGE());
+		customItems.add(new WITS_END(Arrays.asList()));
+		customItems.add(new STERAKS_GAGE(Arrays.asList()));
 		customItems.add(new COSMIC_DRIVE(Arrays.asList(new SPELLDANCE())));
-		customItems.add(new THORNMAIL());
-		customItems.add(new DEATHS_DANCE());
-		customItems.add(new ESSENCE_REAVER());
+		customItems.add(new THORNMAIL(Arrays.asList()));
+		customItems.add(new DEATHS_DANCE(Arrays.asList()));
+		customItems.add(new ESSENCE_REAVER(Arrays.asList()));
 		Bukkit.getPluginManager().registerEvents(listener, plugin);
 	}
 
