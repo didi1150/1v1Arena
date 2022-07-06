@@ -63,4 +63,8 @@ public class CustomDamageEvent extends Event implements Cancellable {
 		return knockback;
 	}
 	
+	public void setDamage(double damage) {
+		this.damage = damage;
+	}
+	
 }

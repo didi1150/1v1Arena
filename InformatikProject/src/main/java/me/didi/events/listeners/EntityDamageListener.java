@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -22,6 +23,7 @@ import me.didi.gamesystem.gameStates.IngameState;
 import me.didi.menus.ScoreboardHandler;
 import me.didi.player.CurrentStatGetter;
 import me.didi.player.CustomPlayer;
+import me.didi.player.CustomPlayerManager;
 import me.didi.utilities.TaskManager;
 import me.didi.utilities.Utils;
 
@@ -96,17 +98,15 @@ public class EntityDamageListener implements Listener {
 		}
 	}
 
-	@EventHandler
-	public void onDamage(CustomDamageEvent event) {
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onDamageCalculate(CustomDamageEvent event) {
 
-		boolean knockback = event.isKnockback();
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
 
 			double calculatedDamage = event.getDamage();
-			CustomPlayer customPlayer;
 
-			if ((customPlayer = currentStatGetter.getCustomPlayer(player)) == null) {
+			if (currentStatGetter.getCustomPlayer(player) == null) {
 				event.setCancelled(true);
 				return;
 			}
@@ -148,6 +148,28 @@ public class EntityDamageListener implements Listener {
 
 			}
 
+			event.setDamage(calculatedDamage);
+		} else {
+			LivingEntity ent = (LivingEntity) event.getEntity();
+			ent.damage(event.getDamage());
+		}
+	}
+
+	@EventHandler(priority = EventPriority.LOW)
+	public void onProcess(CustomDamageEvent event) {
+		if (event.getEntity() instanceof Player) {
+
+			Player player = (Player) event.getEntity();
+
+			boolean knockback = event.isKnockback();
+
+			double calculatedDamage = event.getDamage();
+
+			CustomPlayer customPlayer = CustomPlayerManager.getInstance().getPlayer(player);
+
+			if (customPlayer == null)
+				return;
+
 			Utils.spawnIndicator(event.getEntity().getLocation(), event.getDamageReason(), calculatedDamage);
 
 			if (calculatedDamage < customPlayer.getRemainingShield()) {
@@ -174,14 +196,11 @@ public class EntityDamageListener implements Listener {
 			}
 
 			player.damage(0);
-		} else {
-			LivingEntity ent = (LivingEntity) event.getEntity();
-			ent.damage(event.getDamage());
-		}
-		if (knockback)
-			DamageManager.knockbackEnemy(event.getAttacker(), event.getEntity());
+			if (knockback)
+				DamageManager.knockbackEnemy(event.getAttacker(), event.getEntity());
 
-		ScoreboardHandler.getInstance().updatePlayerHealth((Player) event.getAttacker());
+			ScoreboardHandler.getInstance().updatePlayerHealth((Player) event.getAttacker());
+		}
 	}
 
 }
