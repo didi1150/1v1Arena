@@ -85,23 +85,22 @@ public class CustomPlayerManager {
 	public void startBackgroundTask() {
 
 		bukkitTask = TaskManager.getInstance().repeat(1, 1, task -> {
-			if (counter >= 20) {
-				players.keySet().forEach(uuid -> {
-					regenHealth(getPlayer(uuid));
-				});
 
-				counter = 0;
-			}
+			for (Player player : players.keySet()) {
+				if (!player.isOnline())
+					continue;
+				if (counter >= 20) {
+					regenHealth(getPlayer(player));
+					counter = 0;
+				}
 
-			players.keySet().forEach(player -> {
 				player.getWorld().setTime(0);
 				player.getWorld().setStorm(false);
 				CustomPlayer customPlayer = getPlayer(player);
 				setHealth(customPlayer);
 				setShield(customPlayer);
 				sendInfos(customPlayer);
-			});
-
+			}
 			counter++;
 		});
 	}
@@ -230,5 +229,5 @@ public class CustomPlayerManager {
 	public Map<Player, CustomPlayer> getPlayers() {
 		return players;
 	}
-	
+
 }

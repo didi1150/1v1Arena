@@ -63,6 +63,7 @@ public class JoinListener implements Listener {
 			player.setFoodLevel(20);
 			player.setLevel(0);
 			player.setExp(0);
+			player.setWalkSpeed(0.2f);
 
 			plugin.getAlivePlayers().add(player);
 			ChatUtils.broadCastMessage(ChatColor.YELLOW + player.getDisplayName() + ChatColor.GREEN
