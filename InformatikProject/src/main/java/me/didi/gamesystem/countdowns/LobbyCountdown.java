@@ -67,6 +67,7 @@ public class LobbyCountdown extends Countdown {
 					}
 
 					player.getInventory().clear();
+					player.closeInventory();
 
 				});
 			}

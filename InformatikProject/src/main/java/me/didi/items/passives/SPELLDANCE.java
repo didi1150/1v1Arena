@@ -39,10 +39,8 @@ public class SPELLDANCE implements ItemPassive {
 
 			if (counter == 0 && isWithinThreeSeconds) {
 				isWithinThreeSeconds = false;
-				ChatUtils.sendDebugMessage("Pre Effect started");
 
 				TaskManager.getInstance().runTaskLater(20 * 3, task -> {
-					ChatUtils.sendDebugMessage("Reset counter");
 					isWithinThreeSeconds = true;
 					counter = 0;
 				});
@@ -77,6 +75,7 @@ public class SPELLDANCE implements ItemPassive {
 
 					TaskManager.getInstance().repeatUntil(20, 1, 20 * 5, new BiConsumer<BukkitTask, AtomicLong>() {
 						float bSpeed = 1.15f;
+						float minSpeed = 1.05f;
 						float percentage = 0;
 						float maxValue = 1;
 						float amountOfSeconds = 5;
@@ -90,8 +89,8 @@ public class SPELLDANCE implements ItemPassive {
 								percentage = 0;
 							}
 
-							if (counter.get() % 5 == 0 && counter.get() <= 20 * 2 && bonusSpeed > 1.02f) {
-								bSpeed -= 0.13f / 8;
+							if (counter.get() % 5 == 0 && counter.get() <= 20 * 2 && bSpeed > minSpeed) {
+								bSpeed -= 0.10f / 8;
 								player.setWalkSpeed(bSpeed * originalSpeed);
 							}
 
@@ -111,7 +110,6 @@ public class SPELLDANCE implements ItemPassive {
 			}
 
 			counter++;
-			ChatUtils.sendDebugMessage("Counter: " + counter + " [" + this.toString() + "]");
 		}
 	}
 
@@ -125,9 +123,8 @@ public class SPELLDANCE implements ItemPassive {
 		return new String[] { getName() + ChatColor.GRAY + ": After dealing 3",
 				ChatColor.GRAY + "instances of damage from basic attacks or",
 				ChatColor.GOLD + "ability damage " + ChatColor.GRAY + "to champions within 3",
-				ChatColor.GRAY + "seconds, gain " + ChatColor.YELLOW
-						+ "15% bonus movement speed, decaying to 2% over 2 seconds, and " + ChatColor.DARK_PURPLE
-						+ "40",
+				ChatColor.GRAY + "seconds, gain " + ChatColor.YELLOW + "15% bonus movement speed,",
+				ChatColor.GRAY + "decaying to 5% over 2 seconds, and " + ChatColor.DARK_PURPLE + "40",
 				ChatColor.DARK_PURPLE + "ability power " + ChatColor.GRAY + "for 5 seconds, refreshing on",
 				ChatColor.GRAY + "damage dealt to champions though not", ChatColor.GRAY + "resetting the effect." };
 	}

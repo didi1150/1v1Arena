@@ -20,7 +20,7 @@ public class PlayerMoveListener implements Listener {
 		double xDiff = event.getTo().getX() - event.getFrom().getX();
 		double zDiff = event.getTo().getZ() - event.getFrom().getZ();
 
-		if (xDiff != 0 || zDiff != 0) {
+		if (xDiff > 0 || zDiff > 0) {
 			Vector vector = new Vector(xDiff, 0, zDiff);
 			vectors.put(event.getPlayer(), vector);
 		} else {

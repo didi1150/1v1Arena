@@ -134,6 +134,8 @@ public class ScoreboardHandler {
 	}
 
 	public void updatePlayerHealth(Player player) {
+		if (!player.isOnline())
+			return;
 		Scoreboard scoreboard = scoreboards.get(player);
 		Objective healthBar = scoreboard.getObjective(DisplaySlot.BELOW_NAME);
 
@@ -154,7 +156,8 @@ public class ScoreboardHandler {
 	}
 
 	public void updateMoveSpeed(Player player) {
-
+		if (!player.isOnline())
+			return;
 		Scoreboard scoreboard = scoreboards.get(player);
 		if (scoreboard == null)
 			return;

@@ -13,6 +13,7 @@ import me.didi.champion.ability.AbilityType;
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.listeners.PlayerMoveListener;
 import me.didi.player.effects.SpecialEffectsManager;
+import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 
 public class AnakinSecondAbility implements Ability {
@@ -52,10 +53,11 @@ public class AnakinSecondAbility implements Ability {
 		Bukkit.getPluginManager().callEvent(event);
 		if (event.isCancelled())
 			return;
-		
+
 		abilityStateManager.addCooldown(player, 1, getCooldown());
 
 		Vector vector = player.getLocation().getDirection();
+
 		if (PlayerMoveListener.vectors.containsKey(player)) {
 			vector = PlayerMoveListener.vectors.get(player);
 		}

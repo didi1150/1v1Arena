@@ -126,10 +126,12 @@ public class PlayerInteractListener implements Listener {
 					if (autoAttackCooldowns.contains(player))
 						return;
 					autoAttackCooldowns.add(player);
+					
+					
 					float attackSpeed = CurrentStatGetter.getInstance().getAttackSpeed(player);
 					float rounded = (float) Math.round(attackSpeed * 10);
 
-					TaskManager.getInstance().runTaskLater(20 * (int) (rounded) / 10, task -> {
+					TaskManager.getInstance().runTaskLater((int) (20 * rounded / 10), task -> {
 						autoAttackCooldowns.remove(player);
 					});
 
