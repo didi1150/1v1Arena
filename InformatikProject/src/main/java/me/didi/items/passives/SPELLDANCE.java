@@ -48,6 +48,9 @@ public class SPELLDANCE implements ItemPassive {
 				});
 			}
 
+			if (isActive)
+				hasRefreshedEffect = true;
+
 			if (counter >= 3) {
 				counter = 0;
 
@@ -89,7 +92,6 @@ public class SPELLDANCE implements ItemPassive {
 
 							if (counter.get() % 5 == 0 && counter.get() <= 20 * 2 && bonusSpeed > 1.02f) {
 								bSpeed -= 0.13f / 8;
-								player.getInventory().setItem(slot - 4, item);
 								player.setWalkSpeed(bSpeed * originalSpeed);
 							}
 
@@ -102,7 +104,7 @@ public class SPELLDANCE implements ItemPassive {
 							}
 
 							item.setDurability((short) (item.getType().getMaxDurability() * percentage));
-
+							player.getInventory().setItem(slot - 4, item);
 						}
 					});
 				}
