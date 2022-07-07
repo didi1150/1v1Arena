@@ -2,9 +2,11 @@ package me.didi.player;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -33,7 +35,6 @@ public class CustomPlayerManager {
 	private MainClass plugin;
 
 	private AbilityStateManager abilityStateManager;
-	private static int counter = 0;
 
 	private static CustomPlayerManager instance;
 	private CustomItemManager customItemManager;
@@ -84,16 +85,17 @@ public class CustomPlayerManager {
 
 	public void startBackgroundTask() {
 
-		bukkitTask = TaskManager.getInstance().repeat(1, 1, task -> {
+		bukkitTask = TaskManager.getInstance().repeatUntil(1, 1, Long.MAX_VALUE, (task, counter) -> {
+			if (counter.get() >= 20) {
+				Bukkit.getOnlinePlayers().forEach(player -> {
+					regenHealth(getPlayer(player));
+					counter.set(0);
+				});
+			}
 
 			for (Player player : players.keySet()) {
 				if (!player.isOnline())
 					continue;
-				if (counter >= 20) {
-					regenHealth(getPlayer(player));
-					counter = 0;
-				}
-
 				player.getWorld().setTime(0);
 				player.getWorld().setStorm(false);
 				CustomPlayer customPlayer = getPlayer(player);
@@ -101,7 +103,6 @@ public class CustomPlayerManager {
 				setShield(customPlayer);
 				sendInfos(customPlayer);
 			}
-			counter++;
 		});
 	}
 

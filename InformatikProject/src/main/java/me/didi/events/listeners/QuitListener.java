@@ -58,7 +58,7 @@ public class QuitListener implements Listener {
 			LobbyState lobbyState = (LobbyState) gameStateManager.getCurrentGameState();
 			LobbyCountdown countdown = lobbyState.getCountdown();
 
-			if (plugin.getAlivePlayers().size() < LobbyState.MIN_PLAYERS) {
+			if (plugin.getAlivePlayers().size() < LobbyState.MAX_PLAYERS) {
 				if (countdown.isRunning()) {
 					countdown.stop();
 					countdown.startIdle();

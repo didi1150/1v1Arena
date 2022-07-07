@@ -1,6 +1,5 @@
 package me.didi.items.passives;
 
-import java.awt.Color;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiConsumer;
 
@@ -15,9 +14,7 @@ import org.bukkit.scheduler.BukkitTask;
 import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.items.ItemPassive;
 import me.didi.utilities.ItemBuilder;
-import me.didi.utilities.ParticleUtils;
 import me.didi.utilities.TaskManager;
-import xyz.xenondevs.particle.ParticleEffect;
 
 public class FRAY implements ItemPassive {
 
@@ -30,6 +27,8 @@ public class FRAY implements ItemPassive {
 		if (event instanceof CustomDamageEvent) {
 			CustomDamageEvent customDamageEvent = (CustomDamageEvent) event;
 
+			if (customDamageEvent.isCancelled())
+				return;
 			if (customDamageEvent.getAttacker() != player)
 				return;
 
@@ -49,23 +48,36 @@ public class FRAY implements ItemPassive {
 						.toItemStack();
 
 				float originalSpeed = player.getWalkSpeed();
-				float bonusSpeed = 1.2f;
-				player.setWalkSpeed(player.getWalkSpeed() * bonusSpeed);
+				float bonusSpeed = 0.05f;
+				player.setWalkSpeed(player.getWalkSpeed() + bonusSpeed);
 
 				player.getInventory().setItem(slot - 4, item);
 
 				TaskManager.getInstance().repeatUntil(0, 1, 20 * 2, new BiConsumer<BukkitTask, AtomicLong>() {
 
+					float percentage = 0;
+					float maxPercentage = 1;
+					float amountOfSeconds = 2;
+
 					@Override
 					public void accept(BukkitTask task, AtomicLong counter) {
+						if (percentage < maxPercentage)
+							percentage += maxPercentage / amountOfSeconds / 20;
+
 						if (hasRefreshedEffect) {
 							hasRefreshedEffect = false;
+							counter.set(0);
+							percentage = 0;
 						}
+
 						if (counter.get() >= 20 * 2) {
 							player.setWalkSpeed(originalSpeed);
+							player.getInventory().setItem(slot - 4, barrier);
 							firstTimeHit = true;
 						}
 
+						item.setDurability((short) (item.getType().getMaxDurability() * percentage));
+						player.getInventory().setItem(slot - 4, item);
 					}
 				});
 			}
@@ -83,7 +95,7 @@ public class FRAY implements ItemPassive {
 		return new String[] { getName() + ChatColor.GRAY + ": Basic attacks deal " + ChatColor.DARK_AQUA + "42",
 				ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "bonus" + ChatColor.RESET + ChatColor.DARK_AQUA
 						+ "magic damage" + ChatColor.GOLD + " on-hit",
-				ChatColor.GRAY + "and grant you " + ChatColor.YELLOW + "20 " + ChatColor.BOLD + "bonus "
+				ChatColor.GRAY + "and grant you " + ChatColor.YELLOW + "5 " + ChatColor.BOLD + "bonus "
 						+ ChatColor.RESET + ChatColor.YELLOW + "movement speed",
 				ChatColor.GRAY + "for 2 seconds." };
 	}

@@ -48,7 +48,7 @@ public class THORNS implements ItemPassive {
 	public String[] getDescription() {
 		return new String[] { getName() + ChatColor.GRAY + ": When struck by a basic",
 				ChatColor.GRAY + "attack" + ChatColor.GOLD + "on-hit" + ChatColor.GRAY + ", deal " + ChatColor.DARK_AQUA
-						+ "10" + ChatColor.YELLOW + "(+ 20% bonus armor)",
+						+ "10 " + ChatColor.YELLOW + "(+20% bonus armor)",
 				ChatColor.DARK_AQUA + "magic damage " + ChatColor.GRAY + "to the attacker." };
 	}
 
