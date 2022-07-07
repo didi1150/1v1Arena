@@ -24,6 +24,7 @@ import me.didi.items.impl.ESSENCE_REAVER;
 import me.didi.items.impl.STERAKS_GAGE;
 import me.didi.items.impl.THORNMAIL;
 import me.didi.items.impl.WITS_END;
+import me.didi.items.passives.FRAY;
 import me.didi.items.passives.IGNORE_PAIN;
 import me.didi.items.passives.LIFELINE;
 import me.didi.items.passives.SPELLBLADE;
@@ -38,7 +39,7 @@ public class CustomItemManager {
 	public CustomItemManager(Plugin plugin) {
 		customItems = new ArrayList<CustomItem>();
 		selectedItems = new HashMap<Player, Set<CustomItem>>();
-		customItems.add(new WITS_END(Arrays.asList()));
+		customItems.add(new WITS_END(Arrays.asList(new FRAY())));
 		customItems.add(new STERAKS_GAGE(Arrays.asList(new LIFELINE())));
 		customItems.add(new COSMIC_DRIVE(Arrays.asList(new SPELLDANCE())));
 		customItems.add(new THORNMAIL(Arrays.asList(new THORNS())));
