@@ -48,7 +48,6 @@ public class JoinListener implements Listener {
 				player.kickPlayer("Sorry, we're full");
 			}
 
-			player.setResourcePack("https://github.com/didi1150/InformatikProject/archive/refs/tags/v0.1.zip");
 			player.getInventory().clear();
 			player.getInventory().setArmorContents(new ItemStack[] { new ItemStack(Material.AIR),
 					new ItemStack(Material.AIR), new ItemStack(Material.AIR), new ItemStack(Material.AIR) });
