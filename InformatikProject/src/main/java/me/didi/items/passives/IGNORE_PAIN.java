@@ -14,13 +14,9 @@ import me.didi.champion.ChampionsManager;
 import me.didi.champion.characters.MeleeChampion;
 import me.didi.champion.characters.RangedChampion;
 import me.didi.events.customEvents.CustomDamageEvent;
-import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.items.ItemPassive;
-import me.didi.player.CustomPlayer;
-import me.didi.player.CustomPlayerManager;
 import me.didi.utilities.ItemBuilder;
-import me.didi.utilities.TaskManager;
 import me.didi.utilities.Utils;
 
 public class IGNORE_PAIN implements ItemPassive {
@@ -34,8 +30,10 @@ public class IGNORE_PAIN implements ItemPassive {
 		if (event instanceof CustomDamageEvent) {
 			CustomDamageEvent customDamageEvent = (CustomDamageEvent) event;
 			if (customDamageEvent.getDamageReason() != DamageReason.TRUE) {
+				if (customDamageEvent.getAttacker() == player)
+					return;
+
 				Player attackerPlayer = (Player) customDamageEvent.getAttacker();
-				CustomPlayer attacker = CustomPlayerManager.getInstance().getPlayer(attackerPlayer);
 				Champion champion = ChampionsManager.getInstance().getSelectedChampion(attackerPlayer);
 
 				double percentage = 0;
@@ -62,7 +60,7 @@ public class IGNORE_PAIN implements ItemPassive {
 
 				if (bukkitTask == null)
 					bukkitTask = Utils.showEffectStatus(player, slot - 4, 3, 1, item, barrier, sharedCounter);
-				else
+				else 
 					sharedCounter.set(0);
 				amount++;
 				if (player.getInventory().getItem(slot - 4).getType() != Material.BARRIER) {
