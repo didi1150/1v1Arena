@@ -1,6 +1,5 @@
 package me.didi.items.impl;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -9,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 
 import me.didi.items.CustomItem;
 import me.didi.items.ItemPassive;
-import me.didi.items.passives.SPELLBLADE;
 import me.didi.utilities.BaseStats;
 import me.didi.utilities.ItemBuilder;
 
@@ -27,7 +25,7 @@ public class ESSENCE_REAVER extends CustomItem {
 
 	@Override
 	public ItemStack getItemStack() {
-		return new ItemBuilder(Material.DIAMOND_BARDING).setDisplayName(ChatColor.GOLD + "Essence Reaver")
+		return new ItemBuilder(Material.DIAMOND_AXE).setDisplayName(ChatColor.GOLD + "Essence Reaver")
 				.setLore(getLore()).toItemStack();
 	}
 }

@@ -3,6 +3,7 @@ package me.didi.events.listeners;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
@@ -27,7 +28,7 @@ public class HealListener implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOW)
 	public void onCustomHeal(CustomPlayerHealEvent event) {
 
 		CustomPlayer customPlayer = event.getCustomPlayer();

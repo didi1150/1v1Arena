@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.CustomDamageEvent;
@@ -26,9 +27,16 @@ import net.md_5.bungee.api.ChatColor;
 public class SPELLBLADE implements ItemPassive {
 
 	private boolean isActive = false;
+	private BukkitTask task;
 
 	@Override
 	public void runPassive(Event event, Player player, int slot) {
+
+		ItemStack barrier = new ItemBuilder(new ItemStack(Material.BARRIER)).setDisplayName(ChatColor.RED + "NA")
+				.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack();
+
+		if (ItemPassiveCooldownManager.getInstance().isOnCooldown(player, slot))
+			return;
 		AtomicLong sharedCounter = new AtomicLong(0);
 		if (event instanceof AbilityCastEvent) {
 			AbilityCastEvent abilityCastEvent = (AbilityCastEvent) event;
@@ -41,12 +49,10 @@ public class SPELLBLADE implements ItemPassive {
 				return;
 
 			isActive = true;
-			ItemStack barrier = new ItemBuilder(new ItemStack(Material.BARRIER)).setDisplayName(ChatColor.RED + "NA")
-					.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack();
 
 			ItemStack item = player.getInventory().getItem(slot).clone();
 
-			Utils.showEffectStatus(player, slot - 4, 20 * 10, 1, item, barrier, sharedCounter);
+			task = Utils.showEffectStatus(player, slot - 4, 10, 1, item, barrier, sharedCounter);
 
 			TaskManager.getInstance().runTaskLater(20 * 10, task -> {
 				if (isActive)
@@ -68,7 +74,13 @@ public class SPELLBLADE implements ItemPassive {
 				return;
 
 			isActive = false;
-			sharedCounter.set(20 * 10);
+
+			if (task != null) {
+				task.cancel();
+			}
+
+			player.getInventory().setItem(slot - 4, barrier);
+
 			ItemPassiveCooldownManager.getInstance().addCooldown(this, player, slot,
 					player.getInventory().getItem(slot));
 
@@ -81,7 +93,7 @@ public class SPELLBLADE implements ItemPassive {
 
 			Bukkit.getPluginManager().callEvent(customPlayerHealEvent);
 
-			DamageManager.damageEntity(player, customDamageEvent.getEntity(), DamageReason.PHYSICAL, damage, false);
+			customDamageEvent.setDamage(customDamageEvent.getDamage() + damage);
 		}
 	}
 

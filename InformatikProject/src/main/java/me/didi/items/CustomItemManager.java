@@ -16,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.events.customEvents.CustomPlayerHealthChangeEvent;
 import me.didi.items.impl.COSMIC_DRIVE;
@@ -51,6 +52,11 @@ public class CustomItemManager {
 	Listener listener = new Listener() {
 
 		@EventHandler
+		public void onCast(AbilityCastEvent event) {
+			forwardEvent(event);
+		}
+
+		@EventHandler(priority = EventPriority.NORMAL)
 		public void onDamage(CustomPlayerHealthChangeEvent event) {
 			forwardEvent(event);
 		}

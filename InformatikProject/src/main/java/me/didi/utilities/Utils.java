@@ -17,6 +17,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
@@ -298,6 +299,9 @@ public class Utils {
 	 */
 	public static BukkitTask showEffectStatus(Player player, int slot, int seconds, int tickPeriod,
 			ItemStack displayItem, ItemStack originalItem, AtomicLong sharedCounter) {
+		ItemMeta meta = displayItem.getItemMeta();
+		meta.spigot().setUnbreakable(false);
+		displayItem.setItemMeta(meta);
 		player.getInventory().setItem(slot, displayItem);
 		return TaskManager.getInstance().repeatUntil(0, tickPeriod, 20 * seconds,
 				new BiConsumer<BukkitTask, AtomicLong>() {
@@ -311,11 +315,15 @@ public class Utils {
 						percentage = counter.get() * (maxPercentage / seconds / (20 / tickPeriod));
 						if (counter.get() >= 20 * seconds) {
 							task.cancel();
+//							ChatUtils.sendDebugMessage("Stopped");
 							player.getInventory().setItem(slot, originalItem);
 							return;
 						}
 
 						short durability = (short) (displayItem.getType().getMaxDurability() * percentage);
+//						ChatUtils.sendDebugMessage("Durability: " + durability);
+//						ChatUtils.sendDebugMessage("Percentage: " + percentage);
+//						ChatUtils.sendDebugMessage("MaxDurability: " + displayItem.getType().getMaxDurability());
 						displayItem.setDurability(durability);
 						player.getInventory().setItem(slot, displayItem);
 					}
