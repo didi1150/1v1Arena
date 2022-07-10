@@ -12,9 +12,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.events.customEvents.CustomDamageEvent;
+import me.didi.events.customEvents.DamageReason;
 import me.didi.items.ItemPassive;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.TaskManager;
+import me.didi.utilities.Utils;
 
 public class FRAY implements ItemPassive {
 
@@ -27,6 +29,8 @@ public class FRAY implements ItemPassive {
 		if (event instanceof CustomDamageEvent) {
 			CustomDamageEvent customDamageEvent = (CustomDamageEvent) event;
 
+			if (customDamageEvent.getDamageReason() != DamageReason.AUTO)
+				return;
 			if (customDamageEvent.isCancelled())
 				return;
 			if (customDamageEvent.getAttacker() != player)
@@ -53,31 +57,25 @@ public class FRAY implements ItemPassive {
 
 				player.getInventory().setItem(slot - 4, item);
 
+				AtomicLong sharedCounter = new AtomicLong(0);
+				Utils.showEffectStatus(player, slot - 4, 2, 1, item, barrier, sharedCounter);
+
 				TaskManager.getInstance().repeatUntil(0, 1, 20 * 2, new BiConsumer<BukkitTask, AtomicLong>() {
-
-					float percentage = 0;
-					float maxPercentage = 1;
-					float amountOfSeconds = 2;
-
 					@Override
 					public void accept(BukkitTask task, AtomicLong counter) {
-						if (percentage < maxPercentage)
-							percentage += maxPercentage / amountOfSeconds / 20;
-
 						if (hasRefreshedEffect) {
 							hasRefreshedEffect = false;
 							counter.set(0);
-							percentage = 0;
 						}
+
+						sharedCounter.set(counter.get());
 
 						if (counter.get() >= 20 * 2) {
+							task.cancel();
 							player.setWalkSpeed(originalSpeed);
-							player.getInventory().setItem(slot - 4, barrier);
 							firstTimeHit = true;
+							return;
 						}
-
-						item.setDurability((short) (item.getType().getMaxDurability() * percentage));
-						player.getInventory().setItem(slot - 4, item);
 					}
 				});
 			}

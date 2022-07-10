@@ -3,6 +3,8 @@ package me.didi.utilities;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -15,6 +17,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import me.didi.events.customEvents.DamageManager;
@@ -287,6 +290,35 @@ public class Utils {
 		double x = v.getX() * cos - v.getY() * sin;
 		double y = v.getX() * sin + v.getY() * cos;
 		return v.setX(x).setY(y);
+
+	}
+
+	/**
+	 * Usage: Only for displaying a custom item's passive's remaining duration
+	 */
+	public static BukkitTask showEffectStatus(Player player, int slot, int seconds, int tickPeriod,
+			ItemStack displayItem, ItemStack originalItem, AtomicLong sharedCounter) {
+		return TaskManager.getInstance().repeatUntil(0, tickPeriod, 20 * seconds,
+				new BiConsumer<BukkitTask, AtomicLong>() {
+
+					double percentage = 0;
+					double maxPercentage = 1;
+
+					@Override
+					public void accept(BukkitTask task, AtomicLong counter) {
+						counter.set(sharedCounter.getAndAdd(1));
+						percentage = counter.get() * (maxPercentage / seconds / (20 / tickPeriod));
+						if (counter.get() >= 20 * seconds) {
+							task.cancel();
+							player.getInventory().setItem(slot, originalItem);
+							return;
+						}
+
+						short durability = (short) (displayItem.getType().getMaxDurability() * percentage);
+						displayItem.setDurability(durability);
+						player.getInventory().setItem(slot, displayItem);
+					}
+				});
 	}
 
 }
