@@ -18,6 +18,7 @@ import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.ParticleUtils;
 import me.didi.utilities.TaskManager;
+import me.didi.utilities.Utils;
 import xyz.xenondevs.particle.ParticleEffect;
 
 public class SPELLDANCE implements ItemPassive {
@@ -71,23 +72,21 @@ public class SPELLDANCE implements ItemPassive {
 					ParticleUtils.createSphere(ParticleEffect.REDSTONE, Color.WHITE, player.getLocation().add(0, 1, 0),
 							1.5);
 
-					player.getInventory().setItem(slot - 4, item);
+					AtomicLong sharedCounter = new AtomicLong(0);
+					Utils.showEffectStatus(player, slot - 4, 5, 1, item, barrier, sharedCounter);
 
 					TaskManager.getInstance().repeatUntil(20, 1, 20 * 5, new BiConsumer<BukkitTask, AtomicLong>() {
 						float bSpeed = 1.15f;
 						float minSpeed = 1.05f;
-						float percentage = 0;
-						float maxValue = 1;
-						float amountOfSeconds = 5;
 
 						@Override
 						public void accept(BukkitTask task, AtomicLong counter) {
-							percentage += maxValue / amountOfSeconds / 20;
 							if (hasRefreshedEffect) {
 								hasRefreshedEffect = false;
 								counter.set(0);
-								percentage = 0;
 							}
+
+							sharedCounter.set(counter.get());
 
 							if (counter.get() % 5 == 0 && counter.get() <= 20 * 2 && bSpeed > minSpeed) {
 								bSpeed -= 0.10f / 8;
@@ -96,14 +95,10 @@ public class SPELLDANCE implements ItemPassive {
 
 							if (counter.get() >= 20 * 5) {
 								isActive = false;
-								player.getInventory().setItem(slot - 4, barrier);
 								player.setWalkSpeed(originalSpeed);
 								task.cancel();
 								return;
 							}
-
-							item.setDurability((short) (item.getType().getMaxDurability() * percentage));
-							player.getInventory().setItem(slot - 4, item);
 						}
 					});
 				}

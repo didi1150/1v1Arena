@@ -55,8 +55,6 @@ public class FRAY implements ItemPassive {
 				float bonusSpeed = 0.05f;
 				player.setWalkSpeed(player.getWalkSpeed() + bonusSpeed);
 
-				player.getInventory().setItem(slot - 4, item);
-
 				AtomicLong sharedCounter = new AtomicLong(0);
 				Utils.showEffectStatus(player, slot - 4, 2, 1, item, barrier, sharedCounter);
 

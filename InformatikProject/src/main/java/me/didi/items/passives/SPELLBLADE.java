@@ -1,5 +1,7 @@
 package me.didi.items.passives;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,6 +20,7 @@ import me.didi.player.CurrentStatGetter;
 import me.didi.player.CustomPlayerManager;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.TaskManager;
+import me.didi.utilities.Utils;
 import net.md_5.bungee.api.ChatColor;
 
 public class SPELLBLADE implements ItemPassive {
@@ -26,6 +29,7 @@ public class SPELLBLADE implements ItemPassive {
 
 	@Override
 	public void runPassive(Event event, Player player, int slot) {
+		AtomicLong sharedCounter = new AtomicLong(0);
 		if (event instanceof AbilityCastEvent) {
 			AbilityCastEvent abilityCastEvent = (AbilityCastEvent) event;
 			if (abilityCastEvent.isCancelled())
@@ -37,24 +41,16 @@ public class SPELLBLADE implements ItemPassive {
 				return;
 
 			isActive = true;
-			ItemStack cache = new ItemBuilder(new ItemStack(Material.BARRIER)).setDisplayName(ChatColor.RED + "NA")
+			ItemStack barrier = new ItemBuilder(new ItemStack(Material.BARRIER)).setDisplayName(ChatColor.RED + "NA")
 					.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack();
 
 			ItemStack item = player.getInventory().getItem(slot).clone();
-			item.setAmount(10);
 
-			player.getInventory().setItem(slot - 4, item);
+			Utils.showEffectStatus(player, slot - 4, 20 * 10, 1, item, barrier, sharedCounter);
 
-			TaskManager.getInstance().repeatUntil(20, 20, 20 * 10, (task, counter) -> {
-				int amount = player.getInventory().getItem(slot - 4).getAmount();
-				if (amount > 1) {
-					player.getInventory().getItem(slot - 4).setAmount(amount - 1);
-				} else {
+			TaskManager.getInstance().runTaskLater(20 * 10, task -> {
+				if (isActive)
 					isActive = false;
-					player.getInventory().setItem(slot - 4, cache);
-					task.cancel();
-				}
-
 			});
 
 		}
@@ -72,6 +68,7 @@ public class SPELLBLADE implements ItemPassive {
 				return;
 
 			isActive = false;
+			sharedCounter.set(20 * 10);
 			ItemPassiveCooldownManager.getInstance().addCooldown(this, player, slot,
 					player.getInventory().getItem(slot));
 

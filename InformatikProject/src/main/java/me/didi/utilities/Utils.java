@@ -298,6 +298,7 @@ public class Utils {
 	 */
 	public static BukkitTask showEffectStatus(Player player, int slot, int seconds, int tickPeriod,
 			ItemStack displayItem, ItemStack originalItem, AtomicLong sharedCounter) {
+		player.getInventory().setItem(slot, displayItem);
 		return TaskManager.getInstance().repeatUntil(0, tickPeriod, 20 * seconds,
 				new BiConsumer<BukkitTask, AtomicLong>() {
 
