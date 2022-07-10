@@ -43,10 +43,6 @@ public class FRAY implements ItemPassive {
 				firstTimeHit = false;
 
 				ItemStack item = player.getInventory().getItem(slot).clone();
-				ItemMeta itemMeta = item.getItemMeta();
-				itemMeta.spigot().setUnbreakable(false);
-				item.setItemMeta(itemMeta);
-
 				ItemStack barrier = new ItemBuilder(new ItemStack(Material.BARRIER))
 						.setDisplayName(ChatColor.RED + "NA").setLore(ChatColor.GRAY + "This slot is not available!")
 						.toItemStack();
