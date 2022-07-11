@@ -1,5 +1,7 @@
 package me.didi.items.passives;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -18,20 +20,73 @@ import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.items.ItemPassive;
-import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.TaskManager;
 import me.didi.utilities.Utils;
+
+class DamageStack {
+	private double damage;
+
+	public DamageStack(double damage) {
+		this.damage = damage;
+	}
+
+	public double getDamage() {
+		return damage;
+	}
+}
 
 public class IGNORE_PAIN implements ItemPassive {
 
 	private AtomicLong sharedCounter = new AtomicLong(0);
 	private AtomicInteger amount = new AtomicInteger();
 	private BukkitTask bukkitTask;
-	private BukkitTask damageTask;
+	private Player player;
+	private Player attackerPlayer;
+	private int slot;
+
+	private Queue<DamageStack> stackQueue = new LinkedList<DamageStack>();
+
+	public IGNORE_PAIN() {
+
+		TaskManager.getInstance().repeat(0, 1, task -> {
+			if (!stackQueue.isEmpty() && player != null) {
+				int amount = stackQueue.size();
+
+				if (bukkitTask == null) {
+					DamageStack damageStack = stackQueue.poll();
+					double storedDamage = damageStack.getDamage();
+
+					ItemStack item = player.getInventory().getItem(slot).clone();
+					ItemStack barrier = new ItemBuilder(new ItemStack(Material.BARRIER))
+							.setDisplayName(ChatColor.RED + "NA")
+							.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack();
+
+					TaskManager.getInstance().repeatUntil(1, 20, 3, (task2, counter) -> {
+						DamageManager.damageEntity(attackerPlayer, player, DamageReason.TRUE, storedDamage / 3, false);
+						if (counter.get() >= 3) {
+							task2.cancel();
+						}
+					});
+
+					bukkitTask = Utils.showEffectStatus(player, slot, 3, 20, item, barrier, sharedCounter, () -> {
+						bukkitTask = null;
+					});
+				}
+				if (player.getInventory().getItem(slot - 4).getType() != Material.BARRIER && amount >= 1) {
+					ItemStack cloned = player.getInventory().getItem(slot - 4);
+					cloned.setAmount(cloned.getAmount() + 1);
+					player.getInventory().setItem(slot - 4, cloned);
+				}
+			}
+
+		});
+
+	}
 
 	@Override
 	public void runPassive(Event event, Player player, int slot) {
+		this.slot = slot;
 		if (event instanceof CustomDamageEvent) {
 			CustomDamageEvent customDamageEvent = (CustomDamageEvent) event;
 			if (customDamageEvent.isCancelled())
@@ -41,7 +96,9 @@ public class IGNORE_PAIN implements ItemPassive {
 				if (customDamageEvent.getAttacker() == player)
 					return;
 
-				Player attackerPlayer = (Player) customDamageEvent.getAttacker();
+				this.player = player;
+
+				this.attackerPlayer = (Player) customDamageEvent.getAttacker();
 				Champion champion = ChampionsManager.getInstance().getSelectedChampion(attackerPlayer);
 
 				double percentage = 0;
@@ -57,44 +114,7 @@ public class IGNORE_PAIN implements ItemPassive {
 				double storedDamage = customDamageEvent.getDamage() * percentage;
 				customDamageEvent.setDamage(customDamageEvent.getDamage() - storedDamage);
 
-				ItemStack item = player.getInventory().getItem(slot).clone();
-				ItemStack barrier = new ItemBuilder(new ItemStack(Material.BARRIER))
-						.setDisplayName(ChatColor.RED + "NA").setLore(ChatColor.GRAY + "This slot is not available!")
-						.toItemStack();
-
-				if (damageTask == null) {
-					damageTask = TaskManager.getInstance().repeat(slot, slot, task -> {
-
-						int localAmount = amount.addAndGet(-1);
-						if (localAmount >= 1) {
-							
-						}
-					});
-					damageTask = TaskManager.getInstance().repeatUntil(1, 20, 3, (task, counter) -> {
-						DamageManager.damageEntity(attackerPlayer, player, DamageReason.TRUE, storedDamage / 3, false);
-						if (counter.get() >= 3) {
-							task.cancel();
-							damageTask = null;
-						}
-					});
-				}
-
-				sharedCounter.set(0);
-				if (bukkitTask == null) {
-					bukkitTask = Utils.showEffectStatus(player, slot - 4, 3, 1, amount, item, barrier, sharedCounter,
-							() -> {
-								bukkitTask = null;
-								if (amount.get() >= 2)
-									amount.addAndGet(-1);
-							});
-				}
-
-				if (player.getInventory().getItem(slot - 4).getType() != Material.BARRIER && amount.get() > 1) {
-					ItemStack cloned = player.getInventory().getItem(slot - 4);
-					cloned.setAmount(cloned.getAmount() + 1);
-					player.getInventory().setItem(slot - 4, cloned);
-				}
-				ChatUtils.sendDebugMessage("Amount: " + amount);
+				stackQueue.add(new DamageStack(storedDamage));
 
 				if (amount.get() < 64)
 					amount.addAndGet(1);
