@@ -2,7 +2,6 @@ package me.didi.items.passives;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.bukkit.ChatColor;
@@ -39,7 +38,6 @@ class DamageStack {
 public class IGNORE_PAIN implements ItemPassive {
 
 	private AtomicLong sharedCounter = new AtomicLong(0);
-	private AtomicInteger amount = new AtomicInteger();
 	private BukkitTask bukkitTask;
 	private Player player;
 	private Player attackerPlayer;
@@ -115,9 +113,6 @@ public class IGNORE_PAIN implements ItemPassive {
 				customDamageEvent.setDamage(customDamageEvent.getDamage() - storedDamage);
 
 				stackQueue.add(new DamageStack(storedDamage));
-
-				if (amount.get() < 64)
-					amount.addAndGet(1);
 			}
 		}
 	}
