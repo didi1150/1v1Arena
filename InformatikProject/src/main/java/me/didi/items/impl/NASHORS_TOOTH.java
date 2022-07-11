@@ -2,11 +2,14 @@ package me.didi.items.impl;
 
 import java.util.List;
 
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import me.didi.items.CustomItem;
 import me.didi.items.ItemPassive;
 import me.didi.utilities.BaseStats;
+import me.didi.utilities.ItemBuilder;
 
 public class NASHORS_TOOTH extends CustomItem {
 
@@ -18,13 +21,14 @@ public class NASHORS_TOOTH extends CustomItem {
 	@Override
 	public BaseStats getBaseStats() {
 		// TODO Auto-generated method stub
-		return null;
+		return new BaseStats(0, 0, 0, 0, 0, 0, 100, 50);
 	}
 
 	@Override
 	public ItemStack getItemStack() {
 		// TODO Auto-generated method stub
-		return null;
+		return new ItemBuilder(Material.GOLD_SWORD).setDisplayName(ChatColor.GOLD + "Nashor's Tooth").setLore(getLore())
+				.toItemStack();
 	}
 
 	@Override

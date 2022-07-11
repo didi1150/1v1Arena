@@ -25,13 +25,14 @@ public class LIFELINE implements ItemPassive {
 			if (customPlayer.getUuid() != player.getUniqueId())
 				return;
 
-			ItemPassiveCooldownManager.getInstance().addCooldown(this, player, slot,
-					player.getInventory().getItem(slot));
 			if (customPlayerHealthChangeEvent.getChangedHealth() < CurrentStatGetter.getInstance().getMaxHealth(player)
 					* 0.3) {
 
 				if (ItemPassiveCooldownManager.getInstance().isOnCooldown(player, slot))
 					return;
+
+				ItemPassiveCooldownManager.getInstance().addCooldown(this, player, slot,
+						player.getInventory().getItem(slot));
 
 				float shield = (float) (CurrentStatGetter.getInstance().getMaxHealth(player) * 0.75);
 

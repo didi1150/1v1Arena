@@ -25,6 +25,7 @@ import me.didi.items.impl.COSMIC_DRIVE;
 import me.didi.items.impl.DEATHS_DANCE;
 import me.didi.items.impl.ESSENCE_REAVER;
 import me.didi.items.impl.LORD_DOMINIKS_REGARDS;
+import me.didi.items.impl.NASHORS_TOOTH;
 import me.didi.items.impl.SPIRIT_VISAGE;
 import me.didi.items.impl.STERAKS_GAGE;
 import me.didi.items.impl.THORNMAIL;
@@ -32,6 +33,7 @@ import me.didi.items.impl.WITS_END;
 import me.didi.items.passives.BOUNDLESS_VITALITY;
 import me.didi.items.passives.FRAY;
 import me.didi.items.passives.GIANT_SLAYER;
+import me.didi.items.passives.ICATHIAN_BITE;
 import me.didi.items.passives.IGNORE_PAIN;
 import me.didi.items.passives.LIFELINE;
 import me.didi.items.passives.SPELLBLADE;
@@ -54,6 +56,7 @@ public class CustomItemManager {
 		customItems.add(new ESSENCE_REAVER(Arrays.asList(new SPELLBLADE())));
 		customItems.add(new SPIRIT_VISAGE(Arrays.asList(new BOUNDLESS_VITALITY())));
 		customItems.add(new LORD_DOMINIKS_REGARDS(Arrays.asList(new GIANT_SLAYER())));
+		customItems.add(new NASHORS_TOOTH(Arrays.asList(new ICATHIAN_BITE())));
 		Bukkit.getPluginManager().registerEvents(listener, plugin);
 	}
 
