@@ -132,7 +132,7 @@ public class ItemSelectMenu extends PaginatedMenu {
 			Set<CustomItem> customItems = new HashSet<CustomItem>();
 			customItems = customItemManager.getSelectedItems().getOrDefault(owner, new HashSet<CustomItem>());
 
-			customItems.add(customItem);
+			customItems.add(customItem.clone());
 
 			customItemManager.getSelectedItems().put(owner, customItems);
 			List<String> lore = itemStack.getItemMeta().getLore();

@@ -27,4 +27,9 @@ public class COSMIC_DRIVE extends CustomItem {
 		return new ItemBuilder(Material.IRON_HELMET).setDisplayName(ChatColor.GOLD + "Cosmic Drive").setLore(getLore())
 				.toItemStack();
 	}
+
+	@Override
+	public CustomItem clone() {
+		return new COSMIC_DRIVE(itemPassives);
+	}
 }

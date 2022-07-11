@@ -26,4 +26,10 @@ public class YOUMUUS_GHOSTBLADE extends CustomItem {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public CustomItem clone() {
+		// TODO Auto-generated method stub
+		return new YOUMUUS_GHOSTBLADE(itemPassives);
+	}
 }

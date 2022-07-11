@@ -30,4 +30,10 @@ public class THORNMAIL extends CustomItem {
 		return new ItemBuilder(Material.IRON_CHESTPLATE).setDisplayName(ChatColor.GOLD + "Thornmail").setLore(getLore())
 				.toItemStack();
 	}
+
+	@Override
+	public CustomItem clone() {
+		// TODO Auto-generated method stub
+		return new THORNMAIL(itemPassives);
+	}
 }

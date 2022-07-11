@@ -26,4 +26,10 @@ public class SPIRIT_VISAGE extends CustomItem {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public CustomItem clone() {
+		// TODO Auto-generated method stub
+		return new SPIRIT_VISAGE(itemPassives);
+	}
 }

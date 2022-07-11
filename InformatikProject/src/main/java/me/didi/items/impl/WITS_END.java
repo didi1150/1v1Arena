@@ -29,4 +29,10 @@ public class WITS_END extends CustomItem {
 		return new ItemBuilder(Material.DIAMOND_SWORD).setDisplayName(ChatColor.GOLD + "Wit's End").setLore(getLore())
 				.toItemStack();
 	}
+
+	@Override
+	public CustomItem clone() {
+		// TODO Auto-generated method stub
+		return new WITS_END(itemPassives);
+	}
 }

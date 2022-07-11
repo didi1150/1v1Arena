@@ -27,4 +27,10 @@ public class RANDUINS_OMEN extends CustomItem {
 		return null;
 	}
 
+	@Override
+	public CustomItem clone() {
+		// TODO Auto-generated method stub
+		return new RANDUINS_OMEN(itemPassives);
+	}
+
 }

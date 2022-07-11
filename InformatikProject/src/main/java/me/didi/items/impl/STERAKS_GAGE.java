@@ -30,4 +30,10 @@ public class STERAKS_GAGE extends CustomItem {
 		return new ItemBuilder(Material.GOLD_BARDING).setDisplayName(ChatColor.GOLD + "Sterak's Gage")
 				.setLore(getLore()).toItemStack();
 	}
+
+	@Override
+	public CustomItem clone() {
+		// TODO Auto-generated method stub
+		return new STERAKS_GAGE(itemPassives);
+	}
 }

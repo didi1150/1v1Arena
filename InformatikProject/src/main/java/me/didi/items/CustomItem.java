@@ -85,4 +85,6 @@ public abstract class CustomItem {
 		return lore;
 	}
 
+	public abstract CustomItem clone();
+
 }

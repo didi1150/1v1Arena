@@ -31,4 +31,10 @@ public class DEATHS_DANCE extends CustomItem {
 				.toItemStack();
 	}
 
+	@Override
+	public CustomItem clone() {
+		// TODO Auto-generated method stub
+		return new DEATHS_DANCE(itemPassives);
+	}
+
 }

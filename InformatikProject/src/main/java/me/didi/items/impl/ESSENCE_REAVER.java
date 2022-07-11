@@ -28,4 +28,10 @@ public class ESSENCE_REAVER extends CustomItem {
 		return new ItemBuilder(Material.DIAMOND_AXE).setDisplayName(ChatColor.GOLD + "Essence Reaver")
 				.setLore(getLore()).toItemStack();
 	}
+
+	@Override
+	public CustomItem clone() {
+		// TODO Auto-generated method stub
+		return new ESSENCE_REAVER(itemPassives);
+	}
 }

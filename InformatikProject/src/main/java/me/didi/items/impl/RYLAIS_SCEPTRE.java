@@ -26,4 +26,10 @@ public class RYLAIS_SCEPTRE extends CustomItem {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public CustomItem clone() {
+		// TODO Auto-generated method stub
+		return new RYLAIS_SCEPTRE(itemPassives);
+	}
 }

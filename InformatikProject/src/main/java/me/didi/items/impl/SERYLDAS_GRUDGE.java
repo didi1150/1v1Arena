@@ -24,4 +24,10 @@ public class SERYLDAS_GRUDGE extends CustomItem {
 	public ItemStack getItemStack() {
 		return null;
 	}
+
+	@Override
+	public CustomItem clone() {
+		// TODO Auto-generated method stub
+		return new SERYLDAS_GRUDGE(itemPassives);
+	}
 }
