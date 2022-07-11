@@ -28,7 +28,7 @@ public class HealListener implements Listener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.LOW)
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onCustomHeal(CustomPlayerHealEvent event) {
 
 		CustomPlayer customPlayer = event.getCustomPlayer();

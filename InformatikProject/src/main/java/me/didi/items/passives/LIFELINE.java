@@ -1,10 +1,12 @@
 package me.didi.items.passives;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 import me.didi.events.customEvents.CustomPlayerHealthChangeEvent;
+import me.didi.events.customEvents.CustomShieldCastEvent;
 import me.didi.items.ItemPassive;
 import me.didi.items.ItemPassiveCooldownManager;
 import me.didi.player.CurrentStatGetter;
@@ -32,7 +34,12 @@ public class LIFELINE implements ItemPassive {
 					return;
 
 				float shield = (float) (CurrentStatGetter.getInstance().getMaxHealth(player) * 0.75);
-				customPlayer.setRemainingShield(shield);
+
+				CustomShieldCastEvent customShieldCastEvent = new CustomShieldCastEvent(player, player, shield);
+
+				Bukkit.getPluginManager().callEvent(customShieldCastEvent);
+				if (customShieldCastEvent.isCancelled())
+					return;
 
 				TaskManager.getInstance().repeatUntil(1, 5, (long) (3.75 * 4), (task, counter) -> {
 					float perTickRemove = (shield / 3.75f) / 4;

@@ -50,4 +50,8 @@ public class CustomPlayerHealEvent extends Event implements Cancellable {
 	public float getHealAmount() {
 		return healAmount;
 	}
+	
+	public void setHealAmount(float healAmount) {
+		this.healAmount = healAmount;
+	}
 }

@@ -18,13 +18,17 @@ import org.bukkit.plugin.Plugin;
 
 import me.didi.events.customEvents.AbilityCastEvent;
 import me.didi.events.customEvents.CustomDamageEvent;
+import me.didi.events.customEvents.CustomPlayerHealEvent;
 import me.didi.events.customEvents.CustomPlayerHealthChangeEvent;
+import me.didi.events.customEvents.CustomShieldCastEvent;
 import me.didi.items.impl.COSMIC_DRIVE;
 import me.didi.items.impl.DEATHS_DANCE;
 import me.didi.items.impl.ESSENCE_REAVER;
+import me.didi.items.impl.SPIRIT_VISAGE;
 import me.didi.items.impl.STERAKS_GAGE;
 import me.didi.items.impl.THORNMAIL;
 import me.didi.items.impl.WITS_END;
+import me.didi.items.passives.BOUNDLESS_VITALITY;
 import me.didi.items.passives.FRAY;
 import me.didi.items.passives.IGNORE_PAIN;
 import me.didi.items.passives.LIFELINE;
@@ -46,10 +50,21 @@ public class CustomItemManager {
 		customItems.add(new THORNMAIL(Arrays.asList(new THORNS())));
 		customItems.add(new DEATHS_DANCE(Arrays.asList(new IGNORE_PAIN())));
 		customItems.add(new ESSENCE_REAVER(Arrays.asList(new SPELLBLADE())));
+		customItems.add(new SPIRIT_VISAGE(Arrays.asList(new BOUNDLESS_VITALITY())));
 		Bukkit.getPluginManager().registerEvents(listener, plugin);
 	}
 
 	Listener listener = new Listener() {
+
+		@EventHandler(priority = EventPriority.LOW)
+		public void onShield(CustomShieldCastEvent event) {
+			forwardEvent(event);
+		}
+
+		@EventHandler(priority = EventPriority.LOW)
+		public void onHeal(CustomPlayerHealEvent event) {
+			forwardEvent(event);
+		}
 
 		@EventHandler
 		public void onCast(AbilityCastEvent event) {
