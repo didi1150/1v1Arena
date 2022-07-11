@@ -127,7 +127,8 @@ public class ItemSelectMenu extends PaginatedMenu {
 			inventory.setItem(slot, customItem.getItemStack());
 		} else {
 
-			if (customItemManager.getSelectedItems().get(playerMenuUtility.getOwner()).size() >= 4) {
+			if (customItemManager.getSelectedItems().containsKey(playerMenuUtility.getOwner())
+					&& customItemManager.getSelectedItems().get(playerMenuUtility.getOwner()).size() >= 4) {
 				ChatUtils.sendMessageToPlayer(playerMenuUtility.getOwner(),
 						ChatColor.RED + "Du kannst nur 4 Items auswählen!");
 				return;
