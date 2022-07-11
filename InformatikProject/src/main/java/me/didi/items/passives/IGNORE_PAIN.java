@@ -2,6 +2,7 @@ package me.didi.items.passives;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.bukkit.ChatColor;
@@ -42,18 +43,23 @@ public class IGNORE_PAIN implements ItemPassive {
 	private Player player;
 	private Player attackerPlayer;
 	private int slot;
+	private AtomicInteger amount = new AtomicInteger(0);
 
 	private Queue<DamageStack> stackQueue = new LinkedList<DamageStack>();
 
 	public IGNORE_PAIN() {
 
 		TaskManager.getInstance().repeat(0, 1, task -> {
+			amount.set(stackQueue.size());
+			if (amount.get() == 0)
+				amount.set(1);
+
 			if (!stackQueue.isEmpty() && player != null) {
-				int amount = stackQueue.size();
 
 				if (bukkitTask == null) {
-					DamageStack damageStack = stackQueue.poll();
+					DamageStack damageStack = stackQueue.peek();
 					double storedDamage = damageStack.getDamage();
+					sharedCounter.set(0);
 
 					ItemStack item = player.getInventory().getItem(slot).clone();
 					ItemStack barrier = new ItemBuilder(new ItemStack(Material.BARRIER))
@@ -67,14 +73,12 @@ public class IGNORE_PAIN implements ItemPassive {
 						}
 					});
 
-					bukkitTask = Utils.showEffectStatus(player, slot, 3, 20, item, barrier, sharedCounter, () -> {
-						bukkitTask = null;
-					});
-				}
-				if (player.getInventory().getItem(slot - 4).getType() != Material.BARRIER && amount >= 1) {
-					ItemStack cloned = player.getInventory().getItem(slot - 4);
-					cloned.setAmount(cloned.getAmount() + 1);
-					player.getInventory().setItem(slot - 4, cloned);
+					bukkitTask = Utils.showEffectStatus(player, slot - 4, 3, 1, item, barrier, amount, sharedCounter,
+							() -> {
+								stackQueue.remove(damageStack);
+								bukkitTask.cancel();
+								bukkitTask = null;
+							});
 				}
 			}
 

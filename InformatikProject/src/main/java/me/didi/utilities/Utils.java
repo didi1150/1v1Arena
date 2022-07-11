@@ -3,6 +3,7 @@ package me.didi.utilities;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -334,7 +335,8 @@ public class Utils {
 	 * Usage: Only for displaying a custom item's passive's remaining duration
 	 */
 	public static BukkitTask showEffectStatus(Player player, int slot, int seconds, int tickPeriod,
-			ItemStack displayItem, ItemStack originalItem, AtomicLong sharedCounter, Runnable runnable) {
+			ItemStack displayItem, ItemStack originalItem, AtomicInteger amount, AtomicLong sharedCounter,
+			Runnable runnable) {
 		ItemMeta meta = displayItem.getItemMeta();
 		meta.spigot().setUnbreakable(false);
 		displayItem.setItemMeta(meta);
@@ -347,6 +349,9 @@ public class Utils {
 
 					@Override
 					public void accept(BukkitTask task, AtomicLong counter) {
+						displayItem.setAmount(amount.get());
+//						ChatUtils.sendDebugMessage("Amount: " + amount.get());
+
 						counter.set(sharedCounter.getAndAdd(1));
 						percentage = counter.get() * (maxPercentage / seconds / (20 / tickPeriod));
 						if (counter.get() >= 20 * seconds) {
