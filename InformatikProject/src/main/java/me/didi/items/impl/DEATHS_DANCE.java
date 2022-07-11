@@ -1,6 +1,5 @@
 package me.didi.items.impl;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -9,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 
 import me.didi.items.CustomItem;
 import me.didi.items.ItemPassive;
-import me.didi.items.passives.IGNORE_PAIN;
 import me.didi.utilities.BaseStats;
 import me.didi.utilities.ItemBuilder;
 
