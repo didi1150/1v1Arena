@@ -24,7 +24,7 @@ public class BOUNDLESS_VITALITY implements ItemPassive {
 
 	@Override
 	public String getName() {
-		return ChatColor.GOLD + "" + ChatColor.BOLD + "Boundless Vitality";
+		return ChatColor.GOLD + "" + ChatColor.BOLD + "BOUNDLESS VITALITY";
 	}
 
 	@Override
