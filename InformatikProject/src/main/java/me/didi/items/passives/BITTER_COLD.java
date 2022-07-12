@@ -56,7 +56,7 @@ public class BITTER_COLD implements ItemPassive {
 	@Override
 	public String[] getDescription() {
 		return new String[] { getName() + ChatColor.GRAY + ": Dealing", ChatColor.GOLD + "ability damage slows",
-				ChatColor.GRAY + " affected " + ChatColor.GOLD + "units" + ChatColor.GRAY + " by",
+				ChatColor.GRAY + "affected " + ChatColor.GOLD + "units" + ChatColor.GRAY + " by",
 				ChatColor.GRAY + "30% for 1 second." };
 	}
 
