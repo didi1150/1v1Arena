@@ -11,7 +11,7 @@ import me.didi.utilities.TaskManager;
 public class ItemSelectCountdown extends Countdown {
 
 	private GameStateManager gameStateManager;
-	private static final int COUNTDOWN_TIME = 20;
+	private static final int COUNTDOWN_TIME = 60;
 
 	private int seconds;
 
