@@ -57,8 +57,6 @@ public class IGNORE_PAIN implements ItemPassive {
 			if (!stackQueue.isEmpty() && player != null) {
 
 				if (bukkitTask == null) {
-					DamageStack damageStack = stackQueue.peek();
-					double storedDamage = damageStack.getDamage();
 					sharedCounter.set(0);
 
 					ItemStack item = player.getInventory().getItem(slot).clone();
@@ -66,16 +64,8 @@ public class IGNORE_PAIN implements ItemPassive {
 							.setDisplayName(ChatColor.RED + "NA")
 							.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack();
 
-					TaskManager.getInstance().repeatUntil(1, 20, 3, (task2, counter) -> {
-						DamageManager.damageEntity(attackerPlayer, player, DamageReason.TRUE, storedDamage / 3, false);
-						if (counter.get() >= 3) {
-							task2.cancel();
-						}
-					});
-
 					bukkitTask = Utils.showEffectStatus(player, slot - 4, 3, 1, item, barrier, amount, sharedCounter,
 							() -> {
-								stackQueue.remove(damageStack);
 								bukkitTask.cancel();
 								bukkitTask = null;
 							});
@@ -116,7 +106,17 @@ public class IGNORE_PAIN implements ItemPassive {
 				double storedDamage = customDamageEvent.getDamage() * percentage;
 				customDamageEvent.setDamage(customDamageEvent.getDamage() - storedDamage);
 
-				stackQueue.add(new DamageStack(storedDamage));
+				DamageStack damageStack = new DamageStack(storedDamage);
+				TaskManager.getInstance().repeatUntil(0, 20, 3, (task, counter) -> {
+					DamageManager.damageEntity(attackerPlayer, player, DamageReason.TRUE, storedDamage / 3, false);
+
+					if (counter.get() >= 3) {
+						task.cancel();
+						stackQueue.remove(damageStack);
+					}
+				});
+
+				stackQueue.add(damageStack);
 			}
 		}
 	}
