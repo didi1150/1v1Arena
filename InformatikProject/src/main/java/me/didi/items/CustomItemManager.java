@@ -27,11 +27,16 @@ import me.didi.items.impl.ESSENCE_REAVER;
 import me.didi.items.impl.LORD_DOMINIKS_REGARDS;
 import me.didi.items.impl.NASHORS_TOOTH;
 import me.didi.items.impl.RANDUINS_OMEN;
+import me.didi.items.impl.RYLAIS_CRYSTAL_SCEPTRE;
+import me.didi.items.impl.SERYLDAS_GRUDGE;
 import me.didi.items.impl.SPIRIT_VISAGE;
 import me.didi.items.impl.STERAKS_GAGE;
+import me.didi.items.impl.THE_COLLECTOR;
 import me.didi.items.impl.THORNMAIL;
 import me.didi.items.impl.WITS_END;
+import me.didi.items.passives.BITTER_COLD;
 import me.didi.items.passives.BOUNDLESS_VITALITY;
+import me.didi.items.passives.DEATH;
 import me.didi.items.passives.FRAY;
 import me.didi.items.passives.GIANT_SLAYER;
 import me.didi.items.passives.ICATHIAN_BITE;
@@ -60,6 +65,8 @@ public class CustomItemManager {
 		customItems.add(new LORD_DOMINIKS_REGARDS(Arrays.asList(new GIANT_SLAYER())));
 		customItems.add(new NASHORS_TOOTH(Arrays.asList(new ICATHIAN_BITE())));
 		customItems.add(new RANDUINS_OMEN(Arrays.asList(new ROCK_SOLID())));
+		customItems.add(new SERYLDAS_GRUDGE(Arrays.asList(new BITTER_COLD())));
+		customItems.add(new THE_COLLECTOR(Arrays.asList(new DEATH())));
 		Bukkit.getPluginManager().registerEvents(listener, plugin);
 	}
 
