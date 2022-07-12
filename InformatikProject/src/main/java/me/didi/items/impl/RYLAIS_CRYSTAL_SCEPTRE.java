@@ -8,9 +8,9 @@ import me.didi.items.CustomItem;
 import me.didi.items.ItemPassive;
 import me.didi.utilities.BaseStats;
 
-public class SERPENTS_FANG extends CustomItem {
+public class RYLAIS_CRYSTAL_SCEPTRE extends CustomItem {
 
-	public SERPENTS_FANG(List<ItemPassive> itemPassives) {
+	public RYLAIS_CRYSTAL_SCEPTRE(List<ItemPassive> itemPassives) {
 		super(itemPassives);
 		// TODO Auto-generated constructor stub
 	}
@@ -30,6 +30,6 @@ public class SERPENTS_FANG extends CustomItem {
 	@Override
 	public CustomItem clone() {
 		// TODO Auto-generated method stub
-		return new SERPENTS_FANG(itemPassives);
+		return new RYLAIS_CRYSTAL_SCEPTRE(itemPassives);
 	}
 }
