@@ -24,7 +24,7 @@ public class GIANT_SLAYER implements ItemPassive {
 				int difference = enemyMaxHealth - attackerMaxHealth;
 				if (difference > 0) {
 					int steps = difference % 100;
-					double value = steps * 0.75;
+					double value = steps * 0.0075;
 					customDamageEvent.setDamage(customDamageEvent.getDamage() * (1 + value));
 				} else
 					return;

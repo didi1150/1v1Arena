@@ -6,9 +6,12 @@ import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import me.didi.items.CustomItem;
 import me.didi.items.CustomItemManager;
@@ -19,14 +22,11 @@ public class ItemSelectMenu extends PaginatedMenu {
 
 	private List<CustomItem> items;
 
-	private Player owner;
-
 	private CustomItemManager customItemManager;
 
 	public ItemSelectMenu(PlayerMenuUtility playerMenuUtility, CustomItemManager customItemManager) {
 		super(playerMenuUtility);
 		this.customItemManager = customItemManager;
-		owner = playerMenuUtility.getOwner();
 
 		items = customItemManager.getCustomItems();
 	}
@@ -94,13 +94,18 @@ public class ItemSelectMenu extends PaginatedMenu {
 
 				ItemStack itemStack = customItem.getItemStack().clone();
 
-				if (customItemManager.getSelectedItems().containsKey(owner)
-						&& customItemManager.getSelectedItems().get(owner).contains(customItem)) {
+				if (customItemManager.getSelectedItems().containsKey(playerMenuUtility.getOwner())
+						&& isSelected(customItem)) {
 					List<String> lore = itemStack.getItemMeta().getLore();
 					lore.add(" ");
 					lore.add(ChatColor.GREEN + "" + ChatColor.BOLD + "SELECTED");
 
-					itemStack = new ItemBuilder(itemStack).addGlow().setLore(lore).toItemStack();
+					ItemMeta itemMeta = itemStack.getItemMeta();
+					itemMeta.setLore(lore);
+					itemMeta.addEnchant(Enchantment.DURABILITY, 1, true);
+					itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
+					itemStack.setItemMeta(itemMeta);
 				}
 
 				inventory.addItem(itemStack);
@@ -108,12 +113,21 @@ public class ItemSelectMenu extends PaginatedMenu {
 		}
 	}
 
+	private boolean isSelected(CustomItem customItem) {
+		for (CustomItem c : customItemManager.getSelectedItems().get(playerMenuUtility.getOwner())) {
+			if (c.getLore().equals(customItem.getLore())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private void toggleItemStatus(ItemStack itemStack, int slot) {
 		boolean isSelected = false;
 
 		CustomItem customItem = null;
-		if (customItemManager.getSelectedItems().containsKey(owner)) {
-			for (CustomItem element : customItemManager.getSelectedItems().get(owner)) {
+		if (customItemManager.getSelectedItems().containsKey(playerMenuUtility.getOwner())) {
+			for (CustomItem element : customItemManager.getSelectedItems().get(playerMenuUtility.getOwner())) {
 				if (element.getItemStack().getItemMeta().getDisplayName()
 						.contains(itemStack.getItemMeta().getDisplayName())) {
 					isSelected = true;
@@ -123,7 +137,7 @@ public class ItemSelectMenu extends PaginatedMenu {
 			}
 		}
 		if (isSelected) {
-			customItemManager.getSelectedItems().get(owner).remove(customItem);
+			customItemManager.getSelectedItems().get(playerMenuUtility.getOwner()).remove(customItem);
 			inventory.setItem(slot, customItem.getItemStack());
 		} else {
 
@@ -137,19 +151,18 @@ public class ItemSelectMenu extends PaginatedMenu {
 			customItem = customItemManager.isSame(itemStack, customItem);
 
 			Set<CustomItem> customItems = new HashSet<CustomItem>();
-			customItems = customItemManager.getSelectedItems().getOrDefault(owner, new HashSet<CustomItem>());
+			customItems = customItemManager.getSelectedItems().getOrDefault(playerMenuUtility.getOwner(),
+					new HashSet<CustomItem>());
 
 			customItems.add(customItem.clone());
 
-			customItemManager.getSelectedItems().put(owner, customItems);
+			customItemManager.getSelectedItems().put(playerMenuUtility.getOwner(), customItems);
 			List<String> lore = itemStack.getItemMeta().getLore();
 			lore.add(" ");
 			lore.add(ChatColor.GREEN + "" + ChatColor.BOLD + "SELECTED");
 
 			inventory.setItem(slot, new ItemBuilder(itemStack).addGlow().setLore(lore).toItemStack());
 		}
-
-		customItemManager.getSelectedItems().put(owner, customItemManager.getSelectedItems().get(owner));
 	}
 
 }

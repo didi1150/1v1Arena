@@ -25,7 +25,7 @@ public class ROCK_SOLID implements ItemPassive {
 				if (reducePercentage >= 40)
 					reducePercentage = 40;
 
-				reducePercentage = 1.00 - reducePercentage;
+				reducePercentage = 1.00 - (reducePercentage / 100);
 				damage = damage * reducePercentage;
 				customDamageEvent.setDamage(reducePercentage);
 			}

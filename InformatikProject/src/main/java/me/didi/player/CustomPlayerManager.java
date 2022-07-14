@@ -114,7 +114,11 @@ public class CustomPlayerManager {
 
 	private void regenHealth(CustomPlayer customPlayer) {
 		float regenAmount = 1.75f;
+		if (customPlayer == null)
+			return;
 		Player player = Bukkit.getPlayer(customPlayer.getUuid());
+		if (player == null || !player.isOnline())
+			return;
 		float maxHealth = customPlayer.getBaseHealth() + getBonusHealth(player);
 
 		if (customPlayer.getCurrentHealth() + regenAmount > maxHealth)
