@@ -30,7 +30,7 @@ public class SPELLBLADE implements ItemPassive {
 	private BukkitTask task;
 
 	@Override
-	public void runPassive(Event event, Player player, int slot) {
+	public void runPassive(Event event, Player player, int slot, int index) {
 
 		ItemStack barrier = new ItemBuilder(new ItemStack(Material.BARRIER)).setDisplayName(ChatColor.RED + "NA")
 				.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack();
@@ -52,7 +52,7 @@ public class SPELLBLADE implements ItemPassive {
 
 			ItemStack item = player.getInventory().getItem(slot).clone();
 
-			task = Utils.showEffectStatus(player, slot - 4, 10, 1, item, barrier, sharedCounter);
+			task = Utils.showEffectStatus(player, index + 4, 10, 1, item, barrier, sharedCounter);
 
 			TaskManager.getInstance().runTaskLater(20 * 10, task -> {
 				if (isActive)

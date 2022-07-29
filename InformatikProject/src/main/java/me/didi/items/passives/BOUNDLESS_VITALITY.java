@@ -10,7 +10,7 @@ import me.didi.items.ItemPassive;
 public class BOUNDLESS_VITALITY implements ItemPassive {
 
 	@Override
-	public void runPassive(Event event, Player player, int slot) {
+	public void runPassive(Event event, Player player, int slot, int index) {
 		if (event instanceof CustomPlayerHealEvent) {
 			CustomPlayerHealEvent healEvent = (CustomPlayerHealEvent) event;
 			if (healEvent.isCancelled())

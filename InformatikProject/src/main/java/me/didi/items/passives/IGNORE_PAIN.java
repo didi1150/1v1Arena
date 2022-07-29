@@ -20,6 +20,7 @@ import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.events.customEvents.DamageManager;
 import me.didi.events.customEvents.DamageReason;
 import me.didi.items.ItemPassive;
+import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.TaskManager;
 import me.didi.utilities.Utils;
@@ -45,6 +46,8 @@ public class IGNORE_PAIN implements ItemPassive {
 	private int slot;
 	private AtomicInteger amount = new AtomicInteger(0);
 
+	private int index;
+
 	private Queue<DamageStack> stackQueue = new LinkedList<DamageStack>();
 
 	public IGNORE_PAIN() {
@@ -64,7 +67,7 @@ public class IGNORE_PAIN implements ItemPassive {
 							.setDisplayName(ChatColor.RED + "NA")
 							.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack();
 
-					bukkitTask = Utils.showEffectStatus(player, slot - 4, 3, 1, item, barrier, amount, sharedCounter,
+					bukkitTask = Utils.showEffectStatus(player, index + 4, 3, 1, item, barrier, amount, sharedCounter,
 							() -> {
 								bukkitTask.cancel();
 								bukkitTask = null;
@@ -77,16 +80,22 @@ public class IGNORE_PAIN implements ItemPassive {
 	}
 
 	@Override
-	public void runPassive(Event event, Player player, int slot) {
-		this.slot = slot;
+	public void runPassive(Event event, Player player, int slot, int index) {
 		if (event instanceof CustomDamageEvent) {
 			CustomDamageEvent customDamageEvent = (CustomDamageEvent) event;
 			if (customDamageEvent.isCancelled())
 				return;
 
+			if (customDamageEvent.getAttacker() == player)
+				return;
+
 			if (customDamageEvent.getDamageReason() != DamageReason.TRUE) {
-				if (customDamageEvent.getAttacker() == player)
-					return;
+
+				this.slot = slot;
+				this.index = index;
+
+				ChatUtils.sendDebugMessage("Index of: " + this.getName() + " " + index);
+				ChatUtils.sendDebugMessage("Slot: " + slot);
 
 				this.player = player;
 

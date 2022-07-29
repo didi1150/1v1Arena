@@ -7,27 +7,35 @@ import org.bukkit.event.Event;
 import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.items.ItemPassive;
 import me.didi.player.CurrentStatGetter;
+import me.didi.utilities.ChatUtils;
 
 public class ROCK_SOLID implements ItemPassive {
 
 	@Override
-	public void runPassive(Event event, Player player, int slot) {
+	public void runPassive(Event event, Player player, int slot, int index) {
+		System.out.println("Test");
 		if (event instanceof CustomDamageEvent) {
+			System.out.println("Event");
 			CustomDamageEvent customDamageEvent = (CustomDamageEvent) event;
-			if (customDamageEvent.getEntity().getUniqueId() == player.getUniqueId()) {
+			if (customDamageEvent.getEntity() == player) {
+				System.out.println("Is player");
 				double damage = customDamageEvent.getDamage();
-				double reducePercentage = 5;
+				double reducePercentage = 5.0;
 				if (CurrentStatGetter.getInstance().getMaxHealth(player) >= 1000) {
-					double toAdd = CurrentStatGetter.getInstance().getMaxHealth(player) * 3.5;
+					double toAdd = CurrentStatGetter.getInstance().getMaxHealth(player) % 1000 * 3.5;
 					reducePercentage += toAdd;
 				}
 
-				if (reducePercentage >= 40)
-					reducePercentage = 40;
+				if (reducePercentage >= 40.0)
+					reducePercentage = 40.0;
+
+				ChatUtils.sendDebugMessage("reducePercentage: " + reducePercentage);
 
 				reducePercentage = 1.00 - (reducePercentage / 100);
+				ChatUtils.sendDebugMessage("Damage before: " + damage);
 				damage = damage * reducePercentage;
-				customDamageEvent.setDamage(reducePercentage);
+				ChatUtils.sendDebugMessage("Damage Reduced: " + damage);
+				customDamageEvent.setDamage(damage);
 			}
 		}
 	}

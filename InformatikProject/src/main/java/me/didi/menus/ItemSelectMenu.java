@@ -1,8 +1,7 @@
 package me.didi.menus;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -150,9 +149,9 @@ public class ItemSelectMenu extends PaginatedMenu {
 
 			customItem = customItemManager.isSame(itemStack, customItem);
 
-			Set<CustomItem> customItems = new HashSet<CustomItem>();
+			List<CustomItem> customItems = new ArrayList<CustomItem>();
 			customItems = customItemManager.getSelectedItems().getOrDefault(playerMenuUtility.getOwner(),
-					new HashSet<CustomItem>());
+					new ArrayList<CustomItem>());
 
 			customItems.add(customItem.clone());
 

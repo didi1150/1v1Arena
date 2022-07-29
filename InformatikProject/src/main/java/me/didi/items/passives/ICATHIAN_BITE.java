@@ -14,7 +14,7 @@ import me.didi.player.CurrentStatGetter;
 public class ICATHIAN_BITE implements ItemPassive {
 
 	@Override
-	public void runPassive(Event event, Player player, int slot) {
+	public void runPassive(Event event, Player player, int slot, int index) {
 		if (event instanceof CustomDamageEvent) {
 			CustomDamageEvent customDamageEvent = (CustomDamageEvent) event;
 

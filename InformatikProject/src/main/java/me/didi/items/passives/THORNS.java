@@ -18,7 +18,7 @@ import xyz.xenondevs.particle.ParticleEffect;
 public class THORNS implements ItemPassive {
 
 	@Override
-	public void runPassive(Event event, Player player, int slot) {
+	public void runPassive(Event event, Player player, int slot, int index) {
 		if (event instanceof CustomDamageEvent) {
 			CustomDamageEvent customDamageEvent = (CustomDamageEvent) event;
 			if (customDamageEvent.isCancelled())

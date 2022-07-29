@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -27,7 +28,6 @@ import me.didi.items.impl.ESSENCE_REAVER;
 import me.didi.items.impl.LORD_DOMINIKS_REGARDS;
 import me.didi.items.impl.NASHORS_TOOTH;
 import me.didi.items.impl.RANDUINS_OMEN;
-import me.didi.items.impl.RYLAIS_CRYSTAL_SCEPTRE;
 import me.didi.items.impl.SERYLDAS_GRUDGE;
 import me.didi.items.impl.SPIRIT_VISAGE;
 import me.didi.items.impl.STERAKS_GAGE;
@@ -50,11 +50,11 @@ import me.didi.items.passives.THORNS;
 public class CustomItemManager {
 
 	private List<CustomItem> customItems;
-	private Map<Player, Set<CustomItem>> selectedItems;
+	private Map<Player, List<CustomItem>> selectedItems;
 
 	public CustomItemManager(Plugin plugin) {
 		customItems = new ArrayList<CustomItem>();
-		selectedItems = new HashMap<Player, Set<CustomItem>>();
+		selectedItems = new HashMap<Player, List<CustomItem>>();
 		customItems.add(new WITS_END(Arrays.asList(new FRAY())));
 		customItems.add(new STERAKS_GAGE(Arrays.asList(new LIFELINE())));
 		customItems.add(new COSMIC_DRIVE(Arrays.asList(new SPELLDANCE())));
@@ -112,7 +112,7 @@ public class CustomItemManager {
 		return customItems;
 	}
 
-	public Map<Player, Set<CustomItem>> getSelectedItems() {
+	public Map<Player, List<CustomItem>> getSelectedItems() {
 		return selectedItems;
 	}
 
@@ -130,11 +130,17 @@ public class CustomItemManager {
 	public void forwardEvent(Event event) {
 		selectedItems.entrySet().forEach(entry -> {
 			Player player = entry.getKey();
-			Set<CustomItem> selection = entry.getValue();
+			List<CustomItem> selection = entry.getValue();
 
-			selection.forEach(item -> item.getItemPassives()
-					.forEach(passive -> passive.runPassive(event, player, item.getSlot())));
+			for (int i = 0; i < selection.size(); i++) {
+				CustomItem item = selection.get(i);
 
+				int index = i;
+				item.getItemPassives().forEach(passive -> {
+					System.out.println("Running");
+					passive.runPassive(event, player, item.getSlot(), index);
+				});
+			}
 		});
 	}
 }

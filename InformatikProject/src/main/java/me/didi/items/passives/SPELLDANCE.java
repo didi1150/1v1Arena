@@ -14,7 +14,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 import me.didi.events.customEvents.CustomDamageEvent;
 import me.didi.items.ItemPassive;
-import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ItemBuilder;
 import me.didi.utilities.ParticleUtils;
 import me.didi.utilities.TaskManager;
@@ -29,9 +28,9 @@ public class SPELLDANCE implements ItemPassive {
 	private boolean isActive = false;
 
 	@Override
-	public void runPassive(Event event, Player player, int slot) {
+	public void runPassive(Event event, Player player, int slot, int index) {
 
-		if (event instanceof CustomDamageEvent) {
+		if (event instanceof CustomDamageEvent && ((CustomDamageEvent) event).getAttacker() == player) {
 			CustomDamageEvent customDamageEvent = (CustomDamageEvent) event;
 			if (customDamageEvent.isCancelled())
 				return;
@@ -73,7 +72,7 @@ public class SPELLDANCE implements ItemPassive {
 							1.5);
 
 					AtomicLong sharedCounter = new AtomicLong(0);
-					Utils.showEffectStatus(player, slot - 4, 5, 1, item, barrier, sharedCounter);
+					Utils.showEffectStatus(player, 4 + index, 5, 1, item, barrier, sharedCounter);
 
 					TaskManager.getInstance().repeatUntil(20, 1, 20 * 5, new BiConsumer<BukkitTask, AtomicLong>() {
 						float bSpeed = 1.15f;

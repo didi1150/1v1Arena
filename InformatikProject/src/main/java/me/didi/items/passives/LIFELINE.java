@@ -16,7 +16,7 @@ import me.didi.utilities.TaskManager;
 public class LIFELINE implements ItemPassive {
 
 	@Override
-	public void runPassive(Event event, Player player, int slot) {
+	public void runPassive(Event event, Player player, int slot, int index) {
 
 		if (event instanceof CustomPlayerHealthChangeEvent) {
 			CustomPlayerHealthChangeEvent customPlayerHealthChangeEvent = (CustomPlayerHealthChangeEvent) event;

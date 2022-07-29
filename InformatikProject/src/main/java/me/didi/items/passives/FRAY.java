@@ -24,7 +24,7 @@ public class FRAY implements ItemPassive {
 	private boolean firstTimeHit = true;
 
 	@Override
-	public void runPassive(Event event, Player player, int slot) {
+	public void runPassive(Event event, Player player, int slot, int index) {
 
 		if (event instanceof CustomDamageEvent) {
 			CustomDamageEvent customDamageEvent = (CustomDamageEvent) event;
@@ -52,7 +52,7 @@ public class FRAY implements ItemPassive {
 				player.setWalkSpeed(player.getWalkSpeed() + bonusSpeed);
 
 				AtomicLong sharedCounter = new AtomicLong(0);
-				Utils.showEffectStatus(player, slot - 4, 2, 1, item, barrier, sharedCounter);
+				Utils.showEffectStatus(player, index + 4, 2, 1, item, barrier, sharedCounter);
 
 				TaskManager.getInstance().repeatUntil(0, 1, 20 * 2, new BiConsumer<BukkitTask, AtomicLong>() {
 					@Override

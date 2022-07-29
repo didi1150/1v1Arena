@@ -82,7 +82,6 @@ public class IngameState extends GameState {
 						if (player.getInventory().getItem(i).getItemMeta().getDisplayName()
 								.equalsIgnoreCase(customItem.getItemStack().getItemMeta().getDisplayName())) {
 							customItem.setSlot(i);
-							break;
 						}
 					}
 				});

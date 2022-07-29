@@ -45,8 +45,7 @@ public class PerryFirstAbility implements Ability {
 		// TODO Auto-generated method stub
 		return new String[] { ChatColor.GRAY + "Perry throws his hat like a boomerang",
 				ChatColor.GRAY + "dealing " + ChatColor.RED + "physical damage (" + ChatColor.WHITE + "40"
-						+ ChatColor.GOLD + " (+30.5% AD)" + ChatColor.RED + ")" + ChatColor.GRAY
-						+ " on its way" };
+						+ ChatColor.GOLD + " (+30.5% AD)" + ChatColor.RED + ")" + ChatColor.GRAY + " on its way" };
 	}
 
 	@Override
@@ -108,15 +107,12 @@ public class PerryFirstAbility implements Ability {
 				armorStand.teleport(armorStand.getLocation().add(vector));
 			}
 
-			if (counter.get() % 5 == 0) {
-
-				for (Entity entity : armorStand.getWorld().getNearbyEntities(armorStand.getLocation().add(0, 1, 0), 1,
-						1, 1)) {
-					if (DamageManager.isEnemy(player, entity) && !hitEntities.contains(entity)) {
-						double damage = CurrentStatGetter.getInstance().getAttackDamage(player) * 0.305 + 40;
-						hitEntities.add(entity);
-						DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, damage, false);
-					}
+			for (Entity entity : armorStand.getWorld().getNearbyEntities(armorStand.getLocation().add(0, 1, 0), 1, 1,
+					1)) {
+				if (DamageManager.isEnemy(player, entity) && !hitEntities.contains(entity)) {
+					double damage = CurrentStatGetter.getInstance().getAttackDamage(player) * 0.305 + 40;
+					hitEntities.add(entity);
+					DamageManager.damageEntity(player, entity, DamageReason.PHYSICAL, damage, false);
 				}
 			}
 		});
