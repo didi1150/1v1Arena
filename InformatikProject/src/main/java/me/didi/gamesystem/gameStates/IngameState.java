@@ -16,6 +16,7 @@ import me.didi.champion.ability.Ability;
 import me.didi.gamesystem.GameState;
 import me.didi.items.CustomItemManager;
 import me.didi.menus.ScoreboardHandler;
+import me.didi.player.CurrentStatGetter;
 import me.didi.player.CustomPlayerManager;
 import me.didi.utilities.ChatUtils;
 import me.didi.utilities.ConfigHandler;
@@ -88,6 +89,9 @@ public class IngameState extends GameState {
 
 			if (configHandler.getSpawnLocations() != null)
 				player.teleport(configHandler.getSpawnLocations().get(index));
+
+			customPlayerManager.getPlayer(player)
+					.setCurrentHealth(CurrentStatGetter.getInstance().getMaxHealth(player));
 
 			ScoreboardHandler.getInstance().setScoreboard(player);
 			index++;

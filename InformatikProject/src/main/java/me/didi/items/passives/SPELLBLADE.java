@@ -52,7 +52,7 @@ public class SPELLBLADE implements ItemPassive {
 
 			ItemStack item = player.getInventory().getItem(slot).clone();
 
-			task = Utils.showEffectStatus(player, index + 4, 10, 1, item, barrier, sharedCounter);
+			task = Utils.showEffectStatus(player, index + 5, 10, 1, item, barrier, sharedCounter);
 
 			TaskManager.getInstance().runTaskLater(20 * 10, task -> {
 				if (isActive)

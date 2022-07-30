@@ -72,7 +72,7 @@ public class SPELLDANCE implements ItemPassive {
 							1.5);
 
 					AtomicLong sharedCounter = new AtomicLong(0);
-					Utils.showEffectStatus(player, 4 + index, 5, 1, item, barrier, sharedCounter);
+					Utils.showEffectStatus(player, 5 + index, 5, 1, item, barrier, sharedCounter);
 
 					TaskManager.getInstance().repeatUntil(20, 1, 20 * 5, new BiConsumer<BukkitTask, AtomicLong>() {
 						float bSpeed = 1.15f;

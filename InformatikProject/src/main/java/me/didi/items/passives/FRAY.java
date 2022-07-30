@@ -52,7 +52,7 @@ public class FRAY implements ItemPassive {
 				player.setWalkSpeed(player.getWalkSpeed() + bonusSpeed);
 
 				AtomicLong sharedCounter = new AtomicLong(0);
-				Utils.showEffectStatus(player, index + 4, 2, 1, item, barrier, sharedCounter);
+				Utils.showEffectStatus(player, index + 5, 2, 1, item, barrier, sharedCounter);
 
 				TaskManager.getInstance().repeatUntil(0, 1, 20 * 2, new BiConsumer<BukkitTask, AtomicLong>() {
 					@Override

@@ -67,7 +67,7 @@ public class IGNORE_PAIN implements ItemPassive {
 							.setDisplayName(ChatColor.RED + "NA")
 							.setLore(ChatColor.GRAY + "This slot is not available!").toItemStack();
 
-					bukkitTask = Utils.showEffectStatus(player, index + 4, 3, 1, item, barrier, amount, sharedCounter,
+					bukkitTask = Utils.showEffectStatus(player, index + 5, 3, 1, item, barrier, amount, sharedCounter,
 							() -> {
 								bukkitTask.cancel();
 								bukkitTask = null;
@@ -93,9 +93,6 @@ public class IGNORE_PAIN implements ItemPassive {
 
 				this.slot = slot;
 				this.index = index;
-
-				ChatUtils.sendDebugMessage("Index of: " + this.getName() + " " + index);
-				ChatUtils.sendDebugMessage("Slot: " + slot);
 
 				this.player = player;
 

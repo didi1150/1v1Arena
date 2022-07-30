@@ -137,7 +137,6 @@ public class CustomItemManager {
 
 				int index = i;
 				item.getItemPassives().forEach(passive -> {
-					System.out.println("Running");
 					passive.runPassive(event, player, item.getSlot(), index);
 				});
 			}
