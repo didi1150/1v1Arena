@@ -36,7 +36,7 @@ public class AddSpawnCommand extends SubCommand {
 		configHandler.addSpawnLocation(player.getLocation());
 
 		ChatUtils.sendMessageToPlayer(player,
-				ChatColor.GREEN + "Du hast eine Location zu den SpawnLocations dazugeaddet!");
+				ChatColor.GREEN + "You have added a spawn location!");
 	}
 
 }
