@@ -1,15 +1,12 @@
 
 api: 1.8.8
 api-version: 1.8.8
-name: InformatikProject
+name: 1v1Arena
 main: me.didi.MainClass
-author: DezhongZhuang
+author: didi
 version: 0.0.1
-description: Arena Fight Game
+description: LoL inspired Arena Fight Game
 commands:
-  setspawn:
-    description: Sets a spawn of the arena
-    aliases: [ss]
   project:
     desc: project main command
     usage: /project <subcommand>
