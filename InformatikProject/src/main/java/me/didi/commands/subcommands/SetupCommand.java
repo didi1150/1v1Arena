@@ -39,14 +39,14 @@ public class SetupCommand extends SubCommand {
 
 				configHandler.setSpawnLocations();
 				ChatUtils.sendMessageToPlayer(player,
-						ChatColor.YELLOW + "Du hast das Projekt in den Spiel-Modus gesetzt!");
+						ChatColor.YELLOW + "The Game is now playable!");
 				
 				Bukkit.shutdown();
 			} else if (args[1].equalsIgnoreCase("false")) {
 				configHandler.setSetupFinished(Boolean.parseBoolean(args[1]));
 
 				ChatUtils.sendMessageToPlayer(player,
-						ChatColor.YELLOW + "Du hast das Projekt in den Edit-Modus gesetzt!");
+						ChatColor.YELLOW + "The Game is now in edit mode!");
 				
 
 				Bukkit.shutdown();
